@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {ITodayScreen} from "./models/today-screen";
+import {todayScreen as data} from "./data/today-screen";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'frontend';
+  title = 'Ассистент по Саморазвитию'
+
+  today_screen: ITodayScreen = data
 }
