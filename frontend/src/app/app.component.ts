@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {ITodayScreen} from "./models/today-screen";
-import {todayScreen as data} from "./data/today-screen";
+import {todayScreen} from "./data/today-screen";
 
 @Component({
   selector: 'app-root',
@@ -8,7 +8,6 @@ import {todayScreen as data} from "./data/today-screen";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Ассистент по Саморазвитию'
-
-  today_screen: ITodayScreen = data
+  title = 'Ассистент по Саморазвитию';
+  today_screen: ITodayScreen = todayScreen;
 }

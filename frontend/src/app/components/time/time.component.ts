@@ -7,9 +7,15 @@ import {todayScreen} from "../../data/today-screen";
 
 
 @Component({
-  selector: 'app-today-screen',
-  templateUrl: './today-screen.component.html'
+  selector: 'app-time',
+  templateUrl: './time.component.html'
 })
-export class TodayScreenComponent {
+export class TimeComponent {
+  userTimeZone: string;
+  currentDateTime: string;
   @Input() today_screen: ITodayScreen = todayScreen;
+  constructor() {
+    this.userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    this.currentDateTime = new Date().toLocaleString();
+  }
 }
