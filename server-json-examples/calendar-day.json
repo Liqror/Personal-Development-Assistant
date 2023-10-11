@@ -1,28 +1,20 @@
-{"tasks": [ 
-    {"name": "Сделать что-то в заданное время",
+{"tasks": [
+    {"id": 34,
+    "name": "Сделать что-то в заданное время",
     "status": 0,
     "start_time": "10:00",
-    "stop_time": "12:30",
-    "estimate": 2},
-    {"name": "Сделать что-то в течение дня",
+    "stop_time": "12:30"},
+    {"id": 35,
+    "name": "Сделать что-то в течение дня",
     "status": 1,
     "start_time": null,
-    "stop_time": null,
-    "estimate": 1},
-    {"name": "Сделать x",
+    "stop_time": null},
+    {"id": 36,
+    "name": "Сделать x",
     "status": 0,
     "start_time": "08:00",
-    "stop_time": "09:00",
-    "estimate": 1}
+    "stop_time": "09:00"}
 ],
+"day": "2023-10-16",
 "text_note": "X-XXX-XXX-XX-XX",
-"classes": [
-    {"name": "Инженерия требований",
-     "time": "14:10 - 15:45",
-     "place": "Корпус 17, 4-16",
-     "format": "Синхронно"},
-     {"name": "Серверное программирование",
-     "time": "15:55 - 17:30",
-     "place": "Корпус 17, 4-16",
-     "format": "Синхронно"}
-]}
+"classes": []}
