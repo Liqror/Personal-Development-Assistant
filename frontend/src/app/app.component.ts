@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {ITodayScreen} from "./models/today-screen";
+import {ITodayScreen} from "./interfaces/today-screen";
 import {todayScreen} from "./data/today-screen";
 
 @Component({

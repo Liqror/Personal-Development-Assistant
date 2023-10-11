@@ -1,6 +1,6 @@
 import * as data from '../../../../server-json-examples/today-screen.json';
-import {ITodayScreen} from "../models/today-screen";
-import {ITask} from "../models/task"
-import {IClasses} from "../models/classes"
+import {ITodayScreen} from "../interfaces/today-screen";
+import {ITask} from "../interfaces/task"
+import {IClasses} from "../interfaces/classes"
 
 export const todayScreen: ITodayScreen = data as ITodayScreen;
