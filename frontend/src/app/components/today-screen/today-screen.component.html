@@ -17,11 +17,11 @@
       <ng-container *ngFor="let task of today_screen.today_tasks">
 
         <li class="mb-2">
+          <samp class="font-semibold">{{ task.id }}</samp>
           <span class="font-semibold">{{ task.name }}</span>
           <span class="ml-2">{{ getStatusText(task.status) }}</span>
           <span *ngIf="task.start_time" class="ml-2">Начало: {{ task.start_time }}</span>
           <span *ngIf="task.stop_time" class="ml-2">Конец: {{ task.stop_time }}</span>
-          <span class="ml-2">Оценка: {{ task.estimate }}</span>
         </li>
       </ng-container>
     </ul>
@@ -35,7 +35,6 @@
         <li class="mb-2">
           <span class="font-semibold">{{ task.name }}</span>
           <span class="ml-2">{{ getStatusText(task.status) }}</span>
-          <span class="ml-2">Оценка: {{ task.estimate }}</span>
         </li>
       </ng-container>
     </ul>
@@ -49,7 +48,6 @@
         <li class="mb-2">
           <span class="font-semibold">{{ task.name }}</span>
           <span class="ml-2">{{ getStatusText(task.status) }}</span>
-          <span class="ml-2">Оценка: {{ task.estimate }}</span>
         </li>
       </ng-container>
     </ul>
