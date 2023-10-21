@@ -9,5 +9,5 @@ export interface ITaskPage {
   category_name: string;
   category_color: string;
   estimate: number;
-  repeat: string
+  repeat: string;
 }
