@@ -1,76 +1,121 @@
-<div class="p-4">
-  <h1 class="text-2xl font-bold mb-4">Cегодня</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!--<link href="bootstrap-5.3.0/dist/css/bootstrap.css" rel="stylesheet">
+  <script src="bootstrap-5.3.0/dist/js/bootstrap.js"></script>
+  <link rel="stylesheet" href="frontend/src/styles.css"> -->
+  <title>Личный ассистент</title>
 
-  <!-- Сегодняшние задачи -->
-  <div class="mb-4">
-    <h2 class="text-xl font-semibold">Жесткие задачи</h2>
-    <ul>
+</head>
+<body>
+<a href="#" title="Вернуться к началу страницы" class="fixed_button rectangle">Создать задачу</a>
+<!-- выпадающий список
+<form>
+    <label for="fruits">Выберите фрукт:</label>
+    <select id="fruits" name="fruits">
+        <option value="apple">Яблоко</option>
+        <option value="banana">Банан</option>
+        <option value="orange">Апельсин</option>
+    </select>
+</form>
+-->
 
-<!--      <div *ngFor="let task of tasks" class="task flex items-center">-->
-<!--        <input type="checkbox" [(ngModel)]="task.status" (change)="onStatusChange(task)"-->
-<!--               class="form-checkbox h-4 w-4 text-indigo-600">-->
-<!--        <span [ngClass]="{'text-gray-500': task.status === 1}">{{ task.name }}</span>-->
-<!--      </div>-->
+<div class="row justify-content-start">
+
+  <div class="col-2">
+    <button class="btn w-200">
+      <img src="././assets/image/profile.png" alt="профиль">
+      <p>Профиль</p>
+    </button>
 
 
+    <hr>
+    <p>
+      Тут должен быть календарь. Как в гугл. Надо его как-то сделать.
+    </p>
+    <hr>
 
-      <ng-container *ngFor="let task of today_screen.today_tasks">
 
-        <li class="mb-2">
-          <samp class="font-semibold">{{ task.id }}</samp>
-          <span class="font-semibold">{{ task.name }}</span>
-          <span class="ml-2">{{ getStatusText(task.status) }}</span>
-          <span *ngIf="task.start_time" class="ml-2">Начало: {{ task.start_time }}</span>
-          <span *ngIf="task.stop_time" class="ml-2">Конец: {{ task.stop_time }}</span>
-        </li>
-      </ng-container>
-    </ul>
+    <button class="btn w-200">
+      <img src="././assets/image/home.png" alt="главный экран">
+      <p>Главный экран</p>
+    </button>
+
+    <button class="btn w-200">
+      <img src="././assets/image/plans.png" alt="планы">
+      <p>Планы</p>
+    </button>
+
+    <button class="btn w-200">
+      <img src="././assets/image/balance.png" alt="колесо баланса">
+      <p>Колесо баланса</p>
+    </button>
+
+    <button class="btn w-200">
+      <img src="././assets/image/friends.png" alt="коллаборации">
+      <p>Коллаборации</p>
+    </button>
+
+    <button class="btn w-200">
+      <img src="././assets/image/archiv.png" alt="хранилище">
+      <p>Хранилище</p>
+    </button>
+
+    <button class="btn w-200">
+      <img src="././assets/image/school.png" alt="Рассписание занятий">
+      <p>Рассписание занятий</p>
+    </button>
+
+
+    <button class="btn w-200">
+      <img src="././assets/image/diary.png" alt="Дневник">
+      <p>Дневник</p>
+    </button>
+
+    <button class="btn w-200">
+      <img src="././assets/image/day_phrase.png" alt="Фразы дня">
+      <p>Фразы дня</p>
+    </button>
   </div>
 
-  <!-- Свободные задачи -->
-  <div class="mb-4">
-    <h2 class="text-xl font-semibold">Свободные задачи</h2>
-    <ul>
-      <ng-container *ngFor="let task of today_screen.free_tasks">
-        <li class="mb-2">
-          <span class="font-semibold">{{ task.name }}</span>
-          <span class="ml-2">{{ getStatusText(task.status) }}</span>
-        </li>
-      </ng-container>
-    </ul>
+  <div class="col-3 mx-3 mt-md-5">
+    <h2>вчера</h2>
+    <hr>
+    <h3>Расписание</h3>
+    <p> расписание</p>
+    <hr>
+    <h3>Заметка</h3>
+    <p>Какая-то тут есть заметка. Но это все не важно, потому что это просто проверка того, как будет располагаться и выглядеть текст</p>
+    <hr>
+    <h3>Задачи</h3>
+    <input type="checkbox" id="ex" name="ex" value="ex">
+    <label for="ex"> Здесь какая-то задача</label><br>
+
+    <hr>
   </div>
 
-  <!-- Просроченные задачи -->
-  <div class="mb-4">
-    <h2 class="text-xl font-semibold">Просроченные задачи</h2>
-    <ul>
-      <ng-container *ngFor="let task of today_screen.late_tasks">
-        <li class="mb-2">
-          <span class="font-semibold">{{ task.name }}</span>
-          <span class="ml-2">{{ getStatusText(task.status) }}</span>
-        </li>
-      </ng-container>
-    </ul>
+  <div class="col-3 mx-3 mt-md-5">
+
+    <h2>сегодня</h2>
+    <hr>
+    <h3>Расписание</h3>
+    <p> расписание</p>
+    <hr>
+    <h3>Заметка</h3>
+    <textarea name="message" id="message" rows="5"
+              class="form-control md-textarea" type="text"></textarea>
+    <h3>Задачи</h3>
+
   </div>
 
-  <!-- Текстовая заметка -->
-  <div class="mb-4">
-    <h2 class="text-xl font-semibold">Текстовая заметка</h2>
-    <p>{{ today_screen.text_note }}</p>
-  </div>
 
-  <!-- Занятия -->
-  <div>
-    <h2 class="text-xl font-semibold">Занятия</h2>
-    <ul>
-      <ng-container *ngFor="let class of today_screen.classes">
-        <li class="mb-2">
-          <span class="font-semibold">{{ class.name }}</span>
-          <span class="ml-2">{{ class.time }}</span>
-          <span class="ml-2">{{ class.place }}</span>
-          <span class="ml-2">{{ class.format }}</span>
-        </li>
-      </ng-container>
-    </ul>
+  <div class="col-3 mx-3 mt-md-5">
+    <h2>завтра</h2>
+    <hr style="border-style: solid; border-width: 1px; border-color: #000000">
   </div>
 </div>
+
+</body>
+<script src="bootstrap-5.3.0/dist/js/func.js"></script>
+</html>
