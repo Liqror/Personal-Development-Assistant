@@ -9,7 +9,130 @@
 
 </head>
 <body>
-<a href="#" title="Вернуться к началу страницы" class="fixed_button rectangle">Создать задачу</a>
+  <a href="#" title="Вернуться к началу страницы" class="fixed_button rectangle">Создать задачу</a>
+  <div class="container-fluid" style="background-color: #D4CBC8">
+    <div class="row">
+      <div class="col-md-2 col-lg-2 navbar-container">
+        <!-- Вертикальное меню -->
+        <nav class="navbar navbar-expand-md navbar-light">
+          <a class="navbar-brand" href="#">
+            <img src="././assets/image/profile.png" alt="профиль">
+            Профиль
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbar">
+            <!-- Пункты вертикального меню -->
+
+            <ul class="navbar-nav">
+              <hr>
+              <p>
+                Тут должен быть календарь. Как в гугл. Надо его как-то сделать.
+              </p>
+              <hr>
+              <li class="nav-item">
+                <a class="nav-link" href="#link-1">
+                  <img src="././assets/image/home.png" alt="главный экран">
+                  Главный экран
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#link-2">
+                  <img src="././assets/image/plans.png" alt="планы">
+                  Планы
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#link-3">
+                  <img src="././assets/image/balance.png" alt="колесо баланса">
+                  Колесо баланса
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#link-4">
+                  <img src="././assets/image/friends.png" alt="коллаборации">
+                  Коллаборации
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#link-5">
+                  <img src="././assets/image/archiv.png" alt="хранилище">
+                  Хранилище
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="#link-6">
+                  <img src="././assets/image/school.png" alt="Рассписание занятий">
+                  Рассписание занятий
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="#link-7">
+                  <img src="././assets/image/diary.png" alt="Дневник">
+                  Дневник
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="#link-8">
+                  <img src="././assets/image/day_phrase.png" alt="Фразы дня">
+                  Фразы дня
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+      <div class="col-md-9 col-lg-9 content-container">
+        <!-- Основной контент страницы  -->
+        <div class="row justify-content-center">
+          <div class="col-md-4 col-lg-4 mt-md-5">
+            <h2>вчера</h2>
+            <hr>
+            <h3>Расписание</h3>
+            <p> расписание</p>
+            <hr>
+            <h3>Заметка</h3>
+            <p>Какая-то тут есть заметка. Но это все не важно, потому что это просто проверка того, как будет располагаться и выглядеть текст</p>
+            <hr>
+            <h3>Задачи</h3>
+            <input type="checkbox" id="ex" name="ex" value="ex">
+            <label for="ex"> Здесь какая-то задача</label><br>
+            <hr>
+          </div>
+
+
+          <div class="col-md-4 col-lg-4 mt-md-5">
+            <h2>сегодня</h2>
+            <hr>
+            <h3>Расписание</h3>
+            <p> расписание</p>
+            <hr>
+            <h3>Заметка</h3>
+            <textarea name="message" id="message" rows="5"
+                      class="form-control md-textarea" type="text"></textarea>
+            <h3>Задачи</h3>
+
+          </div>
+
+
+          <div class="col-md-4 col-lg-4 mt-md-5">
+            <h2>завтра</h2>
+            <hr style="border-style: solid; border-width: 1px; border-color: #000000">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
 <!-- выпадающий список
 <form>
     <label for="fruits">Выберите фрукт:</label>
@@ -20,101 +143,6 @@
     </select>
 </form>
 -->
-
-<div class="row justify-content-start">
-
-  <div class="col-2">
-    <button class="btn w-200">
-      <img src="././assets/image/profile.png" alt="профиль">
-      <p>Профиль</p>
-    </button>
-
-
-    <hr>
-    <p>
-      Тут должен быть календарь. Как в гугл. Надо его как-то сделать.
-    </p>
-    <hr>
-
-
-    <button class="btn w-200">
-      <img src="././assets/image/home.png" alt="главный экран">
-      <p>Главный экран</p>
-    </button>
-
-    <button class="btn w-200">
-      <img src="././assets/image/plans.png" alt="планы">
-      <p>Планы</p>
-    </button>
-
-    <button class="btn w-200">
-      <img src="././assets/image/balance.png" alt="колесо баланса">
-      <p>Колесо баланса</p>
-    </button>
-
-    <button class="btn w-200">
-      <img src="././assets/image/friends.png" alt="коллаборации">
-      <p>Коллаборации</p>
-    </button>
-
-    <button class="btn w-200">
-      <img src="././assets/image/archiv.png" alt="хранилище">
-      <p>Хранилище</p>
-    </button>
-
-    <button class="btn w-200">
-      <img src="././assets/image/school.png" alt="Рассписание занятий">
-      <p>Рассписание занятий</p>
-    </button>
-
-
-    <button class="btn w-200">
-      <img src="././assets/image/diary.png" alt="Дневник">
-      <p>Дневник</p>
-    </button>
-
-    <button class="btn w-200">
-      <img src="././assets/image/day_phrase.png" alt="Фразы дня">
-      <p>Фразы дня</p>
-    </button>
-  </div>
-
-  <div class="col-3 mx-3 mt-md-5">
-    <h2>вчера</h2>
-    <hr>
-    <h3>Расписание</h3>
-    <p> расписание</p>
-    <hr>
-    <h3>Заметка</h3>
-    <p>Какая-то тут есть заметка. Но это все не важно, потому что это просто проверка того, как будет располагаться и выглядеть текст</p>
-    <hr>
-    <h3>Задачи</h3>
-    <input type="checkbox" id="ex" name="ex" value="ex">
-    <label for="ex"> Здесь какая-то задача</label><br>
-
-    <hr>
-  </div>
-
-  <div class="col-3 mx-3 mt-md-5">
-
-    <h2>сегодня</h2>
-    <hr>
-    <h3>Расписание</h3>
-    <p> расписание</p>
-    <hr>
-    <h3>Заметка</h3>
-    <textarea name="message" id="message" rows="5"
-              class="form-control md-textarea" type="text"></textarea>
-    <h3>Задачи</h3>
-
-  </div>
-
-
-  <div class="col-3 mx-3 mt-md-5">
-    <h2>завтра</h2>
-    <hr style="border-style: solid; border-width: 1px; border-color: #000000">
-  </div>
-</div>
 
 </body>
 <script src="bootstrap-5.3.0/dist/js/func.js"></script>
