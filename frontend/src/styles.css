@@ -21,19 +21,18 @@ body {
 }
 
 .navbar-container .navbar {
-
-  padding: 2%;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #000000;
-
-
   background-color: #D4CBC8;
   align-items: flex-start;
   justify-content: flex-start;
   flex-wrap: nowrap;
   flex-direction: column;
   height: 100%;
+}
+.navbar-container {
+  padding: 2%;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #000000;
 }
 .navbar-container .navbar-collapse {
 
@@ -48,7 +47,10 @@ body {
   flex-direction: column !important;
 
 }
-
+content-container {
+  align-items: center;
+  margin-left: 100px;
+}
 .navbar-container {
   position: sticky;
   top: 0;
@@ -58,7 +60,14 @@ body {
 
 
 
-
+.button_task {
+  display: block;
+  float: none;
+  position: absolute;
+  padding: 0;
+  margin-right: 100px;
+  background-color: #F3A972;
+}
 
 h2 {
   text-align: center;
@@ -81,10 +90,6 @@ h3 {
   color: #F3A972;
 }
 
-/*Убирает колесо прокрутки снизу
-html {
-  overflow-y: hidden;
-}*/
 .col-1 {
   border: solid 1px #000000;
   background-color: #F3A972;
@@ -92,21 +97,30 @@ html {
 
 .fixed_button {
   position: absolute;
-  right: 100px;
+  right: 0px;
   width: 200px;
 }
-
+form {
+  font-size: 100%;
+  font-family: "Shantell Sans", cursive;
+  color: #000000;
+  text-decoration: none;
+  text-shadow: #d5d8dd 1px 0 10px;
+}
+/*
 .rectangle {
   width: 200px;
   height: 40px;
   right: 10px;
   background: #F3A972;
 }
+*/
+
 
 /* новигация */
 a {
   /*text-align: center;*/
-  font-size: 130%;
+  font-size: 100%;
   font-family: "Shantell Sans", cursive;
   color: #000000;
   text-decoration: none;
@@ -114,7 +128,8 @@ a {
 }
 
 select {
-  margin-left: 250px;
+  position: absolute;
+  margin-left: 270px;
   background-color: #F3A972;
 }
 
@@ -129,8 +144,6 @@ select {
 }
 
 .col-md-4 {
-
-  margin-right: 0px;
   border: solid 1px #000000;
   background-color: #F0F0F0;
 }
@@ -143,6 +156,7 @@ select {
   display: flex;
   align-items: center;
 }
+
 
 .btn img {
   margin-right: 10px;

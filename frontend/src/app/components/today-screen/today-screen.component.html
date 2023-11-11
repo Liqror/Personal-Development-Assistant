@@ -9,7 +9,20 @@
 
 </head>
 <body>
-  <a href="#" title="Вернуться к началу страницы" class="fixed_button rectangle">Создать задачу</a>
+  <a href="#" title="Новая задача" class="fixed_button rectangle">
+    <button style="background-color: #F3A972">
+      <img src="././assets/image/new_task.png" alt="новая задача" style="height: 20px">
+      Создать задачу
+    </button>
+  </a>
+  <!-- выпадающий список -->
+  <form>
+    <select id="3days" name="days">
+      <option value="3day">3 дня</option>
+      <option value="month">месяц</option>
+      <option value="year">год</option>
+    </select>
+  </form>
   <div class="container-fluid" style="background-color: #D4CBC8">
     <div class="row">
       <div class="col-md-2 col-lg-2 navbar-container">
@@ -86,7 +99,9 @@
           </div>
         </nav>
       </div>
-      <div class="col-md-9 col-lg-9 content-container">
+
+      <div class="col-md-9 col-lg-10 content-container">
+
         <!-- Основной контент страницы  -->
         <div class="row justify-content-center">
           <div class="col-md-4 col-lg-4 mt-md-5">
@@ -124,25 +139,10 @@
             <hr style="border-style: solid; border-width: 1px; border-color: #000000">
           </div>
         </div>
-
       </div>
     </div>
   </div>
 
-
-
-
-
-<!-- выпадающий список
-<form>
-    <label for="fruits">Выберите фрукт:</label>
-    <select id="fruits" name="fruits">
-        <option value="apple">Яблоко</option>
-        <option value="banana">Банан</option>
-        <option value="orange">Апельсин</option>
-    </select>
-</form>
--->
 
 </body>
 <script src="bootstrap-5.3.0/dist/js/func.js"></script>
