@@ -15,6 +15,17 @@ body {
 }
 
 
+.nav-link:hover {
+  color: #F3A352;
+  text-shadow: #f0f0f0 2px 0 10px;
+}
+
+.nav-link {
+  font-size: 110%;
+  font-family: "Shantell Sans", cursive;
+  color: #000000;
+}
+
 .navbar img {
   margin-right: 10px;
   height: 30px;
