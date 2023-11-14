@@ -8,6 +8,7 @@ import {todayScreen} from "./data/today-screen";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
   title = 'Ассистент по Саморазвитию';
   today_screen: ITodayScreen = todayScreen;

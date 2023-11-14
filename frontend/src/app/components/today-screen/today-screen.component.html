@@ -107,10 +107,15 @@
             <h2>вчера</h2>
             <hr>
             <h3>Расписание</h3>
-            <p> расписание</p>
+            <p>
+      <ng-container *ngFor="let class of data.classes">
+          <span class="font-semibold">{{ class.name }}</span><br>
+          <span class="ml-2">{{ class.format }}</span><br>
+      </ng-container>
+    </p>
             <hr>
             <h3>Заметка</h3>
-            <p>Какая-то тут есть заметка. Но это все не важно, потому что это просто проверка того, как будет располагаться и выглядеть текст</p>
+            <p>{{ data.text_note }}</p>
             <hr>
             <h3>Задачи</h3>
             <input type="checkbox" id="ex" name="ex" value="ex">
@@ -127,10 +132,11 @@
             <hr>
             <h3>Заметка</h3>
             <textarea name="message" id="message" rows="5"
-                      class="form-control md-textarea" type="text"></textarea>
+                      class="form-control md-textarea" type="text">Какая-то тут есть заметка. Но это все не важно, потому что это просто проверка того, как будет располагаться и выглядеть текст</textarea>
             <h3>Задачи</h3>
 
-          </div>
+
+  </div>
 
 
           <div class="col-md-4 col-lg-4 mt-md-5">

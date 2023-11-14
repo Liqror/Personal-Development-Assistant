@@ -10,14 +10,14 @@ import {TimeComponent} from "./components/time/time.component";
 @NgModule({
   declarations: [
     AppComponent,
-    TodayScreenComponent,
     TimeComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    TodayScreenComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
