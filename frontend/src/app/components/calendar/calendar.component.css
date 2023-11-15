@@ -74,9 +74,15 @@ th, td {
   justify-content: center;
   border-radius: 50%;
 }
-
+/* Выделение текущего дня */
 .current-day {
   background-color: #ffcc80; /* бледно-оранжевый цвет Я уверена у Сони в оттенках есть цвет получше */
+}
+
+
+/* Для предыдущих и следующих месяцев */
+.other-month {
+  color: #ccc;
 }
 
 
