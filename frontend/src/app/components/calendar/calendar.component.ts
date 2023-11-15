@@ -74,7 +74,6 @@ export class CalendarComponent implements OnInit {
       currentWeek.push({ date: this.datePipe.transform(new Date(this.currentYear, this.currentMonth - 1, prevMonthDate), 'd') || '', isCurrentMonth: false });
     }
 
-
     // Заполнение текущими датами
     for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
       const currentDate = new Date(this.currentYear, this.currentMonth, i);
@@ -87,17 +86,78 @@ export class CalendarComponent implements OnInit {
     }
 
     // Заполнение следующими датами
-    const remainingDays = 7 - currentWeek.length;
-    for (let i = 1; i <= remainingDays; i++) {
-      const nextMonthDate = new Date(this.currentYear, this.currentMonth + 1, i);
+    let nextMonthDay = 1;
+    while (currentWeek.length < 7) {
+      const nextMonthDate = new Date(this.currentYear, this.currentMonth + 1, nextMonthDay);
       currentWeek.push({ date: this.datePipe.transform(nextMonthDate, 'd') || '', isCurrentMonth: false });
+      nextMonthDay++;
     }
 
-    if (currentWeek.length > 0) {
+    // Заполнение оставшихся строк до 6
+    while (this.weeks.length < 6) {
       this.weeks.push([...currentWeek]);
+      currentWeek = Array.from({ length: 7 }, (_, i) => i + 1).map(day => {
+        const nextMonthDate = new Date(this.currentYear, this.currentMonth + 1, nextMonthDay);
+        nextMonthDay++;
+        return { date: this.datePipe.transform(nextMonthDate, 'd') || '', isCurrentMonth: false };
+      });
     }
+
   }
+
 }
+
+
+
+// отличный код ниже
+// generateCalendar() {
+//   this.weeks = [];
+//
+//   const firstDayOfMonth = new Date(this.currentYear, this.currentMonth, 1);
+//   const lastDayOfMonth = new Date(this.currentYear, this.currentMonth + 1, 0);
+//   const startDay = (firstDayOfMonth.getDay() + 6) % 7 + 1;
+//
+//   let currentWeek: { date: string; isCurrentMonth: boolean }[] = [];
+//
+//   // Заполнение предыдущими датами
+//   const prevMonthLastDay = new Date(this.currentYear, this.currentMonth, 0).getDate();
+//   for (let i = 1; i < startDay; i++) {
+//     const prevMonthDate = prevMonthLastDay - (startDay - i - 1);
+//     currentWeek.push({ date: this.datePipe.transform(new Date(this.currentYear, this.currentMonth - 1, prevMonthDate), 'd') || '', isCurrentMonth: false });
+//   }
+//
+//
+//   // Заполнение текущими датами
+//   for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
+//     const currentDate = new Date(this.currentYear, this.currentMonth, i);
+//     currentWeek.push({ date: this.datePipe.transform(currentDate, 'd') || '', isCurrentMonth: true });
+//
+//     if (currentWeek.length === 7) {
+//       this.weeks.push([...currentWeek]);
+//       currentWeek = [];
+//     }
+//   }
+//
+//   // Заполнение следующими датами
+//   const remainingDays = 7 - currentWeek.length;
+//   for (let i = 1; i <= remainingDays; i++) {
+//     const nextMonthDate = new Date(this.currentYear, this.currentMonth + 1, i);
+//     currentWeek.push({ date: this.datePipe.transform(nextMonthDate, 'd') || '', isCurrentMonth: false });
+//   }
+//
+//   if (currentWeek.length > 0) {
+//     this.weeks.push([...currentWeek]);
+//   }
+// }
+
+
+
+
+
+
+
+
+
 
 
 
