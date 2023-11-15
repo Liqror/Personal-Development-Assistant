@@ -37,11 +37,13 @@ export class CalendarComponent implements OnInit {
   nextMonth() {
     this.selectedDate.setMonth(this.selectedDate.getMonth() + 1);
     this.updateCalendar();
+    this.generateCalendar();
   }
 
   prevMonth() {
     this.selectedDate.setMonth(this.selectedDate.getMonth() - 1);
     this.updateCalendar();
+    this.generateCalendar();
   }
 
   generateCalendar() {
@@ -49,9 +51,10 @@ export class CalendarComponent implements OnInit {
 
     const firstDayOfMonth = new Date(this.currentYear, this.currentMonth, 1);
     const lastDayOfMonth = new Date(this.currentYear, this.currentMonth + 1, 0);
+    const startDay = (firstDayOfMonth.getDay() + 6) % 7 + 1;
 
     let currentWeek: string[] = [];
-    for (let i = 0; i < firstDayOfMonth.getDay(); i++) {
+    for (let i = 1; i < startDay; i++) {
       currentWeek.push('');
     }
 
@@ -78,7 +81,6 @@ export class CalendarComponent implements OnInit {
   isCurrentDate(day: string): boolean {
     const currentDate = new Date();
     const formattedDate = this.datePipe.transform(currentDate, 'd');
-    return day === formattedDate;
+    return day === formattedDate && this.currentMonth === currentDate.getMonth() && this.currentYear === currentDate.getFullYear();
   }
-
 }

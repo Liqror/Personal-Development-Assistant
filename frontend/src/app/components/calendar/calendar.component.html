@@ -9,15 +9,43 @@
   <table>
     <thead>
     <tr>
-      <th>Вс</th>
-      <th>Пн</th>
-      <th>Вт</th>
-      <th>Ср</th>
-      <th>Чт</th>
-      <th>Пт</th>
-      <th>Сб</th>
+      <th>
+        <div class="calendar-day">Пн</div>
+      </th>
+      <th>
+        <div class="calendar-day">Вт</div>
+      </th>
+      <th>
+        <div class="calendar-day">Ср</div>
+      </th>
+      <th>
+        <div class="calendar-day">Чт</div>
+      </th>
+      <th>
+        <div class="calendar-day">Пт</div>
+      </th>
+      <th>
+        <div class="calendar-day">Сб</div>
+      </th>
+      <th>
+        <div class="calendar-day">Вс</div>
+      </th>
+<!--      <th class="calendar-day">Пн</th>-->
+<!--      <th class="calendar-day">Вт</th>-->
+<!--      <th class="calendar-day">Ср</th>-->
+<!--      <th class="calendar-day">Чт</th>-->
+<!--      <th class="calendar-day">Пт</th>-->
+<!--      <th class="calendar-day">Сб</th>-->
+<!--      <th class="calendar-day">Вс</th>-->
     </tr>
     </thead>
+<!--    <tbody>-->
+<!--    <tr *ngFor="let week of weeks">-->
+<!--      <td *ngFor="let day of week">-->
+<!--        {{ day }}-->
+<!--      </td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
     <tbody *ngFor="let week of weeks">
     <tr class="week">
       <td *ngFor="let day of week" class="calendar-day" [ngClass]="{'current-day': isCurrentDate(day)}">
