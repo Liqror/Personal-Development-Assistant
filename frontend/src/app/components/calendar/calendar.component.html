@@ -1,0 +1,29 @@
+<div class="calendar">
+  <div class="header">
+    <div class="button-container">
+      <button (click)="prevMonth()">❮</button>
+      <span>{{ currentYear }}</span> <span>{{ monthNames[currentMonth] }}</span>
+      <button (click)="nextMonth()">❯</button>
+    </div>
+  </div>
+  <table>
+    <thead>
+    <tr>
+      <th>Вс</th>
+      <th>Пн</th>
+      <th>Вт</th>
+      <th>Ср</th>
+      <th>Чт</th>
+      <th>Пт</th>
+      <th>Сб</th>
+    </tr>
+    </thead>
+    <tbody *ngFor="let week of weeks">
+    <tr class="week">
+      <td *ngFor="let day of week" class="calendar-day" [ngClass]="{'current-day': isCurrentDate(day)}">
+        {{ day }}
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

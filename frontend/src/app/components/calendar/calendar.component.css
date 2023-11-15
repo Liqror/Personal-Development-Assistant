@@ -1,0 +1,80 @@
+.calendar {
+  width: 300px;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 10px;
+  border-radius: 5px;
+  margin: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  table-layout: fixed; /* Добавим этот стиль для фиксированного распределения ширины ячеек таблицы */
+}
+
+/*th, td {*/
+/*  padding: 10px;*/
+  /*border: 1px solid #ddd; !* Добавим границу ячейкам таблицы для разделения *!*/
+  /*width: 14.28%; !* Равномерно распределяем ширину между всеми днями недели *!*/
+/*}*/
+/**/
+/*table, th, td {*/
+/*  border: none;*/
+/*}*/
+
+/*.arrow-btn {*/
+/*  background: none;*/
+/*  border: none;*/
+/*  cursor: pointer;*/
+/*}*/
+/**/
+.button-container button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Распределить элементы равномерно по ширине */
+  width: 100%; /* Занимать всю доступную ширину */
+}
+
+
+
+/*table tbody tr {*/
+/*  display: flex;*/
+/*  justify-content: space-around;*/
+/*}*/
+/*table tbody tr td {*/
+/*  padding: 10px;*/
+/*  width: 14.28%; !* Равномерное распределение ширины между всеми днями недели *!*/
+/*}*/
+/**/
+/*thead th {*/
+/*  padding: 10px;*/
+/*  border: 1px solid #ddd; !* Добавим границу ячейкам заголовка таблицы для разделения *!*/
+/*  width: 14.28%; !* Равномерное распределение ширины между всеми днями недели *!*/
+/*}*/
+
+/*.calendar-day {*/
+/*  width: 30px;*/
+/*  height: 30px;*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*  justify-content: center;*/
+/*  border-radius: 50%;*/
+/*}*/
+
+.current-day {
+  background-color: #ffcc80; /* бледно-оранжевый цвет */
+}

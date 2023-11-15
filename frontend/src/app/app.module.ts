@@ -4,22 +4,35 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {TodayScreenComponent} from "./components/today-screen/today-screen.component";
+import {HomeComponent} from "./components/home/home.component";
 import {TimeComponent} from "./components/time/time.component";
+import {CalendarComponent} from "./components/calendar/calendar.component";
+import { DatePipe } from '@angular/common';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeRu from '@angular/common/locales/ru';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TimeComponent
+    TimeComponent,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CommonModule,
     HttpClientModule,
-    TodayScreenComponent
+    HomeComponent
   ],
-  providers: [],
+  providers: [
+    DatePipe,
+    { provide: LOCALE_ID, useValue: 'ru' }
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    registerLocaleData(localeRu, 'ru');
+  }
+}

@@ -1,21 +1,20 @@
 import {Component, Input, NgModule} from '@angular/core'
 import {ITodayScreen} from "../../interfaces/today-screen";
 import { CommonModule } from '@angular/common';
-
 import {ITask} from "../../interfaces/task";
 import { OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 
 
 @Component({
-  selector: 'app-today-screen',
-  templateUrl: './today-screen.component.html',
+  selector: 'app-home',
   standalone: true,
+  templateUrl: './home.component.html',
   imports: [
-    CommonModule,
+    CommonModule
   ],
 })
-export class TodayScreenComponent implements OnInit{
+export class HomeComponent implements OnInit{
   @Input() today_screen: ITodayScreen;
   data: ITodayScreen;
   ngOnInit(): void {
@@ -27,7 +26,7 @@ export class TodayScreenComponent implements OnInit{
     this.getTodayScreen();
   }
   getTodayScreen(): void {
-    this.http.get<ITodayScreen>('http://localhost:8080/assistant/today').subscribe((res: ITodayScreen) => {
+    this.http.get<ITodayScreen>('http://localhost:8080/assistant/home').subscribe((res: ITodayScreen) => {
       console.log('res', res);
       this.data = res;
     });
