@@ -15,6 +15,24 @@ body {
 }
 
 
+.table {
+  text-align: center;
+  font-size: 100%;
+  font-family: 'Shantell Sans', cursive;
+  text-decoration: none;
+  text-shadow: #d5d8dd 1px 0 10px;
+  vertical-align: middle;
+}
+
+th {
+  font-size: 100%;
+  font-family: "Shantell Sans", cursive;
+  color: #000000;
+  text-decoration: none;
+  text-shadow: #d5d8dd 1px 0 10px;
+}
+
+
 .nav-link:hover {
   color: #F3A352;
   text-shadow: #f0f0f0 2px 0 10px;
@@ -39,6 +57,7 @@ body {
   flex-direction: column;
   height: 100%;
 }
+
 .navbar-container {
   padding: 2%;
   border-right-style: solid;
@@ -46,18 +65,18 @@ body {
   border-right-color: #000000;
 }
 .navbar-container .navbar-collapse {
-
   align-items: flex-start;
 }
-.navbar-container .nav {
 
+.navbar-container .nav {
   flex-direction: column;
   flex-wrap: nowrap;
 }
+
 .navbar-container .navbar-nav {
   flex-direction: column !important;
-
 }
+
 content-container {
   align-items: center;
   margin-left: 100px;
@@ -97,7 +116,7 @@ hr {
 h3 {
   text-align: left;
   font-weight: 600;
-  font-size: 120%;
+  font-size: 140%;
   color: #F3A972;
 }
 
@@ -118,19 +137,9 @@ form {
   text-decoration: none;
   text-shadow: #d5d8dd 1px 0 10px;
 }
-/*
-.rectangle {
-  width: 200px;
-  height: 40px;
-  right: 10px;
-  background: #F3A972;
-}
-*/
-
 
 /* новигация */
 a {
-  /*text-align: center;*/
   font-size: 100%;
   font-family: "Shantell Sans", cursive;
   color: #000000;
@@ -140,7 +149,7 @@ a {
 
 select {
   position: absolute;
-  margin-left: 270px;
+  margin-left: 50px;
   background-color: #F3A972;
 }
 
@@ -182,6 +191,19 @@ select {
   font-family: "Shantell Sans", cursive;
   color: #000000;
 }
+
+textarea, p {
+  font-size: 100%;
+  font-weight: 200;
+  text-align: justify;
+  font-family: 'Shantell Sans', cursive;
+}
+p {
+  color: #000000; /*2D2822 3F372D; 633F11*/
+}
+
+
+
 
 /*Псевдоэлементы, позволяющие стилизовать определённую часть выбранного элемента*/
 ::selection {
