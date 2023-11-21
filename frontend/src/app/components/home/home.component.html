@@ -6,7 +6,6 @@
   <script src="bootstrap-5.3.0/dist/js/bootstrap.js"></script>
   <link rel="stylesheet" href="frontend/src/styles.css"> -->
   <title>Личный ассистент</title>
-
 </head>
 <body>
 
@@ -84,24 +83,21 @@
           </div>
         </nav>
       </div>
-
       <div class="col-md-10 col-lg-10 content-container">
         <!-- Основной контент страницы  -->
-        <form>
-          <select id="3days" name="days">
-            <option value="3day">3 дня</option>
-            <option value="month">месяц</option>
-            <option value="year">год</option>
-          </select>
-        </form>
-
+<!--        <form>-->
+<!--          <select id="3days" name="days">-->
+<!--            <option value="3day">3 дня</option>-->
+<!--            <option value="month">месяц</option>-->
+<!--            <option value="year">год</option>-->
+<!--          </select>-->
+<!--        </form>-->
         <a href="#" title="Новая задача" class="fixed_button">
           <button style="background-color: #F3A972">
             <img src="././assets/image/new_task.png" alt="новая задача" style="height: 20px">
             Создать задачу
           </button>
         </a>
-
         <div class="row justify-content-center">
           <div class="col-md-4 col-lg-4 mt-md-5">
             <h2>вчера</h2>
@@ -122,12 +118,12 @@
               </tbody>
             </table>
 
-            <p>
-              <ng-container *ngFor="let class of data.classes">
-                  <span class="font-semibold">{{ class.name }}</span><br>
-                  <span class="ml-2">{{ class.format }}</span><br>
-              </ng-container>
-            </p>
+<!--            <p>-->
+<!--              <ng-container *ngFor="let class of data.classes">-->
+<!--                  <span class="font-semibold">{{ class.name }}</span><br>-->
+<!--                  <span class="ml-2">{{ class.format }}</span><br>-->
+<!--              </ng-container>-->
+<!--            </p>-->
 
             <hr>
             <h3>Заметка</h3>
@@ -136,9 +132,7 @@
             <h3>Задачи</h3>
             <input type="checkbox" id="ex" name="ex" value="ex">
             <label for="ex"> Здесь какая-то задача</label><br>
-            <hr>
           </div>
-
 
           <div class="col-md-4 col-lg-4 mt-md-5">
             <h2>сегодня</h2>
@@ -156,14 +150,13 @@
             </table>
             <hr>
             <h3>Заметка</h3>
-            <textarea name="message" id="message" rows="5" class="form-control md-textarea" type="text" style="color: #595959;">Какая-то тут есть заметка. Но это все не важно, потому что это просто проверка того, как будет располагаться и выглядеть текст</textarea>
-            <h3>Задачи</h3>
+            <textarea name="message" id="message" rows="5" class="form-control md-textarea" type="text" style="color: #595959;">
 
+            </textarea>
+            <hr>
+            <h3>Задачи</h3>
           </div>
 
-
-
-  </div>
           <div class="col-md-4 col-lg-4 mt-md-5">
             <h2>завтра</h2>
             <hr style="border-style: solid; border-width: 1px; border-color: #000000">
@@ -178,18 +171,21 @@
               </tr>
               <tr>
                 <td>17:40 19:15</td>
-                <td>Теория автоматов языков и вычислений <br> к.17 каб.4-11 <br> очно</td>
+                <td>
+                  Теория автоматов языков и вычислений
+                  <br>
+                  к.17 каб.4-11 <br> очно
+                </td>
               </tr>
               </tbody>
             </table>
+            <hr>
+            <h3>Задачи</h3>
           </div>
-
         </div>
       </div>
     </div>
   </div>
-
-
 </body>
 <script src="bootstrap-5.3.0/dist/js/func.js"></script>
 </html>

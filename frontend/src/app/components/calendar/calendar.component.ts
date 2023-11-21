@@ -24,7 +24,8 @@ export class CalendarComponent implements OnInit {
   @Input() currentDate: Date; // Теперь currentDate будет вводом компонента
   currentMonth: number;
   currentYear: number;
-  weeks: { date: string; isCurrentMonth: boolean }[][];
+  // weeks: { date: string; isCurrentMonth: boolean }[][];
+  weeks: { date: string; isCurrentMonth: boolean; isActive?: boolean }[][];
 
   monthNames: string[] = [
     'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
@@ -66,10 +67,10 @@ export class CalendarComponent implements OnInit {
   isCurrentDate(day: string): boolean {
     const currentDate = new Date();
     const formattedDate = this.datePipe.transform(currentDate, 'd');
-    console.log('Formatted Date:', formattedDate);
-    console.log('Day:', day);
-    console.log('Current Month:', this.currentMonth);
-    console.log('Current Year:', this.currentYear);
+    // console.log('Formatted Date:', formattedDate);
+    // console.log('Day:', day);
+    // console.log('Current Month:', this.currentMonth);
+    // console.log('Current Year:', this.currentYear);
     return day === formattedDate && this.currentMonth === currentDate.getMonth() && this.currentYear === currentDate.getFullYear();
   }
 
@@ -92,8 +93,6 @@ export class CalendarComponent implements OnInit {
     // Заполнение текущими датами
     for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
       const currentDate = new Date(this.currentYear, this.currentMonth, i);
-      const formattedDate = this.datePipe.transform(currentDate, 'd');
-      console.log('Generated Date:', formattedDate);
       currentWeek.push({ date: this.datePipe.transform(currentDate, 'd') || '', isCurrentMonth: true });
 
       if (currentWeek.length === 7) {
@@ -121,11 +120,35 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  buttonStates: { [key: number]: boolean } = {};
-  buttonPressed(buttonIndex: number) {
-    this.buttonStates[buttonIndex] = true;
+  // buttonStates: { [key: number]: boolean } = {};
+  // buttonPressed(buttonIndex: number) {
+  //   this.buttonStates[buttonIndex] = true;
+  // }
+  // buttonReleased(buttonIndex: number) {
+  //   this.buttonStates[buttonIndex] = false;
+  // }
+  //
+  // handleDateMouseEnter(day: any): void {
+  //   if (day.isCurrentMonth && day.date !== '') {
+  //     day.isActive = true;
+  //   }
+  // }
+  //
+  // handleDateMouseLeave(day: any): void {
+  //   if (day.isCurrentMonth && day.date !== '') {
+  //     day.isActive = false;
+  //   }
+  // }
+  //
+  // handleDateClick(day: any): void {
+  //   if (day.isCurrentMonth && day.date !== '') {
+  //     console.log('Clicked on date:', day.date);
+  //   }
+  // }
+  handleDateClick(day: any): void {
+    if (day.isCurrentMonth && day.date !== '') {
+      console.log('Clicked on date:', day.date);
+    }
   }
-  buttonReleased(buttonIndex: number) {
-    this.buttonStates[buttonIndex] = false;
-  }
+
 }
