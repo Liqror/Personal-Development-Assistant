@@ -21,7 +21,6 @@ export class HomeComponent implements OnInit{
   data: ITodayScreen;
   ngOnInit(): void {
     this.currentDate = new Date();
-    console.log('Home Component - Current Date:', this.currentDate);
     this.getTodayScreen();
   }
 

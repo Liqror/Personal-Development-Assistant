@@ -1,31 +1,28 @@
 .calendar {
   width: 100%;  /* Использует 100% ширины родительского контейнера */
-  /*max-width: 300px;*/
-  /*height: 100%;*/
   max-width: 300px; /* Но не более 300px */
-  /*background-color: rgba(255, 255, 255, 0.7);*/
-  /*padding: 10px;*/
   border-radius: 5px;
-  /*margin: 20px;*/
 }
 
-.calendar-day {
-  /* ... остальные стили ... */
+.button-container button:hover {
+  background-color: #ffcc80;
+}
+
+.calendar-day:hover{
+  background-color: #ffcc80; /* Цвет при наведении */
+}
+
+.header span:hover {
+  background-color: #ffcc80; /* Цвет при наведении */
+  box-shadow: 0 0 0 5px #ffcc80;
+  border-radius: 50%;
+}
+
+.header span {
   cursor: pointer;
-  transition: background-color 0.3s;
 }
-
-.calendar-day:hover {
-  background-color: #f0f0f0; /* Цвет при наведении */
-}
-
-.calendar-day.active {
-  background-color: #ffcc80; /* Цвет активной даты */
-}
-
 
 .header {
-  /*display: flex; !*! кажется комментирование этой строчки ничего не меняет *!*/
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
@@ -35,25 +32,12 @@ table {
   width: 100%;
   border-collapse: collapse;
   text-align: center;
-  /*table-layout: fixed; !* Добавим этот стиль для фиксированного распределения ширины ячеек таблицы *!*/
 }
-
-.button-container button.pressed {
-  background-color: #ffcc80; /* Или любой другой цвет подсветки */
-}
-
-/*.button-container button:focus,*/
-/*.button-container button:active {*/
-/*  outline: none;*/
-/*  box-shadow: 0 0 5px #F3A972; !* Цвет подсветки, можно изменить *!*/
-/*}*/
 
 .button-container button {
   background: none;
   border: none;
   cursor: pointer;
-  /*width: 50px; !* Ширина кнопки *!*/
-  /*height: 50px; !* Высота кнопки *!*/
   border-radius: 50%;
 }
 
@@ -64,19 +48,11 @@ table {
   width: 100%; /* Занимать всю доступную ширину */
 }
 
-/*table, th, td {*/
-/*  border: 1px solid #ddd;*/
-/*}*/
-
 .calendar-day {
-  /*aspect-ratio: 1; !* попытки квадрата *!*/
-  /*width: 30px;*/
-  /*height: 30px;*/
-  /*display: flex;*/
+  cursor: pointer;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  /*padding: 10px;*/
 }
 
 /* Выделение текущего дня */
@@ -86,41 +62,20 @@ table {
 
 /* Для предыдущих и следующих месяцев */
 .other-month {
-  /*color: #ccc;*/
-  color: rgba(245, 245, 245, 0.8);
+  color: #999; /* Очень светлый серый */
 }
 
-/*это точно нужное*/
 table, th, td {
   border: none;
 }
 
-/*и без этого все хорошо*/
-/*.arrow-btn {*/
-/*  background: none;*/
-/*  border: none;*/
-/*  cursor: pointer;*/
-/*}*/
-
-
-/*th, td {*/
-/*padding: 10px;*/
-/*border: 1px solid #ddd; !* Добавим границу ячейкам таблицы для разделения *!*/
-/*width: 14.28%; !* Равномерно распределяем ширину между всеми днями недели *!*/
-/*}*/
-
-/*.arrow-btn {*/
-/*  background: none;*/
-/*  border: none;*/
-/*  cursor: pointer;*/
-/*}*/
-
-/*table tbody tr {*/
-/*  !*display: flex;*!*/
-/*  !*justify-content: space-around;*!*/
-/*}*/
-
-/*table tbody tr td {*/
-/*  padding: 10px;*/
-/*  width: 14.28%; !* Равномерное распределение ширины между всеми днями недели *!*/
-/*}*/
+/* Дни недели */
+.weekday {
+  cursor: default;
+  font-family: "Sofia Sans Condensed", sans-serif;
+  color: #000; /* Цвет текста дней недели */
+}
+/* Подсветка дней недели при наведении */
+.weekday:hover {
+  background-color: transparent;
+}
