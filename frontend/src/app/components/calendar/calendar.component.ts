@@ -1,22 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { LOCALE_ID, Injectable } from '@angular/core';
-import { DatePipe, registerLocaleData } from '@angular/common';
+import {Component, Input, OnInit, SimpleChanges} from '@angular/core';
+
+import {CommonModule, DatePipe, registerLocaleData} from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {BrowserModule} from "@angular/platform-browser";
 
 registerLocaleData(localeRu, 'ru');
 
 @Component({
   selector: 'app-calendar',
+  // standalone: true,
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.css'],
-  providers: [DatePipe]
+  styleUrls: ['./old_calendar.component.css'],
+  providers: [DatePipe],
+  // imports: [
+  //   BrowserModule,
+  //   CommonModule,
+  //   FormsModule,
+  //   ReactiveFormsModule,
+  // ],
 })
 export class CalendarComponent implements OnInit {
-  currentDate: Date = new Date();
-  selectedDate: Date = new Date();
+  @Input() currentDate: Date; // Теперь currentDate будет вводом компонента
   currentMonth: number;
   currentYear: number;
-  // weeks: string[][];
   weeks: { date: string; isCurrentMonth: boolean }[][];
 
   monthNames: string[] = [
@@ -25,25 +32,29 @@ export class CalendarComponent implements OnInit {
   ];
 
   constructor(private datePipe: DatePipe) {}
-
   ngOnInit() {
+  //   if (!this.currentDate) {
+  //     this.currentDate = new Date();
+  //     console.log('Calendar Component - No input date, using current date:', this.currentDate);
+  //   }
     this.updateCalendar();
     this.generateCalendar();
   }
 
   updateCalendar() {
-    this.currentMonth = this.selectedDate.getMonth();
-    this.currentYear = this.selectedDate.getFullYear();
+    this.currentDate = new Date();
+    this.currentMonth = this.currentDate.getMonth();
+    this.currentYear = this.currentDate.getFullYear();
   }
 
   nextMonth() {
-    this.selectedDate.setMonth(this.selectedDate.getMonth() + 1);
+    this.currentDate.setMonth(this.currentDate.getMonth() + 1);
     this.updateCalendar();
     this.generateCalendar();
   }
 
   prevMonth() {
-    this.selectedDate.setMonth(this.selectedDate.getMonth() - 1);
+    this.currentDate.setMonth(this.currentDate.getMonth() - 1);
     this.updateCalendar();
     this.generateCalendar();
   }
@@ -55,6 +66,10 @@ export class CalendarComponent implements OnInit {
   isCurrentDate(day: string): boolean {
     const currentDate = new Date();
     const formattedDate = this.datePipe.transform(currentDate, 'd');
+    console.log('Formatted Date:', formattedDate);
+    console.log('Day:', day);
+    console.log('Current Month:', this.currentMonth);
+    console.log('Current Year:', this.currentYear);
     return day === formattedDate && this.currentMonth === currentDate.getMonth() && this.currentYear === currentDate.getFullYear();
   }
 
@@ -77,6 +92,8 @@ export class CalendarComponent implements OnInit {
     // Заполнение текущими датами
     for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
       const currentDate = new Date(this.currentYear, this.currentMonth, i);
+      const formattedDate = this.datePipe.transform(currentDate, 'd');
+      console.log('Generated Date:', formattedDate);
       currentWeek.push({ date: this.datePipe.transform(currentDate, 'd') || '', isCurrentMonth: true });
 
       if (currentWeek.length === 7) {
@@ -102,93 +119,5 @@ export class CalendarComponent implements OnInit {
         return { date: this.datePipe.transform(nextMonthDate, 'd') || '', isCurrentMonth: false };
       });
     }
-
   }
-
 }
-
-
-
-// отличный код ниже
-// generateCalendar() {
-//   this.weeks = [];
-//
-//   const firstDayOfMonth = new Date(this.currentYear, this.currentMonth, 1);
-//   const lastDayOfMonth = new Date(this.currentYear, this.currentMonth + 1, 0);
-//   const startDay = (firstDayOfMonth.getDay() + 6) % 7 + 1;
-//
-//   let currentWeek: { date: string; isCurrentMonth: boolean }[] = [];
-//
-//   // Заполнение предыдущими датами
-//   const prevMonthLastDay = new Date(this.currentYear, this.currentMonth, 0).getDate();
-//   for (let i = 1; i < startDay; i++) {
-//     const prevMonthDate = prevMonthLastDay - (startDay - i - 1);
-//     currentWeek.push({ date: this.datePipe.transform(new Date(this.currentYear, this.currentMonth - 1, prevMonthDate), 'd') || '', isCurrentMonth: false });
-//   }
-//
-//
-//   // Заполнение текущими датами
-//   for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
-//     const currentDate = new Date(this.currentYear, this.currentMonth, i);
-//     currentWeek.push({ date: this.datePipe.transform(currentDate, 'd') || '', isCurrentMonth: true });
-//
-//     if (currentWeek.length === 7) {
-//       this.weeks.push([...currentWeek]);
-//       currentWeek = [];
-//     }
-//   }
-//
-//   // Заполнение следующими датами
-//   const remainingDays = 7 - currentWeek.length;
-//   for (let i = 1; i <= remainingDays; i++) {
-//     const nextMonthDate = new Date(this.currentYear, this.currentMonth + 1, i);
-//     currentWeek.push({ date: this.datePipe.transform(nextMonthDate, 'd') || '', isCurrentMonth: false });
-//   }
-//
-//   if (currentWeek.length > 0) {
-//     this.weeks.push([...currentWeek]);
-//   }
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-// рабочий код ниже
-// generateCalendar() {
-//   this.weeks = [];
-//
-//   const firstDayOfMonth = new Date(this.currentYear, this.currentMonth, 1);
-//   const lastDayOfMonth = new Date(this.currentYear, this.currentMonth + 1, 0);
-//   const startDay = (firstDayOfMonth.getDay() + 6) % 7 + 1;
-//
-//   let currentWeek: string[] = [];
-//   for (let i = 1; i < startDay; i++) {
-//     currentWeek.push('');
-//   }
-//
-//   for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
-//     const currentDate = new Date(this.currentYear, this.currentMonth, i);
-//     const formattedDate = this.datePipe.transform(currentDate, 'd');
-//     currentWeek.push(formattedDate !== null ? formattedDate : '');
-//
-//     if (currentWeek.length === 7) {
-//       this.weeks.push([...currentWeek]);
-//       currentWeek = [];
-//     }
-//   }
-//
-//   if (currentWeek.length > 0) {
-//     while (currentWeek.length < 7) {
-//       currentWeek.push('');
-//     }
-//     this.weeks.push([...currentWeek]);
-//   }
-// }
