@@ -104,19 +104,7 @@
             <hr>
             <h3>Расписание</h3>
             <!-- Таблица расписание -->
-            <table class = "table">
-              <thead>
-              <tbody>
-              <tr>
-                <td>15:55 17:30</td>
-                <td>Серверное программирование <br> к.17 каб.4-10 <br> очно</td>
-              </tr>
-              <tr>
-                <td>17:40 19:15</td>
-                <td>Теория автоматов языков и вычислений <br> к.17 каб.4-11 <br> очно</td>
-              </tr>
-              </tbody>
-            </table>
+            <app-classes></app-classes>
 
 <!--            <p>-->
 <!--              <ng-container *ngFor="let class of data.classes">-->
@@ -139,15 +127,7 @@
             <hr>
             <h3>Расписание</h3>
             <!-- Таблица расписание -->
-            <table class = "table">
-              <thead>
-              <tbody>
-              <tr>
-                <td> - </td>
-                <td>Выходной</td>
-              </tr>
-              </tbody>
-            </table>
+            <app-classes *ngFor="let data of data.today_classes" [data]="data"></app-classes>
             <hr>
             <h3>Заметка</h3>
             <textarea name="message" id="message" rows="5" class="form-control md-textarea" type="text" style="color: #595959;">
@@ -162,23 +142,7 @@
             <hr style="border-style: solid; border-width: 1px; border-color: #000000">
             <h3>Расписание</h3>
             <!-- Таблица расписание -->
-            <table class = "table">
-              <thead>
-              <tbody>
-              <tr>
-                <td>15:55 17:30</td>
-                <td>Серверное программирование <br> к.17 каб.4-10 <br> очно</td>
-              </tr>
-              <tr>
-                <td>17:40 19:15</td>
-                <td>
-                  Теория автоматов языков и вычислений
-                  <br>
-                  к.17 каб.4-11 <br> очно
-                </td>
-              </tr>
-              </tbody>
-            </table>
+            <app-classes [data]="data.tomorrow_classes[0]" ></app-classes>
             <hr>
             <h3>Задачи</h3>
           </div>

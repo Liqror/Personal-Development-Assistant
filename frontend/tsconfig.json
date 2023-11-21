@@ -3,13 +3,12 @@
   "compileOnSave": false,
   "compilerOptions": {
     "resolveJsonModule": true, /* это я добавила, возможно это нужно */
-    "strictPropertyInitialization": false, /* мое, для упрощения работы с импортом*/
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": false, /* это я тоже поменяла, чтоб работать с параметрами в инпут */
+    "noPropertyAccessFromIndexSignature": false, /* по 1 видео это я поменяла, чтоб работать с параметрами в инпут */
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
@@ -21,6 +20,7 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
+    "strictPropertyInitialization": false, /* по 1 видео мое, для упрощения работы с импортом */
     "lib": [
       "ES2022",
       "dom"

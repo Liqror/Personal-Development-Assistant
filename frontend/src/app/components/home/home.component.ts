@@ -1,36 +1,27 @@
-import {Component, Input} from '@angular/core'
-import {ITodayScreen} from "../../interfaces/today-screen";
-import { CommonModule } from '@angular/common';
+import {Component} from '@angular/core'
 import { OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {CalendarComponent} from "../calendar/calendar.component";
-import {HomeModule} from "./home.module";
+import {IHomeData} from "../../interfaces/home";
 
 @Component({
   selector: 'app-home',
-  // standalone: true,
-  // imports: [
-  //   HomeModule,
-  //   CommonModule
-  // ],
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit{
-  // currentDate: Date = new Date();
   currentDate: Date;
-  data: ITodayScreen;
+  data: IHomeData;
   ngOnInit(): void {
     this.currentDate = new Date();
-    this.getTodayScreen();
+    this.getHomeData();
   }
 
   // Взаимодействие с бд
   constructor(private http: HttpClient) {
-    this.getTodayScreen();
+    this.getHomeData();
   }
-  getTodayScreen(): void {
-    this.http.get<ITodayScreen>('http://localhost:8080/assistant/home').subscribe((res: ITodayScreen) => {
-      console.log('res', res);
+  getHomeData(): void {
+    this.http.get<IHomeData>('http://localhost:8080/assistant/home').subscribe((res: IHomeData) => {
+      // console.log('res', res);
       this.data = res;
     });
   }
