@@ -1,9 +1,13 @@
 <div class="calendar">
   <div class="header">
     <div class="button-container">
-      <button (click)="prevMonth()">❮</button>
+      <button (click)="prevMonth()" (mousedown)="buttonPressed(1)" (mouseup)="buttonReleased(1)"
+              [ngClass]="{'pressed': buttonStates[1]}">❮</button>
+<!--      <button (click)="prevMonth()">❮</button>-->
       <span>{{ currentYear }}</span> <span>{{ monthNames[currentMonth] }}</span>
-      <button (click)="nextMonth()">❯</button>
+<!--      <button (click)="nextMonth()">❯</button>-->
+      <button (click)="nextMonth()" (mousedown)="buttonPressed(2)" (mouseup)="buttonReleased(2)"
+              [ngClass]="{'pressed': buttonStates[2]}">❯</button>
     </div>
   </div>
   <table>
@@ -40,8 +44,6 @@
       </td>
     </tr>
     </tbody>
-
-
 <!--    <tbody *ngFor="let week of weeks">-->
 <!--    <tr class="week">-->
 <!--      <td *ngFor="let day of week" class="calendar-day" [ngClass]="{'current-day': isCurrentDate(day.date), 'other-month': !isCurrentMonth(day)}">-->
@@ -49,6 +51,5 @@
 <!--      </td>-->
 <!--    </tr>-->
 <!--    </tbody>-->
-
   </table>
 </div>

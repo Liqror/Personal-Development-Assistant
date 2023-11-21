@@ -11,7 +11,7 @@ registerLocaleData(localeRu, 'ru');
   selector: 'app-calendar',
   // standalone: true,
   templateUrl: './calendar.component.html',
-  styleUrls: ['./old_calendar.component.css'],
+  styleUrls: ['./calendar.component.css'],
   providers: [DatePipe],
   // imports: [
   //   BrowserModule,
@@ -42,7 +42,7 @@ export class CalendarComponent implements OnInit {
   }
 
   updateCalendar() {
-    this.currentDate = new Date();
+    // this.currentDate = new Date();
     this.currentMonth = this.currentDate.getMonth();
     this.currentYear = this.currentDate.getFullYear();
   }
@@ -119,5 +119,13 @@ export class CalendarComponent implements OnInit {
         return { date: this.datePipe.transform(nextMonthDate, 'd') || '', isCurrentMonth: false };
       });
     }
+  }
+
+  buttonStates: { [key: number]: boolean } = {};
+  buttonPressed(buttonIndex: number) {
+    this.buttonStates[buttonIndex] = true;
+  }
+  buttonReleased(buttonIndex: number) {
+    this.buttonStates[buttonIndex] = false;
   }
 }

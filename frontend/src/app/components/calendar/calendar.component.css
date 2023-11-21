@@ -1,9 +1,10 @@
 .calendar {
-  width: 100%; /* Использует 100% ширины родительского контейнера */
+  width: 100%;  /* Использует 100% ширины родительского контейнера */
+  /*max-width: 300px;*/
   height: 100%;
   max-width: 300px; /* Но не более 300px */
-  background-color: rgba(255, 255, 255, 0.7);
-  padding: 10px;
+  /*background-color: rgba(255, 255, 255, 0.7);*/
+  /*padding: 10px;*/
   border-radius: 5px;
   /*margin: 20px;*/
 }
@@ -19,13 +20,27 @@ table {
   width: 100%;
   border-collapse: collapse;
   text-align: center;
-  table-layout: fixed; /* Добавим этот стиль для фиксированного распределения ширины ячеек таблицы */
+  /*table-layout: fixed; !* Добавим этот стиль для фиксированного распределения ширины ячеек таблицы *!*/
 }
+
+.button-container button.pressed {
+  background-color: #F3A972; /* Или любой другой цвет подсветки */
+}
+
+/*.button-container button:focus,*/
+/*.button-container button:active {*/
+/*  outline: none;*/
+/*  box-shadow: 0 0 5px #F3A972; !* Цвет подсветки, можно изменить *!*/
+/*}*/
+
 
 .button-container button {
   background: none;
   border: none;
   cursor: pointer;
+  /*width: 50px; !* Ширина кнопки *!*/
+  /*height: 50px; !* Высота кнопки *!*/
+  border-radius: 50%;
 }
 
 .button-container {
@@ -35,9 +50,9 @@ table {
   width: 100%; /* Занимать всю доступную ширину */
 }
 
-table, th, td {
-  border: 1px solid #ddd;
-}
+/*table, th, td {*/
+/*  border: 1px solid #ddd;*/
+/*}*/
 
 .calendar-day {
   /*aspect-ratio: 1; !* попытки квадрата *!*/
@@ -47,18 +62,24 @@ table, th, td {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-}
-/* Выделение текущего дня */
-.current-day {
-  background-color: #ffcc80; /* бледно-оранжевый цвет Я уверена у Сони в оттенках есть цвет получше */
+  /*padding: 10px;*/
 }
 
+/* Выделение текущего дня */
+.current-day {
+  background-color: #ffcc80;
+}
 
 /* Для предыдущих и следующих месяцев */
 .other-month {
-  color: #ccc;
+  /*color: #ccc;*/
+  color: rgba(255, 255, 255);
 }
 
+/*это точно нужное*/
+table, th, td {
+  border: none;
+}
 
 /*и без этого все хорошо*/
 /*.arrow-btn {*/
@@ -72,11 +93,6 @@ table, th, td {
 /*padding: 10px;*/
 /*border: 1px solid #ddd; !* Добавим границу ячейкам таблицы для разделения *!*/
 /*width: 14.28%; !* Равномерно распределяем ширину между всеми днями недели *!*/
-/*}*/
-
-/*это точно нужное*/
-/*table, th, td {*/
-/*  border: none;*/
 /*}*/
 
 /*.arrow-btn {*/
@@ -94,4 +110,3 @@ table, th, td {
 /*  padding: 10px;*/
 /*  width: 14.28%; !* Равномерное распределение ширины между всеми днями недели *!*/
 /*}*/
-
