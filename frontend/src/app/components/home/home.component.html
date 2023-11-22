@@ -98,8 +98,16 @@
             Создать задачу
           </button>
         </a>
+
+
+        <div class="col-md-10 col-lg-10 mt-md-5">
+          <img src="././assets/image/back.png" alt="назад" style="height: 20px">
+          <img src="././assets/image/forward.png" alt="вперед" style="height: 20px; position: absolute; right: 10px;">
+        </div>
+
+
         <div class="row justify-content-center">
-          <div class="col-md-4 col-lg-4 mt-md-5">
+          <div class="col-md-4 col-lg-4 mt-md-1">
             <h2>вчера</h2>
             <hr>
             <h3>Расписание</h3>
@@ -118,11 +126,16 @@
             <p>{{ data.text_note }}</p>
             <hr>
             <h3>Задачи</h3>
+            <h4>На день</h4>
             <input type="checkbox" id="ex" name="ex" value="ex">
-            <label for="ex"> Здесь какая-то задача</label><br>
+            <label for="ex"> Задача на день</label><br>
+
+            <h4>Без времени</h4>
+            <input type="checkbox" id="ex3" name="ex" value="ex">
+            <label for="ex3"> Здесь какая-то задача</label><br>
           </div>
 
-          <div class="col-md-4 col-lg-4 mt-md-5">
+          <div class="col-md-4 col-lg-4 mt-md-1">
             <h2>сегодня</h2>
             <hr>
             <h3>Расписание</h3>
@@ -135,9 +148,17 @@
             </textarea>
             <hr>
             <h3>Задачи</h3>
+            <h4>На день</h4>
+            <input type="checkbox" id="ex4" name="ex" value="ex">
+            <label for="ex4"> Задача на день</label><br>
+            <h4>Просрочено</h4>
+            <input type="checkbox" id="ex5" name="ex" value="ex">
+            <label for="ex5"> Какая-то просроченная задача</label><br>
+
+            <h4>Без времени</h4>
           </div>
 
-          <div class="col-md-4 col-lg-4 mt-md-5">
+          <div class="col-md-4 col-lg-4 mt-md-1">
             <h2>завтра</h2>
             <hr style="border-style: solid; border-width: 1px; border-color: #000000">
             <h3>Расписание</h3>
@@ -145,6 +166,7 @@
             <app-classes [data]="data.tomorrow_classes[0]" ></app-classes>
             <hr>
             <h3>Задачи</h3>
+            <h4>На день</h4>
           </div>
         </div>
       </div>
@@ -157,7 +179,8 @@
 
           <div class="col-md-6 col-lg-6">
             <p>
-              <select id="category-for-task" name="category" style="width: 100%">
+              <img src="././assets/image/category.png" alt="категория для задачи" style="height: 30px">
+              <select id="category-for-task" name="category" style="width: 80%; background-color: #f0f0f0">
                 <option value="chooth">Выберите категорию</option>
                 <option value="health">здоровье</option>
                 <option value="family">семья</option>
@@ -168,11 +191,14 @@
             </p>
           </div>
           <div class="col-md-6 col-lg-6">
-            <p><input type="text" name="userName" placeholder="Оценка задачи"/></p>
+            <p> <img src="././assets/image/score.png" alt="оценка" style="height: 30px; margin-right: 10px">
+            <input style="width: 80%" type="text" name="userName" placeholder="Оценка задачи" /> </p>
           </div>
 
         </div>
-        <p> Здесь будет время для задачи ОТ ДО</p>
+
+        <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
+         Здесь будет время для задачи ОТ ДО</p>
         <p>
           <input type="checkbox" id="time-for-task" name="time-for-task" value="time-for-task">
           <label for="time-for-task">Повторяется </label>

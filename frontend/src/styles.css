@@ -6,14 +6,7 @@ body {
   font-family: "Sofia Sans Condensed", sans-serif;
   color: #000000;
 }
-.popup {
-  position: fixed;
-  background-color: #0a53be;
-  width: 50%;
-  height: 50%;
-  top: 25%;
-  left: 25%;
-}
+
 #new-task {
   background: rgba(102, 102, 102, 0.5);
   width: 100%;
@@ -34,9 +27,9 @@ body {
   right: 0;
   bottom: 0;
   margin: auto;
-  background: #fff;
+  background: #CABAB5;
   width: 50%;
-  height: 50%;
+  height: 55%;
   top: 0;
   left: 0;
 }
@@ -161,6 +154,12 @@ h3 {
   font-weight: 600;
   font-size: 140%;
   color: #F3A972;
+}
+h4 {
+  text-align: center;
+  font-weight: 600;
+  font-size: 130%;
+  color: #8d7060;
 }
 
 .col-1 {
