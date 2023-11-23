@@ -1,13 +1,11 @@
+<script> alert( "helloo" ); </script>
+
 <div class="calendar">
   <div class="header">
     <div class="button-container">
-<!--      <button (click)="prevMonth()" (mousedown)="buttonPressed(1)" (mouseup)="buttonReleased(1)"-->
-<!--              [ngClass]="{'pressed': buttonStates[1]}">❮</button>-->
       <button (click)="prevMonth()">❮</button>
       <span>{{ currentYear }}</span> <span>{{ monthNames[currentMonth] }}</span>
       <button (click)="nextMonth()">❯</button>
-<!--      <button (click)="nextMonth()" (mousedown)="buttonPressed(2)" (mouseup)="buttonReleased(2)"-->
-<!--              [ngClass]="{'pressed': buttonStates[2]}">❯</button>-->
     </div>
   </div>
   <table>
@@ -38,7 +36,8 @@
     </thead>
 
     <tbody>
-    <tr *ngFor="let week of weeks" class="week">
+    <tr *ngFor="let week of weeks" class="week" >
+      <script> alert( "GFDG" ); </script>
       <td
         *ngFor="let day of week"
         class="calendar-day"
@@ -50,32 +49,5 @@
       </td>
     </tr>
     </tbody>
-
-<!--    <tbody>-->
-<!--    <tr *ngFor="let week of weeks" class="week">-->
-<!--      <td-->
-<!--        *ngFor="let day of week"-->
-<!--        class="calendar-day"-->
-<!--        [ngClass]="{'current-day': isCurrentDate(day.date), 'other-month': !isCurrentMonth(day), 'active': day.isActive}"-->
-<!--        (mouseenter)="handleDateMouseEnter(day)"-->
-<!--        (mouseleave)="handleDateMouseLeave(day)"-->
-<!--        (click)="handleDateClick(day)"-->
-<!--      >-->
-<!--        {{ day.date !== '' ? day.date : ' ' }}-->
-<!--      </td>-->
-<!--    </tr>-->
-<!--    </tbody>-->
-
-<!--    <tbody>-->
-<!--    <tr *ngFor="let week of weeks" class="week">-->
-<!--      <td *ngFor="let day of week" class="calendar-day"-->
-<!--          [ngClass]="{'current-day': isCurrentDate(day.date),-->
-<!--          'other-month': !isCurrentMonth(day)}"-->
-<!--          (click)="handleDateClick(day)">-->
-<!--        {{ day.date !== '' ? day.date : ' ' }}-->
-<!--      </td>-->
-<!--    </tr>-->
-<!--    </tbody>-->
-
   </table>
 </div>

@@ -25,6 +25,8 @@ export class TimeComponent {
     // Замените URL ниже на ваш фактический бекенд URL
     const backendUrl = 'http://localhost:8080/assistant/user_time';
 
+    // год месяц день
+
     // @ts-ignore
     this.http.post(backendUrl, dataToSend).subscribe(response => {
       console.log('Backend response:', response);

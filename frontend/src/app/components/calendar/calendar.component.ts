@@ -40,6 +40,7 @@ export class CalendarComponent implements OnInit {
 
   updateCalendar() {
     // this.currentDate = new Date();
+    console.log('Дата ', this.currentDate);
     this.currentMonth = this.currentDate.getMonth();
     this.currentYear = this.currentDate.getFullYear();
   }
@@ -86,7 +87,6 @@ export class CalendarComponent implements OnInit {
     for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
       const currentDate = new Date(this.currentYear, this.currentMonth, i);
       currentWeek.push({ date: this.datePipe.transform(currentDate, 'd') || '', isCurrentMonth: true });
-
       if (currentWeek.length === 7) {
         this.weeks.push([...currentWeek]);
         currentWeek = [];

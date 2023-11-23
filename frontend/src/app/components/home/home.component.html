@@ -112,7 +112,16 @@
             <hr>
             <h3>Расписание</h3>
             <!-- Таблица расписание -->
-            <app-classes></app-classes>
+            <table class = "table">
+              <thead>
+              <tbody *ngFor="let data of data.yesterday_classes">
+              <tr>
+                <td>{{data.start_time}} {{data.stop_time}}</td>
+                <td>{{data.name}}<br>{{data.place}}<br>{{data.format}}</td>
+              </tr>
+              </tbody>
+            </table>
+
 
 <!--            <p>-->
 <!--              <ng-container *ngFor="let class of data.classes">-->
@@ -140,7 +149,16 @@
             <hr>
             <h3>Расписание</h3>
             <!-- Таблица расписание -->
-            <app-classes *ngFor="let data of data.today_classes" [data]="data"></app-classes>
+            <table class = "table">
+              <thead>
+              <tbody *ngFor="let data of data.today_classes">
+              <tr>
+                <td>{{data.start_time}} {{data.stop_time}}</td>
+                <td>{{data.name}}<br>{{data.place}}<br>{{data.format}}</td>
+              </tr>
+              </tbody>
+            </table>
+
             <hr>
             <h3>Заметка</h3>
             <textarea name="message" id="message" rows="5" class="form-control md-textarea" type="text" style="color: #595959;">
@@ -163,8 +181,16 @@
             <hr style="border-style: solid; border-width: 1px; border-color: #000000">
             <h3>Расписание</h3>
             <!-- Таблица расписание -->
-            <app-classes [data]="data.tomorrow_classes[0]" ></app-classes>
-            <hr>
+            <table class = "table">
+              <thead>
+              <tbody *ngFor="let data of data.tomorrow_classes">
+              <tr>
+                <td>{{data.start_time}} {{data.stop_time}}</td>
+                <td>{{data.name}}<br>{{data.place}}<br>{{data.format}}</td>
+              </tr>
+              </tbody>
+            </table>
+              <hr>
             <h3>Задачи</h3>
             <h4>На день</h4>
             здесь тоже какая-то задача может быть
