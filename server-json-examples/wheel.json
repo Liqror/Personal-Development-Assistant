@@ -1,0 +1,28 @@
+{"wheel": [
+    {
+      "name": "Здоровье",
+      "points": 5,
+      "color": "#AABBCC"
+    },
+    {
+      "name": "Учеба",
+      "points": 7,
+      "color": "#DDEEFF"
+    },
+    {
+      "name": "Отношения",
+      "points": 3,
+      "color": "#FFEEDD"
+    },
+    {
+      "name": "Семья",
+      "points": 8,
+      "color": "#CCDDEE"
+    },
+    {
+      "name": "Спорт",
+      "points": 6,
+      "color": "#FFCCDD"
+    }
+  ]
+}
