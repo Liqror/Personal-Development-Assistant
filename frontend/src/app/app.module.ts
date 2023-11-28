@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {TimeComponent} from "./components/time/time.component";
-import {CalendarComponent} from "./components/calendar/calendar.component";
 import { DatePipe } from '@angular/common';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
@@ -25,7 +24,6 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    // CalendarComponent,
     HomeModule
   ],
   providers: [

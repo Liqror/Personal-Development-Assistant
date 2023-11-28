@@ -112,23 +112,21 @@
             <hr>
             <h3>Расписание</h3>
             <!-- Таблица расписание -->
-            <table class = "table">
+            <table class="table">
               <thead>
               <tbody *ngFor="let data of data.yesterday_classes">
               <tr>
-                <td>{{data.start_time}} {{data.stop_time}}</td>
-                <td>{{data.name}}<br>{{data.place}}<br>{{data.format}}</td>
+                <td>{{ data.start_time }}<br>{{ data.stop_time }}</td>
+                <td>
+                  {{ data.name }}<br>
+                  <ng-container *ngIf="data.place !== '-'">
+                    {{ data.place }}<br>
+                  </ng-container>
+                  {{ data.format }}
+                </td>
               </tr>
               </tbody>
             </table>
-
-
-<!--            <p>-->
-<!--              <ng-container *ngFor="let class of data.classes">-->
-<!--                  <span class="font-semibold">{{ class.name }}</span><br>-->
-<!--                  <span class="ml-2">{{ class.format }}</span><br>-->
-<!--              </ng-container>-->
-<!--            </p>-->
 
             <hr>
             <h3>Заметка</h3>
@@ -149,12 +147,18 @@
             <hr>
             <h3>Расписание</h3>
             <!-- Таблица расписание -->
-            <table class = "table">
+            <table class="table">
               <thead>
               <tbody *ngFor="let data of data.today_classes">
               <tr>
-                <td>{{data.start_time}} {{data.stop_time}}</td>
-                <td>{{data.name}}<br>{{data.place}}<br>{{data.format}}</td>
+                <td>{{ data.start_time }}<br>{{ data.stop_time }}</td>
+                <td>
+                  {{ data.name }}<br>
+                  <ng-container *ngIf="data.place !== '-'">
+                    {{ data.place }}<br>
+                  </ng-container>
+                  {{ data.format }}
+                </td>
               </tr>
               </tbody>
             </table>
@@ -181,12 +185,18 @@
             <hr style="border-style: solid; border-width: 1px; border-color: #000000">
             <h3>Расписание</h3>
             <!-- Таблица расписание -->
-            <table class = "table">
+            <table class="table">
               <thead>
               <tbody *ngFor="let data of data.tomorrow_classes">
               <tr>
-                <td>{{data.start_time}} {{data.stop_time}}</td>
-                <td>{{data.name}}<br>{{data.place}}<br>{{data.format}}</td>
+                <td>{{ data.start_time }}<br>{{ data.stop_time }}</td>
+                <td>
+                  {{ data.name }}<br>
+                  <ng-container *ngIf="data.place !== '-'">
+                    {{ data.place }}<br>
+                  </ng-container>
+                  {{ data.format }}
+                </td>
               </tr>
               </tbody>
             </table>

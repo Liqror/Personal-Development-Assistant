@@ -6,13 +6,6 @@
     <h2 class="text-xl font-semibold">Жесткие задачи</h2>
     <ul>
 
-      <!--      <div *ngFor="let task of tasks" class="task flex items-center">-->
-      <!--        <input type="checkbox" [(ngModel)]="task.status" (change)="onStatusChange(task)"-->
-      <!--               class="form-checkbox h-4 w-4 text-indigo-600">-->
-      <!--        <span [ngClass]="{'text-gray-500': task.status === 1}">{{ task.name }}</span>-->
-      <!--      </div>-->
-
-
 
       <ng-container *ngFor="let task of today_screen.today_tasks">
 
@@ -53,24 +46,5 @@
     </ul>
   </div>
 
-  <!-- Текстовая заметка -->
-  <div class="mb-4">
-    <h2 class="text-xl font-semibold">Текстовая заметка</h2>
-    <p>{{ today_screen.text_note }}</p>
-  </div>
 
-  <!-- Занятия -->
-  <div>
-    <h2 class="text-xl font-semibold">Занятия</h2>
-    <ul>
-      <ng-container *ngFor="let class of today_screen.classes">
-        <li class="mb-2">
-          <span class="font-semibold">{{ class.name }}</span>
-          <span class="ml-2">{{ class.time }}</span>
-          <span class="ml-2">{{ class.place }}</span>
-          <span class="ml-2">{{ class.format }}</span>
-        </li>
-      </ng-container>
-    </ul>
-  </div>
 </div>
