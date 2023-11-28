@@ -1,5 +1,4 @@
-import {Component, Input, OnInit, SimpleChanges} from '@angular/core';
-import {DatePipe, registerLocaleData} from '@angular/common';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';import {DatePipe, registerLocaleData} from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
 import { Router } from '@angular/router';
 
@@ -17,13 +16,15 @@ export class CalendarComponent implements OnInit {
   currentMonth: number;
   currentYear: number;
   weeks: { date: string; isCurrentMonth: boolean; isActive?: boolean }[][];
+  @Output() dateClicked: EventEmitter<any> = new EventEmitter<any>();
 
   monthNames: string[] = [
     'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
     'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
   ];
 
-  constructor(private datePipe: DatePipe, private router: Router) {}
+  constructor(private datePipe: DatePipe,
+              private router: Router) {}
   ngOnInit() {
     this.updateCalendar();
     this.generateCalendar();
@@ -106,6 +107,7 @@ export class CalendarComponent implements OnInit {
   handleDateClick(day: { date: string; isCurrentMonth: boolean }): void {
     if (day.isCurrentMonth && day.date !== '') {
       const clickedDate = new Date(this.currentYear, this.currentMonth, +day.date);
+
       const year = clickedDate.getFullYear();
       const month = (clickedDate.getMonth() + 1).toString().padStart(2, '0');
       const dayOfMonth = clickedDate.getDate().toString().padStart(2, '0');
@@ -115,18 +117,17 @@ export class CalendarComponent implements OnInit {
 
 
       // Консоль вывод, возможно отправка на бекенд позже
-      // const clickedDate = new Date(this.currentYear, this.currentMonth, +day.date);
       const previousDay = new Date(clickedDate);
       previousDay.setDate(clickedDate.getDate() - 1);
       const nextDay = new Date(clickedDate);
       nextDay.setDate(clickedDate.getDate() + 1);
 
-      console.log('Clicked on date:', {
+      // Передаем данные дат в хом компонент
+      this.dateClicked.emit({
         clicked: this.formatDate(clickedDate),
         previous: this.formatDate(previousDay),
         next: this.formatDate(nextDay)
       });
-
     }
   }
   formatDate(date: Date): string {

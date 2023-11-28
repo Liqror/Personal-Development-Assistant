@@ -11,11 +11,13 @@ import { registerLocaleData } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
 import {HomeModule} from "./components/home/home.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { BalanceWheelComponent } from './components/balance-wheel/balance-wheel.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TimeComponent
+    TimeComponent,
+    BalanceWheelComponent
   ],
   imports: [
     BrowserModule,
