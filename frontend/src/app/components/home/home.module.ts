@@ -1,11 +1,11 @@
-import {LOCALE_ID, NgModule} from '@angular/core';
+import { NgModule} from '@angular/core';
 import {CommonModule, DatePipe} from '@angular/common';
 import {CalendarComponent} from "../calendar/calendar.component";
 import {HomeComponent} from "./home.component";
 import {BrowserModule} from "@angular/platform-browser";
 import { RouterModule } from '@angular/router';
-import { registerLocaleData } from '@angular/common';
-import localeRu from '@angular/common/locales/ru';
+import {SideMenuComponent} from "../side-menu/side-menu.component";
+import {PlanComponent} from "../plan/plan.component";
 
 
 @NgModule({
@@ -19,11 +19,15 @@ import localeRu from '@angular/common/locales/ru';
   ],
   declarations: [
     HomeComponent,
-    CalendarComponent
+    CalendarComponent,
+    SideMenuComponent,
+    PlanComponent
   ],
   exports: [
     HomeComponent,
-    CalendarComponent
+    CalendarComponent,
+    SideMenuComponent,
+    PlanComponent
   ],
   providers: [DatePipe],
 })

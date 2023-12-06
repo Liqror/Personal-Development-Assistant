@@ -10,7 +10,7 @@ import {IWheel, IWheelData} from "../../interfaces/wheel";
 })
 export class BalanceWheelComponent implements OnInit {
   wheelData: IWheel[];
-  @ViewChild('balanceWheelCanvas', { static: true }) balanceWheelCanvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild('balanceWheelCanvas', {static: true}) balanceWheelCanvas: ElementRef<HTMLCanvasElement>;
   private ctx: CanvasRenderingContext2D | null = null;
 
   ngOnInit() {
@@ -22,6 +22,7 @@ export class BalanceWheelComponent implements OnInit {
       this.drawCircle();
     }
   }
+
 
   drawCircle() {
     if (!this.ctx) {
@@ -45,7 +46,7 @@ export class BalanceWheelComponent implements OnInit {
 
     // Нарисовать внутренние круги
     for (let i = 0; i < numCircles; i++) {
-      innerRadius = innerRadius - radius/numCircles;
+      innerRadius = innerRadius - radius / numCircles;
       this.ctx.beginPath();
       this.ctx.arc(centerX, centerY, innerRadius, 0, 2 * Math.PI);
       this.ctx.lineWidth = 1;
@@ -76,30 +77,94 @@ export class BalanceWheelComponent implements OnInit {
       this.ctx.strokeStyle = 'black';
       this.ctx.stroke();
 
-
       // Добавить надпись из JSON файла
       const text = this.wheelData[i].name;
+      this.ctx.font = '20px Shantell Sans cursiveSofia';
+
+      // Измерить ширину текста
+      const textWidth = this.ctx.measureText(text).width;
 
       // Рассчитать расстояние от круга, чтобы текст не заползал на круг
       const textRadius = radius + 20;
 
       // Рассчитать угол между символами
-      const anglePerCharacter = (angleIncrement * 0.6) / text.length; // Множитель 0.8 для компактности
+      const anglePerCharacter = textWidth / text.length / textRadius;
 
+      // Рассчитать координаты для центра текста на дуге внешнего круга
+      const centerXText = centerX + Math.cos(currentAngle) * textRadius;
+      const centerYText = centerY + Math.sin(currentAngle) * textRadius;
+
+      // Установить положение текста
+      this.ctx.textAlign = 'center';
+      this.ctx.textBaseline = 'middle';
+
+      // В цикле по каждому символу в тексте
       for (let j = 0; j < text.length; j++) {
+        // Рассчитать угол для текущего символа
         const angle = currentAngle + j * anglePerCharacter;
 
-        // Рассчитать координаты для каждого символа на дуге
+        // Рассчитать координаты для каждого символа на дуге внешнего круга
         const x = centerX + Math.cos(angle) * textRadius;
         const y = centerY + Math.sin(angle) * textRadius;
 
         // Нарисовать символ
-        this.ctx.font = '20px Shantell Sans cursiveSofia';
         this.ctx.fillStyle = 'black'; // Цвет текста
-        this.ctx.textAlign = 'left';
-        this.ctx.textBaseline = 'middle';
         this.ctx.fillText(text[j], x, y);
       }
+
+      function formatAngle(angleRadians: number): string {
+        const piFraction = angleRadians / Math.PI;
+        const fraction = simplifyFraction({ numerator: piFraction, denominator: 1 });
+
+        if (fraction.denominator === 1) {
+          return fraction.numerator.toString();
+        }
+
+        return `${fraction.numerator}/${fraction.denominator} π`;
+      }
+
+      function simplifyFraction(fraction: { numerator: number; denominator: number }): { numerator: number; denominator: number } {
+        const gcd = greatestCommonDivisor(fraction.numerator, fraction.denominator);
+        return {
+          numerator: fraction.numerator / gcd,
+          denominator: fraction.denominator / gcd,
+        };
+      }
+
+      function greatestCommonDivisor(a: number, b: number): number {
+        return b === 0 ? a : greatestCommonDivisor(b, a % b);
+      }
+
+      // Выводим в консоль значения углов в формате "2/3 π"
+      console.log(`Угол: ${formatAngle(currentAngle)}`);
+
+    }
+  }
+}
+
+      // Добавить надпись из JSON файла
+      // const text = this.wheelData[i].name;
+
+      // Рассчитать расстояние от круга, чтобы текст не заползал на круг
+      // const textRadius = radius + 20;
+
+      // Рассчитать угол между символами
+      // const anglePerCharacter = (angleIncrement * 0.6) / text.length; // Множитель 0.8 для компактности
+
+      // for (let j = 0; j < text.length; j++) {
+      //   const angle = currentAngle + j * anglePerCharacter;
+
+        // Рассчитать координаты для каждого символа на дуге
+        // const x = centerX + Math.cos(angle) * textRadius;
+        // const y = centerY + Math.sin(angle) * textRadius;
+
+        // Нарисовать символ
+        // this.ctx.font = '20px Shantell Sans cursiveSofia';
+        // this.ctx.fillStyle = 'black'; // Цвет текста
+        // this.ctx.textAlign = 'left';
+        // this.ctx.textBaseline = 'middle';
+        // this.ctx.fillText(text[j], x, y);
+      // }
 
 
 
@@ -144,7 +209,7 @@ export class BalanceWheelComponent implements OnInit {
       // this.ctx.textAlign = 'center';
       // this.ctx.textBaseline = 'middle';
       // this.ctx.fillText(text, xText, yText);
-    }
+
 
 
 
@@ -172,5 +237,3 @@ export class BalanceWheelComponent implements OnInit {
       // this.ctx.fillStyle = 'black';
       // this.ctx.fillText(text[i], x, y);
     // }
-  }
-}
