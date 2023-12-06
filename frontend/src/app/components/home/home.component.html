@@ -209,7 +209,66 @@
       </div>
     </div>
   </div>
+
   <div id="new-task">
+    <div class="container">
+      <p><input type="text" name="userName" placeholder="Введите название задачи" style="width: 100%" /></p>
+      <div class="row justify-content-center">
+
+        <div class="col-md-6 col-lg-6">
+          <p>
+            <img src="././assets/image/category.png" alt="категория для задачи" style="height: 30px">
+            <select id="category-for-task" name="category" style="width: 80%; background-color: #f0f0f0">
+              <option value="chooth">Выберите категорию</option>
+              <option value="health">здоровье</option>
+              <option value="family">семья</option>
+              <option value="love">отношения</option>
+              <option value="education">образование</option>
+              <option value="career">карьера</option>
+            </select>
+          </p>
+          <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
+            Здесь будет время для задачи ОТ ДО</p>
+        </div>
+        <div class="col-md-6 col-lg-6">
+          <p> <img src="././assets/image/score.png" alt="оценка" style="height: 30px; margin-right: 10px">
+            <input style="width: 80%" type="text" name="userName" placeholder="Оценка задачи" /> </p>
+          <p>
+            <img src="././assets/image/plans.png" alt="планы" style="height: 30px; margin-right: 10px">
+            <select id="task-in-plan" name="task-plan" style="width: 80%; background-color: #f0f0f0">
+              <option value="chooth"> Принадлежит плану</option>
+              <option value="plan-no"> нет</option>
+              <option value="plan1">план1</option>
+              <option value="plan2">план2</option>
+              <option value="plan3">план3</option>
+              <option value="plan4">план4</option>
+            </select>
+          </p>
+        </div>
+
+      </div>
+
+      <p>
+        <input type="checkbox" id="time-for-task" name="time-for-task" value="time-for-task">
+        <label for="time-for-task">Повторяется </label>
+      </p>
+
+
+      <br>
+      <textarea name="message" id="mess" rows="5" class="form-control md-textarea"
+                type="text" style="color: #595959; height: 130px"></textarea>
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-6">
+          <a href="#1" class="save">Сохранить</a>
+        </div>
+        <div class="col-md-6 col-lg-6">
+          <a href="#" class="close">Закрыть окно</a>
+        </div>
+    </div>
+  </div>
+
+  <!--
+  <div id="new-task2" class="row justify-content-center">
       <div id="okno">
         <p><input type="text" name="userName" placeholder="Введите название задачи" style="width: 100%" /></p>
         <div class="row justify-content-center">
@@ -226,25 +285,34 @@
                 <option value="career">карьера</option>
               </select>
             </p>
+            <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
+              Здесь будет время для задачи ОТ ДО</p>
           </div>
           <div class="col-md-6 col-lg-6">
             <p> <img src="././assets/image/score.png" alt="оценка" style="height: 30px; margin-right: 10px">
             <input style="width: 80%" type="text" name="userName" placeholder="Оценка задачи" /> </p>
+            <p>
+              <img src="././assets/image/plans.png" alt="планы" style="height: 30px; margin-right: 10px">
+              <select id="task-in-plan" name="task-plan" style="width: 80%; background-color: #f0f0f0">
+                <option value="chooth"> Принадлежит плану</option>
+                <option value="plan-no"> нет</option>
+                <option value="plan1">план1</option>
+                <option value="plan2">план2</option>
+                <option value="plan3">план3</option>
+                <option value="plan4">план4</option>
+              </select>
+            </p>
           </div>
 
         </div>
-
-        <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
-         Здесь будет время для задачи ОТ ДО</p>
         <p>
           <input type="checkbox" id="time-for-task" name="time-for-task" value="time-for-task">
           <label for="time-for-task">Повторяется </label>
         </p>
-
         <br>
-        <textarea name="message" id="mess" rows="5" class="form-control md-textarea" type="text" style="color: #595959;">
-          Описание задачи
-        </textarea>
+
+        <textarea name="message" id="mess" rows="5" class="form-control md-textarea"
+                  type="text" style="color: #595959; height: 130px; resize: none; overflow: hidden;"></textarea>
         <div class="row justify-content-center">
           <div class="col-md-6 col-lg-6">
             <a href="#1" class="save">Сохранить</a>
@@ -254,7 +322,7 @@
           </div>
         </div>
 
-    </div>
+    </div>-->
   </div>
 
 </body>
