@@ -7,13 +7,19 @@
   <link rel="stylesheet" href="frontend/src/styles.css"> -->
   <title>Личный ассистент</title>
 </head>
+
 <body>
+<router-outlet>
+  <div *ngIf="currentRoute === 'home'">
 
   <!-- выпадающий список -->
   <div class="container-fluid" style="background-color: #D4CBC8">
+
+
     <div class="row">
+
+      <!-- Вертикальное меню -->
       <div class="col-md-2 col-lg-2 navbar-container">
-        <!-- Вертикальное меню -->
         <nav class="navbar navbar-expand-md navbar-light">
           <a class="navbar-brand" href="#">
             <img src="././assets/image/profile.png" alt="профиль">
@@ -29,13 +35,13 @@
                 <app-calendar (dateClicked)="handleDateClicked($event)" [currentDate]="currentDate"></app-calendar>
               <hr>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" routerLink="/">
                   <img src="././assets/image/home.png" alt="главный экран">
                   Главный экран
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#link-2">
+                <a (click)="goToPlans()" class="nav-link" routerLink="/plans">
                   <img src="././assets/image/plans.png" alt="планы">
                   Планы
                 </a>
@@ -61,8 +67,8 @@
 
               <li class="nav-item">
                 <a class="nav-link" href="#link-6">
-                  <img src="././assets/image/school.png" alt="Рассписание занятий">
-                  Рассписание занятий
+                  <img src="././assets/image/school.png" alt="Расписание занятий">
+                  Расписание занятий
                 </a>
               </li>
 
@@ -83,8 +89,10 @@
           </div>
         </nav>
       </div>
+
+
       <div class="col-md-10 col-lg-10 content-container">
-        <!-- Основной контент страницы  -->
+<!--        <router-outlet></router-outlet>-->
 <!--        <form>-->
 <!--          <select id="3days" name="days">-->
 <!--            <option value="3day">3 дня</option>-->
@@ -92,6 +100,8 @@
 <!--            <option value="year">год</option>-->
 <!--          </select>-->
 <!--        </form>-->
+
+        <!-- Создать задачу -->
         <a href="#new-task" title="Новая задача" class="fixed_button">
           <button style="background-color: #F3A972">
             <img src="././assets/image/new_task.png" alt="новая задача" style="height: 20px">
@@ -100,12 +110,13 @@
         </a>
 
 
+        <!-- Стрелки -->
         <div class="col-md-10 col-lg-10 mt-md-5">
           <img src="././assets/image/back.png" alt="назад" style="height: 20px">
           <img src="././assets/image/forward.png" alt="вперед" style="height: 20px; position: absolute; right: 10px;">
         </div>
 
-
+        <!-- Основной контент страницы  -->
         <div class="row justify-content-center">
           <div class="col-md-4 col-lg-4 mt-md-1">
             <h2>{{ isDateClicked ? yesterdayLabel : yesterdayLabel }}</h2>
@@ -210,6 +221,7 @@
     </div>
   </div>
 
+  <!-- Кнопка новой задачи  -->
   <div id="new-task">
     <div class="container">
       <p><input type="text" name="userName" placeholder="Введите название задачи" style="width: 100%" /></p>
@@ -325,6 +337,9 @@
     </div>-->
   </div>
 
+  </div>
+</router-outlet>
 </body>
+
 <script src="bootstrap-5.3.0/dist/js/func.js"></script>
 </html>
