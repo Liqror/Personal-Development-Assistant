@@ -1,1 +1,180 @@
-<p>Содержимое страницы с планами</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Личный ассистент</title>
+</head>
+<body>
+<!-- выпадающий список -->
+<div class="container-fluid" style="background-color: #D4CBC8">
+
+
+  <div class="row">
+
+    <!-- Вертикальное меню -->
+    <div class="col-md-2 col-lg-2 navbar-container">
+      <nav class="navbar navbar-expand-md navbar-light">
+        <a class="navbar-brand" href="#">
+          <img src="././assets/image/profile.png" alt="профиль">
+          Профиль
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+          <!-- Пункты вертикального меню -->
+          <ul class="navbar-nav">
+            <hr>
+            <!--<app-calendar (dateClicked)="handleDateClicked($event)" [currentDate]="currentDate"></app-calendar> -->
+            <hr>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/">
+                <img src="././assets/image/home.png" alt="главный экран">
+                Главный экран
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#link-2">
+                <img src="././assets/image/plans.png" alt="планы">
+                Планы
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#link-3">
+                <img src="././assets/image/balance.png" alt="колесо баланса">
+                Колесо баланса
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#link-4">
+                <img src="././assets/image/friends.png" alt="коллаборации">
+                Коллаборации
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#link-5">
+                <img src="././assets/image/archiv.png" alt="хранилище">
+                Хранилище
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#link-6">
+                <img src="././assets/image/school.png" alt="Расписание занятий">
+                Расписание занятий
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#link-7">
+                <img src="././assets/image/diary.png" alt="Дневник">
+                Дневник
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#link-8">
+                <img src="././assets/image/day_phrase.png" alt="Фразы дня">
+                Фразы дня
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="col-md-10 col-lg-10 content-container">
+      <div class="row justify-content-center">
+        <div class="col-md-9 col-lg-9 mt-md-5" >
+          <h5>
+            <button aria-expanded="false">
+              План 1
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 10 10">
+                <rect class="vert" height="8" width="2" y="1" x="4"/>
+                <rect height="2" width="8" y="4" x="1"/>
+              </svg>
+            </button>
+          </h5>
+          <div hidden class="row justify-content-start" style="background-color: #F0F0F0">
+
+            <div class="row justify-content-center">
+              <div class="col-md-5 col-lg-5">
+                <p>Сумма баллов: "число"</p>
+              </div>
+              <div class="col-md-7 col-lg-7">
+                <p style="text-align: end">Срок выполнения: "ДД.ММ.ГГГГ - ДД.ММ.ГГГГ"</p>
+              </div>
+            </div>
+            <div class="row justify-content-start">
+              <div class="col-md-3 col-lg-3">
+                <p style="vertical-align: center; text-align: center; ">Категория1</p>
+              </div>
+              <div class="col-md-3 col-lg-3">
+                <p style="vertical-align: center; text-align: center; ">Категория2</p>
+              </div>
+              <div class="col-md-3 col-lg-3">
+                <p style="vertical-align: center; text-align: center; ">Категория3</p>
+              </div>
+            </div>
+            <input type="text" value="Введите текст..." style=" background: none; border-width: 0 0 1px 0;">
+
+            <label>
+              <input type="checkbox" name="languages" value="HTML">
+              задача1
+            </label>
+
+            <label>
+              <input type="checkbox" name="languages" value="HTML">
+              задача2
+            </label>
+
+            <label>
+              <input type="checkbox" name="languages" value="HTML">
+              задача3
+            </label>
+
+          </div>
+        </div>
+        <div class="col-md-9 col-lg-9 mt-md-1">
+          <h5>
+            <button aria-expanded="false">
+              План 2
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 10 10">
+                <rect class="vert" height="8" width="2" y="1" x="4"/>
+                <rect height="2" width="8" y="4" x="1"/>
+              </svg>
+            </button>
+          </h5>
+          <div hidden>
+            <p>ЗДЕСЬ ОСНОВНОЙ КОНТЕНТ ДЛЯ ПЛАНА</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (function () {
+          const headings = document.querySelectorAll('h5');
+
+          Array.prototype.forEach.call(headings, h => {
+            let btn = h.querySelector('button');
+            let target = h.nextElementSibling;
+
+            btn.onclick = () => {
+              let expanded = btn.getAttribute('aria-expanded') === 'true';
+              /*document.querySelector('.col-md-9').style.backgroundColor = '#f0f0f0';*/
+
+              btn.setAttribute('aria-expanded', !expanded);
+              target.hidden = expanded;
+            }
+          });
+        })()
+      </script>
+    </div>
+
+  </div>
+</div>
+
+</body>
+<script>
+
+</script>
+</html>
+
