@@ -1,1 +1,324 @@
-<p>рассписание занятий</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Личный ассистент</title>
+</head>
+<body>
+<!-- выпадающий список -->
+<div class="container-fluid" style="background-color: #D4CBC8">
+  <div class="row">
+
+    <!-- Вертикальное меню -->
+    <div class="col-md-2 col-lg-2 navbar-container">
+      <nav class="navbar navbar-expand-md navbar-light">
+        <a class="navbar-brand" href="#">
+          <img src="././assets/image/profile.png" alt="профиль">
+          Профиль
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+          <!-- Пункты вертикального меню -->
+          <ul class="navbar-nav">
+            <hr>
+            <!--<app-calendar (dateClicked)="handleDateClicked($event)" [currentDate]="currentDate"></app-calendar> -->
+            <hr>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/">
+                <img src="././assets/image/home.png" alt="главный экран">
+                Главный экран
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#link-2">
+                <img src="././assets/image/plans.png" alt="планы">
+                Планы
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#link-3">
+                <img src="././assets/image/balance.png" alt="колесо баланса">
+                Колесо баланса
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#link-4">
+                <img src="././assets/image/friends.png" alt="коллаборации">
+                Коллаборации
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#link-5">
+                <img src="././assets/image/archiv.png" alt="хранилище">
+                Хранилище
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#link-6">
+                <img src="././assets/image/school.png" alt="Расписание занятий">
+                Расписание занятий
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#link-7">
+                <img src="././assets/image/diary.png" alt="Дневник">
+                Дневник
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#link-8">
+                <img src="././assets/image/day_phrase.png" alt="Фразы дня">
+                Фразы дня
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+
+    <div class="col-md-10 col-lg-10 content-container">
+      <h1>Расписание занятий</h1>
+      <!-- Таблица расписание -->
+      <table class="table">
+        <thead>
+        <tr>
+          <th class="weekDays">Пондельник <span class="button_table">Button</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <table class="table">
+              <thead>
+              <tr class="another">
+                <th>Время</th>
+                <th>Четная неделя</th>
+                <th>Нечетная неделя</th>
+              </tr>
+              </thead>
+
+              <tbody>
+              <tr class="another">
+                <td>10:15 - 12:00</td>
+                <td>РКИС</td>
+                <td>Английский</td>
+              </tr>
+              <tr class="another">
+                <td>10:15 - 12:00</td>
+                <td>РКИС</td>
+                <td>Английский</td>
+              </tr>
+              </tbody>
+            </table>
+        </tr>
+        </tbody>
+      </table>
+
+
+      <table class="table">
+        <thead>
+        <tr>
+          <th class="weekDays">Вторник</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <table class="table">
+            <thead>
+            <tr class="another">
+              <th>Время</th>
+              <th>Четная неделя</th>
+              <th>Нечетная неделя</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr class="another">
+              <td> - </td>
+              <td>выходной</td>
+              <td>выходной</td>
+            </tr>
+            </tbody>
+          </table>
+        </tr>
+        </tbody>
+      </table>
+
+
+      <table class="table">
+        <thead>
+        <tr>
+          <th class="weekDays">Среда</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <table class="table">
+            <thead>
+            <tr class="another">
+              <th>Время</th>
+              <th>Четная неделя</th>
+              <th>Нечетная неделя</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr class="another">
+              <td>12:00 - 13:35</td>
+              <td>Английский</td>
+              <td> - </td>
+            </tr>
+            <tr class="another">
+              <td>14:10 - 15:55</td>
+              <td>ИТкПО</td>
+              <td>ИТкПО</td>
+            </tr>
+            <tr class="another">
+              <td>15:55 - 17:30</td>
+              <td>Теория систем</td>
+              <td>ФКИС</td>
+            </tr>
+            </tbody>
+          </table>
+        </tr>
+        </tbody>
+      </table>
+
+
+      <table class="table">
+        <thead>
+        <tr>
+          <th class="weekDays">Четверг</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <table class="table">
+            <thead>
+            <tr class="another">
+              <th>Время</th>
+              <th>Четная неделя</th>
+              <th>Нечетная неделя</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr class="another">
+              <td>10:15 - 12:00</td>
+              <td>РКИС</td>
+              <td> - </td>
+            </tr>
+            <tr class="another">
+              <td>12:00 - 13:35</td>
+              <td>РКИС</td>
+              <td>Английский</td>
+            </tr>
+            <tr class="another">
+              <td>14:10 - 15:55</td>
+              <td>ИБиЗИ</td>
+              <td>Серверное программирование</td>
+            </tr>
+            <tr class="another">
+              <td>15:55 - 17:40</td>
+              <td>Теория систем</td>
+              <td>Теория систем</td>
+            </tr>
+            </tbody>
+          </table>
+        </tr>
+        </tbody>
+      </table>
+
+
+      <table class="table">
+        <thead>
+        <tr>
+          <th class="weekDays">Пятница</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <table class="table">
+            <thead>
+            <tr class="another">
+              <th>Время</th>
+              <th>Четная неделя</th>
+              <th>Нечетная неделя</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr class="another">
+              <td>10:15 - 12:00</td>
+              <td>РКИС</td>
+              <td>Английский</td>
+            </tr>
+            <tr class="another">
+              <td>10:15 - 12:00</td>
+              <td>РКИС</td>
+              <td>Английский</td>
+            </tr>
+            </tbody>
+          </table>
+        </tr>
+        </tbody>
+      </table>
+
+      <table class="table">
+        <thead>
+        <tr>
+          <th class="weekDays">Суббота</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <table class="table">
+            <thead>
+            <tr class="another">
+              <th>Время</th>
+              <th>Четная неделя</th>
+              <th>Нечетная неделя</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr class="another">
+              <td>12:00 - 13:35</td>
+              <td>КПИРПО</td>
+              <td> - </td>
+            </tr>
+            <tr class="another">
+              <td>14:10 - 15:55</td>
+              <td>Теория систем</td>
+              <td> - </td>
+            </tr>
+            <tr class="another">
+              <td>15:55 - 17:30</td>
+              <td>РКИС</td>
+              <td> - </td>
+            </tr>
+            <tr class="another">
+              <td>17:40 - 19:15</td>
+              <td>ФКИС</td>
+              <td> - </td>
+            </tr>
+            </tbody>
+          </table>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+</body>
+<script>
+</script>
+</html>
+

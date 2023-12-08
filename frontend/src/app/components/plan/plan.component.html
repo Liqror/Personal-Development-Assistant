@@ -115,21 +115,19 @@
                 <p style="vertical-align: center; text-align: center; ">Категория3</p>
               </div>
             </div>
-            <input type="text" value="Введите текст..." style=" background: none; border-width: 0 0 1px 0;">
+            <input type="text" value="Введите текст..." style=" background: none; border-width: 0 0 1px 0; font-size: 100%;">
 
             <label>
-              <input type="checkbox" name="languages" value="HTML">
-              задача1
+              <p><input type="checkbox" name="languages" value="HTML"> задача1</p>
             </label>
 
             <label>
-              <input type="checkbox" name="languages" value="HTML">
-              задача2
+              <p><input type="checkbox" name="languages" value="HTML"> задача2</p>
+
             </label>
 
             <label>
-              <input type="checkbox" name="languages" value="HTML">
-              задача3
+              <p><input type="checkbox" name="languages" value="HTML"> задача3</p>
             </label>
 
           </div>
@@ -149,24 +147,7 @@
           </div>
         </div>
       </div>
-      <script>
-        (function () {
-          const headings = document.querySelectorAll('h5');
 
-          Array.prototype.forEach.call(headings, h => {
-            let btn = h.querySelector('button');
-            let target = h.nextElementSibling;
-
-            btn.onclick = () => {
-              let expanded = btn.getAttribute('aria-expanded') === 'true';
-              /*document.querySelector('.col-md-9').style.backgroundColor = '#f0f0f0';*/
-
-              btn.setAttribute('aria-expanded', !expanded);
-              target.hidden = expanded;
-            }
-          });
-        })()
-      </script>
     </div>
 
   </div>

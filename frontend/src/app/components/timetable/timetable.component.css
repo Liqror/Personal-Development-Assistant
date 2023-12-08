@@ -1,0 +1,43 @@
+
+.button_table {
+  float: right;
+  padding: 5px 10px;
+  background: red;
+  color: white;
+  cursor: pointer;
+}
+
+
+.weekDays {
+  background-color: #F3A972;
+}
+.another {
+  background-color: #F0F0F0;
+}
+
+
+.table {
+  text-align: center;
+  font-size: 100%;
+  font-family: 'Shantell Sans', cursive;
+  text-decoration: none;
+  text-shadow: #d5d8dd 1px 0 10px;
+  vertical-align: middle;
+}
+
+.table1 {
+  text-align: center;
+  font-size: 100%;
+  font-family: 'Shantell Sans', cursive;
+  text-decoration: none;
+  text-shadow: #d5d8dd 1px 0 10px;
+  vertical-align: middle;
+}
+
+th {
+  font-size: 100%;
+  font-family: "Shantell Sans", cursive;
+  color: #000000;
+  text-decoration: none;
+  text-shadow: #d5d8dd 1px 0 10px;
+}

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {DatePipe} from "@angular/common";
 import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
-
+declare function openPlan(): void;
 @Component({
   selector: 'app-plan',
   templateUrl: './plan.component.html',
@@ -10,7 +10,7 @@ import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 })
 export class PlanComponent implements OnInit {
   public currentRoute: string;
-
+  myScriptElement: HTMLScriptElement;
   constructor(private datePipe: DatePipe,
               private http: HttpClient,
               private router: Router,
@@ -23,6 +23,10 @@ export class PlanComponent implements OnInit {
         this.currentRoute = url[1].path;
       }
     });
+    // sth_function();
+    this.myScriptElement = document.createElement("script");
+    this.myScriptElement.src = "././assets/scripts_for_project.js";
+    document.body.appendChild(this.myScriptElement);
     // this.currentRoute = this.route.snapshot.url[1].path;
     // this.route.url.subscribe(url => {
     //   Получение текущего маршрута
@@ -40,22 +44,7 @@ export class PlanComponent implements OnInit {
     });
   }
 
-  function (): void {
-    const headings = document.querySelectorAll('h5');
 
-    Array.prototype.forEach.call(headings, h => {
-      let btn = h.querySelector('button');
-      let target = h.nextElementSibling;
-
-      btn.onclick = () => {
-        let expanded = btn.getAttribute('aria-expanded') === 'true';
-        /*document.querySelector('.col-md-9').style.backgroundColor = '#f0f0f0';*/
-
-        btn.setAttribute('aria-expanded', !expanded);
-        target.hidden = expanded;
-      }
-    });
-  }
 
 
 
