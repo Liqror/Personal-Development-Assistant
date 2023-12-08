@@ -6,7 +6,7 @@ import {BrowserModule} from "@angular/platform-browser";
 import { RouterModule } from '@angular/router';
 import {SideMenuComponent} from "../side-menu/side-menu.component";
 import {PlanComponent} from "../plan/plan.component";
-
+import {TimetableComponent} from "../timetable/timetable.component";
 
 @NgModule({
   imports: [
@@ -21,13 +21,15 @@ import {PlanComponent} from "../plan/plan.component";
     HomeComponent,
     CalendarComponent,
     SideMenuComponent,
-    PlanComponent
+    PlanComponent,
+    TimetableComponent
   ],
   exports: [
     HomeComponent,
     CalendarComponent,
     SideMenuComponent,
-    PlanComponent
+    PlanComponent,
+    TimetableComponent
   ],
   providers: [DatePipe],
 })

@@ -38,6 +38,16 @@ export class HomeComponent implements OnInit{
   }
 
 
+
+
+
+
+  goToTimetable() {
+    this.router.navigate(['/timetable']);
+  }
+
+
+
   // private subscribeToNavigationEvents(): void {
   //   // Подписка на событие завершения навигации
   //   this.router.events.subscribe((event) => {
