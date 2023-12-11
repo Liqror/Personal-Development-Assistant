@@ -104,7 +104,7 @@
 
         <!-- Создать задачу -->
         <a href="#new-task" title="Новая задача" class="fixed_button">
-          <button style="background-color: #F3A972">
+          <button class="fixed_button" style="background-color: #F3A972">
             <img src="././assets/image/new_task.png" alt="новая задача" style="height: 20px">
             Создать задачу
           </button>
@@ -223,7 +223,7 @@
   </div>
 
   <!-- Кнопка новой задачи  -->
-  <div id="new-task">
+  <div href="#new-task"> <!-- Для Влады: исправить ссылку на всплывающее окно!  -->
     <div class="container">
       <p><input type="text" name="userName" placeholder="Введите название задачи" style="width: 100%" /></p>
       <div class="row justify-content-center">
@@ -262,20 +262,23 @@
       </div>
 
       <p>
-        <input type="checkbox" id="time-for-task" name="time-for-task" value="time-for-task">
-        <label for="time-for-task">Повторяется </label>
+        <input type="checkbox" id="chkTest" />
+        <label for="chkTest">Повторяется</label>
       </p>
-      <div style="display: flex">
-        <p> Повторяется раз в </p>
-        <p><input type="text" name="userName" placeholder="кол-во"/></p>
-        <p>
-          <select id="repeat" name="repeat" style="background-color: #f0f0f0">
+
+      <div id="pnlTest" class="Iseewhencheck">
+
+
+
+        <p> Повторяется <input type="text" name="userName" style="width: 15%; margin: 0 3px 0 3px; justify-content: center;" placeholder="кол-во"/>
+          раз в
+          <select id="repeat" name="repeat" style="background-color: #f0f0f0; width: 40%;">
             <option value="1"> неделю</option>
             <option value="2"> месяц </option>
             <option value="3"> год </option>
           </select>
         </p>
-      </div>
+
 
 
       <div class="row justify-content-start">
@@ -304,6 +307,7 @@
 
       </div>
 
+      </div>
 
 
 

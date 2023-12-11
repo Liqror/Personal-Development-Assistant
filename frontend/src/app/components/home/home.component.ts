@@ -11,6 +11,7 @@ import {ActivatedRoute, NavigationEnd, Route, Router} from "@angular/router";
   selector: 'app-home',
   templateUrl: './home.component.html',
 })
+
 export class HomeComponent implements OnInit{
   showContent = true;
   currentDate: Date;
@@ -20,6 +21,7 @@ export class HomeComponent implements OnInit{
   tomorrowLabel: string = 'завтра';
   isDateClicked: boolean = false;
   public currentRoute: string;
+  myScriptElement: HTMLScriptElement;
 
 
   constructor(private datePipe: DatePipe,
@@ -31,6 +33,9 @@ export class HomeComponent implements OnInit{
     // });
     // this.currentRoute = this.route.snapshot.url[0].path;
     // console.log('Current Route:', this.currentRoute);
+    this.myScriptElement = document.createElement("script");
+    this.myScriptElement.src = "././assets/scripts_for_project.js";
+    document.body.appendChild(this.myScriptElement);
   }
 
   goToPlans() {

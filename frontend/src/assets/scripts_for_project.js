@@ -14,3 +14,14 @@
     }
   });
 })()
+
+
+function toggle() {
+  var div = document.getElementById('pnlTest');
+  if(this.checked)
+    div.style.display = 'block';
+  else
+    div.style.display = 'none'
+}
+document.getElementById('chkTest').onchange = toggle;
+

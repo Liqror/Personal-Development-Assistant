@@ -6,6 +6,15 @@ body {
   font-family: "Sofia Sans Condensed", sans-serif;
   color: #000000;
 }
+.hidden {
+  display: none;
+}
+.Iseewhencheck {
+
+  display: none
+}
+
+
 #new-time-for-task {
 
   width: 100%;
@@ -21,7 +30,15 @@ body {
   align-items: center;
   justify-content: center;
 }
-
+highlight {
+  background-color: orange;
+}
+.day {
+  width: 14.28%; /* 100% / 7 дней */
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 5px 0;
+}
 .container {
   background: #CABAB5;
   width: 50%;
