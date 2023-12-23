@@ -14,6 +14,17 @@
     }
   });
 })()
+function showDiv() {
+  document.getElementById("div1").style.display = "block";
+}
+
+function hideDiv() {
+  document.getElementById("div1").style.display = "none";
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById("close-button").addEventListener("click", hideDiv);
+});
 
 
 function toggle() {
