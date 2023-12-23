@@ -2,9 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {IHomeData} from "../../interfaces/home";
 import {DatePipe} from "@angular/common";
-import { ActivatedRoute, Params } from '@angular/router';
-import { format } from 'date-fns';
-import localeRu from 'date-fns/locale/ru';
 
 
 @Component({
@@ -19,9 +16,17 @@ export class HomeComponent implements OnInit{
   tomorrowLabel: string = 'завтра';
   isDateClicked: boolean = false;
   formattedDate: string;
+  // это джаваскрипт для создания задачи
+  myScriptElement: HTMLScriptElement;
+  isHidden = true;
 
 
-  constructor(private datePipe: DatePipe, private http: HttpClient) {}
+  constructor(private datePipe: DatePipe, private http: HttpClient) {
+    // джава скрипт для создания задачи
+    this.myScriptElement = document.createElement("script");
+    this.myScriptElement.src = "././assets/scripts_for_project.js";
+    document.body.appendChild(this.myScriptElement);
+  }
 
   ngOnInit(): void {
     this.currentDate = new Date();
@@ -30,6 +35,16 @@ export class HomeComponent implements OnInit{
     // Вызываем загрузку данных
     this.getHomeData(this.formattedDate);
   }
+
+  // создание задачи
+  handleButtonClickNewTack(): void {
+    console.log('Кнопка была нажата!');
+    // Инвертируем значение только если элемент скрыт
+    if (this.isHidden) {
+      this.isHidden = false;
+    }
+  }
+
   formatDateForData(): void {
     const year = this.currentDate.getFullYear();
     const month = this.padZero(this.currentDate.getMonth() + 1); // Месяцы начинаются с 0
@@ -64,15 +79,4 @@ export class HomeComponent implements OnInit{
       this.data = res;
     });
   }
-
-  // private formatDate(dateString: string): string {
-  //   const date = new Date(dateString);
-  //   return format(date, 'dd MMM yyyy', { locale: require('date-fns/locale/ru') });
-  // }
-
-  // private formatDate(dateString: string): string {
-  //   const date = new Date(dateString);
-  //   return this.datePipe.transform(date, 'dd MMM yyyy') || '';
-  // }
-
 }

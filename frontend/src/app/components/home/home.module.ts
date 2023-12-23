@@ -4,8 +4,6 @@ import {CalendarComponent} from "../calendar/calendar.component";
 import {HomeComponent} from "./home.component";
 import {BrowserModule} from "@angular/platform-browser";
 import { RouterModule } from '@angular/router';
-import {SideMenuComponent} from "../side-menu/side-menu.component";
-import {PlanComponent} from "../plan/plan.component";
 
 
 @NgModule({
@@ -13,21 +11,14 @@ import {PlanComponent} from "../plan/plan.component";
     BrowserModule,
     CommonModule,
     RouterModule.forChild([
-      { path: '', component: HomeComponent },
       { path: ':year/:month/:day', component: HomeComponent }
     ])
   ],
   declarations: [
-    HomeComponent,
-    CalendarComponent,
-    SideMenuComponent,
-    PlanComponent
+    HomeComponent
   ],
   exports: [
-    HomeComponent,
-    CalendarComponent,
-    SideMenuComponent,
-    PlanComponent
+    HomeComponent
   ],
   providers: [DatePipe],
 })

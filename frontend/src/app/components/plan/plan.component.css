@@ -1,0 +1,379 @@
+@import url("https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:ital,wght@1,200&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:ital,wght@1,600&display=swap");
+
+
+main h5 {
+  margin: 0;
+}
+
+main > div + h5 {
+  border-top: 2px solid;
+}
+
+h5 button {
+  all: inherit;
+  border: 0;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.5em 0;
+}
+
+h5 button:focus svg {
+  outline: 2px solid;
+}
+
+button svg {
+  height: 1em;
+  margin-left: 0.5em;
+}
+
+[aria-expanded="true"] .vert {
+  display: none;
+}
+
+[aria-expanded] rect {
+  fill: currentColor; /*цвет плюса*/
+}
+
+
+.col-md-3 {
+  margin: 10px;
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #000000;
+  background-color: #e1e1e1;
+  color: #000000;
+  bottom: 0;
+  height: 30px;
+
+
+
+
+}
+
+
+body {
+  background-color: #D4CBC8;
+  font-family: "Sofia Sans Condensed", sans-serif;
+  color: #000000;
+}
+
+.col-md-9 {
+
+  border-style: solid;
+  border-width: 1px;
+  border-color: #000000;
+  background-color: #F3A972;
+  color: #000000;
+  font-size: 120%;
+}
+
+h5 {
+  text-align: center;
+  font-weight: 600;
+  font-size: 120%;
+  color: #000000;
+}
+
+
+
+
+
+
+
+
+
+
+#new-time-for-task {
+
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+}
+.page {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  background: #CABAB5;
+  width: 50%;
+  color: #fff;
+  text-align: center;
+  padding: 15px;
+  border: 1px solid #000000;
+  border-radius: 10px;
+  position: absolute;
+  right: 0;
+  margin: auto;
+  height: auto;
+  left: 0;
+}
+
+
+#new-task {
+
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+}
+#okno {
+
+  text-align: center;
+  padding: 15px;
+  border: 1px solid #000000;
+  border-radius: 10px;
+  color: #000000;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background: #CABAB5;
+  width: 50%;
+  height: 55%;
+  top: 0;
+  left: 0;
+}
+#new-task:target {display: block;}
+.close, .save {
+  display: inline-block;
+  border: 1px solid #000000;
+  color: #000000;
+  padding: 0 12px;
+  margin: 10px;
+  text-decoration: none;
+  font-size: 14pt;
+  cursor:pointer;
+}
+.close:hover {background: #e6e6ff;}
+.close {
+  background: #ff5b5b;
+}
+.save{
+  background: #c3ff5b;
+}
+
+
+.table {
+  text-align: center;
+  font-size: 100%;
+  font-family: 'Shantell Sans', cursive;
+  text-decoration: none;
+  text-shadow: #d5d8dd 1px 0 10px;
+  vertical-align: middle;
+}
+
+th {
+  font-size: 100%;
+  font-family: "Shantell Sans", cursive;
+  color: #000000;
+  text-decoration: none;
+  text-shadow: #d5d8dd 1px 0 10px;
+}
+
+
+.nav-link:hover {
+  color: #F3A352;
+  text-shadow: #f0f0f0 2px 0 10px;
+}
+
+.nav-link {
+  font-size: 110%;
+  font-family: "Shantell Sans", cursive;
+  color: #000000;
+}
+
+.navbar img {
+  margin-right: 10px;
+  height: 30px;
+}
+
+.navbar-container .navbar {
+  background-color: #D4CBC8;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  height: 100%;
+}
+
+.navbar-container {
+  padding: 2%;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #000000;
+}
+.navbar-container .navbar-collapse {
+  align-items: flex-start;
+}
+
+.navbar-container .nav {
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.navbar-container .navbar-nav {
+  flex-direction: column !important;
+}
+
+content-container {
+  align-items: center;
+  margin-left: 100px;
+}
+.navbar-container {
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+.button_task {
+  display: block;
+  float: none;
+  position: absolute;
+  padding: 0;
+  margin-right: 100px;
+  background-color: #F3A972;
+}
+
+h2 {
+  text-align: center;
+  font-weight: 600;
+  margin: -1px;
+  font-size: 150%;
+  color: #000000;
+}
+
+hr {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #000000;
+}
+
+h3 {
+  text-align: left;
+  font-weight: 600;
+  font-size: 140%;
+  color: #F3A972;
+}
+h4 {
+  text-align: center;
+  font-weight: 600;
+  font-size: 130%;
+  color: #8d7060;
+}
+
+.col-1 {
+  border: solid 1px #000000;
+  background-color: #F3A972;
+}
+
+.fixed_button {
+  position: absolute;
+  right: 0px;
+  width: 200px;
+}
+form {
+  font-size: 100%;
+  font-family: "Shantell Sans", cursive;
+  color: #000000;
+  text-decoration: none;
+  text-shadow: #d5d8dd 1px 0 10px;
+}
+
+/* новигация */
+a {
+  font-size: 100%;
+  font-family: "Shantell Sans", cursive;
+  color: #000000;
+  text-decoration: none;
+  text-shadow: #d5d8dd 1px 0 10px;
+}
+
+select {
+  background-color: #F3A972;
+}
+
+
+.col-2 {
+  padding: 2%;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #000000;
+  background-color: #D4CBC8;
+  color: #000000;
+  font-size: 120%;
+}
+
+.col-md-4 {
+  border: solid 1px #000000;
+  background-color: #F0F0F0;
+}
+
+.left-picture {
+  float: left;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+}
+
+
+.btn img {
+  margin-right: 10px;
+  height: 30px;
+}
+
+.btn p {
+  margin: -1px;
+  font-size: 100%;
+  font-weight: 500;
+  text-align: justify;
+  font-family: "Shantell Sans", cursive;
+  color: #000000;
+}
+
+textarea, p, input {
+  font-size: 100%;
+  font-weight: 200;
+  text-align: justify;
+  font-family: 'Shantell Sans', cursive;
+}
+p {
+  color: #000000; /*2D2822 3F372D; 633F11*/
+}
+
+
+
+
+/*Псевдоэлементы, позволяющие стилизовать определённую часть выбранного элемента*/
+::selection {
+  /*цвет выделения мышью*/
+  background: #F3A972;
+}
+
+::-webkit-scrollbar {
+  height: 12px;
+  width: 12px;
+  background: #EEEEF0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #8A7A70;
+  -webkit-border-radius: 1ex;
+}
+
+::-webkit-scrollbar-corner {
+  background: #000;
+}

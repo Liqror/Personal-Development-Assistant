@@ -10,80 +10,10 @@
 <body>
 
   <!-- выпадающий список -->
-  <div class="container-fluid" style="background-color: #D4CBC8">
+
     <div class="row">
-      <div class="col-md-2 col-lg-2 navbar-container">
-        <!-- Вертикальное меню -->
-        <nav class="navbar navbar-expand-md navbar-light">
-          <a class="navbar-brand" href="#">
-            <img src="././assets/image/profile.png" alt="профиль">
-            Профиль
-          </a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbar">
-            <!-- Пункты вертикального меню -->
-            <ul class="navbar-nav">
-              <hr>
-                <app-calendar (dateClicked)="handleDateClicked($event)" [currentDate]="currentDate"></app-calendar>
-              <hr>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <img src="././assets/image/home.png" alt="главный экран">
-                  Главный экран
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#link-2">
-                  <img src="././assets/image/plans.png" alt="планы">
-                  Планы
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#link-3">
-                  <img src="././assets/image/balance.png" alt="колесо баланса">
-                  Колесо баланса
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#link-4">
-                  <img src="././assets/image/friends.png" alt="коллаборации">
-                  Коллаборации
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#link-5">
-                  <img src="././assets/image/archiv.png" alt="хранилище">
-                  Хранилище
-                </a>
-              </li>
 
-              <li class="nav-item">
-                <a class="nav-link" href="#link-6">
-                  <img src="././assets/image/school.png" alt="Расписание занятий">
-                  Расписание занятий
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link" href="#link-7">
-                  <img src="././assets/image/diary.png" alt="Дневник">
-                  Дневник
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link" href="#link-8">
-                  <img src="././assets/image/day_phrase.png" alt="Фразы дня">
-                  Фразы дня
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </div>
-      <div class="col-md-10 col-lg-10 content-container">
+      <div class="col-md-12 col-lg-12 content-container">
         <!-- Основной контент страницы  -->
 <!--        <form>-->
 <!--          <select id="3days" name="days">-->
@@ -92,12 +22,12 @@
 <!--            <option value="year">год</option>-->
 <!--          </select>-->
 <!--        </form>-->
-        <a href="#new-task" title="Новая задача" class="fixed_button">
-          <button style="background-color: #F3A972">
-            <img src="././assets/image/new_task.png" alt="новая задача" style="height: 20px">
-            Создать задачу
-          </button>
-        </a>
+
+        <!-- Кнопка "Создание задачи" -->
+        <p><button onclick="showDiv()" class="fixed_button">
+          <img src="././assets/image/new_task.png" alt="новая задача" style="height: 20px">
+          Создание задачи
+        </button></p>
 
 
         <div class="col-md-10 col-lg-10 mt-md-5">
@@ -105,7 +35,7 @@
           <img src="././assets/image/forward.png" alt="вперед" style="height: 20px; position: absolute; right: 10px;">
         </div>
 
-
+        <!-- Основной контент страницы  -->
         <div class="row justify-content-center">
           <div class="col-md-4 col-lg-4 mt-md-1">
             <h2>{{ isDateClicked ? yesterdayLabel : yesterdayLabel }}</h2>
@@ -134,8 +64,8 @@
             <hr>
             <h3>Задачи</h3>
             <h4>На день</h4>
-            <input type="checkbox" id="ex" name="ex" value="ex">
-            <label for="ex"> Задача на день</label><br>
+            <input type="checkbox" name="ex" value="ex">
+            <label > Задача на день</label><br>
 
             <h4>Без времени</h4>
             <input type="checkbox" id="ex3" name="ex" value="ex">
@@ -208,52 +138,107 @@
         </div>
       </div>
     </div>
-  </div>
-  <div id="new-task">
-      <div id="okno">
-        <p><input type="text" name="userName" placeholder="Введите название задачи" style="width: 100%" /></p>
-        <div class="row justify-content-center">
 
-          <div class="col-md-6 col-lg-6">
-            <p>
-              <img src="././assets/image/category.png" alt="категория для задачи" style="height: 30px">
-              <select id="category-for-task" name="category" style="width: 80%; background-color: #f0f0f0">
-                <option value="chooth">Выберите категорию</option>
-                <option value="health">здоровье</option>
-                <option value="family">семья</option>
-                <option value="love">отношения</option>
-                <option value="education">образование</option>
-                <option value="career">карьера</option>
-              </select>
-            </p>
-          </div>
-          <div class="col-md-6 col-lg-6">
-            <p> <img src="././assets/image/score.png" alt="оценка" style="height: 30px; margin-right: 10px">
+  <!--  скрытое окно создания новой задачи-->
+  <div id="div1" style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+      <div class="container">
+      <p><input type="text" name="userName" placeholder="Введите название задачи" style="width: 100%" /></p>
+      <div class="row justify-content-center">
+
+        <div class="col-md-6 col-lg-6">
+          <p>
+            <img src="././assets/image/category.png" alt="категория для задачи" style="height: 30px">
+            <select id="category-for-task" name="category" style="width: 80%; background-color: #f0f0f0">
+              <option value="chooth">Выберите категорию</option>
+              <option value="health">здоровье</option>
+              <option value="family">семья</option>
+              <option value="love">отношения</option>
+              <option value="education">образование</option>
+              <option value="career">карьера</option>
+            </select>
+          </p>
+          <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
+            Здесь будет время для задачи ОТ ДО</p>
+        </div>
+        <div class="col-md-6 col-lg-6">
+          <p> <img src="././assets/image/score.png" alt="оценка" style="height: 30px; margin-right: 10px">
             <input style="width: 80%" type="text" name="userName" placeholder="Оценка задачи" /> </p>
-          </div>
-
+          <p>
+            <img src="././assets/image/plans.png" alt="планы" style="height: 30px; margin-right: 10px">
+            <select id="task-in-plan" name="task-plan" style="width: 80%; background-color: #f0f0f0">
+              <option value="chooth"> Принадлежит плану</option>
+              <option value="plan-no"> нет</option>
+              <option value="plan1">план1</option>
+              <option value="plan2">план2</option>
+              <option value="plan3">план3</option>
+              <option value="plan4">план4</option>
+            </select>
+          </p>
         </div>
 
-        <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
-         Здесь будет время для задачи ОТ ДО</p>
-        <p>
-          <input type="checkbox" id="time-for-task" name="time-for-task" value="time-for-task">
-          <label for="time-for-task">Повторяется </label>
+      </div>
+
+      <p>
+        <input type="checkbox" id="chkTest" />
+        <label for="chkTest">Повторяется</label>
+      </p>
+
+      <div id="pnlTest" class="Iseewhencheck">
+
+
+
+        <p> Повторяется <input type="text" name="userName" style="width: 15%; margin: 0 3px 0 3px; justify-content: center;" placeholder="кол-во"/>
+          раз в
+          <select id="repeat" name="repeat" style="background-color: #f0f0f0; width: 40%;">
+            <option value="1"> неделю</option>
+            <option value="2"> месяц </option>
+            <option value="3"> год </option>
+          </select>
         </p>
 
-        <br>
-        <textarea name="message" id="mess" rows="5" class="form-control md-textarea" type="text" style="color: #595959;">
-          Описание задачи
-        </textarea>
-        <div class="row justify-content-center">
-          <div class="col-md-6 col-lg-6">
-            <a href="#1" class="save">Сохранить</a>
+
+
+        <div class="row justify-content-start">
+
+          <div class="col-md-1 col-lg-1">
+            ПН
           </div>
-          <div class="col-md-6 col-lg-6">
-            <a href="#" class="close">Закрыть окно</a>
+          <div class="col-md-1 col-lg-1">
+            ВТ
           </div>
+          <div class="col-md-1 col-lg-1">
+            СР
+          </div>
+          <div class="col-md-1 col-lg-1">
+            ЧТ
+          </div>
+          <div class="col-md-1 col-lg-1">
+            ПТ
+          </div>
+          <div class="col-md-1 col-lg-1">
+            СБ
+          </div>
+          <div class="col-md-1 col-lg-1">
+            ВС
+          </div>
+
         </div>
 
+      </div>
+
+
+
+      <br>
+      <textarea name="message" id="mess" rows="5" class="form-control md-textarea"
+                type="text" style="color: #595959; height: 130px"></textarea>
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-6">
+          <p style="text-align: center"><button id="save-button" class="save">Сохранить</button><p>
+        </div>
+        <div class="col-md-6 col-lg-6">
+          <p style="text-align: center"><button id="close-button" class="close">Закрыть</button><p>
+        </div>
+      </div>
     </div>
   </div>
 
