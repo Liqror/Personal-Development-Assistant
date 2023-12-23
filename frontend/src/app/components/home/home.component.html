@@ -61,8 +61,8 @@
 
               <li class="nav-item">
                 <a class="nav-link" href="#link-6">
-                  <img src="././assets/image/school.png" alt="Рассписание занятий">
-                  Рассписание занятий
+                  <img src="././assets/image/school.png" alt="Расписание занятий">
+                  Расписание занятий
                 </a>
               </li>
 
@@ -114,15 +114,15 @@
             <!-- Таблица расписание -->
             <table class="table">
               <thead>
-              <tbody *ngFor="let data of data.yesterday_classes">
+              <tbody *ngFor="let class of data.yesterday.day_classes">
               <tr>
-                <td>{{ data.start_time }}<br>{{ data.stop_time }}</td>
+                <td>{{ class.start_time }}<br>{{ class.stop_time }}</td>
                 <td>
-                  {{ data.name }}<br>
-                  <ng-container *ngIf="data.place !== '-'">
-                    {{ data.place }}<br>
+                  {{ class.name }}<br>
+                  <ng-container *ngIf="class.place !== '-'">
+                    {{ class.place }}<br>
                   </ng-container>
-                  {{ data.format }}
+                  {{ class.format }}
                 </td>
               </tr>
               </tbody>
@@ -130,7 +130,7 @@
 
             <hr>
             <h3>Заметка</h3>
-            <p>{{ data.text_note }}</p>
+<!--            <p>{{ data.text_note }}</p>-->
             <hr>
             <h3>Задачи</h3>
             <h4>На день</h4>
@@ -147,21 +147,21 @@
             <hr>
             <h3>Расписание</h3>
             <!-- Таблица расписание -->
-            <table class="table">
-              <thead>
-              <tbody *ngFor="let data of data.today_classes">
-              <tr>
-                <td>{{ data.start_time }}<br>{{ data.stop_time }}</td>
-                <td>
-                  {{ data.name }}<br>
-                  <ng-container *ngIf="data.place !== '-'">
-                    {{ data.place }}<br>
-                  </ng-container>
-                  {{ data.format }}
-                </td>
-              </tr>
-              </tbody>
-            </table>
+<!--            <table class="table">-->
+<!--              <thead>-->
+<!--              <tbody *ngFor="let data of data.today_classes">-->
+<!--              <tr>-->
+<!--                <td>{{ data.start_time }}<br>{{ data.stop_time }}</td>-->
+<!--                <td>-->
+<!--                  {{ data.name }}<br>-->
+<!--                  <ng-container *ngIf="data.place !== '-'">-->
+<!--                    {{ data.place }}<br>-->
+<!--                  </ng-container>-->
+<!--                  {{ data.format }}-->
+<!--                </td>-->
+<!--              </tr>-->
+<!--              </tbody>-->
+<!--            </table>-->
 
             <hr>
             <h3>Заметка</h3>
@@ -185,21 +185,21 @@
             <hr style="border-style: solid; border-width: 1px; border-color: #000000">
             <h3>Расписание</h3>
             <!-- Таблица расписание -->
-            <table class="table">
-              <thead>
-              <tbody *ngFor="let data of data.tomorrow_classes">
-              <tr>
-                <td>{{ data.start_time }}<br>{{ data.stop_time }}</td>
-                <td>
-                  {{ data.name }}<br>
-                  <ng-container *ngIf="data.place !== '-'">
-                    {{ data.place }}<br>
-                  </ng-container>
-                  {{ data.format }}
-                </td>
-              </tr>
-              </tbody>
-            </table>
+<!--            <table class="table">-->
+<!--              <thead>-->
+<!--              <tbody *ngFor="let data of data.tomorrow_classes">-->
+<!--              <tr>-->
+<!--                <td>{{ data.start_time }}<br>{{ data.stop_time }}</td>-->
+<!--                <td>-->
+<!--                  {{ data.name }}<br>-->
+<!--                  <ng-container *ngIf="data.place !== '-'">-->
+<!--                    {{ data.place }}<br>-->
+<!--                  </ng-container>-->
+<!--                  {{ data.format }}-->
+<!--                </td>-->
+<!--              </tr>-->
+<!--              </tbody>-->
+<!--            </table>-->
               <hr>
             <h3>Задачи</h3>
             <h4>На день</h4>

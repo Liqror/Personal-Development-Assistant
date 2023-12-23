@@ -1,11 +1,9 @@
 import {ITask} from "./task";
-import {IClasses} from "./classes";
-
+import {IDay} from "./day";
 export interface IHomeData {
-  tasks: ITask[];
-  day: string;
-  text_note: string;
-  yesterday_classes: IClasses[];
-  today_classes: IClasses[];
-  tomorrow_classes: IClasses[];
+  yesterday: IDay;
+  today: IDay;
+  tomorrow: IDay;
+  free_tasks: ITask[];
+  late_tasks: ITask[];
 }
