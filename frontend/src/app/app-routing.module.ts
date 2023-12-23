@@ -7,12 +7,13 @@ import {TimetableComponent} from "./components/timetable/timetable.component";
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' }, // Перенаправление на /home при открытии корневого URL
   { path: 'plans', component: PlanComponent },
   // Другие маршруты
   // Другие маршруты
   // Другие маршруты
   { path: 'timetable', component: TimetableComponent },
-  // Другие маршруты
+
 ];
 
 @NgModule({

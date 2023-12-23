@@ -4,6 +4,13 @@ import { Router } from '@angular/router';
 
 registerLocaleData(localeRu, 'ru');
 
+interface CalendarDay {
+  date: string;
+  isCurrentMonth: boolean;
+  isCurrentDay?: boolean;
+  tag: string;
+}
+
 @Component({
   selector: 'app-calendar',
   // standalone: true,
@@ -55,18 +62,32 @@ export class CalendarComponent implements OnInit {
 
   isCurrentDate(day: string): boolean {
     const currentDate = new Date();
-    const formattedDate = this.datePipe.transform(currentDate, 'd');
-    return day === formattedDate && this.currentMonth === currentDate.getMonth() && this.currentYear === currentDate.getFullYear();
+    return (
+      day === currentDate.getDate().toString() &&
+      this.currentMonth === currentDate.getMonth() &&
+      this.currentYear === currentDate.getFullYear()
+    );
   }
+
+  // isCurrentDate(day: string): boolean {
+  //   const currentDate = new Date();
+  //   const formattedDate = this.datePipe.transform(currentDate, 'd');
+  //   return day === formattedDate &&
+  //     this.currentMonth === currentDate.getMonth() &&
+  //     this.currentYear === currentDate.getFullYear();
+  // }
 
   generateCalendar() {
     this.weeks = [];
 
+    const today = new Date(); // Получаем текущую дату один раз
     const firstDayOfMonth = new Date(this.currentYear, this.currentMonth, 1);
     const lastDayOfMonth = new Date(this.currentYear, this.currentMonth + 1, 0);
     const startDay = (firstDayOfMonth.getDay() + 6) % 7 + 1;
 
-    let currentWeek: { date: string; isCurrentMonth: boolean }[] = [];
+    // let currentWeek: { date: string; isCurrentMonth: boolean }[] = [];
+    let currentWeek: { date: string; isCurrentMonth: boolean; isCurrentDay?: boolean }[] = [];
+
 
     // Заполнение предыдущими датами
     const prevMonthLastDay = new Date(this.currentYear, this.currentMonth, 0).getDate();
@@ -76,6 +97,17 @@ export class CalendarComponent implements OnInit {
     }
 
     // Заполнение текущими датами
+    // for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
+    //   const currentDate = new Date(this.currentYear, this.currentMonth, i);
+    //   const isCurrentDay = this.isCurrentDate(currentDate.getDate().toString());
+    //   const tag = isCurrentDay ? 'current-day' : '';
+    //   currentWeek.push({ date: this.datePipe.transform(currentDate, 'd') || '', isCurrentMonth: true, tag: tag });
+    //   if (currentWeek.length === 7) {
+    //     this.weeks.push([...currentWeek]);
+    //     currentWeek = [];
+    //   }
+    // }
+    // хороший код
     for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
       const currentDate = new Date(this.currentYear, this.currentMonth, i);
       currentWeek.push({ date: this.datePipe.transform(currentDate, 'd') || '', isCurrentMonth: true });

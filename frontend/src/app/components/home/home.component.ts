@@ -96,7 +96,7 @@ export class HomeComponent implements OnInit{
   }
 
   getHomeData(): void {
-    this.http.get<IHomeData>('http://localhost:8080/assistant/home').subscribe((res: IHomeData) => {
+    this.http.get<IHomeData>('http://localhost:8080/assistant/').subscribe((res: IHomeData) => {
       this.data = res;
     });
   }
