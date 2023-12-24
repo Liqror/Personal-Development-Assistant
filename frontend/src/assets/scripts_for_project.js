@@ -35,4 +35,3 @@ function toggle() {
     div.style.display = 'none'
 }
 document.getElementById('chkTest').onchange = toggle;
-

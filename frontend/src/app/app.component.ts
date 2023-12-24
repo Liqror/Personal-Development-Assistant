@@ -19,10 +19,8 @@ export class AppComponent implements OnInit{
   isDateClicked: boolean = false;
   formattedDate: string;
 
-  constructor(private datePipe: DatePipe, private http: HttpClient, private router: Router) {
-    // goHome() {
-    //   this.router.navigate(['']);
-    // }
+  constructor(private datePipe: DatePipe,
+              private http: HttpClient) {
   }
 
   ngOnInit(): void {

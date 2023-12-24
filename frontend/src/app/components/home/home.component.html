@@ -9,12 +9,9 @@
 </head>
 
 <body>
-<!--<router-outlet>-->
 
   <!-- выпадающий список -->
   <div class="container-fluid" style="background-color: #D4CBC8">
-
-
 
     <div class="row">
       <!-- Основной контент страницы  -->
@@ -82,22 +79,22 @@
             <h2>{{ isDateClicked ? todayLabel : todayLabel }}</h2>
             <hr>
             <h3>Расписание</h3>
-            <!-- Таблица расписание -->
-<!--            <table class="table">-->
-<!--              <thead>-->
-<!--              <tbody *ngFor="let data of data.today_classes">-->
-<!--              <tr>-->
-<!--                <td>{{ data.start_time }}<br>{{ data.stop_time }}</td>-->
-<!--                <td>-->
-<!--                  {{ data.name }}<br>-->
-<!--                  <ng-container *ngIf="data.place !== '-'">-->
-<!--                    {{ data.place }}<br>-->
-<!--                  </ng-container>-->
-<!--                  {{ data.format }}-->
-<!--                </td>-->
-<!--              </tr>-->
-<!--              </tbody>-->
-<!--            </table>-->
+<!--             Таблица расписание -->
+            <table class="table">
+              <thead>
+              <tbody *ngFor="let class of data.today.day_classes">
+              <tr>
+                <td>{{ class.start_time }}<br>{{ class.stop_time }}</td>
+                <td>
+                  {{ class.name }}<br>
+                  <ng-container *ngIf="class.place !== '-'">
+                    {{ class.place }}<br>
+                  </ng-container>
+                  {{ class.format }}
+                </td>
+              </tr>
+              </tbody>
+            </table>
 
             <hr>
             <h3>Заметка</h3>
@@ -121,21 +118,21 @@
             <hr style="border-style: solid; border-width: 1px; border-color: #000000">
             <h3>Расписание</h3>
             <!-- Таблица расписание -->
-<!--            <table class="table">-->
-<!--              <thead>-->
-<!--              <tbody *ngFor="let data of data.tomorrow_classes">-->
-<!--              <tr>-->
-<!--                <td>{{ data.start_time }}<br>{{ data.stop_time }}</td>-->
-<!--                <td>-->
-<!--                  {{ data.name }}<br>-->
-<!--                  <ng-container *ngIf="data.place !== '-'">-->
-<!--                    {{ data.place }}<br>-->
-<!--                  </ng-container>-->
-<!--                  {{ data.format }}-->
-<!--                </td>-->
-<!--              </tr>-->
-<!--              </tbody>-->
-<!--            </table>-->
+            <table class="table">
+              <thead>
+              <tbody *ngFor="let class of data.tomorrow.day_classes">
+              <tr>
+                <td>{{ class.start_time }}<br>{{ class.stop_time }}</td>
+                <td>
+                  {{ class.name }}<br>
+                  <ng-container *ngIf="class.place !== '-'">
+                    {{ class.place }}<br>
+                  </ng-container>
+                  {{ class.format }}
+                </td>
+              </tr>
+              </tbody>
+            </table>
               <hr>
             <h3>Задачи</h3>
             <h4>На день</h4>
@@ -233,17 +230,15 @@
 
       </div>
 
-
-
       <br>
       <textarea name="message" id="mess" rows="5" class="form-control md-textarea"
                 type="text" style="color: #595959; height: 130px"></textarea>
       <div class="row justify-content-center">
         <div class="col-md-6 col-lg-6">
-          <p style="text-align: center"><button id="save-button" class="save">Сохранить</button><p>
+          <p style="text-align: center"><button onclick="hideDiv()" id="save-button" class="save">Сохранить</button><p>
         </div>
         <div class="col-md-6 col-lg-6">
-          <p style="text-align: center"><button id="close-button" class="close">Закрыть</button><p>
+          <p style="text-align: center"><button onclick="hideDiv()" id="close-button" class="close">Закрыть</button><p>
         </div>
     </div>
   </div>

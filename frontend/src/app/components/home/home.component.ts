@@ -58,6 +58,7 @@ export class HomeComponent implements OnInit{
     this.isDateClicked = true;
     this.getHomeData(eventData.clicked);
   }
+
   private formatDate(dateString: string): string {
     const date = new Date(dateString);
     const monthNames = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];

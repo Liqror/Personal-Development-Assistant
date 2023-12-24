@@ -13,6 +13,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { BalanceWheelComponent } from './components/balance-wheel/balance-wheel.component';
 import {CalendarComponent} from "./components/calendar/calendar.component";
 import {PlanComponent} from "./components/plan/plan.component";
+import {TimetableComponent} from "./components/timetable/timetable.component";
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import {PlanComponent} from "./components/plan/plan.component";
     BalanceWheelComponent,
     CalendarComponent,
     PlanComponent,
+    TimetableComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,7 +31,7 @@ import {PlanComponent} from "./components/plan/plan.component";
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    HomeModule
+    HomeModule,
   ],
   providers: [
     DatePipe,
@@ -38,6 +40,7 @@ import {PlanComponent} from "./components/plan/plan.component";
   exports: [
     CalendarComponent,
     PlanComponent,
+    TimetableComponent,
   ],
   bootstrap: [AppComponent]
 })

@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';import {DatePipe, registerLocaleData} from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
 import { Router } from '@angular/router';
-
 registerLocaleData(localeRu, 'ru');
 
 interface CalendarDay {
@@ -68,14 +67,6 @@ export class CalendarComponent implements OnInit {
       this.currentYear === currentDate.getFullYear()
     );
   }
-
-  // isCurrentDate(day: string): boolean {
-  //   const currentDate = new Date();
-  //   const formattedDate = this.datePipe.transform(currentDate, 'd');
-  //   return day === formattedDate &&
-  //     this.currentMonth === currentDate.getMonth() &&
-  //     this.currentYear === currentDate.getFullYear();
-  // }
 
   generateCalendar() {
     this.weeks = [];
