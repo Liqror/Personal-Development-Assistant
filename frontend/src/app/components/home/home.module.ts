@@ -4,6 +4,7 @@ import {CalendarComponent} from "../calendar/calendar.component";
 import {HomeComponent} from "./home.component";
 import {BrowserModule} from "@angular/platform-browser";
 import { RouterModule } from '@angular/router';
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     RouterModule.forChild([
       { path: ':year/:month/:day', component: HomeComponent }
-    ])
+    ]),
+    FormsModule,
   ],
   declarations: [
     HomeComponent

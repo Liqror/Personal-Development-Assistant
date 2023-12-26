@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {IHomeData} from "./interfaces/home";
 import {DatePipe} from "@angular/common";
@@ -18,6 +18,7 @@ export class AppComponent implements OnInit{
   tomorrowLabel: string = 'завтра';
   isDateClicked: boolean = false;
   formattedDate: string;
+  @Output() datesChange: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private datePipe: DatePipe,
               private http: HttpClient) {
@@ -26,9 +27,7 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
     this.currentDate = new Date();
     this.formatDateForData();
-
-    // Вызываем загрузку данных
-    this.getHomeData(this.formattedDate);
+    this.datesChange;
   }
   formatDateForData(): void {
     const year = this.currentDate.getFullYear();
@@ -37,31 +36,19 @@ export class AppComponent implements OnInit{
     this.formattedDate = `${year}/${month}/${day}`;
     console.log(this.formattedDate);
   }
-
   private padZero(value: number): string {
     return value < 10 ? `0${value}` : `${value}`;
   }
 
   handleDateClicked(eventData: any) {
-    console.log(eventData.clicked)
-    this.yesterdayLabel = this.formatDate(eventData.previous);
-    this.todayLabel = this.formatDate(eventData.clicked);
-    this.tomorrowLabel = this.formatDate(eventData.next);
     this.isDateClicked = true;
-    this.getHomeData(eventData.clicked);
-  }
-  private formatDate(dateString: string): string {
-    const date = new Date(dateString);
-    const monthNames = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
-    const day = date.getDate().toString();
-    const month = monthNames[date.getMonth()];
-    const year = date.getFullYear();
-    return `${day} ${month} ${year}`;
-  }
 
-  getHomeData(data: string): void {
-    this.http.get<IHomeData>('http://localhost:8080/assistant/api/' + data).subscribe((res: IHomeData) => {
-      this.data = res;
+    // Передаем данные дат в хом компонент ??
+    this.datesChange.emit({
+      eventData: eventData,
+      previous: eventData.previous,
+      clicked: eventData.clicked,
+      next: eventData.next
     });
   }
 }

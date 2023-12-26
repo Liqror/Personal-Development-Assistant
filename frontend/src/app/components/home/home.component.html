@@ -2,9 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!--<link href="bootstrap-5.3.0/dist/css/bootstrap.css" rel="stylesheet">
-  <script src="bootstrap-5.3.0/dist/js/bootstrap.js"></script>
-  <link rel="stylesheet" href="frontend/src/styles.css"> -->
   <title>Личный ассистент</title>
 </head>
 
@@ -63,23 +60,24 @@
 
             <hr>
             <h3>Заметка</h3>
-<!--            <p>{{ data.text_note }}</p>-->
+            <p>{{ data.yesterday.text_note}}</p>
             <hr>
             <h3>Задачи</h3>
             <h4>На день</h4>
+
             <input type="checkbox" id="ex" name="ex" value="ex">
             <label for="ex"> Задача на день</label><br>
-
-            <h4>Без времени</h4>
-            <input type="checkbox" id="ex3" name="ex" value="ex">
-            <label for="ex3"> Здесь какая-то задача</label><br>
+            <div *ngFor="let task of data.yesterday.fixed_tasks">
+              <input type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
+              <label [for]="task.id.toString()">{{ task.name }}</label><br>
+            </div>
           </div>
 
           <div class="col-md-4 col-lg-4 mt-md-1">
             <h2>{{ isDateClicked ? todayLabel : todayLabel }}</h2>
             <hr>
             <h3>Расписание</h3>
-<!--             Таблица расписание -->
+            <!-- Таблица расписание -->
             <table class="table">
               <thead>
               <tbody *ngFor="let class of data.today.day_classes">
@@ -98,19 +96,27 @@
 
             <hr>
             <h3>Заметка</h3>
-            <textarea name="message" id="message" rows="5" class="form-control md-textarea" type="text" style="color: #595959;">
-
-            </textarea>
+            <p>{{ data.today.text_note }}</p>
+<!--            <textarea name="message" id="message" rows="5" class="form-control md-textarea" type="text" style="color: #595959;"></textarea>-->
             <hr>
             <h3>Задачи</h3>
             <h4>На день</h4>
-            <input type="checkbox" id="ex4" name="ex" value="ex">
-            <label for="ex4"> Задача на день</label><br>
+            <div *ngFor="let task of data.today.fixed_tasks">
+              <input type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
+              <label [for]="task.id.toString()">{{ task.name }}</label><br>
+            </div>
+
             <h4>Просрочено</h4>
-            <input type="checkbox" id="ex5" name="ex" value="ex">
-            <label for="ex5"> Какая-то просроченная задача</label><br>
+            <div *ngFor="let task of data.late_tasks">
+              <input type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
+              <label [for]="task.id.toString()">{{ task.name }}</label><br>
+            </div>
 
             <h4>Без времени</h4>
+            <div *ngFor="let task of data.free_tasks">
+              <input type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
+              <label [for]="task.id.toString()">{{ task.name }}</label><br>
+            </div>
           </div>
 
           <div class="col-md-4 col-lg-4 mt-md-1">
@@ -134,9 +140,15 @@
               </tbody>
             </table>
               <hr>
+            <h3>Заметка</h3>
+            <p>{{ data.tomorrow.text_note }}</p>
+            <hr>
             <h3>Задачи</h3>
             <h4>На день</h4>
-            здесь тоже какая-то задача может быть
+            <div *ngFor="let task of data.tomorrow.fixed_tasks">
+              <input type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
+              <label [for]="task.id.toString()">{{ task.name }}</label><br>
+            </div>
           </div>
         </div>
       </div>
@@ -189,8 +201,6 @@
 
       <div id="pnlTest" class="Iseewhencheck">
 
-
-
         <p> Повторяется <input type="text" name="userName" style="width: 15%; margin: 0 3px 0 3px; justify-content: center;" placeholder="кол-во"/>
           раз в
           <select id="repeat" name="repeat" style="background-color: #f0f0f0; width: 40%;">
@@ -200,10 +210,7 @@
           </select>
         </p>
 
-
-
       <div class="row justify-content-start">
-
         <div class="col-md-1 col-lg-1">
           ПН
         </div>
@@ -227,7 +234,6 @@
         </div>
 
       </div>
-
       </div>
 
       <br>
@@ -235,16 +241,14 @@
                 type="text" style="color: #595959; height: 130px"></textarea>
       <div class="row justify-content-center">
         <div class="col-md-6 col-lg-6">
-          <p style="text-align: center"><button onclick="hideDiv()" id="save-button" class="save">Сохранить</button><p>
+          <p style="text-align: center"><button (click)="saveTask()" onclick="hideDiv()" id="save-button" class="save">Сохранить</button><p>
         </div>
         <div class="col-md-6 col-lg-6">
           <p style="text-align: center"><button onclick="hideDiv()" id="close-button" class="close">Закрыть</button><p>
         </div>
     </div>
   </div>
-
   </div>
-
 </body>
 
 <script src="bootstrap-5.3.0/dist/js/func.js"></script>

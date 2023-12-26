@@ -1,12 +1,7 @@
-<!--<app-balance-wheel></app-balance-wheel>-->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!--<link href="bootstrap-5.3.0/dist/css/bootstrap.css" rel="stylesheet">
-  <script src="bootstrap-5.3.0/dist/js/bootstrap.js"></script>
-  <link rel="stylesheet" href="frontend/src/styles.css"> -->
   <title>Личный ассистент</title>
 </head>
 <body>
@@ -14,7 +9,6 @@
 <div class="container-fluid" style="background-color: #D4CBC8">
   <div class="row">
     <div class="col-md-2 col-lg-2 navbar-container">
-      <!-- Вертикальное меню -->
       <nav class="navbar navbar-expand-md navbar-light">
         <a class="navbar-brand" href="#">
           <img src="././assets/image/profile.png" alt="профиль">
@@ -27,7 +21,7 @@
           <!-- Пункты вертикального меню -->
           <ul class="navbar-nav">
             <hr>
-<!--            <app-calendar (dateClicked)="handleDateClicked($event)" [currentDate]="currentDate"></app-calendar>-->
+            <app-calendar (dateClicked)="handleDateClicked($event)" [currentDate]="currentDate"></app-calendar>
             <hr>
             <li class="nav-item">
               <a class="nav-link" routerLink="/">
@@ -42,7 +36,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link">
+              <a class="nav-link" routerLink="/balance-wheel">
                 <img src="././assets/image/balance.png" alt="колесо баланса">
                 Колесо баланса
               </a>
@@ -86,6 +80,7 @@
     </div>
     <div class="col-md-10 col-lg-10 content-container">
       <router-outlet></router-outlet>
+      <!--<app-balance-wheel></app-balance-wheel>-->
     </div>
   </div>
 </div>

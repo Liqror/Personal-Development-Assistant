@@ -1,13 +1,17 @@
 export interface ITaskPage {
-  id: number;
+  user_id: number;
   name: string;
   description: string | null;
-  start_date: string | null;
-  start_time: string | null;
-  stop_date: string | null;
-  stop_time: string | null;
-  category_name: string;
-  category_color: string;
   estimate: number;
-  repeat: string;
+  task_category: {
+    id: number;
+  };
+  start_date: string;
+  stop_date: string | null;
+  start_time: string | null;
+  stop_time: string | null;
+  timezone: string;
+  status: number;
 }
+
+// POST http://localhost:8080/assistant/api/tasks

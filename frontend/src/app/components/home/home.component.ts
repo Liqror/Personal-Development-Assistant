@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {IHomeData} from "../../interfaces/home";
 import {DatePipe} from "@angular/common";
-import { format } from 'date-fns';
-import localeRu from 'date-fns/locale/ru';
-import {ActivatedRoute, NavigationEnd, Route, Router} from "@angular/router";
+import { TaskService } from "../../services/task.service"
+import {ITaskPage} from "../../interfaces/task-page";
 
 
 @Component({
@@ -12,7 +11,20 @@ import {ActivatedRoute, NavigationEnd, Route, Router} from "@angular/router";
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit{
-  showContent = true;
+  taskData: ITaskPage = {
+  user_id: 1,
+  name: 'fgfgfgfg',
+  description: null,
+  estimate: 0,
+  task_category: {
+    id: 0,
+  },
+  start_date: "2023/12/26",
+  stop_date: null,
+  start_time: null,
+  stop_time: null,
+  timezone: "",
+  status: 0,};
   currentDate: Date;
   data: IHomeData;
   yesterdayLabel: string = 'вчера';
@@ -22,8 +34,11 @@ export class HomeComponent implements OnInit{
   formattedDate: string;
   // это джаваскрипт для создания задачи
   myScriptElement: HTMLScriptElement;
+// получены от апп компонента даты для верха
+  receivedDates: any;
 
-  constructor(private datePipe: DatePipe, private http: HttpClient) {
+
+  constructor(private taskService: TaskService, private datePipe: DatePipe, private http: HttpClient) {
     // джава скрипт для создания задачи
     this.myScriptElement = document.createElement("script");
     this.myScriptElement.src = "././assets/scripts_for_project.js";
@@ -50,11 +65,17 @@ export class HomeComponent implements OnInit{
     return value < 10 ? `0${value}` : `${value}`;
   }
 
-  handleDateClicked(eventData: any) {
-    console.log(eventData.clicked)
-    this.yesterdayLabel = this.formatDate(eventData.previous);
-    this.todayLabel = this.formatDate(eventData.clicked);
-    this.tomorrowLabel = this.formatDate(eventData.next);
+  handleDatesChange(event: any) {
+    this.receivedDates = event;
+
+    // Получение данных из словаря
+    const eventData = this.receivedDates.eventData;
+    const yesterdayLabel = this.receivedDates.previous;
+    const todayLabel = this.receivedDates.clicked;
+    const tomorrowLabel = this.receivedDates.next;
+
+    console.log(yesterdayLabel, todayLabel, tomorrowLabel)
+
     this.isDateClicked = true;
     this.getHomeData(eventData.clicked);
   }
@@ -72,5 +93,31 @@ export class HomeComponent implements OnInit{
     this.http.get<IHomeData>('http://localhost:8080/assistant/api/' + data).subscribe((res: IHomeData) => {
       this.data = res;
     });
+  }
+
+//   передача данных Наташе
+  saveTask(): void {
+    const taskData: ITaskPage = {
+      user_id: 1,
+      name: 'fgfgfgfg',
+      description: null,
+      estimate: 1,
+      task_category: {
+        id: 1,
+      },
+      start_date: "2023-12-26",
+      stop_date: null,
+      start_time: null,
+      stop_time: null,
+      timezone: "",
+      status: 0,};
+    this.taskService.addTask(taskData).subscribe(
+      (response) => {
+        console.log('Задача успешно сохранена', response);
+      },
+      (error) => {
+        console.error('Ошибка при сохранении задачи', error);
+      }
+    );
   }
 }
