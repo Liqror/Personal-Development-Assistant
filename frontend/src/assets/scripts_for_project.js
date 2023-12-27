@@ -35,3 +35,26 @@ function toggle() {
     div.style.display = 'none'
 }
 document.getElementById('chkTest').onchange = toggle;
+
+(function() {
+const buttons = document.querySelectorAll(".clickable");
+
+// Привязываем обработчик событий к каждой кнопке
+for (let i = 0; i < buttons.length; i++) {
+  buttons[i].addEventListener("click", function() {
+    // Проверяем значение css переменной
+    if (this.classList.contains("clicked")) {
+      // Если переменная равна 1, то сбрасываем ее
+      this.style.setProperty("--clicked", "0");
+    } else {
+      // Иначе устанавливаем значение в 1
+      this.style.setProperty(
+        "--clicked",
+        "1"
+      );
+    }
+    // Добавляем или удаляем класс "clicked"
+    this.classList.toggle("clicked");
+  });
+}
+})()

@@ -13,6 +13,59 @@ body {
 
   display: none
 }
+/* Стили для самого чекбокса */
+#chkTest {
+  -webkit-appearance: none; /* Для Safari и Chrome */
+
+  appearance: none;
+  background-color: #F0F0F0;
+
+  border: 1px solid black;
+}
+
+/* Стили при выделении чекбокса */
+#chkTest:checked {
+  background-color: #F3A352;
+}
+#chkTest::before {
+  content: '\a0\a0\2714\a0\a0';
+  font-size: 15px;
+}
+
+
+
+
+.clickable {
+  /* Устанавливаем значение по умолчанию для переменной */
+  --clicked: 0;
+  padding: 0 10px;
+  font-weight: bold;
+  text-align: center;
+
+  cursor: pointer;
+  transition-property: background-color;
+  transition-duration: 0.3s;
+
+  margin: 10px;
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #000000;
+  background-color: #F0F0F0;
+  color: #000000;
+  bottom: 0;
+}
+
+.clickable:active {
+  /* Устанавливаем другой цвет фона при нажатии */
+  background-color: #f1c477;
+}
+
+.clickable.clicked {
+  background-color: #F3A352;
+}
+
+
 
 
 #new-time-for-task {
@@ -299,7 +352,7 @@ select {
   border: solid 1px #000000;
   background-color: #F0F0F0;
 }
-.col-md-1 {
+.col-md-18 {
   margin: 10px;
   border-radius: 15px;
   border-style: solid;
@@ -308,7 +361,6 @@ select {
   background-color: #F0F0F0;
   color: #000000;
   bottom: 0;
-
 }
 .left-picture {
   float: left;
