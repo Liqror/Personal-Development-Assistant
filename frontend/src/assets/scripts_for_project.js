@@ -1,4 +1,30 @@
 (function() {
+  let procRows = document.querySelectorAll(".zen tbody tr");
+  for (let i = 0; i < procRows.length; i++) {
+      procRows[i].innerHTML += `<td><button title="Remove"></td>`;
+  }
+
+  document.querySelector(".zen tbody").addEventListener("click", function(e) {
+      if (e.target.nodeName == "BUTTON") {
+          let cell = e.target.parentNode;
+          cell.parentNode.classList.add("hidden");
+          e.target.remove();
+      }
+  })
+
+  document.querySelectorAll('.zen tbody').forEach(element =>
+    element.addEventListener('click', function(event) {
+      if (event.target.tagName === 'BUTTON') {
+        const cell = event.target.closest('td');
+        cell.parentElement.classList.add('hidden');
+        event.target.remove();
+      }
+    })
+  );
+  
+})();
+
+(function() {
   const headings = document.querySelectorAll('h5');
 
   Array.prototype.forEach.call(headings, h => {
@@ -35,3 +61,26 @@ function toggle() {
     div.style.display = 'none'
 }
 document.getElementById('chkTest').onchange = toggle;
+
+(function() {
+const buttons = document.querySelectorAll(".clickable");
+
+// Привязываем обработчик событий к каждой кнопке
+for (let i = 0; i < buttons.length; i++) {
+  buttons[i].addEventListener("click", function() {
+    // Проверяем значение css переменной
+    if (this.classList.contains("clicked")) {
+      // Если переменная равна 1, то сбрасываем ее
+      this.style.setProperty("--clicked", "0");
+    } else {
+      // Иначе устанавливаем значение в 1
+      this.style.setProperty(
+        "--clicked",
+        "1"
+      );
+    }
+    // Добавляем или удаляем класс "clicked"
+    this.classList.toggle("clicked");
+  });
+}
+})()

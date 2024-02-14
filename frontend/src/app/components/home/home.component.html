@@ -173,14 +173,19 @@
             </select>
           </p>
           <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
-            Здесь будет время для задачи ОТ ДО</p>
+            ОТ <input type="datetime-local" id="date_from" style="width: 70%; background-color: #f0f0f0"> </p>
+
         </div>
         <div class="col-md-6 col-lg-6">
           <p> <img src="././assets/image/score.png" alt="оценка" style="height: 30px; margin-right: 10px">
-            <input style="width: 80%" type="text" name="userName" placeholder="Оценка задачи" /> </p>
+            <input style="width: 80%" type="text" name="userName" id="mark_task" placeholder="Оценка задачи" /> </p>
+          <p>ДО <input type="datetime-local" id="date_to" style="width: 82%; background-color: #f0f0f0"></p>
+        </div>
+        <div class="col-md-12 col-lg-12">
+
           <p>
             <img src="././assets/image/plans.png" alt="планы" style="height: 30px; margin-right: 10px">
-            <select id="task-in-plan" name="task-plan" style="width: 80%; background-color: #f0f0f0">
+            <select id="task-in-plan" name="task-plan" style="width: 90%; background-color: #f0f0f0">
               <option value="chooth"> Принадлежит плану</option>
               <option value="plan-no"> нет</option>
               <option value="plan1">план1</option>
@@ -195,7 +200,7 @@
 
       <p>
         <input type="checkbox" id="chkTest" />
-        <label for="chkTest">Повторяется</label>
+        <label for="chkTest" style="margin-left: 5px;">Повторяется</label>
       </p>
 
       <div id="pnlTest" class="Iseewhencheck">
@@ -209,30 +214,56 @@
           </select>
         </p>
 
+
       <div class="row justify-content-start">
         <div class="col-md-1 col-lg-1">
-          ПН
+          <button class="clickable" id="monday"> ПН </button>
         </div>
         <div class="col-md-1 col-lg-1">
-          ВТ
+          <button class="clickable" id="tuesday"> ВТ </button>
+        </div>
+
+        <div class="col-md-1 col-lg-1">
+          <button class="clickable" id="wednesday"> СР </button>
         </div>
         <div class="col-md-1 col-lg-1">
-          СР
+          <button class="clickable" id="thursday"> ЧТ </button>
         </div>
         <div class="col-md-1 col-lg-1">
-          ЧТ
+          <button class="clickable" id="friday"> ПТ </button>
         </div>
         <div class="col-md-1 col-lg-1">
-          ПТ
+          <button class="clickable" id="saturday"> СБ </button>
         </div>
         <div class="col-md-1 col-lg-1">
-          СБ
-        </div>
-        <div class="col-md-1 col-lg-1">
-          ВС
+          <button class="clickable" id="sunday"> ВС </button>
         </div>
 
       </div>
+        <p>Заканчивается</p>
+        <div class="param-when-end-task">
+
+            <div style="float: left; width: auto;">
+              <p><input type="radio" id="never-end-task" name="drone" value="never-end-task" checked />
+              <label for="never-end-task">Никогда</label> </p>
+            </div>
+
+            <div style="float: left; width: 30%; margin-left: 15px">
+              <p><input type="radio" id="data-when-end-task" name="drone" value="data-when-end-task" />
+                <label for="data-when-end-task"><input type="datetime-local" id="date_end-task" style="width: 100%; background-color: #f0f0f0"></label> </p>
+            </div>
+
+            <div style="float: left; width: auto">
+              <p><input type="radio" id="how-repeat-task" name="drone" value="how-repeat-task" />
+              <label for="how-repeat-task">После
+                <input style="width: 20%" type="text" name="userName" id="count-repeat-task" placeholder="кол-во" />
+                раз</label> </p>
+            </div>
+
+        </div>
+
+
+
       </div>
 
       <br>
