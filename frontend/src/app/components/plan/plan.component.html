@@ -9,64 +9,55 @@
 <div class="container-fluid" style="background-color: #D4CBC8">
   <div class="row">
     <!--Кнопка создания нового плана-->
-    <p><button onclick="showDiv()" class="fixed_button">
+    <p><button onclick="showDivPlan()" class="fixed_button">
       <img src="././assets/image/add.png" alt="добавить план" style="height: 20px">
       Создать новый план
     </button></p>
     <div class="col-md-12 col-lg-12 content-container">
       <div class="row justify-content-center">
         <!-- Здесь будет появляться поле для создания нового плана при нажатии на кнопку -->
-        <div id="div1" style="display: none; width: 100%; height: 100%; position: absolute;">
-          <div class="col-md-11 col-lg-11 mt-md-5" >
-            <h5>
-              <button aria-expanded="false">
-                План 1
-                <svg aria-hidden="true" focusable="false" viewBox="0 0 10 10">
-                  <rect class="vert" height="8" width="2" y="1" x="4"/>
-                  <rect height="2" width="8" y="4" x="1"/>
-                </svg>
-              </button>
-            </h5>
-            <div hidden class="row justify-content-start" style="background-color: #F0F0F0">
-  
+        <div id="divPlan" style="display: none; position: flex;" class="col-md-11 col-lg-11 mt-md-4">
+            <h4>
+              <input class="inputNamePlan" type="text" name="objectName" placeholder="Введите название нового плана" style="width: 100%;" />
+            </h4>
+            <div class="row justify-content-start" style="background-color: #F0F0F0">
+              
               <div class="row justify-content-center">
-                <div class="col-md-5 col-lg-5">
-                  <p>Сумма баллов: "число"</p>
+                <div class="col-md-6 col-lg-6">
+                  <br>
+                  <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
+                    ОТ <input type="datetime-local" id="time_from" style="width: 70%; background-color: #f0f0f0"> </p>
                 </div>
-                <div class="col-md-7 col-lg-7">
-                  <p style="text-align: end">Срок выполнения: "ДД.ММ.ГГГГ - ДД.ММ.ГГГГ"</p>
-                </div>
-              </div>
-              <div class="row justify-content-start">
-                <div class="col-md-3 col-lg-3">
-                  <p style="vertical-align: center; text-align: center; ">Категория1</p>
-                </div>
-                <div class="col-md-3 col-lg-3">
-                  <p style="vertical-align: center; text-align: center; ">Категория2</p>
-                </div>
-                <div class="col-md-3 col-lg-3">
-                  <p style="vertical-align: center; text-align: center; ">Категория3</p>
+                <div class="col-md-6 col-lg-6">
+                  <br>
+                  <p>ДО <input type="datetime-local" id="time_to" style="width: 82%; background-color: #f0f0f0"></p>
                 </div>
               </div>
-              <input type="text" value="Введите текст..." style=" background: none; border-width: 0 0 1px 0; font-size: 100%;">
-  
-              <label>
-                <p><input type="checkbox" name="languages" value="HTML"> задача1</p>
-              </label>
-  
-              <label>
-                <p><input type="checkbox" name="languages" value="HTML"> задача2</p>
-  
-              </label>
-  
-              <label>
-                <p><input type="checkbox" name="languages" value="HTML"> задача3</p>
-              </label>
+              <div class="row justify-content-center">
+                <textarea name="message" id="mess" rows="5" class="form-control md-textarea"
+                type="text" style="color: #595959; height: 130px; width: 90%;"></textarea>
+              </div>
+              <br>
+              <p style="margin-top: 10px;"><button onclick="showDiv()" style="background-color: #FFF">
+                Добавить задачу к плану</button></p>
+              
+                <div class="row justify-content-center">
+                  <div class="col-md-6 col-lg-6">
+                    <p style="text-align: center"><button onclick="saveObject()" onclick="hideDivPlan()" id="save-button" class="save">Сохранить</button><p>
+                  </div>
+                  <div class="col-md-6 col-lg-6">
+                    <p style="text-align: center"><button onclick="hideDivPlan()" id="close-button" class="close">Закрыть</button><p>
+                  </div>
+              </div>
+
+              
+              
+              
   
             </div>
           </div>
         
-        </div>
+        
 
 
 
@@ -139,6 +130,135 @@
 
   </div>
 </div>
+
+
+
+<!-- Кнопка новой задачи  -->
+<div id="div1" style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+  <div class="container">
+    <p><input type="text" name="userName" placeholder="Введите название задачи" style="width: 100%" /></p>
+    <div class="row justify-content-center">
+
+      <div class="col-md-6 col-lg-6">
+        <p>
+          <img src="././assets/image/category.png" alt="категория для задачи" style="height: 30px">
+          <select id="category-for-task" name="category" style="width: 80%; background-color: #f0f0f0">
+            <option value="chooth">Выберите категорию</option>
+            <option value="health">здоровье</option>
+            <option value="family">семья</option>
+            <option value="love">отношения</option>
+            <option value="education">образование</option>
+            <option value="career">карьера</option>
+          </select>
+        </p>
+        <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
+          ОТ <input type="datetime-local" id="date_from" style="width: 70%; background-color: #f0f0f0"> </p>
+
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <p> <img src="././assets/image/score.png" alt="оценка" style="height: 30px; margin-right: 10px">
+          <input style="width: 80%" type="text" name="userName" id="mark_task" placeholder="Оценка задачи" /> </p>
+        <p>ДО <input type="datetime-local" id="date_to" style="width: 82%; background-color: #f0f0f0"></p>
+      </div>
+      <div class="col-md-12 col-lg-12">
+
+        <p>
+          <img src="././assets/image/plans.png" alt="планы" style="height: 30px; margin-right: 10px">
+          <select id="task-in-plan" name="task-plan" style="width: 90%; background-color: #f0f0f0">
+            <option value="chooth"> Принадлежит плану</option>
+            <option value="plan-no"> нет</option>
+            <option value="plan1">план1</option>
+            <option value="plan2">план2</option>
+            <option value="plan3">план3</option>
+            <option value="plan4">план4</option>
+          </select>
+        </p>
+      </div>
+
+    </div>
+
+    <p>
+      <input type="checkbox" id="chkTest" />
+      <label for="chkTest" style="margin-left: 5px;">Повторяется</label>
+    </p>
+
+    <div id="pnlTest" class="Iseewhencheck">
+
+      <p> Повторяется <input type="text" name="userName" style="width: 15%; margin: 0 3px 0 3px; justify-content: center;" placeholder="кол-во"/>
+        раз в
+        <select id="repeat" name="repeat" style="background-color: #f0f0f0; width: 40%;">
+          <option value="1"> неделю</option>
+          <option value="2"> месяц </option>
+          <option value="3"> год </option>
+        </select>
+      </p>
+
+
+    <div class="row justify-content-start">
+      <div class="col-md-1 col-lg-1">
+        <button class="clickable" id="monday"> ПН </button>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <button class="clickable" id="tuesday"> ВТ </button>
+      </div>
+
+      <div class="col-md-1 col-lg-1">
+        <button class="clickable" id="wednesday"> СР </button>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <button class="clickable" id="thursday"> ЧТ </button>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <button class="clickable" id="friday"> ПТ </button>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <button class="clickable" id="saturday"> СБ </button>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <button class="clickable" id="sunday"> ВС </button>
+      </div>
+
+    </div>
+      <p>Заканчивается</p>
+      <div class="param-when-end-task">
+
+          <div style="float: left; width: auto;">
+            <p><input type="radio" id="never-end-task" name="drone" value="never-end-task" checked />
+            <label for="never-end-task">Никогда</label> </p>
+          </div>
+
+          <div style="float: left; width: 30%; margin-left: 15px">
+            <p><input type="radio" id="data-when-end-task" name="drone" value="data-when-end-task" />
+              <label for="data-when-end-task"><input type="datetime-local" id="date_end-task" style="width: 100%; background-color: #f0f0f0"></label> </p>
+          </div>
+
+          <div style="float: left; width: auto">
+            <p><input type="radio" id="how-repeat-task" name="drone" value="how-repeat-task" />
+            <label for="how-repeat-task">После
+              <input style="width: 20%" type="text" name="userName" id="count-repeat-task" placeholder="кол-во" />
+              раз</label> </p>
+          </div>
+
+      </div>
+
+
+
+    </div>
+
+    <br>
+    <textarea name="message" id="mess" rows="5" class="form-control md-textarea"
+              type="text" style="color: #595959; height: 130px"></textarea>
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-6">
+        <p style="text-align: center"><button onclick="saveTask()" onclick="hideDiv()" id="save-button" class="save">Сохранить</button><p>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <p style="text-align: center"><button onclick="hideDiv()" id="close-button" class="close">Закрыть</button><p>
+      </div>
+  </div>
+</div>
+</div>
+
 </body>
 <script>
 </script>

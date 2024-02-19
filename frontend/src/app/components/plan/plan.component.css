@@ -1,6 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:ital,wght@1,200&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:ital,wght@1,600&display=swap");
 
+.inputNamePlan {
+  background-color: transparent;
+  border: none;
+}
+
+.inputNamePlan:focus {
+  outline: none;
+  border: none;
+}
 
 main h5 {
   margin: 0;

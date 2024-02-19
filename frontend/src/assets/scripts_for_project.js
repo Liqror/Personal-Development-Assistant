@@ -87,3 +87,15 @@ for (let i = 0; i < buttons.length; i++) {
   );
   
 })()
+
+function showDivPlan() {
+  document.getElementById("divPlan").style.display = "block";
+}
+
+function hideDivPlan() {
+  document.getElementById("divPlan").style.display = "none";
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById("close-button").addEventListener("click", hideDivPlan);
+})
