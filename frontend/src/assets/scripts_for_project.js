@@ -1,28 +1,4 @@
-(function() {
-  let procRows = document.querySelectorAll(".zen tbody tr");
-  for (let i = 0; i < procRows.length; i++) {
-      procRows[i].innerHTML += `<td><button title="Remove"></td>`;
-  }
 
-  document.querySelector(".zen tbody").addEventListener("click", function(e) {
-      if (e.target.nodeName == "BUTTON") {
-          let cell = e.target.parentNode;
-          cell.parentNode.classList.add("hidden");
-          e.target.remove();
-      }
-  })
-
-  document.querySelectorAll('.zen tbody').forEach(element =>
-    element.addEventListener('click', function(event) {
-      if (event.target.tagName === 'BUTTON') {
-        const cell = event.target.closest('td');
-        cell.parentElement.classList.add('hidden');
-        event.target.remove();
-      }
-    })
-  );
-  
-})();
 
 (function() {
   const headings = document.querySelectorAll('h5');
@@ -83,4 +59,31 @@ for (let i = 0; i < buttons.length; i++) {
     this.classList.toggle("clicked");
   });
 }
+})()
+
+
+(function() {
+  let procRows = document.querySelectorAll(".zen tbody tr");
+  for (let i = 0; i < procRows.length; i++) {
+      procRows[i].innerHTML +=' <td><button title="Remove"></td>';
+  }
+
+  document.querySelector(".zen tbody").addEventListener("click", function(e) {
+      if (e.target.nodeName == "BUTTON") {
+          let cell = e.target.parentNode;
+          cell.parentNode.classList.add("hidden");
+          e.target.remove();
+      }
+  })
+
+  document.querySelectorAll('.zen tbody').forEach(element =>
+    element.addEventListener('click', function(event) {
+      if (event.target.tagName === 'BUTTON') {
+        const cell = event.target.closest('td');
+        cell.parentElement.classList.add('hidden');
+        event.target.remove();
+      }
+    })
+  );
+  
 })()

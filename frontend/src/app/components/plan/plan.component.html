@@ -7,10 +7,70 @@
 <body>
 
 <div class="container-fluid" style="background-color: #D4CBC8">
-
   <div class="row">
+    <!--Кнопка создания нового плана-->
+    <p><button onclick="showDiv()" class="fixed_button">
+      <img src="././assets/image/add.png" alt="добавить план" style="height: 20px">
+      Создать новый план
+    </button></p>
     <div class="col-md-12 col-lg-12 content-container">
       <div class="row justify-content-center">
+        <!-- Здесь будет появляться поле для создания нового плана при нажатии на кнопку -->
+        <div id="div1" style="display: none; width: 100%; height: 100%; position: absolute;">
+          <div class="col-md-11 col-lg-11 mt-md-5" >
+            <h5>
+              <button aria-expanded="false">
+                План 1
+                <svg aria-hidden="true" focusable="false" viewBox="0 0 10 10">
+                  <rect class="vert" height="8" width="2" y="1" x="4"/>
+                  <rect height="2" width="8" y="4" x="1"/>
+                </svg>
+              </button>
+            </h5>
+            <div hidden class="row justify-content-start" style="background-color: #F0F0F0">
+  
+              <div class="row justify-content-center">
+                <div class="col-md-5 col-lg-5">
+                  <p>Сумма баллов: "число"</p>
+                </div>
+                <div class="col-md-7 col-lg-7">
+                  <p style="text-align: end">Срок выполнения: "ДД.ММ.ГГГГ - ДД.ММ.ГГГГ"</p>
+                </div>
+              </div>
+              <div class="row justify-content-start">
+                <div class="col-md-3 col-lg-3">
+                  <p style="vertical-align: center; text-align: center; ">Категория1</p>
+                </div>
+                <div class="col-md-3 col-lg-3">
+                  <p style="vertical-align: center; text-align: center; ">Категория2</p>
+                </div>
+                <div class="col-md-3 col-lg-3">
+                  <p style="vertical-align: center; text-align: center; ">Категория3</p>
+                </div>
+              </div>
+              <input type="text" value="Введите текст..." style=" background: none; border-width: 0 0 1px 0; font-size: 100%;">
+  
+              <label>
+                <p><input type="checkbox" name="languages" value="HTML"> задача1</p>
+              </label>
+  
+              <label>
+                <p><input type="checkbox" name="languages" value="HTML"> задача2</p>
+  
+              </label>
+  
+              <label>
+                <p><input type="checkbox" name="languages" value="HTML"> задача3</p>
+              </label>
+  
+            </div>
+          </div>
+        
+        </div>
+
+
+
+
         <div class="col-md-11 col-lg-11 mt-md-5" >
           <h5>
             <button aria-expanded="false">
