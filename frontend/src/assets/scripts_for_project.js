@@ -99,3 +99,7 @@ function hideDivPlan() {
 document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("close-button").addEventListener("click", hideDivPlan);
 })
+
+function deleteElement(elem) {
+  elem.parentNode.innerHTML = '';
+}

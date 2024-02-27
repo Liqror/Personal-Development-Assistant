@@ -15,8 +15,7 @@
     </button></p>
     <div class="col-md-12 col-lg-12 content-container">
       <h1>Расписание занятий</h1>
-
-
+      
       
       <!-- Таблица расписание -->
       <table class="table">
@@ -27,26 +26,25 @@
         </thead>
         <tbody>
         <tr>
-            <table class="table zen">
+            <table class="table">
               <thead>
               <tr class="another">
                 <th>Время</th>
                 <th>Четная неделя</th>
                 <th>Нечетная неделя</th>
-                <th></th>
               </tr>
               </thead>
 
               <tbody>
               <tr class="another">
-                <td>10:15 - 12:00</td>
-                <td>РКИС</td>
-                <td>Английский</td>
+                <td id="element">10:15 - 12:00 <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+                <td id="element">РКИС <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+                <td id="element">Английский <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
               </tr>
               <tr class="another">
-                <td>10:15 - 12:00</td>
-                <td>РКИС</td>
-                <td>Английский</td>
+                <td id="element">10:15 - 12:00 <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+                <td id="element">РКИС <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+                <td id="element">Английский <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
               </tr>
               </tbody>
             </table>
@@ -63,21 +61,20 @@
         </thead>
         <tbody>
         <tr>
-          <table class="table zen">
+          <table class="table">
             <thead>
             <tr class="another">
               <th>Время</th>
               <th>Четная неделя</th>
               <th>Нечетная неделя</th>
-              <th></th>
             </tr>
             </thead>
 
             <tbody>
             <tr class="another">
-              <td> - </td>
-              <td>выходной</td>
-              <td>выходной</td>
+              <td> - <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+              <td>выходной <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+              <td>выходной <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
             </tr>
             </tbody>
           </table>
@@ -94,32 +91,22 @@
         </thead>
         <tbody>
         <tr>
-          <table class="table zen">
+          <table class="table">
             <thead>
             <tr class="another">
               <th>Время</th>
               <th>Четная неделя</th>
               <th>Нечетная неделя</th>
-              <th></th>
             </tr>
             </thead>
 
             <tbody>
             <tr class="another">
-              <td>12:00 - 13:35</td>
-              <td>Английский</td>
-              <td> - </td>
+              <td>12:00 - 13:35 <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+              <td>Английский <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+              <td> - <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
             </tr>
-            <tr class="another">
-              <td>14:10 - 15:55</td>
-              <td>ИТкПО</td>
-              <td>ИТкПО</td>
-            </tr>
-            <tr class="another">
-              <td>15:55 - 17:30</td>
-              <td>Теория систем</td>
-              <td>ФКИС</td>
-            </tr>
+
             </tbody>
           </table>
         </tr>
@@ -135,36 +122,25 @@
         </thead>
         <tbody>
         <tr>
-          <table class="table zen">
+          <table class="table">
             <thead>
             <tr class="another">
               <th>Время</th>
               <th>Четная неделя</th>
               <th>Нечетная неделя</th>
-              <th></th>
             </tr>
             </thead>
 
             <tbody>
             <tr class="another">
-              <td>10:15 - 12:00</td>
-              <td>РКИС</td>
-              <td> - </td>
+              <td>14:10 - 15:55 <button onclick="deleteElement(this)"style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+              <td>ИБиЗИ <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+              <td>Серверное программирование <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
             </tr>
             <tr class="another">
-              <td>12:00 - 13:35</td>
-              <td>РКИС</td>
-              <td>Английский</td>
-            </tr>
-            <tr class="another">
-              <td>14:10 - 15:55</td>
-              <td>ИБиЗИ</td>
-              <td>Серверное программирование</td>
-            </tr>
-            <tr class="another">
-              <td>15:55 - 17:40</td>
-              <td>Теория систем</td>
-              <td>Теория систем</td>
+              <td>15:55 - 17:40 <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+              <td>Теория систем <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+              <td>Теория систем <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
             </tr>
             </tbody>
           </table>
@@ -181,26 +157,25 @@
         </thead>
         <tbody>
         <tr>
-          <table class="table zen">
+          <table class="table">
             <thead>
             <tr class="another">
               <th>Время</th>
               <th>Четная неделя</th>
               <th>Нечетная неделя</th>
-              <th></th>
             </tr>
             </thead>
 
             <tbody>
             <tr class="another">
-              <td>10:15 - 12:00</td>
-              <td>РКИС</td>
-              <td>Английский</td>
+              <td>10:15 - 12:00 <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+              <td>РКИС <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+              <td>Английский <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
             </tr>
             <tr class="another">
-              <td>10:15 - 12:00</td>
-              <td>РКИС</td>
-              <td>Английский</td>
+              <td>10:15 - 12:00 <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+              <td>РКИС <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+              <td>Английский <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
             </tr>
             </tbody>
           </table>
@@ -216,36 +191,35 @@
         </thead>
         <tbody>
         <tr>
-          <table class="table zen">
+          <table class="table">
             <thead>
             <tr class="another">
               <th>Время</th>
               <th>Четная неделя</th>
               <th>Нечетная неделя</th>
-              <th></th>
             </tr>
             </thead>
 
             <tbody>
             <tr class="another">
-              <td>12:00 - 13:35</td>
-              <td>КПИРПО</td>
-              <td> - </td>
+              <td>12:00 - 13:35 <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+              <td>КПИРПО <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+              <td> - <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
             </tr>
             <tr class="another">
-              <td>14:10 - 15:55</td>
-              <td>Теория систем</td>
-              <td> - </td>
+              <td>14:10 - 15:55 <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+              <td>Теория систем <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+              <td> - <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
             </tr>
             <tr class="another">
-              <td>15:55 - 17:30</td>
-              <td>РКИС</td>
-              <td> - </td>
+              <td>15:55 - 17:30 <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+              <td>РКИС <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+              <td> - <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
             </tr>
             <tr class="another">
-              <td>17:40 - 19:15</td>
-              <td>ФКИС</td>
-              <td> - </td>
+              <td>17:40 - 19:15 <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+              <td>ФКИС <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+              <td> - <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
             </tr>
             </tbody>
           </table>
