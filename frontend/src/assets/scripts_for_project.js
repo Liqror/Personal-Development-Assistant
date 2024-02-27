@@ -103,3 +103,9 @@ document.addEventListener("DOMContentLoaded", function() {
 function deleteElement(elem) {
   elem.parentNode.innerHTML = '';
 }
+
+
+function deletePlan(planElement) {
+  planElement.remove();
+}
+

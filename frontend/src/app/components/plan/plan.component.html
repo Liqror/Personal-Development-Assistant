@@ -9,14 +9,17 @@
 <div class="container-fluid" style="background-color: #D4CBC8">
   <div class="row">
     <!--Кнопка создания нового плана-->
-    <p><button onclick="showDivPlan()" class="fixed_button">
+    <div class="mb-md-4">
+      <p><button onclick="showDivPlan()" class="fixed_button">
       <img src="././assets/image/add.png" alt="добавить план" style="height: 20px">
       Создать новый план
     </button></p>
+    </div>
+    
     <div class="col-md-12 col-lg-12 content-container">
       <div class="row justify-content-center">
         <!-- Здесь будет появляться поле для создания нового плана при нажатии на кнопку -->
-        <div id="divPlan" style="display: none; position: flex;" class="col-md-11 col-lg-11 mt-md-4">
+        <div id="divPlan" style="display: none; position: flex;" class="col-md-11 col-lg-11 mt-md-4 mb-md-4">
             <h4>
               <input class="inputNamePlan" type="text" name="objectName" placeholder="Введите название нового плана" style="width: 100%;" />
             </h4>
@@ -38,7 +41,7 @@
                 type="text" style="color: #595959; height: 130px; width: 90%;"></textarea>
               </div>
               <br>
-              <p style="margin-top: 10px;"><button onclick="showDiv()" style="background-color: #FFF">
+              <p style="margin-top: 10px;"><button onclick="showDiv()" style="background-color: #FFF; border-radius: 5px;">
                 Добавить задачу к плану</button></p>
               
                 <div class="row justify-content-center">
@@ -62,7 +65,7 @@
 
 
 
-        <div class="col-md-11 col-lg-11 mt-md-5" >
+        <div class="col-md-11 col-lg-11" id="Plan1">
           <h5>
             <button aria-expanded="false">
               План 1
@@ -108,9 +111,24 @@
               <p><input type="checkbox" name="languages" value="HTML"> задача3</p>
             </label>
 
+            <div class="row justify-content-center">
+              <div class="col-md-6 col-lg-6">
+                <p style="margin-top: 10px;"><button onclick="showDiv()" style="background-color: #FFF; border-radius: 5px;">
+                  Добавить задачу к плану</button></p>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <p style="text-align: end"><button onclick="deletePlan(document.getElementById('Plan1'))" class="close">
+                  <img src="././assets/image/delete.png" alt="удалить план" style="height: 20px">
+                  Удалить план
+                </button></p>
+              </div>
+          </div>            
+            
+              
+
           </div>
         </div>
-        <div class="col-md-11 col-lg-11 mt-md-1">
+        <div class="col-md-11 col-lg-11 mt-md-1" id="Plan2">
           <h5>
             <button aria-expanded="false">
               План 2
@@ -122,6 +140,11 @@
           </h5>
           <div hidden>
             <p>ЗДЕСЬ ОСНОВНОЙ КОНТЕНТ ДЛЯ ПЛАНА</p>
+            <p><button onclick="deletePlan(document.getElementById('Plan2'))">
+              <img src="././assets/image/delete.png" alt="удалить план" style="height: 20px">
+              Удалить план
+            </button></p>
+
           </div>
         </div>
       </div>
