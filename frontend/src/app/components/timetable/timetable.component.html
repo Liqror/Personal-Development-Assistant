@@ -8,8 +8,13 @@
 
 <div class="container-fluid" style="background-color: #D4CBC8">
   <div class="row">
+    <!--Кнопка изменения четности недель для расписания-->
+    <p><button onclick="weeksSettingDiv()" class="fixed_button" style="right: 210px; width: 300px;">
+      <img src="././assets/image/change.png" alt="изменить четность недели" style="height: 20px">
+      Настройка четности недель
+    </button></p>
     <!--Кнопка изменения расписания-->
-    <p><button onclick="showDiv()" class="fixed_button">
+    <p><button onclick="showDiv()" class="fixed_button" style="top: 0;">
       <img src="././assets/image/change.png" alt="добавить предмет" style="height: 20px">
       Добавить предмет
     </button></p>
@@ -35,7 +40,7 @@
               </tr>
               </thead>
 
-              <tbody>
+              <tbody class="myTable">
               <tr class="another">
                 <td id="element">10:15 - 12:00 <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
                 <td id="element">РКИС <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
@@ -70,7 +75,7 @@
             </tr>
             </thead>
 
-            <tbody>
+            <tbody class="myTable">
             <tr class="another">
               <td> - <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
               <td>выходной <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
@@ -100,7 +105,7 @@
             </tr>
             </thead>
 
-            <tbody>
+            <tbody class="myTable">
             <tr class="another">
               <td>12:00 - 13:35 <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
               <td>Английский <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
@@ -131,7 +136,7 @@
             </tr>
             </thead>
 
-            <tbody>
+            <tbody class="myTable">
             <tr class="another">
               <td>14:10 - 15:55 <button onclick="deleteElement(this)"style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
               <td>ИБиЗИ <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
@@ -166,7 +171,7 @@
             </tr>
             </thead>
 
-            <tbody>
+            <tbody class="myTable">
             <tr class="another">
               <td>10:15 - 12:00 <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
               <td>РКИС <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
@@ -200,7 +205,7 @@
             </tr>
             </thead>
 
-            <tbody>
+            <tbody class="myTable">
             <tr class="another">
               <td>12:00 - 13:35 <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
               <td>КПИРПО <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
@@ -231,6 +236,33 @@
 
   </div>
 </div>
+<!-- 
+  weeksSettingDiv 
+    Настройка четности недель 
+    После сохранения нужно удалять все предметы из расписания 
+    и менять начало отсчета для четной и нечетной недели
+-->
+<div id="divWeek" style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+  <div class="container">
+    <p>Укажите, когда начинается четная неделя 
+      <input type="date" id="time_from" style="width: 30%; background-color: #f0f0f0">
+    </p>
+
+   <p> <span style="color: #FB3838">Предупреждение.</span> После изменения четности недели текущее расписание удалится</p>
+
+   <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-6">
+      <p style="text-align: center"><button onclick="delTimetable()" id="save-button" class="save">Сохранить</button><p>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <p style="text-align: center"><button onclick="hideSetDiv()" id="close-button" class="close">Закрыть</button><p>
+    </div>
+  </div>
+
+  </div>
+</div>
+
+
 
 <div id="div1" style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
   <div class="container">
