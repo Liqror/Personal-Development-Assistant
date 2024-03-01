@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {IHomeData} from "../../interfaces/home";
 import {DatePipe} from "@angular/common";
 import { TaskService } from "../../services/task.service"
 import {ITaskPage} from "../../interfaces/task-page";
+import { DataService } from "../../services/data.service";
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -34,15 +36,18 @@ export class HomeComponent implements OnInit{
   formattedDate: string;
   // это джаваскрипт для создания задачи
   myScriptElement: HTMLScriptElement;
-// получены от апп компонента даты для верха
-  receivedDates: any;
+  private subs: Subscription;
 
 
-  constructor(private taskService: TaskService, private datePipe: DatePipe, private http: HttpClient) {
+
+  constructor(private taskService: TaskService, 
+    private datePipe: DatePipe, private http: HttpClient,
+    @Inject(DataService) private readonly dataService: DataService) {
     // джава скрипт для создания задачи
     this.myScriptElement = document.createElement("script");
     this.myScriptElement.src = "././assets/scripts_for_project.js";
     document.body.appendChild(this.myScriptElement);
+    
   }
 
   ngOnInit(): void {
@@ -51,6 +56,17 @@ export class HomeComponent implements OnInit{
 
     // Вызываем загрузку данных
     this.getHomeData(this.formattedDate);
+    // подписка на сервис для отследивания нажатий на календаре для обновления задач
+    this.subs = this.dataService.dates$.subscribe((dates) => this.update(dates));
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
+
+  private update(data: any): void {
+    console.log(data);
+    this.getHomeData(data.clicked)
   }
 
   formatDateForData(): void {
@@ -65,20 +81,22 @@ export class HomeComponent implements OnInit{
     return value < 10 ? `0${value}` : `${value}`;
   }
 
-  handleDatesChange(event: any) {
-    this.receivedDates = event;
+  // возможно удалить
+  // handleDatesChange(event: any) {
+  //   this.receivedDates = event;
 
-    // Получение данных из словаря
-    const eventData = this.receivedDates.eventData;
-    const yesterdayLabel = this.receivedDates.previous;
-    const todayLabel = this.receivedDates.clicked;
-    const tomorrowLabel = this.receivedDates.next;
+  //   // Получение данных из словаря
+  //   const eventData = this.receivedDates.eventData;
+  //   const yesterdayLabel = this.receivedDates.previous;
+  //   const todayLabel = this.receivedDates.clicked;
+  //   const tomorrowLabel = this.receivedDates.next;
 
-    console.log(yesterdayLabel, todayLabel, tomorrowLabel)
+  //   console.log(yesterdayLabel, todayLabel, tomorrowLabel)
 
-    this.isDateClicked = true;
-    this.getHomeData(eventData.clicked);
-  }
+  //   this.isDateClicked = true;
+  //   console.log(eventData.clicked);
+  //   this.getHomeData(eventData.clicked);
+  // }
 
   private formatDate(dateString: string): string {
     const date = new Date(dateString);
@@ -99,14 +117,14 @@ export class HomeComponent implements OnInit{
   saveTask(): void {
     const taskData: ITaskPage = {
       user_id: 1,
-      name: 'fgfgfgfg',
+      name: '1111',
       description: null,
       estimate: 1,
       task_category: {
         id: 1,
       },
-      start_date: "2023-12-26",
-      stop_date: null,
+      start_date: "2024-03-01",
+      stop_date: "2024-03-01",
       start_time: null,
       stop_time: null,
       timezone: "",
