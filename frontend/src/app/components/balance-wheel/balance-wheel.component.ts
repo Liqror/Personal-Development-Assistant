@@ -60,21 +60,10 @@ export class BalanceWheelComponent implements OnInit {
     this.ctx.fillStyle = 'black'; // Цвет точки
     this.ctx.fill();
 
-
-    // Нарисовать точку в центре большого круга
-    this.ctx.beginPath();
-    this.ctx.arc(centerX+110, centerY, 2, 0, 2 * Math.PI); // Радиус 2 для точки
-    this.ctx.fillStyle = 'red'; // Цвет точки
-    this.ctx.fill();
-
-
-
     // Рисование n линий радиуса через равное расстояние
     const numberOfLines = numberOfElements; // Задайте желаемое количество линий
     const angleIncrement = (2 * Math.PI) / numberOfLines;
 
-
-    
     // Угол для верхней части круга
     const startAngle = -Math.PI / 2;
 
@@ -105,7 +94,7 @@ export class BalanceWheelComponent implements OnInit {
       
 
       // Добавить надпись из JSON файла
-      const text = this.wheelData[i].name;
+      let text = this.wheelData[i].name;
       this.ctx.font = '20px Shantell Sans cursiveSofia';
 
       // Измерить ширину текста
@@ -118,27 +107,58 @@ export class BalanceWheelComponent implements OnInit {
       const anglePerCharacter = textWidth / text.length / textRadius;
 
       // Рассчитать координаты для центра текста на дуге внешнего круга
-      const centerXText = centerX + Math.cos(currentAngle) * textRadius;
-      const centerYText = centerY + Math.sin(currentAngle) * textRadius;
+      const angleCenterText = currentAngle + ((currentAngle2 - currentAngle)/2);
+      const centerXText = centerX + Math.cos(angleCenterText) * textRadius;
+      const centerYText = centerY + Math.sin(angleCenterText) * textRadius;
 
       // Установить положение текста
       this.ctx.textAlign = 'center';
       this.ctx.textBaseline = 'middle';
 
+
+      /*
+      const fontSize = 20; // Размер шрифта
+      const lineHeight = fontSize * 1.5; // Высота строки
+      const padding = lineHeight * 0.5;  // Отступ сверху и снизу
+      const width = this.ctx.measureText(text).width; // Ширина текста
+      const height = lineHeight; // Высота текста   
+      this.ctx.save();  // Сохраняем текущее состояние
+      this.ctx.translate(centerXText, centerYText); // Переводим в систему координат текста
+      //this.ctx.rotate(-startAngle); // Поворачиваем текст
+      this.ctx.font = fontSize + 'px sans-serif';
+      this.ctx.fillText(text, 0, lineHeight); // Рисуем текст
+      this.ctx.restore(); // Восстанавливаем состояние после сохранения
+      */
+      console.log(`Угол: ${angleCenterText}`);
+      if (angleCenterText > 0 && angleCenterText < Math.PI) {
+        //Инвертируем текст ели он лежит от 0 до pi/2 (то есть внизу круга)
+        let reverseString: string = "";
+        // Iterating through the string
+        for (let char of text) {
+
+          // append every character of string to the start of the reverseString
+          reverseString = char + reverseString;
+        }
+        text = reverseString
+      }
+    
+      
+
       // В цикле по каждому символу в тексте
       for (let j = 0; j < text.length; j++) {
         // Рассчитать угол для текущего символа
-        const angle = currentAngle + j * anglePerCharacter;
-
+        const k = text.length/2;
+        const angle = angleCenterText + j * anglePerCharacter - anglePerCharacter*k;
         // Рассчитать координаты для каждого символа на дуге внешнего круга
         const x = centerX + Math.cos(angle) * textRadius;
         const y = centerY + Math.sin(angle) * textRadius;
-
+        //console.log(`Угол: ${angle} символ ${text[j]}`);    
         // Нарисовать символ
         this.ctx.fillStyle = 'black'; // Цвет текста
-        this.ctx.fillText(text[j], x, y);
+        this.ctx.fillText(text[j], x, y);      
       }
-
+  
+      /*
       function formatAngle(angleRadians: number): string {
         const piFraction = angleRadians / Math.PI;
         const fraction = simplifyFraction({ numerator: piFraction, denominator: 1 });
@@ -164,7 +184,7 @@ export class BalanceWheelComponent implements OnInit {
 
       // Выводим в консоль значения углов в формате "2/3 π"
       console.log(`Угол: ${formatAngle(currentAngle)}`);
-
+*/
     }
   }
 }
