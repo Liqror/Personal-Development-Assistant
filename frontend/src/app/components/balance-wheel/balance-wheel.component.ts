@@ -4,8 +4,8 @@ import {IWheel, IWheelData} from "../../interfaces/wheel";
 
 @Component({
   selector: 'app-balance-wheel',
-  // templateUrl: './balance-wheel.component.html',
-  template: '<canvas #balanceWheelCanvas width="510" height="510"></canvas>',
+  templateUrl: './balance-wheel.component.html',
+  // template: '<canvas #balanceWheelCanvas width="510" height="510"></canvas>',
   styleUrls: ['./balance-wheel.component.css']
 })
 export class BalanceWheelComponent implements OnInit {
@@ -33,7 +33,7 @@ export class BalanceWheelComponent implements OnInit {
     const numberOfElements = this.wheelData.length;
     const centerX = this.balanceWheelCanvas.nativeElement.width / 2;
     const centerY = this.balanceWheelCanvas.nativeElement.height / 2;
-    const radius = 200;
+    const radius = 250;
     let innerRadius = radius;  // Радиус внутренних кругов
     const numCircles = 10;
 
@@ -60,10 +60,21 @@ export class BalanceWheelComponent implements OnInit {
     this.ctx.fillStyle = 'black'; // Цвет точки
     this.ctx.fill();
 
+
+    // Нарисовать точку в центре большого круга
+    this.ctx.beginPath();
+    this.ctx.arc(centerX+110, centerY, 2, 0, 2 * Math.PI); // Радиус 2 для точки
+    this.ctx.fillStyle = 'red'; // Цвет точки
+    this.ctx.fill();
+
+
+
     // Рисование n линий радиуса через равное расстояние
     const numberOfLines = numberOfElements; // Задайте желаемое количество линий
     const angleIncrement = (2 * Math.PI) / numberOfLines;
 
+
+    
     // Угол для верхней части круга
     const startAngle = -Math.PI / 2;
 
@@ -71,11 +82,27 @@ export class BalanceWheelComponent implements OnInit {
       const currentAngle = startAngle + i * angleIncrement;
       const xOnOuterCircle = centerX + Math.cos(currentAngle) * radius;
       const yOnOuterCircle = centerY + Math.sin(currentAngle) * radius;
+
+      const currentAngle2 = startAngle + (i+1) * angleIncrement;
+          
       this.ctx.beginPath();
       this.ctx.moveTo(centerX, centerY);
       this.ctx.lineTo(xOnOuterCircle, yOnOuterCircle);
       this.ctx.strokeStyle = 'black';
       this.ctx.stroke();
+
+
+      // Раскраска сектора в соответствии с кол-вом заработанных баллов и выбранным цветом для каждой категории
+      const fillRadX = centerX + Math.cos(currentAngle) * this.wheelData[i].points;
+      const fillRadY = centerY + Math.sin(currentAngle) * this.wheelData[i].points;
+      this.ctx.beginPath();
+      this.ctx.moveTo(centerX, centerY);
+      this.ctx.lineTo(fillRadX, fillRadY);
+      this.ctx.arc(centerX, centerY, radius * this.wheelData[i].points/10, currentAngle, currentAngle2);
+      this.ctx.moveTo(centerX, centerY);
+      this.ctx.fillStyle = this.wheelData[i].color; // Цвет точки
+      this.ctx.fill();   
+      
 
       // Добавить надпись из JSON файла
       const text = this.wheelData[i].name;

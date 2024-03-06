@@ -1,5 +1,44 @@
-<p>balance-wheel works!</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Личный ассистент</title>
+</head>
 
-<!-- balance-wheel.component.html -->
+<body>
+    
+    <!-- Основной контент страницы  -->
+    <div class="col-md-12 col-lg-12 content-container">       
+        <div class="row justify-content-center">
+            <div class="col-md-4 col-lg-4 mt-md-1">
+                <h2>Категории</h2>
+                <hr>
+                <!-- Кнопка "Создание новой категории" -->
+                <p><button onclick="showDivNewCtg()" style="border: none;"> <img src="././assets/image/add.png" alt="новая задача" style="height: 20px"> Добавить категорию</button></p>
+                <p><input type="checkbox" id="ctg" name="ctg" value="ctg">
+                <label for="ctg" style="margin-left: 7px;"> Семья </label> </p>
 
-<canvas #balanceWheelCanvas width="200" height="200"></canvas>
+            </div>
+
+            <div class="col-md-7 col-lg-7 mt-md-1">
+                <canvas #balanceWheelCanvas width="600" height="600"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div id="newCtg" style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+        <div class="container">
+            <p><input type="text" name="userName" placeholder="Введите название категории" style="width: 100%" /></p>
+            <p>Выберите цвет для категории: </p>
+            <input type="color" id="head" name="head" value="#F8A831" style="width: 100%; height: 150px;"/>
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-6">
+                  <p style="text-align: center"><button  onclick="hideDivCtg()" id="save-button" class="save">Сохранить</button><p>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                  <p style="text-align: center"><button onclick="hideDivCtg()" id="close-button" class="close">Закрыть</button><p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

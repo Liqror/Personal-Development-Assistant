@@ -101,3 +101,11 @@ function delTimetable() {
 function hideSetDiv() {
   document.getElementById("divWeek").style.display = "none";
 }
+
+function showDivNewCtg() {
+  document.getElementById("newCtg").style.display = "block";
+}
+
+function hideDivCtg() {
+  document.getElementById("newCtg").style.display = "none";
+}
