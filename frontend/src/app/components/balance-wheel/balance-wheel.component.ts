@@ -141,9 +141,34 @@ export class BalanceWheelComponent implements OnInit {
         }
         text = reverseString
       }
-    
+      this.ctx.save();
       
-
+      //this.ctx.translate(300, 300); 
+      //this.ctx.rotate(-1 * currentAngle / 2); 
+      const widthS = text.length * 2; // ширина = количество символов * 2 пикселя
+        
+      
+        for (let i = 0; i < text.length; i++) {
+          this.ctx.save(); 
+          const k = text.length/2;
+          const angle = angleCenterText + i * anglePerCharacter - anglePerCharacter*k;
+          // Рассчитать координаты для каждого символа на дуге внешнего круга
+          const x = centerX + Math.cos(angle) * textRadius;
+          const y = centerY + Math.sin(angle) * textRadius;
+          this.ctx.translate(x, y); // сдвиг на 2 пикселя для каждого символа
+          if (angleCenterText > 0 && angleCenterText < Math.PI) {
+            this.ctx.rotate(angle - Math.PI/2);
+          }
+          else {
+            this.ctx.rotate(angle + Math.PI/2);
+          }
+          this.ctx.textAlign = "center";
+          this.ctx.font = "16px sans-serif";
+          this.ctx.fillStyle = "black";
+          this.ctx.fillText(text[i], 0, 0);
+          this.ctx.restore(); 
+        }
+      /*
       // В цикле по каждому символу в тексте
       for (let j = 0; j < text.length; j++) {
         // Рассчитать угол для текущего символа
@@ -154,10 +179,18 @@ export class BalanceWheelComponent implements OnInit {
         const y = centerY + Math.sin(angle) * textRadius;
         //console.log(`Угол: ${angle} символ ${text[j]}`);    
         // Нарисовать символ
+        //this.ctx.rotate(angle / text.length); 
+        //this.ctx.save(); 
+        //this.ctx.translate(radius, -y); 
         this.ctx.fillStyle = 'black'; // Цвет текста
-        this.ctx.fillText(text[j], x, y);      
+        this.ctx.fillText(text[j], x, y); 
+        //this.ctx.restore(); 
+              
       }
-  
+      */
+      //this.ctx.restore(); 
+      
+
       /*
       function formatAngle(angleRadians: number): string {
         const piFraction = angleRadians / Math.PI;
