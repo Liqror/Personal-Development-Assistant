@@ -5,6 +5,8 @@ canvas {
 }
 
 .wheel_date_input {
-  width: auto; 
-  background-color: transparent;
+  width: 10%; 
+  background-color: #F0F0F0;
+  height: auto;
+  margin: 0 10px 0 10px;
 }
