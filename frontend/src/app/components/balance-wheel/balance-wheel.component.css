@@ -3,3 +3,8 @@ canvas {
   display: block;
   margin: 20px auto;
 }
+
+.wheel_date_input {
+  width: auto; 
+  background-color: transparent;
+}

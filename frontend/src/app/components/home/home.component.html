@@ -64,8 +64,11 @@
             <hr>
             <h3>Задачи</h3>
             <h4>На день</h4>
-            <input type="checkbox" id="ex" name="ex" value="ex">
-            <label for="ex"> Задача на день</label><br>
+            <p><label style="margin-left: 7px;"> 
+              <input class="real_checkbox" type="checkbox" name="ctg">
+              <span class="custom_checkbox"></span>
+              Задача на день 
+          </label></p>
             <div *ngFor="let task of data.yesterday.fixed_tasks">
               <input type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
               <label [for]="task.id.toString()">{{ task.name }}</label><br>
@@ -144,27 +147,54 @@
               <div class="col-md-4 col-lg-4 mt-md-1">
                 <br>
                 <h4>Просрочено</h4>
-                <div *ngFor="let task of data.late_tasks">
+                
+            <div *ngFor="let task of data.late_tasks">
+              <p><label [for]="task.id.toString()" style="margin-left: 7px;"> 
+                <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
+                <span class="custom_checkbox" [id]="task.id.toString()"></span>
+                {{ task.name }} 
+            </label></p>
+                <!-- <div *ngFor="let task of data.late_tasks">
                   <input type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
                   <label [for]="task.id.toString()">{{ task.name }}</label><br>
+                -->
                 </div>
                 </div>
                 <div class="col-md-4 col-lg-4 mt-md-1">
                   <br>
                   <h4>Скоро дедлайн</h4>
-                  <!-- <div *ngFor="let task of data.free_tasks">
-                    <input type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
-                    <label [for]="task.id.toString()">{{ task.name }}</label><br>
+                  <!-- 
+                  <div *ngFor="let task of data.late_tasks">
+                    <p><label [for]="task.id.toString()" style="margin-left: 7px;"> 
+                      <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
+                      <span class="custom_checkbox" [id]="task.id.toString()"></span>
+                      {{ task.name }} 
+                    </label></p>
                   </div> -->
+                      <!-- <div *ngFor="let task of data.late_tasks">
+                        <input type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
+                        <label [for]="task.id.toString()">{{ task.name }}</label><br>
+                      -->
+
             
                 </div>
                 <div class="col-md-4 col-lg-4 mt-md-1">
                   <br>
                   <h4>Беcсрочно</h4>
                   <div *ngFor="let task of data.free_tasks">
+                    <p><label [for]="task.id.toString()" style="margin-left: 7px;"> 
+                      <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
+                      <span class="custom_checkbox" [id]="task.id.toString()"></span>
+                      {{ task.name }} 
+                    </label></p>
+                  </div>
+
+                  <!--
+                  <div *ngFor="let task of data.free_tasks">
                     <input type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
                     <label [for]="task.id.toString()">{{ task.name }}</label><br>
                   </div>
+                -->
                 </div>
                 </div>
 
