@@ -263,7 +263,6 @@ th {
   text-shadow: #d5d8dd 1px 0 10px;
 }
 
-
 .nav-link:hover {
   color: #F3A352;
   text-shadow: #f0f0f0 2px 0 10px;
@@ -275,10 +274,11 @@ th {
   color: #000000;
 }
 
-.navbar img {
+img {
   margin-right: 5px;
   height: 23px;
 }
+
 
 .navbar-container .navbar {
   background-color: #D4CBC8;
@@ -287,14 +287,16 @@ th {
   flex-wrap: nowrap;
   flex-direction: column;
   height: 100%;
+  
 }
+
 
 .navbar-container {
   padding: 2%;
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #000000;
-}
+} 
 .navbar-container .navbar-collapse {
   align-items: flex-start;
 }
@@ -312,12 +314,13 @@ content-container {
   align-items: center;
   margin-left: 100px;
 }
+
 .navbar-container {
-  position: sticky;
   top: 0;
-  overflow-y: auto;
-  height: 100vh;
+  
+  height: 100%;
 }
+
 
 .button_task {
   display: block;
@@ -390,7 +393,7 @@ select {
 
 
 .col-2 {
-  padding: 2%;
+  padding: 10%;
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #000000;

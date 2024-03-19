@@ -2,12 +2,12 @@
     {
       "name": "Здоровье",
       "points": 5,
-      "color": "#AABBCC"
+      "color": "#98ED00"
     },
     {
       "name": "Учеба",
       "points": 7,
-      "color": "#DDEEFF"
+      "color": "#5E4AFF"
     },
     {
       "name": "Отношения",
@@ -17,12 +17,22 @@
     {
       "name": "Семья",
       "points": 8,
-      "color": "#CCDDEE"
+      "color": "#FFD12F"
     },
     {
       "name": "Спорт",
+      "points": 9,
+      "color": "#EE8FFF"
+    },
+    {
+      "name": "Еда",
+      "points": 7,
+      "color": "#FF752F"
+    },
+    {
+      "name": "Друзья",
       "points": 6,
-      "color": "#FFCCDD"
+      "color": "#30F6FF"
     }
   ]
 }

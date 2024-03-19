@@ -9,19 +9,25 @@
 <div class="container-fluid" style="background-color: #D4CBC8">
   <div class="row">
     <div class="col-md-2 col-lg-2 navbar-container">
-      <nav class="navbar navbar-expand-md navbar-light">
+      <nav class="navbar navbar-expand-lg navbar-light">
         <a class="navbar-brand" href="#">
           <img src="././assets/image/profile.png" alt="профиль">
           Профиль
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbar">
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <!-- Пункты вертикального меню -->
           <ul class="navbar-nav">
             <hr>
-            <app-calendar (dateClicked)="handleDateClicked($event)" [currentDate]="currentDate"></app-calendar>
+            <li class="nav-item">
+              <app-calendar (dateClicked)="handleDateClicked($event)" [currentDate]="currentDate"></app-calendar>
+            </li>
+            
             <hr>
             <li class="nav-item">
               <a class="nav-link" routerLink="/">
@@ -85,6 +91,5 @@
   </div>
 </div>
 </body>
-<script src="bootstrap-5.3.0/dist/js/func.js"></script>
 </html>
 
