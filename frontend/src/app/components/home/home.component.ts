@@ -13,20 +13,19 @@ import { Subscription } from 'rxjs';
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit{
-  taskData: ITaskPage = {
-  user_id: 1,
-  name: 'fgfgfgfg',
-  description: null,
-  estimate: 0,
-  task_category: {
-    id: 0,
-  },
-  start_date: "2023/12/26",
-  stop_date: null,
-  start_time: null,
-  stop_time: null,
-  timezone: "",
-  status: 0,};
+
+  // для сохранения данных из формы задачи
+  taskName: string = "";
+  taskEstimate: number;
+  taskDescription: string | null = null;
+  start: string | null = null;
+  stop: string | null = null;
+  startDate: string | null = null;
+  stopDate: string | null = null;
+  startTime: string | null = null;
+  stopTime: string | null = null;
+
+
   currentDate: Date;
   data: IHomeData;
   yesterdayLabel: string = 'вчера';
@@ -113,29 +112,97 @@ export class HomeComponent implements OnInit{
     });
   }
 
-//   передача данных Наташе
+  // saveTask(): void {
+  //   // Получаем значения из формы
+  //   // const name = document.getElementById('input[name="userName"]').value; 
+  //   const name = getValueOrFallback('input[name="userName"]');
+  //   // Предполагается, что это имя задачи, но у вас есть несколько полей с таким именем
+  //   const category = document.getElementById('category-for-task').value;
+  //   const description = document.getElementById('mess').value;
+  //   const startDate = document.getElementById('date_from').value;
+  //   const endDate = document.getElementById('date_to').value;
+  //   const markTask = document.getElementById('mark_task').value; // Предполагаем, что это оценка задачи
+  
+  //   // Подготавливаем данные для отправки
+  //   const taskData = {
+  //     user_id: 1, // Это значение статическое, возможно, вам нужен способ его определения
+  //     name: name,
+  //     description: description,
+  //     estimate: parseFloat(markTask), // Преобразуем строку в число
+  //     task_category: {
+  //       id: 1, // Вам нужно будет определить, как преобразовать категорию в соответствующий ID
+  //     },
+  //     start_date: startDate.split('T')[0], // Обрезаем время, если оно присутствует
+  //     stop_date: endDate.split('T')[0], // Обрезаем время, если оно присутствует
+  //     start_time: startDate.split('T')[1] || null, // Получаем время, если оно присутствует
+  //     stop_time: endDate.split('T')[1] || null, // Получаем время, если оно присутствует
+  //     timezone: "", // Вам нужно будет определить, как установить часовой пояс
+  //     status: 0, // Это значение статическое, возможно, вам нужен способ его определения
+  //   };
+  
+  //   // Отправляем данные
+  //   this.taskService.addTask(taskData).subscribe(
+  //     (response) => {
+  //       console.log('Задача успешно сохранена', response);
+  //     },
+  //     (error) => {
+  //       console.error('Ошибка при сохранении задачи', error);
+  //     }
+  //   );
+  // }
+
+//   передача данных старая рабочая
   saveTask(): void {
-    const taskData: ITaskPage = {
-      user_id: 1,
-      name: '1111',
-      description: null,
-      estimate: 1,
-      task_category: {
-        id: 1,
-      },
-      start_date: "2024-03-01",
-      stop_date: "2024-03-01",
-      start_time: null,
-      stop_time: null,
-      timezone: "",
-      status: 0,};
-    this.taskService.addTask(taskData).subscribe(
-      (response) => {
-        console.log('Задача успешно сохранена', response);
-      },
-      (error) => {
-        console.error('Ошибка при сохранении задачи', error);
+    if (this.taskName !== "") {
+      if (this.taskDescription === "") {
+        this.taskDescription = null;
       }
-    );
+
+      if (this.start !== null) {
+        const startDateParts = this.start.split('T'); // Разделяем дату и время
+        this.startDate = startDateParts[0]; // Дата без времени
+        this.startTime = startDateParts[1] ? startDateParts[1].substr(0, 5) + ':00' : null; // Время с добавлением секунд
+        }
+
+      if (this.stop !== null) {
+        const stopDateParts = this.stop.split('T'); // Разделяем дату и время
+        this.stopDate = stopDateParts[0]; // Дата без времени
+        this.stopTime = stopDateParts[1] ? stopDateParts[1].substr(0, 5) + ':00' : null; // Время с добавлением секунд
+        }  
+
+      const taskData: ITaskPage = {
+        name: this.taskName,
+        estimate: this.taskEstimate,
+        repeat : null,
+        status: 0,
+        timezone: "Asia/Krasnoyarsk",
+        user_id: 1,
+        description: this.taskDescription,
+        start_date: this.startDate,
+        stop_date: this.stopDate,
+        start_time: this.startTime,
+        stop_time: this.stopTime,
+        task_category: {
+          id: 1,
+        },  
+      };
+
+      this.taskService.addTask(taskData).subscribe(
+        (response) => {
+          console.log('Задача успешно сохранена', response);
+          this.clear();
+        },
+        (error) => {
+          console.error('Ошибка при сохранении задачи', error);
+        }
+      );
+    }
   }
-}
+
+  clear(): void {
+    this.taskName = '';
+    this.taskEstimate = NaN; 
+    this.taskDescription = null;
+  }
+
+}  

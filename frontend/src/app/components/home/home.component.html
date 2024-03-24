@@ -209,7 +209,7 @@
   <!-- Кнопка новой задачи  -->
     <div id="div1" style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
     <div class="container">
-      <p><input type="text" name="userName" placeholder="Введите название задачи" style="width: 100%" /></p>
+      <p><input [(ngModel)]="taskName" type="text" name="userName" placeholder="Введите название задачи" style="width: 100%" /></p>
       <div class="row justify-content-center">
 
         <div class="col-md-6 col-lg-6">
@@ -225,16 +225,16 @@
             </select>
           </p>
           <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
-            ОТ <input type="datetime-local" id="date_from" style="width: 70%; background-color: #f0f0f0"> </p>
+            ОТ <input [(ngModel)]="start" type="datetime-local" id="date_from" style="width: 70%; background-color: #f0f0f0"> </p>
 
         </div>
         <div class="col-md-6 col-lg-6">
           <p> <img src="././assets/image/score.png" alt="оценка" style="height: 30px; margin-right: 10px">
-            <input style="width: 80%" type="text" name="userName" id="mark_task" placeholder="Оценка задачи" /> </p>
-          <p>ДО <input type="datetime-local" id="date_to" style="width: 82%; background-color: #f0f0f0"></p>
+            <input [(ngModel)]="taskEstimate" style="width: 80%" type="number" step="1" name="userName" id="mark_task" placeholder="Оценка задачи" /> </p>
+          <p>ДО <input [(ngModel)]="stop" type="datetime-local" id="date_to" style="width: 82%; background-color: #f0f0f0"></p>
         </div>
-        <div class="col-md-12 col-lg-12">
 
+        <div class="col-md-12 col-lg-12">
           <p>
             <img src="././assets/image/plans.png" alt="планы" style="height: 30px; margin-right: 10px">
             <select id="task-in-plan" name="task-plan" style="width: 90%; background-color: #f0f0f0">
@@ -319,8 +319,8 @@
       </div>
 
       <br>
-      <textarea name="message" id="mess" rows="5" class="form-control md-textarea"
-                type="text" style="color: #595959; height: 130px"></textarea>
+      <textarea [(ngModel)]="taskDescription" name="message" id="mess" rows="5" class="form-control md-textarea"
+                type="text" style="color: #595959; height: 130px" placeholder="Подробное описание"></textarea>
       <div class="row justify-content-center">
         <div class="col-md-6 col-lg-6">
           <p style="text-align: center"><button (click)="saveTask()" onclick="hideDiv()" id="save-button" class="save">Сохранить</button><p>
@@ -330,6 +330,7 @@
         </div>
     </div>
   </div>
+
   </div>
 </body>
 
