@@ -10,3 +10,14 @@ canvas {
   height: auto;
   margin: 0 10px 0 10px;
 }
+canvas {
+  width: 600px;   /* Вмещаем всю ширину окна браузера */
+  height: 600px;   /* И половину его высоты */
+}
+
+@media only screen and (max-width: 600px) {
+  canvas {
+    width: 100%;  /* На малых экранах занимаем всю доступную ширину */
+    height: 100%; /* По высоте у нас гибкий подход */
+  }
+}
