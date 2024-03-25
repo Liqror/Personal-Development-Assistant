@@ -196,27 +196,39 @@ export class HomeComponent implements OnInit{
     }
   }
 
-  // очистка полей недоделана
+  // очистка полей НЕДОДЕЛАНА НЕ РАБОТАЕТ С ВЫПАДАЮЩИМИ СПИСКАМИ категории и планы
   clear(): void {
     this.taskName = '';
     this.taskEstimate = NaN; 
     this.taskDescription = null;
+    this.start = null;
+    this.stop = null;
+    this.startDate = null;
+    this.stopDate = null;
+    this.startTime = null;
+    this.stopTime = null;
+    this.taskCategory = 0 ;
   }
 
   deleteTask(taskId: number) {
     const url = `http://localhost:8080/assistant/api/tasks/${taskId}`;
-
     this.http.delete(url)
       .subscribe(
         () => {
           console.log('Задача успешно удалена');
-          // дополнительные действия после успешного удаления задачи
         },
         error => {
           console.error('Произошла ошибка при удалении задачи:', error);
-          // обработка ошибки при удалении задачи
         }
       );
   }
-  
+
+  getTaskInfo(event: MouseEvent, taskId: number): void {
+    event.preventDefault(); // Предотвращаем стандартное действие
+    this.http.get<any>(`http://localhost:8080/assistant/api/tasks/${taskId}`).subscribe((taskInfo: any) => {
+      console.log('Информация о задаче:', taskInfo);
+      // Здесь вы можете выполнить необходимые действия с полученной информацией о задаче
+    });
+  }
+
 }  
