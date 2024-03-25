@@ -248,7 +248,8 @@
         </div>
         <div class="col-md-6 col-lg-6">
           <p> <img src="././assets/image/score.png" alt="оценка" style="height: 30px; margin-right: 10px">
-            <input [(ngModel)]="taskEstimate" style="width: 80%" type="number" step="1" name="userName" id="mark_task" placeholder="Оценка задачи" min="1" max="100"/> </p>
+            <input [(ngModel)]="taskEstimate" style="width: 80%" type="number" step="1" name="userName" id="mark_task" 
+            placeholder="Оценка задачи"/></p>
           <p>ДО <input [(ngModel)]="stop" type="datetime-local" id="date_to" style="width: 82%; background-color: #f0f0f0"></p>
         </div>
 
@@ -256,12 +257,8 @@
           <p>
             <img src="././assets/image/plans.png" alt="планы" style="height: 30px; margin-right: 10px">
             <select id="task-in-plan" name="task-plan" style="width: 90%; background-color: #f0f0f0">
-              <option value="chooth"> Принадлежит плану</option>
-              <option value="plan-no"> нет</option>
-              <option value="plan1">план1</option>
-              <option value="plan2">план2</option>
-              <option value="plan3">план3</option>
-              <option value="plan4">план4</option>
+              <option value="choose">Принадлежит плану</option>
+              <option *ngFor="let plan of plans" [value]="plan.id">{{ plan.name }}</option>
             </select>
           </p>
         </div>

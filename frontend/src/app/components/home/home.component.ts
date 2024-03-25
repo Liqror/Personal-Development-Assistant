@@ -58,14 +58,11 @@ export class HomeComponent implements OnInit{
   ngOnInit(): void {
     this.currentDate = new Date();
     this.formatDateForData();
-    this.getCategories();
 
-    // Вызываем загрузку данных
+    // Вызываем загрузку данных, получение категорий и планов для создания задач
     this.getHomeData(this.formattedDate);
     // подписка на сервис для отследивания нажатий на календаре для обновления задач
     this.subs = this.dataService.dates$.subscribe((dates) => this.update(dates));
-
-    
   }
 
   ngOnDestroy(): void {
@@ -118,11 +115,28 @@ export class HomeComponent implements OnInit{
   getHomeData(data: string): void {
     this.http.get<IHomeData>('http://localhost:8080/assistant/api/' + data).subscribe((res: IHomeData) => {
       this.data = res;
+      const sectionsToCheck = [
+        res.yesterday.fixed_tasks, 
+        res.today.fixed_tasks, 
+        res.tomorrow.fixed_tasks, 
+        res.free_tasks, 
+        res.late_tasks, 
+        res.soon_tasks];
+
+      for (const tasks of sectionsToCheck) {
+        if (tasks && tasks.length > 0) {
+          const firstTaskId = tasks[0].id;
+          
+          this.getCategories(firstTaskId);
+          break; // Прерываем цикл после нахождения первой задачи
+        }
+      }
     });
+    this.getPlans();
   }
 
-  getCategories(): void {
-    this.http.get<ITackCategories>('http://localhost:8080/assistant/api/tasks/1').subscribe((res: ITackCategories) => {
+  getCategories(id: number): void {
+    this.http.get<ITackCategories>('http://localhost:8080/assistant/api/tasks/'+id).subscribe((res: ITackCategories) => {
       this.categories = res.all_categories_for_user;
       this.taskCategory = this.categories[0].id;
     });
@@ -134,12 +148,9 @@ export class HomeComponent implements OnInit{
     });
   }
 
-
-//   передача данных старая рабочая
   saveTask(): void {
-    // && this.taskEstimate !== NaN
     // задача не может быть без имени, оценки и категории. категория автоматически ставиться 0
-    if (this.taskName !== "" && this.taskEstimate !== 0) {
+    if (this.taskName !== "" && this.taskEstimate !== undefined) {
       if (this.taskDescription === "") {
         this.taskDescription = null;
       }
@@ -148,15 +159,13 @@ export class HomeComponent implements OnInit{
         const startDateParts = this.start.split('T'); // Разделяем дату и время
         this.startDate = startDateParts[0]; // Дата без времени
         this.startTime = startDateParts[1] ? startDateParts[1].substr(0, 5) + ':00' : null; // Время с добавлением секунд
-        }
+      }
 
       if (this.stop !== null) {
         const stopDateParts = this.stop.split('T'); // Разделяем дату и время
         this.stopDate = stopDateParts[0]; // Дата без времени
         this.stopTime = stopDateParts[1] ? stopDateParts[1].substr(0, 5) + ':00' : null; // Время с добавлением секунд
-        }  
-      
-      console.log('оценка тип', typeof this.taskEstimate);  
+      }  
 
       const taskData: ITaskPage = {
         name: this.taskName,
@@ -171,7 +180,7 @@ export class HomeComponent implements OnInit{
         start_time: this.startTime,
         stop_time: this.stopTime,
         task_category: {
-          id: 1,
+          id: this.taskCategory,
         },  
       };
 
@@ -187,6 +196,7 @@ export class HomeComponent implements OnInit{
     }
   }
 
+  // очистка полей недоделана
   clear(): void {
     this.taskName = '';
     this.taskEstimate = NaN; 
