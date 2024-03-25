@@ -235,13 +235,8 @@
         <div class="col-md-6 col-lg-6">
           <p>
             <img src="././assets/image/category.png" alt="категория для задачи" style="height: 30px">
-            <select id="category-for-task" name="category" style="width: 80%; background-color: #f0f0f0">
-              <option value="chooth">Выберите категорию</option>
-              <option value="health">здоровье</option>
-              <option value="family">семья</option>
-              <option value="love">отношения</option>
-              <option value="education">образование</option>
-              <option value="career">карьера</option>
+            <select [(ngModel)]="taskCategory" id="category-for-task" name="category" style="width: 80%; background-color: #f0f0f0">
+              <option *ngFor="let category of categories" [value]="category.id">{{category.title}}</option>
             </select>
           </p>
           <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
@@ -346,7 +341,7 @@
           <p style="text-align: center"><button (click)="saveTask()" onclick="hideDiv()" id="save-button" class="save">Сохранить</button><p>
         </div>
         <div class="col-md-6 col-lg-6">
-          <p style="text-align: center"><button onclick="hideDiv()" id="close-button" class="close">Закрыть</button><p>
+          <p style="text-align: center"><button onclick="hideDiv()" id="close-button" class="close">Удалить</button><p>
         </div>
     </div>
   </div>

@@ -4,8 +4,11 @@ import {IHomeData} from "../../interfaces/home";
 import {DatePipe} from "@angular/common";
 import { TaskService } from "../../services/task.service"
 import {ITaskPage} from "../../interfaces/task-page";
+import {ICategory} from "../../interfaces/category";
+import {ITackCategories} from "../../interfaces/task_categories";
 import { DataService } from "../../services/data.service";
 import { Subscription } from 'rxjs';
+import { IPlan } from 'src/app/interfaces/plan';
 
 
 @Component({
@@ -24,10 +27,13 @@ export class HomeComponent implements OnInit{
   stopDate: string | null = null;
   startTime: string | null = null;
   stopTime: string | null = null;
-
+  taskCategory: number;
 
   currentDate: Date;
   data: IHomeData;
+  categories: ICategory[];
+  plans: IPlan[];
+
   yesterdayLabel: string = 'вчера';
   todayLabel: string = 'сегодня';
   tomorrowLabel: string = 'завтра';
@@ -52,6 +58,7 @@ export class HomeComponent implements OnInit{
   ngOnInit(): void {
     this.currentDate = new Date();
     this.formatDateForData();
+    this.getCategories();
 
     // Вызываем загрузку данных
     this.getHomeData(this.formattedDate);
@@ -112,44 +119,19 @@ export class HomeComponent implements OnInit{
     });
   }
 
-  // saveTask(): void {
-  //   // Получаем значения из формы
-  //   // const name = document.getElementById('input[name="userName"]').value; 
-  //   const name = getValueOrFallback('input[name="userName"]');
-  //   // Предполагается, что это имя задачи, но у вас есть несколько полей с таким именем
-  //   const category = document.getElementById('category-for-task').value;
-  //   const description = document.getElementById('mess').value;
-  //   const startDate = document.getElementById('date_from').value;
-  //   const endDate = document.getElementById('date_to').value;
-  //   const markTask = document.getElementById('mark_task').value; // Предполагаем, что это оценка задачи
-  
-  //   // Подготавливаем данные для отправки
-  //   const taskData = {
-  //     user_id: 1, // Это значение статическое, возможно, вам нужен способ его определения
-  //     name: name,
-  //     description: description,
-  //     estimate: parseFloat(markTask), // Преобразуем строку в число
-  //     task_category: {
-  //       id: 1, // Вам нужно будет определить, как преобразовать категорию в соответствующий ID
-  //     },
-  //     start_date: startDate.split('T')[0], // Обрезаем время, если оно присутствует
-  //     stop_date: endDate.split('T')[0], // Обрезаем время, если оно присутствует
-  //     start_time: startDate.split('T')[1] || null, // Получаем время, если оно присутствует
-  //     stop_time: endDate.split('T')[1] || null, // Получаем время, если оно присутствует
-  //     timezone: "", // Вам нужно будет определить, как установить часовой пояс
-  //     status: 0, // Это значение статическое, возможно, вам нужен способ его определения
-  //   };
-  
-  //   // Отправляем данные
-  //   this.taskService.addTask(taskData).subscribe(
-  //     (response) => {
-  //       console.log('Задача успешно сохранена', response);
-  //     },
-  //     (error) => {
-  //       console.error('Ошибка при сохранении задачи', error);
-  //     }
-  //   );
-  // }
+  getCategories(): void {
+    this.http.get<ITackCategories>('http://localhost:8080/assistant/api/tasks/1').subscribe((res: ITackCategories) => {
+      this.categories = res.all_categories_for_user;
+      this.taskCategory = this.categories[0].id;
+    });
+  }
+
+  getPlans(): void {
+    this.http.get<IPlan[]>('http://localhost:8080/assistant/api/plans').subscribe((res: IPlan[]) => {
+      this.plans = res;
+    });
+  }
+
 
 //   передача данных старая рабочая
   saveTask(): void {
@@ -169,6 +151,8 @@ export class HomeComponent implements OnInit{
         this.stopDate = stopDateParts[0]; // Дата без времени
         this.stopTime = stopDateParts[1] ? stopDateParts[1].substr(0, 5) + ':00' : null; // Время с добавлением секунд
         }  
+      
+      console.log('выбранная категория', this.taskCategory);  
 
       const taskData: ITaskPage = {
         name: this.taskName,
