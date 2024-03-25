@@ -6,4 +6,5 @@ export interface IHomeData {
   tomorrow: IDay;
   free_tasks: ITask[];
   late_tasks: ITask[];
+  soon_tasks: ITask[];
 }
