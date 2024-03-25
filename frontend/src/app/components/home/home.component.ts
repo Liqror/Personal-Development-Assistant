@@ -64,6 +64,8 @@ export class HomeComponent implements OnInit{
     this.getHomeData(this.formattedDate);
     // подписка на сервис для отследивания нажатий на календаре для обновления задач
     this.subs = this.dataService.dates$.subscribe((dates) => this.update(dates));
+
+    
   }
 
   ngOnDestroy(): void {
@@ -135,7 +137,9 @@ export class HomeComponent implements OnInit{
 
 //   передача данных старая рабочая
   saveTask(): void {
-    if (this.taskName !== "") {
+    // && this.taskEstimate !== NaN
+    // задача не может быть без имени, оценки и категории. категория автоматически ставиться 0
+    if (this.taskName !== "" && this.taskEstimate !== 0) {
       if (this.taskDescription === "") {
         this.taskDescription = null;
       }
@@ -152,7 +156,7 @@ export class HomeComponent implements OnInit{
         this.stopTime = stopDateParts[1] ? stopDateParts[1].substr(0, 5) + ':00' : null; // Время с добавлением секунд
         }  
       
-      console.log('выбранная категория', this.taskCategory);  
+      console.log('оценка тип', typeof this.taskEstimate);  
 
       const taskData: ITaskPage = {
         name: this.taskName,
@@ -189,4 +193,20 @@ export class HomeComponent implements OnInit{
     this.taskDescription = null;
   }
 
+  deleteTask(taskId: number) {
+    const url = `http://localhost:8080/assistant/api/tasks/${taskId}`;
+
+    this.http.delete(url)
+      .subscribe(
+        () => {
+          console.log('Задача успешно удалена');
+          // дополнительные действия после успешного удаления задачи
+        },
+        error => {
+          console.error('Произошла ошибка при удалении задачи:', error);
+          // обработка ошибки при удалении задачи
+        }
+      );
+  }
+  
 }  

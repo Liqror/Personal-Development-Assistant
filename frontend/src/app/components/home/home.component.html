@@ -72,14 +72,12 @@
             <hr>
             <h3>Задачи</h3>
             <h4>На день</h4>
-            <p><label style="margin-left: 7px;"> 
-              <input class="real_checkbox" type="checkbox" name="ctg">
-              <span class="custom_checkbox"></span>
-              Задача на день 
-          </label></p>
             <div *ngFor="let task of data.yesterday.fixed_tasks">
-              <input type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
-              <label [for]="task.id.toString()">{{ task.name }}</label><br>
+              <p><label [for]="task.id.toString()" style="margin-left: 7px;"> 
+                <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
+                <span class="custom_checkbox" [id]="task.id.toString()"></span>
+                {{ task.name }} 
+              </label></p>
             </div>
           </div>
 
@@ -112,10 +110,12 @@
             <h3>Задачи</h3>
             <h4>На день</h4>
             <div *ngFor="let task of data.today.fixed_tasks">
-              <input type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
-              <label [for]="task.id.toString()">{{ task.name }}</label><br>
+              <p><label [for]="task.id.toString()" style="margin-left: 7px;"> 
+                <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
+                <span class="custom_checkbox" [id]="task.id.toString()"></span>
+                {{ task.name }} 
+              </label></p>
             </div>
-
           </div>
 
           <div class="col-md-4 col-lg-4 mt-md-1">
@@ -145,8 +145,11 @@
             <h3>Задачи</h3>
             <h4>На день</h4>
             <div *ngFor="let task of data.tomorrow.fixed_tasks">
-              <input type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
-              <label [for]="task.id.toString()">{{ task.name }}</label><br>
+              <p><label [for]="task.id.toString()" style="margin-left: 7px;"> 
+                <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
+                <span class="custom_checkbox" [id]="task.id.toString()"></span>
+                {{ task.name }} 
+              </label></p>
             </div>
           </div>
 
@@ -245,7 +248,7 @@
         </div>
         <div class="col-md-6 col-lg-6">
           <p> <img src="././assets/image/score.png" alt="оценка" style="height: 30px; margin-right: 10px">
-            <input [(ngModel)]="taskEstimate" style="width: 80%" type="number" step="1" name="userName" id="mark_task" placeholder="Оценка задачи" /> </p>
+            <input [(ngModel)]="taskEstimate" style="width: 80%" type="number" step="1" name="userName" id="mark_task" placeholder="Оценка задачи" min="1" max="100"/> </p>
           <p>ДО <input [(ngModel)]="stop" type="datetime-local" id="date_to" style="width: 82%; background-color: #f0f0f0"></p>
         </div>
 
