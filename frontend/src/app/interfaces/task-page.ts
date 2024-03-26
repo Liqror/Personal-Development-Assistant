@@ -1,7 +1,7 @@
 export interface ITaskPage {
   name: string;
   estimate: number;
-  repeat : null,
+  repeat : null;
   status: number;
   timezone: string;
   user_id: number;

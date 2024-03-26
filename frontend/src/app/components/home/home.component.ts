@@ -4,6 +4,7 @@ import {IHomeData} from "../../interfaces/home";
 import {DatePipe} from "@angular/common";
 import { TaskService } from "../../services/task.service"
 import {ITaskPage} from "../../interfaces/task-page";
+import {IFullTaskPage} from "../../interfaces/full_task_for_RUD";
 import {ICategory} from "../../interfaces/category";
 import {ITackCategories} from "../../interfaces/task_categories";
 import { DataService } from "../../services/data.service";
@@ -28,6 +29,10 @@ export class HomeComponent implements OnInit{
   startTime: string | null = null;
   stopTime: string | null = null;
   taskCategory: number;
+  belongsPlan: string | number = "choose";
+
+  // для просмотра и удаления задачи
+  taskId: number = -1;
 
   currentDate: Date;
   data: IHomeData;
@@ -43,6 +48,7 @@ export class HomeComponent implements OnInit{
   myScriptElement: HTMLScriptElement;
   private subs: Subscription;
 
+  isDiv1Visible: boolean = false; // Переменная для отслеживания видимости окна задачи
 
 
   constructor(private taskService: TaskService, 
@@ -148,13 +154,16 @@ export class HomeComponent implements OnInit{
     });
   }
 
+  // Сохранение задачи НЕ ПОНИМАЮ ЧТО С ЭСТИМЭЙТ НЕ ТАК. ОНО ДОЛЖНО БЫТЬ 1 ПО УМОЛЧАНИЮ
   saveTask(): void {
+    console.log("оценка", this.taskEstimate);
     // задача не может быть без имени, оценки и категории. категория автоматически ставиться 0
-    if (this.taskName !== "" && this.taskEstimate !== undefined) {
+    if (this.taskId == -1 && this.taskName !== "" && this.taskEstimate !== undefined) {
       if (this.taskDescription === "") {
         this.taskDescription = null;
       }
 
+      console.log("оценка", this.start);
       if (this.start !== null) {
         const startDateParts = this.start.split('T'); // Разделяем дату и время
         this.startDate = startDateParts[0]; // Дата без времени
@@ -187,17 +196,24 @@ export class HomeComponent implements OnInit{
       this.taskService.addTask(taskData).subscribe(
         (response) => {
           console.log('Задача успешно сохранена', response);
-          this.clear();
+          console.log("", taskData);
         },
         (error) => {
           console.error('Ошибка при сохранении задачи', error);
         }
       );
     }
+    if (this.taskId !== -1) {
+      console.log("Задача в режиме редактирования", "Но изменения совсем не сохранятся, если что")
+    }
+
+    this.isDiv1Visible = false; // флаг для невидимости задачи
+    this.clear();
   }
 
-  // очистка полей НЕДОДЕЛАНА НЕ РАБОТАЕТ С ВЫПАДАЮЩИМИ СПИСКАМИ категории и планы
+  // очистка полей, нужна при закрытии формы задачи
   clear(): void {
+    this.taskId = -1;
     this.taskName = '';
     this.taskEstimate = NaN; 
     this.taskDescription = null;
@@ -207,27 +223,42 @@ export class HomeComponent implements OnInit{
     this.stopDate = null;
     this.startTime = null;
     this.stopTime = null;
-    this.taskCategory = 0 ;
+    this.taskCategory = 1;
+    this.belongsPlan = "choose";
   }
 
-  deleteTask(taskId: number) {
-    const url = `http://localhost:8080/assistant/api/tasks/${taskId}`;
+  deleteTask() {
+    const url = `http://localhost:8080/assistant/api/tasks/${this.taskId}`;
     this.http.delete(url)
       .subscribe(
         () => {
           console.log('Задача успешно удалена');
+          this.clear();
         },
         error => {
           console.error('Произошла ошибка при удалении задачи:', error);
         }
       );
+    this.isDiv1Visible = false; // флаг для невидимости задачи
   }
 
   getTaskInfo(event: MouseEvent, taskId: number): void {
     event.preventDefault(); // Предотвращаем стандартное действие
-    this.http.get<any>(`http://localhost:8080/assistant/api/tasks/${taskId}`).subscribe((taskInfo: any) => {
-      console.log('Информация о задаче:', taskInfo);
-      // Здесь вы можете выполнить необходимые действия с полученной информацией о задаче
+    this.http.get<IFullTaskPage>(`http://localhost:8080/assistant/api/tasks/${taskId}`).subscribe((taskInfo: IFullTaskPage) => {
+      
+      this.isDiv1Visible = true; // Показываем окно
+
+      // Заполляем окно данными
+      this.taskId = taskInfo.id;
+      this.taskName = taskInfo.name;
+      this.taskEstimate = taskInfo.estimate; 
+      this.taskDescription = taskInfo.description;
+      this.startDate = taskInfo.start_date;
+      this.stopDate = taskInfo.stop_date;
+      this.startTime = taskInfo.start_time;
+      this.stopTime = taskInfo.stop_time;
+      this.taskCategory = taskInfo.task_category.id;
+      // this.belongsPlan = "choose"; // пока нет этого в бекенде
     });
   }
 
