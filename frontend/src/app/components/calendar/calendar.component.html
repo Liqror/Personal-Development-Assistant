@@ -38,7 +38,7 @@
       <td
         *ngFor="let day of week"
         class="calendar-day"
-        [ngClass]="{'current-day': isCurrentDate(day.date),
+        [ngClass]="{'current-day': isCurrentDate(day.date) && isCurrentMonth(day),
         'other-month': !isCurrentMonth(day)}"
         (click)="handleDateClick(day)"
       >
