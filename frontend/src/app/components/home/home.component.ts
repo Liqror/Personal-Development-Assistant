@@ -156,11 +156,11 @@ export class HomeComponent implements OnInit{
     });
   }
 
-  // Сохранение задачи НЕ ПОНИМАЮ ЧТО С ЭСТИМЭЙТ НЕ ТАК. ОНО ДОЛЖНО БЫТЬ 1 ПО УМОЛЧАНИЮ
+  // Сохранение задачи
   saveTask(): void {
-
+    
     // задача не может быть без имени, оценки и категории. категория автоматически ставиться 0
-    if (this.taskId == -1 && this.taskName !== "" && this.taskEstimate !== undefined) {
+    if (this.taskId == -1 && this.taskName !== "" && this.taskEstimate !== undefined && !isNaN(this.taskEstimate)) {
       if (this.taskDescription === "") {
         this.taskDescription = null;
       }
