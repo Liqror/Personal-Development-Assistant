@@ -238,18 +238,22 @@
         <div class="col-md-6 col-lg-6">
           <p>
             <img src="././assets/image/category.png" alt="категория для задачи" style="height: 30px">
-            <select [(ngModel)]="taskCategory" id="category-for-task" name="category" style="width: 80%; background-color: #f0f0f0">
+            <select [(ngModel)]="taskCategory" id="category-for-task" name="category" style="width: 90%; background-color: #f0f0f0">
               <option *ngFor="let category of categories" [value]="category.id">{{category.title}}</option>
             </select>
           </p>
           <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
-            ОТ <input [(ngModel)]="start" type="datetime-local" id="date_from" style="width: 70%; background-color: #f0f0f0"> </p>
-
+            ОТ <input [(ngModel)]="start" type="date" id="date_from" style="width: 45%; background-color: #f0f0f0; margin: 0 10px 0 10px"> 
+            <input [(ngModel)]="start" type="time" id="time_from" style="width: 30%; background-color: #f0f0f0"> 
+          
+          </p>
+          
         </div>
         <div class="col-md-6 col-lg-6">
           <p> <img src="././assets/image/score.png" alt="оценка" style="height: 30px; margin-right: 10px">
             <input [(ngModel)]="taskEstimate" style="width: 80%" type="number" step="1" name="userName" id="mark_task" placeholder="Оценка задачи"/></p>
-          <p>ДО <input [(ngModel)]="stop" type="datetime-local" id="date_to" style="width: 82%; background-color: #f0f0f0"></p>
+          <p>ДО <input [(ngModel)]="stop" type="date" id="date_to" style="width: 47%; background-color: #f0f0f0; margin: 0 10px 0 10px;">
+            <input [(ngModel)]="stop" type="time" id="time_to" style="width: 30%; background-color: #f0f0f0"></p>
         </div>
 
         <div class="col-md-12 col-lg-12">
@@ -271,15 +275,15 @@
 
       <div id="pnlTest" class="Iseewhencheck">
 
-        <p> Повторяется <input type="text" name="userName" style="width: 15%; margin: 0 3px 0 3px; justify-content: center;" placeholder="кол-во"/>
+        <p> Повторяется <input type="text" name="userName" style="width: 24%; margin: 0 3px 0 3px; justify-content: center; text-align: center;" placeholder="кол-во"/>
           раз в
-          <select id="repeat" name="repeat" style="background-color: #f0f0f0; width: 40%;">
+          <select id="repeat" name="repeat" style="background-color: #f0f0f0; width: 50%;">
             <option value="1"> неделю</option>
             <option value="2"> месяц </option>
             <option value="3"> год </option>
           </select>
         </p>
-      <div class="row justify-content-start">
+      <div class="row" style="justify-content: space-between; width: 90%;">
         <div class="col-md-1 col-lg-1">
           <button class="clickable" id="monday"> ПН </button>
         </div>

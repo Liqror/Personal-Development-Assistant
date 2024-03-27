@@ -63,6 +63,7 @@ table {
 /* Для предыдущих и следующих месяцев */
 .other-month {
   color: #999; /* Очень светлый серый */
+  background-color: transparent;
 }
 
 table, th, td {
