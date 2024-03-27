@@ -33,6 +33,8 @@ export class HomeComponent implements OnInit{
 
   // для просмотра и удаления задачи
   taskId: number = -1;
+  taskDataUpdate: IFullTaskPage;
+  
 
   currentDate: Date;
   data: IHomeData;
@@ -76,7 +78,7 @@ export class HomeComponent implements OnInit{
   }
 
   private update(data: any): void {
-    console.log(data);
+    // console.log(data);
     this.getHomeData(data.clicked)
   }
 
@@ -156,14 +158,13 @@ export class HomeComponent implements OnInit{
 
   // Сохранение задачи НЕ ПОНИМАЮ ЧТО С ЭСТИМЭЙТ НЕ ТАК. ОНО ДОЛЖНО БЫТЬ 1 ПО УМОЛЧАНИЮ
   saveTask(): void {
-    console.log("оценка", this.taskEstimate);
+
     // задача не может быть без имени, оценки и категории. категория автоматически ставиться 0
     if (this.taskId == -1 && this.taskName !== "" && this.taskEstimate !== undefined) {
       if (this.taskDescription === "") {
         this.taskDescription = null;
       }
-
-      console.log("оценка", this.start);
+      
       if (this.start !== null) {
         const startDateParts = this.start.split('T'); // Разделяем дату и время
         this.startDate = startDateParts[0]; // Дата без времени
@@ -175,6 +176,9 @@ export class HomeComponent implements OnInit{
         this.stopDate = stopDateParts[0]; // Дата без времени
         this.stopTime = stopDateParts[1] ? stopDateParts[1].substr(0, 5) + ':00' : null; // Время с добавлением секунд
       }  
+
+      // console.log("saveTask", this.start, this.stop);
+      // console.log("saveTask", this.startDate, this.startTime, this.stopDate, this.stopTime);
 
       const taskData: ITaskPage = {
         name: this.taskName,
@@ -196,7 +200,7 @@ export class HomeComponent implements OnInit{
       this.taskService.addTask(taskData).subscribe(
         (response) => {
           console.log('Задача успешно сохранена', response);
-          console.log("", taskData);
+          // console.log("", taskData);
         },
         (error) => {
           console.error('Ошибка при сохранении задачи', error);
@@ -204,7 +208,54 @@ export class HomeComponent implements OnInit{
       );
     }
     if (this.taskId !== -1) {
-      console.log("Задача в режиме редактирования", "Но изменения совсем не сохранятся, если что")
+
+      if (this.taskDescription === "") {
+        this.taskDescription = null;
+      }
+      
+      if (this.start !== null) {
+        const startDateParts = this.start.split('T'); // Разделяем дату и время
+        this.startDate = startDateParts[0]; // Дата без времени
+        this.startTime = startDateParts[1] ? startDateParts[1].substr(0, 5) + ':00' : null; // Время с добавлением секунд
+      }
+
+      if (this.stop !== null) {
+        const stopDateParts = this.stop.split('T'); // Разделяем дату и время
+        this.stopDate = stopDateParts[0]; // Дата без времени
+        this.stopTime = stopDateParts[1] ? stopDateParts[1].substr(0, 5) + ':00' : null; // Время с добавлением секунд
+      } 
+      
+      const taskDataUpdate: IFullTaskPage = {
+        id: this.taskId,
+        name: this.taskName,
+        estimate: this.taskEstimate,
+        repeat : null,
+        status: 0,
+        timezone: "Asia/Krasnoyarsk",
+        user_id: 1,
+        description: this.taskDescription,
+        start_date: this.startDate,
+        stop_date: this.stopDate,
+        start_time: this.startTime,
+        stop_time: this.stopTime,
+        task_category: {
+          id: this.taskCategory,
+        },  
+      };
+
+      // console.log("Задача в режиме редактирования", taskDataUpdate);
+
+      this.taskService.updateTask(taskDataUpdate).subscribe({
+        next: (response) => {
+          console.log('Задача обновлена', response);
+          this.clear();
+        },
+        error: (error) => {
+          console.error('Ошибка при обновлении задачи', error);
+        }
+      });
+
+      this.taskId = -1;
     }
 
     this.isDiv1Visible = false; // флаг для невидимости задачи
@@ -228,17 +279,20 @@ export class HomeComponent implements OnInit{
   }
 
   deleteTask() {
-    const url = `http://localhost:8080/assistant/api/tasks/${this.taskId}`;
-    this.http.delete(url)
-      .subscribe(
-        () => {
-          console.log('Задача успешно удалена');
-          this.clear();
-        },
-        error => {
-          console.error('Произошла ошибка при удалении задачи:', error);
-        }
-      );
+    if (this.taskId !== -1) {
+      const url = `http://localhost:8080/assistant/api/tasks/${this.taskId}`;
+      this.http.delete(url)
+        .subscribe(
+          () => {
+            console.log('Задача успешно удалена');
+            this.clear();
+          },
+          error => {
+            console.error('Произошла ошибка при удалении задачи:', error);
+          }
+        );
+      }
+    console.log('Задача просто закрыта');   
     this.isDiv1Visible = false; // флаг для невидимости задачи
   }
 
@@ -247,7 +301,7 @@ export class HomeComponent implements OnInit{
     this.http.get<IFullTaskPage>(`http://localhost:8080/assistant/api/tasks/${taskId}`).subscribe((taskInfo: IFullTaskPage) => {
       
       this.isDiv1Visible = true; // Показываем окно
-
+      
       // Заполляем окно данными
       this.taskId = taskInfo.id;
       this.taskName = taskInfo.name;
@@ -257,8 +311,24 @@ export class HomeComponent implements OnInit{
       this.stopDate = taskInfo.stop_date;
       this.startTime = taskInfo.start_time;
       this.stopTime = taskInfo.stop_time;
+
+      // Этот код необходим для вывода даты и времени в одну строку, позже форма поменяется и код измениться
+      if (this.startDate && this.startTime) {
+        // Объединение даты и времени в одну строку с T между ними
+        this.start = `${this.startDate}T${this.startTime.substring(0, 5)}`;
+      }
+
+      if (this.stopDate && this.stopTime) {
+        // То же самое для даты окончания и времени
+        this.stop = `${this.stopDate}T${this.stopTime.substring(0, 5)}`;
+      }
+
       this.taskCategory = taskInfo.task_category.id;
       // this.belongsPlan = "choose"; // пока нет этого в бекенде
+
+      // console.log("getTaskInfo", taskInfo.start_date, taskInfo.start_time, taskInfo.stop_date, taskInfo.stop_time)
+      // console.log("getTaskInfo", this.startDate, this.startTime, this.stopDate, this.stopTime);
+      // console.log("getTaskInfo", this.start, this.stop);
     });
   }
 
