@@ -238,12 +238,12 @@
         <div class="col-md-6 col-lg-6">
           <p>
             <img src="././assets/image/category.png" alt="категория для задачи" style="height: 30px">
-            <select [(ngModel)]="taskCategory" id="category-for-task" name="category" style="width: 90%; background-color: #f0f0f0">
+            <select [(ngModel)]="taskCategory" id="category-for-task" name="category" style="width: 80%; background-color: #f0f0f0">
               <option *ngFor="let category of categories" [value]="category.id">{{category.title}}</option>
             </select>
           </p>
           <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
-            ОТ <input [(ngModel)]="start" type="date" id="date_from" style="width: 45%; background-color: #f0f0f0; margin: 0 10px 0 10px"> 
+            ОТ <input [(ngModel)]="start" type="date" id="date_from" style="width: 40%; background-color: #f0f0f0; margin: 0 10px 0 10px"> 
             <input [(ngModel)]="start" type="time" id="time_from" style="width: 30%; background-color: #f0f0f0"> 
           
           </p>
@@ -252,7 +252,7 @@
         <div class="col-md-6 col-lg-6">
           <p> <img src="././assets/image/score.png" alt="оценка" style="height: 30px; margin-right: 10px">
             <input [(ngModel)]="taskEstimate" style="width: 80%" type="number" step="1" name="userName" id="mark_task" placeholder="Оценка задачи"/></p>
-          <p>ДО <input [(ngModel)]="stop" type="date" id="date_to" style="width: 47%; background-color: #f0f0f0; margin: 0 10px 0 10px;">
+          <p>ДО <input [(ngModel)]="stop" type="date" id="date_to" style="width: 40%; background-color: #f0f0f0; margin: 0 10px 0 10px;">
             <input [(ngModel)]="stop" type="time" id="time_to" style="width: 30%; background-color: #f0f0f0"></p>
         </div>
 
