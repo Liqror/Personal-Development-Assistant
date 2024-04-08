@@ -111,6 +111,14 @@ function hideDivCtg() {
 }
 
 
+
+
+
+
+(function() {
+  
+  
+
 var savetaskbtn = document.getElementById("save-button-task");
 const input = document.querySelector("input");
 const log = document.getElementById("taskName");
@@ -166,12 +174,10 @@ function checkInput() {
     console.log(text, "Вроде ок");
     document.getElementById("checkDateTime").innerHTML = "";
   }
-
-
-
-
-  
   
 }
 
 savetaskbtn.addEventListener("click", checkInput);
+
+  
+  })()
