@@ -22,7 +22,8 @@ export class HomeComponent implements OnInit{
   taskName: string = "";
   taskEstimate: number;
   taskDescription: string | null = null;
-  start: string | null = null;
+  // start: Date | null = null;
+  // start1: string | null = null;
   stop: string | null = null;
   startDate: string | null = null;
   stopDate: string | null = null;
@@ -164,21 +165,8 @@ export class HomeComponent implements OnInit{
       if (this.taskDescription === "") {
         this.taskDescription = null;
       }
-      
-      if (this.start !== null) {
-        const startDateParts = this.start.split('T'); // Разделяем дату и время
-        this.startDate = startDateParts[0]; // Дата без времени
-        this.startTime = startDateParts[1] ? startDateParts[1].substr(0, 5) + ':00' : null; // Время с добавлением секунд
-      }
 
-      if (this.stop !== null) {
-        const stopDateParts = this.stop.split('T'); // Разделяем дату и время
-        this.stopDate = stopDateParts[0]; // Дата без времени
-        this.stopTime = stopDateParts[1] ? stopDateParts[1].substr(0, 5) + ':00' : null; // Время с добавлением секунд
-      }  
-
-      // console.log("saveTask", this.start, this.stop);
-      // console.log("saveTask", this.startDate, this.startTime, this.stopDate, this.stopTime);
+      // console.log("время", this.startDate, this.startTime, this.stopDate, this.stopTime);
 
       const taskData: ITaskPage = {
         name: this.taskName,
@@ -200,7 +188,7 @@ export class HomeComponent implements OnInit{
       this.taskService.addTask(taskData).subscribe(
         (response) => {
           console.log('Задача успешно сохранена', response);
-          // console.log("", taskData);
+          console.log("", taskData);
         },
         (error) => {
           console.error('Ошибка при сохранении задачи', error);
@@ -212,18 +200,6 @@ export class HomeComponent implements OnInit{
       if (this.taskDescription === "") {
         this.taskDescription = null;
       }
-      
-      if (this.start !== null) {
-        const startDateParts = this.start.split('T'); // Разделяем дату и время
-        this.startDate = startDateParts[0]; // Дата без времени
-        this.startTime = startDateParts[1] ? startDateParts[1].substr(0, 5) + ':00' : null; // Время с добавлением секунд
-      }
-
-      if (this.stop !== null) {
-        const stopDateParts = this.stop.split('T'); // Разделяем дату и время
-        this.stopDate = stopDateParts[0]; // Дата без времени
-        this.stopTime = stopDateParts[1] ? stopDateParts[1].substr(0, 5) + ':00' : null; // Время с добавлением секунд
-      } 
       
       const taskDataUpdate: IFullTaskPage = {
         id: this.taskId,
@@ -268,7 +244,8 @@ export class HomeComponent implements OnInit{
     this.taskName = '';
     this.taskEstimate = NaN; 
     this.taskDescription = null;
-    this.start = null;
+    this.startDate = null;
+    this.startTime = null;
     this.stop = null;
     this.startDate = null;
     this.stopDate = null;
@@ -312,23 +289,9 @@ export class HomeComponent implements OnInit{
       this.startTime = taskInfo.start_time;
       this.stopTime = taskInfo.stop_time;
 
-      // Этот код необходим для вывода даты и времени в одну строку, позже форма поменяется и код измениться
-      if (this.startDate && this.startTime) {
-        // Объединение даты и времени в одну строку с T между ними
-        this.start = `${this.startDate}T${this.startTime.substring(0, 5)}`;
-      }
-
-      if (this.stopDate && this.stopTime) {
-        // То же самое для даты окончания и времени
-        this.stop = `${this.stopDate}T${this.stopTime.substring(0, 5)}`;
-      }
-
       this.taskCategory = taskInfo.task_category.id;
       // this.belongsPlan = "choose"; // пока нет этого в бекенде
 
-      // console.log("getTaskInfo", taskInfo.start_date, taskInfo.start_time, taskInfo.stop_date, taskInfo.stop_time)
-      // console.log("getTaskInfo", this.startDate, this.startTime, this.stopDate, this.stopTime);
-      // console.log("getTaskInfo", this.start, this.stop);
     });
   }
 
