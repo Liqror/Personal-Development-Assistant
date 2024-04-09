@@ -156,7 +156,11 @@ export class HomeComponent implements OnInit{
       this.plans = res;
     });
   }
-
+  // Просто закрытие поля просмотра/создания задачи --- кнопка закрыть(cancel)
+  hideTask(): void {
+    this.isDiv1Visible = false; // флаг для невидимости задачи
+    this.clear();
+  }
   // Сохранение задачи
   saveTask(): void {
     
