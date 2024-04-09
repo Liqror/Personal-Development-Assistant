@@ -109,3 +109,75 @@ function showDivNewCtg() {
 function hideDivCtg() {
   document.getElementById("newCtg").style.display = "none";
 }
+
+
+
+
+
+
+(function() {
+  
+  
+
+var savetaskbtn = document.getElementById("save-button-task");
+const input = document.querySelector("input");
+const log = document.getElementById("taskName");
+/*
+function checkInput(e) {
+  console.log('Кнопка сохранения задачи нажата');
+  log.textContent = e.target.taskName;
+}
+*/
+
+
+function checkInput() {
+  let text = document.getElementById("taskName").value;
+  let est = document.getElementById("mark_task").value;
+  //console.log(text, "   ", est);
+
+  let date_from = document.getElementById("date_from").value;
+  let time_from = document.getElementById("time_from").value;
+  let date_to = document.getElementById("date_to").value;
+  let time_to = document.getElementById("time_to").value;
+  console.log(date_from, "   ", time_from, " ", date_to, "", time_to);
+
+
+  //  Проверка оценки задачи на принадлежность диапазону от 1 до 100
+  if (est >= 1 && est <= 100) {
+    console.log(est, "В нужном диапазоне, все ок");
+    document.getElementById("checkEstimate").innerHTML = "";
+  }
+  else {
+    console.log(est, "Выход за границу [1,100]!!!");
+    document.getElementById("checkEstimate").innerHTML = "Оценка задачи должна быть в диапазоне [1,100]";
+  }
+
+  //  Проверка на введенность названия задачи
+  if (text == "") {
+    console.log(text, "Пустой текст, ничего не введено!");
+    document.getElementById("checkTaskName").innerHTML = "Вы не ввели название задачи! ";
+  }
+  else {
+    console.log(text, "Вроде ок");
+    document.getElementById("checkTaskName").innerHTML = "";
+  }
+
+  /* Проверка выбранного времени и даты. Задача не должна сохраняться, если
+  1) Введено время, но не введена дата
+  2) Дата начала больше даты конца
+  */
+  if ((date_from > date_to && date_to != "") || (date_from == "" && time_from != "") || (date_to == "" && time_to != "")) {
+    console.log(text, "Время для задачи указано с ошибками!");
+    document.getElementById("checkDateTime").innerHTML = "Время для задачи указано не корректно! ";
+  }
+  else {
+    console.log(text, "Вроде ок");
+    document.getElementById("checkDateTime").innerHTML = "";
+  }
+  
+}
+
+savetaskbtn.addEventListener("click", checkInput);
+
+  
+  })()
