@@ -230,15 +230,15 @@
   </div>
 
   <!-- Кнопка новой задачи  -->
-    <div id="div1" [ngStyle]="{'display': isDiv1Visible ? 'block' : 'none'}" style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+    <div id="div1" [ngStyle]="{'display': isDiv1Visible ? 'block' : 'none'}" style="display: none; width: 100%; height: 100%; position: absolute; top: 10%; left: 0;">
     <div class="container">
 
-      <div class="row justify-content-center">
-        <div class="col-md-11 col-lg-11" style="border-style: none; background-color: transparent;">
+      <div class="row">
+        <div class="col-md-11 col-lg-11 col-ms-11">
           <p><input [(ngModel)]="taskName" id="taskName" type="text" name="userName" placeholder="Введите название задачи" style="width: 100%" /></p>
         </div>
-        <div class="col-md-1 col-lg-1">
-          <p style="text-align: end;"><button (click)="hideTask()" style="border-style: none; background-color: transparent;"><img src="././assets/image/cancel.png" alt="закрыть" style="height: 20px; margin-right: 0px"></button></p>
+        <div class="col-lg-1 col-md-1 col-ms-1">
+          <p style="text-align: end;"><button (click)="hideTask()" onclick=hideDiv() style="border-style: none; background-color: transparent;"><img src="././assets/image/cancel.png" alt="закрыть" style="height: 20px; margin-right: 0px"></button></p>
           
         </div>
     </div>

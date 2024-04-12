@@ -328,6 +328,7 @@ content-container {
   background-color: #D4CBC8;
   height: 100%;
   overflow: y;
+  z-index: 1;
 }
 
 
@@ -535,7 +536,7 @@ button svg {
 
 }
 
-.col-md-11 {
+.planDiv {
 
   border-style: solid;
   border-width: 1px;
