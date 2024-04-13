@@ -113,18 +113,6 @@ function hideDivCtg() {
 
 
 
-
-
-  
-  
-
-/*
-function checkInput(e) {
-  console.log('Кнопка сохранения задачи нажата');
-  log.textContent = e.target.taskName;
-}
-*/
-
 /*
 Проверка вводимых данных для окна создания задачи
 */
@@ -211,5 +199,71 @@ function checkInputForPlan() {
   }
 }
 document.getElementById("save-button-plan").click = checkInputForPlan;
+
+
+
+/*
+Проверка вводимых данных для окна создания новой категории
+*/
+function checkInputForBalanceWheel() {
+
+  let nameCtg = document.getElementById("nameCtg").value;
+
+  //  Проверка на введенность названия плана
+  if (nameCtg == "") {
+    console.log("Пустой текст, категория не введена!");
+    document.getElementById("checkCtgName").innerHTML = "Вы не ввели название категории! ";
+  }
+  else {
+    console.log("Вроде ок");
+    document.getElementById("checkCtgName").innerHTML = "";
+  }
+}
+document.getElementById("save-button-new-ctg").click = checkInputForBalanceWheel;
+
+
+/*
+Проверка вводимых данных для окна расписания занятий
+*/
+function checkInputForTimetable() {
+  console.log("HEREEEEEEEEEE?!.....")
+
+  let objectName = document.getElementById("objectName").value;
+  let objectsPlace = document.getElementById("objectsPlace").value;
+  let time_to_tt = document.getElementById("time_to_tt").value;
+  let time_from_tt = document.getElementById("time_from_tt").value;
+
+
+  //  Проверка на введенность названия предмета в расписании
+  if (objectName == "") {
+    console.log("Пустой текст, название предмета не введено!");
+    document.getElementById("checkObjName").innerHTML = "Вы не ввели название занятия! ";
+  }
+  else {
+    console.log("Вроде ок");
+    document.getElementById("checkObjName").innerHTML = "";
+  }
+
+  //  Проверка на введенность кабинета или места проведения занятия
+  if (objectsPlace == "") {
+    console.log("Пустой текст, номер кабинета не введен!");
+    document.getElementById("checkPlace").innerHTML = "Вы не ввели номер кабинета или место проведения занятия! ";
+  }
+  else {
+    console.log("Вроде ок");
+    document.getElementById("checkPlace").innerHTML = "";
+  }
+  // Проверка времени занятия. Должно быть указано начало и конец
+  if ((time_to_tt < time_from_tt && time_to_tt != "") || (time_to_tt == "" || time_from_tt == "")){
+    console.log("Время указано неверно!");
+    document.getElementById("checkTimeTT").innerHTML = "Время указано неверно!";
+  }
+  else {
+    console.log("Вроде ок");
+    document.getElementById("checkTimeTT").innerHTML = "";
+  }
+
+}
+document.getElementById("save-button-new-obj").click = checkInputForTimetable;
 
 

@@ -129,6 +129,7 @@ export class BalanceWheelComponent implements OnInit {
       this.ctx.textBaseline = 'middle';
 
       console.log(`Угол: ${angleCenterText}`);
+      
       if (angleCenterText > 0 && angleCenterText < Math.PI) {
         //Инвертируем текст ели он лежит от 0 до pi/2 (то есть внизу круга)
         let reverseString: string = "";
