@@ -230,15 +230,15 @@
   </div>
 
   <!-- Кнопка новой задачи  -->
-    <div id="div1" [ngStyle]="{'display': isDiv1Visible ? 'block' : 'none'}" style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+    <div id="div1" [ngStyle]="{'display': isDiv1Visible ? 'block' : 'none'}" style="display: none; width: 100%; height: 100%; position: absolute; top: 10%; left: 0;">
     <div class="container">
 
-      <div class="row justify-content-center">
-        <div class="col-md-11 col-lg-11" style="border-style: none; background-color: transparent;">
+      <div class="row">
+        <div class="col-md-11 col-lg-11 col-ms-11">
           <p><input [(ngModel)]="taskName" id="taskName" type="text" name="userName" placeholder="Введите название задачи" style="width: 100%" /></p>
         </div>
-        <div class="col-md-1 col-lg-1">
-          <p style="text-align: end;"><button (click)="hideTask()" style="border-style: none; background-color: transparent;"><img src="././assets/image/cancel.png" alt="закрыть" style="height: 20px; margin-right: 0px"></button></p>
+        <div class="col-lg-1 col-md-1 col-ms-1">
+          <p style="text-align: end;"><button (click)="hideTask()" onclick=hideDiv() style="border-style: none; background-color: transparent;"><img src="././assets/image/cancel.png" alt="закрыть" style="height: 20px; margin-right: 0px"></button></p>
           
         </div>
     </div>
@@ -249,16 +249,16 @@
 
       <div class="row justify-content-center">
 
-        <div class="col-md-6 col-lg-6">
+        <div class="col-md-6 col-lg-6 justify-content-beetween">
           <p>
-            <img src="././assets/image/category.png" alt="категория для задачи" style="height: 30px">
+            <img src="././assets/image/category.png" alt="категория для задачи" style="height: 30px; margin-right: 10px">
             <select [(ngModel)]="taskCategory" id="category-for-task" name="category" style="width: 80%; background-color: #f0f0f0">
               <option *ngFor="let category of categories" [value]="category.id">{{category.title}}</option>
             </select>
           </p>
           <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
-            ОТ <input [(ngModel)]="startDate" type="date" id="date_from" style="width: 40%; background-color: #f0f0f0; margin: 0 10px 0 10px"> 
-            <input [(ngModel)]="startTime" type="time" id="time_from" style="width: 30%; background-color: #f0f0f0"> 
+            ОТ <input [(ngModel)]="startDate" type="date" id="date_from" style="width: 37%; background-color: #f0f0f0; margin: 0 10px 0 10px"> 
+            <input [(ngModel)]="startTime" type="time" id="time_from" style="width: 29%; background-color: #f0f0f0"> 
           
           </p>
           
@@ -266,8 +266,8 @@
         <div class="col-md-6 col-lg-6">
           <p> <img src="././assets/image/score.png" alt="оценка" style="height: 30px; margin-right: 10px">
             <input [(ngModel)]="taskEstimate" style="width: 80%" type="number" step="1" name="userName" id="mark_task" placeholder="Оценка задачи"/></p>
-          <p>ДО <input [(ngModel)]="stopDate" type="date" id="date_to" style="width: 40%; background-color: #f0f0f0; margin: 0 10px 0 10px;">
-            <input [(ngModel)]="stopTime" type="time" id="time_to" style="width: 30%; background-color: #f0f0f0"></p>
+          <p>ДО <input [(ngModel)]="stopDate" type="date" id="date_to" style="width: 45%; background-color: #f0f0f0; margin: 0 10px 0 10px;">
+            <input [(ngModel)]="stopTime" type="time" id="time_to" style="width: 32%; background-color: #f0f0f0"></p>
         </div>
 
         <div class="col-md-12 col-lg-12">
@@ -348,11 +348,17 @@
                 type="text" style="color: #595959; height: 130px" placeholder="Подробное описание"></textarea>
       <div class="row justify-content-center">
         <div class="col-md-6 col-lg-6">
-          <p style="text-align: center"><button (click)="saveTask()" onclick="hideDiv()" id="save-button" class="save">Сохранить</button><p>
+          <p style="text-align: center"><button (click)="saveTask()" onclick="hideDiv()" onclick="checkInput()" id="save-button-task" class="save">Сохранить</button><p>
         </div>
         <div class="col-md-6 col-lg-6">
           <p style="text-align: center"><button (click)="deleteTask()" onclick="hideDiv()" id="close-button" class="close">Удалить</button><p>
         </div>
+    </div>
+
+    <div class="error-massage">
+      <p id="checkEstimate" style="color: red; margin: 0;"></p> <!-- ЕСЛИ ОЦЕНКА ЗАДАЧИ НЕ В ДИАПАЗОНЕ [1, 100], ТО ВЫЛАЗИТ ОШИБКА ПРИ СОХРАНЕНИИ-->
+      <p id="checkTaskName" style="color: red; margin: 0;"></p> <!-- ЕСЛИ НАЗВАНИЕ ПУСТО, ТО ВЫЛАЗИТ ОШИБКА ПРИ СОХРАНЕНИИ-->
+      <p id="checkDateTime" style="color: red; margin: 0;"></p> <!-- -->
     </div>
   </div>
 
