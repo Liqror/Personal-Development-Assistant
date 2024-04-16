@@ -36,6 +36,8 @@ export class HomeComponent implements OnInit{
   taskId: number = -1;
   taskDataUpdate: IFullTaskPage;
   
+  // сохранение нажатой даты для обновления страницы при изменении задач
+  date:any;
 
   currentDate: Date;
   data: IHomeData;
@@ -57,11 +59,11 @@ export class HomeComponent implements OnInit{
   constructor(private taskService: TaskService, 
     private datePipe: DatePipe, private http: HttpClient,
     @Inject(DataService) private readonly dataService: DataService) {
+
     // джава скрипт для создания задачи
     this.myScriptElement = document.createElement("script");
     this.myScriptElement.src = "././assets/scripts_for_project.js";
     document.body.appendChild(this.myScriptElement);
-    
   }
 
   ngOnInit(): void {
@@ -80,7 +82,7 @@ export class HomeComponent implements OnInit{
 
   private update(data: any): void {
     // console.log(data);
-    this.getHomeData(data.clicked)
+    this.getHomeData(data.clicked);
   }
 
   formatDateForData(): void {
@@ -240,6 +242,8 @@ export class HomeComponent implements OnInit{
 
     this.isDiv1Visible = false; // флаг для невидимости задачи
     this.clear();
+
+    
   }
 
   // очистка полей, нужна при закрытии формы задачи
