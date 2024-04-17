@@ -360,8 +360,52 @@
       <p id="checkTaskName" style="color: red; margin: 0;"></p> <!-- ЕСЛИ НАЗВАНИЕ ПУСТО, ТО ВЫЛАЗИТ ОШИБКА ПРИ СОХРАНЕНИИ-->
       <p id="checkDateTime" style="color: red; margin: 0;"></p> <!-- -->
     </div>
+
+    <div class = "justify-content-center">
+      <p style="text-align: center;"><button onclick="showDivDelRepeatTask()">
+        Удалить [тестовая кнопка]
+        </button> </p>
+    </div>
   </div>
 
+  </div>
+
+
+  <!-- Окно удаления повторяющихся задач-->
+  <div id="divDelRepeatTask" style="display: none; width: 100%; height: 100%; position: absolute; top: 35%; left: 0;">
+    <div class="containerDelRepeat">
+      <div class="row">
+        <div class="col-md-11 col-lg-11 col-ms-11">
+          <p class="ttlDel">Удалить повторяющуюся задачу</p>
+        </div>
+        <div class="col-lg-1 col-md-1 col-ms-1">
+          <p style="text-align: end;"><button onclick=hideDivDelRepeatTask() style="border-style: none; background-color: transparent;"><img src="././assets/image/cancel.png" alt="закрыть" style="height: 20px; margin-right: 0px"></button></p>
+          
+        </div>
+    </div>
+    <fieldset>
+      <p>
+        <input type="radio" id="delOneTask" name="repeatTasks" checked/>
+        <label for="delOneTask">Эта задача </label>
+      </p>
+
+      <p>
+        <input type="radio" id="delThisAndOAfterTasks" name="repeatTasks" />
+        <label for="delThisAndOAfterTasks">Эта и последующие задачи </label>
+      </p>
+
+      <p>
+        <input type="radio" id="delAllTasks" name="repeatTasks" />
+        <label for="delAllTasks">Все задачи </label>
+      </p>
+
+    </fieldset>
+
+
+    <p style="text-align: center"><button onclick="hideDivDelRepeatTask()" class="close">Удалить</button><p></p>
+
+
+    </div>
   </div>
 </body>
 

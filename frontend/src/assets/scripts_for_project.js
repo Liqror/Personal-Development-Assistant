@@ -267,3 +267,12 @@ function checkInputForTimetable() {
 document.getElementById("save-button-new-obj").click = checkInputForTimetable;
 
 
+//Показ/Сокрытие дива - удаление повторяющейся задачи
+
+function showDivDelRepeatTask() {
+  document.getElementById("divDelRepeatTask").style.display = "block";
+}
+
+function hideDivDelRepeatTask() {
+  document.getElementById("divDelRepeatTask").style.display = "none";
+}
