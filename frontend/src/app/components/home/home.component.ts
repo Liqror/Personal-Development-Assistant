@@ -39,6 +39,7 @@ export class HomeComponent implements OnInit{
   // сохранение нажатой даты для обновления страницы при изменении задач
   date:any;
 
+  // для вчера сегодня завтра
   dates = {
     clicked: "сегодня",
     previous: "вчера",
@@ -51,7 +52,11 @@ export class HomeComponent implements OnInit{
   plans: IPlan[];
 
   isDateClicked: boolean = false;
+
+  // отформатированная дата которая передается на бекенд 
   formattedDate: string;
+
+
   // это джаваскрипт для создания задачи
   myScriptElement: HTMLScriptElement;
   private subs: Subscription;
@@ -76,54 +81,44 @@ export class HomeComponent implements OnInit{
     // Вызываем загрузку данных, получение категорий и планов для создания задач
     this.getHomeData(this.formattedDate);
     // подписка на сервис для отследивания нажатий на календаре для обновления задач
-    this.subs = this.dataService.dates$.subscribe((dates) => this.update(dates));
+    this.subs = this.dataService.dates$.subscribe((dates) => {
+      this.update(dates);
+      this.dates = dates; // Сохраняем данные dates в свойстве компонента
+    });
   }
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
   }
 
-  private update(data: any): void {
-    // console.log(data);
-    this.getHomeData(data.clicked);
+  private update(dates: any): void {
+    this.getHomeData(dates.clicked);
+    this.dates = {
+      clicked: this.formatDateForYTT(dates.clicked),
+      previous: this.formatDateForYTT(dates.previous),
+      next: this.formatDateForYTT(dates.next)
+    };
+    console.log("нажатые даты переданные с бекенда", this.dates);
   }
 
+  formatDateForYTT(dateString: string): string {
+    const date = new Date(dateString);
+    const monthNames = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+    const day = date.getDate().toString();
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear();
+    return `${day} ${monthNames[monthIndex]} ${year}`;
+  }
+  
   formatDateForData(): void {
     const year = this.currentDate.getFullYear();
     const month = this.padZero(this.currentDate.getMonth() + 1); // Месяцы начинаются с 0
     const day = this.padZero(this.currentDate.getDate());
     this.formattedDate = `${year}/${month}/${day}`;
-    console.log(this.formattedDate);
+    // console.log('отформатированная дата',this.formattedDate);
   }
-
   private padZero(value: number): string {
     return value < 10 ? `0${value}` : `${value}`;
-  }
-
-  // возможно удалить
-  // handleDatesChange(event: any) {
-  //   this.receivedDates = event;
-
-  //   // Получение данных из словаря
-  //   const eventData = this.receivedDates.eventData;
-  //   const yesterdayLabel = this.receivedDates.previous;
-  //   const todayLabel = this.receivedDates.clicked;
-  //   const tomorrowLabel = this.receivedDates.next;
-
-  //   console.log(yesterdayLabel, todayLabel, tomorrowLabel)
-
-  //   this.isDateClicked = true;
-  //   console.log(eventData.clicked);
-  //   this.getHomeData(eventData.clicked);
-  // }
-
-  private formatDate(dateString: string): string {
-    const date = new Date(dateString);
-    const monthNames = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
-    const day = date.getDate().toString();
-    const month = monthNames[date.getMonth()];
-    const year = date.getFullYear();
-    return `${day} ${month} ${year}`;
   }
 
   getHomeData(data: string): void {
