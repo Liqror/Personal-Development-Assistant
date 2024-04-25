@@ -10,6 +10,9 @@ import {ITackCategories} from "../../interfaces/task_categories";
 import { DataService } from "../../services/data.service";
 import { Subscription } from 'rxjs';
 import { IPlan } from 'src/app/interfaces/plan';
+import { retry } from 'rxjs/operators';
+import { repeatWhen, delay } from 'rxjs/operators';
+import { EMPTY, timer } from 'rxjs';
 
 
 @Component({
@@ -82,13 +85,16 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    console.log("обновление страницы");
     this.currentDate = new Date();
     this.formatDateForData();
-
+    this.updateDatesForTitle(this.dates.clicked);
     // Вызываем загрузку данных, получение категорий и планов для создания задач
     this.getHomeData(this.formattedDate);
     // подписка на сервис для отследивания нажатий на календаре для обновления задач
     this.subs = this.dataService.dates$.subscribe((dates) => {
+      this.dates = dates;
+      this.updateDatesForTitle(dates.clicked);
       this.update(dates);
     });
   }
@@ -99,7 +105,8 @@ export class HomeComponent implements OnInit{
 
   private update(dates: any): void {
     this.dates = dates;
-    console.log("jib,rf&", this.dates);
+    this.updateDatesForTitle(dates.clicked);
+    console.log("в апдэйт", this.datesForTitle);
     this.getHomeData(dates.clicked);
   }
 
@@ -111,26 +118,9 @@ export class HomeComponent implements OnInit{
     const year = date.getFullYear();
     return `${day} ${monthNames[monthIndex]} ${year}`;
   }
-  
-  formatDateForData(): void {
-    const year = this.currentDate.getFullYear();
-    const month = this.padZero(this.currentDate.getMonth() + 1); // Месяцы начинаются с 0
-    const day = this.padZero(this.currentDate.getDate());
-    this.formattedDate = `${year}/${month}/${day}`;
-  }
-  private padZero(value: number): string {
-    return value < 10 ? `0${value}` : `${value}`;
-  }
 
-  formatDateForComparison(dateString: string): string {
-    const [year, month, day] = dateString.split('/'); // Разделяем строку на части
-    const formattedMonth = parseInt(month).toString().padStart(2, '0'); // Преобразуем месяц в число, добавляем ведущий ноль
-    const formattedDay = parseInt(day).toString().padStart(2, '0'); // Преобразуем день в число, добавляем ведущий ноль
-    return `${year}/${formattedMonth}/${formattedDay}`;
-  }
-  
-
-  getHomeData(date: string): void {
+  // изменения вида дат для вчера/сегодня/завтра
+  private updateDatesForTitle(date: string): void {
     if (this.formatDateForComparison(date) == this.formattedDate) {
       this.datesForTitle = {
         clicked: "сегодня",
@@ -144,29 +134,65 @@ export class HomeComponent implements OnInit{
         next: this.formatDateForYTT(this.dates.next)
       };
     }
-    
-    this.http.get<IHomeData>('http://localhost:8080/assistant/api/' + date).subscribe((res: IHomeData) => {
-      this.data = res;
-      const sectionsToCheck = [
-        res.yesterday.fixed_tasks, 
-        res.today.fixed_tasks, 
-        res.tomorrow.fixed_tasks, 
-        res.free_tasks, 
-        res.late_tasks, 
-        res.soon_tasks];
-
-      for (const tasks of sectionsToCheck) {
-        if (tasks && tasks.length > 0) {
-          const firstTaskId = tasks[0].id;
-          
-          this.getCategories(firstTaskId);
-          break; // Прерываем цикл после нахождения первой задачи
-        }
-      }
-    });
-    this.getPlans();
+    console.log("обновление дат", this.datesForTitle);
+  }
+  
+  formatDateForData(): void {
+    const year = this.currentDate.getFullYear();
+    const month = this.padZero(this.currentDate.getMonth() + 1); // Месяцы начинаются с 0
+    const day = this.padZero(this.currentDate.getDate());
+    this.formattedDate = `${year}/${month}/${day}`;
+    this.dates= {
+      clicked: this.formattedDate,
+      previous: this.formattedDate,
+      next: this.formattedDate,
+    };
+   
+  }
+  private padZero(value: number): string {
+    return value < 10 ? `0${value}` : `${value}`;
   }
 
+  // изменения вида дат для сохранения
+  formatDateForComparison(dateString: string): string {
+    const [year, month, day] = dateString.split('/'); // Разделяем строку на части
+    const formattedMonth = parseInt(month).toString().padStart(2, '0'); // Преобразуем месяц в число, добавляем ведущий ноль
+    const formattedDay = parseInt(day).toString().padStart(2, '0'); // Преобразуем день в число, добавляем ведущий ноль
+    return `${year}/${formattedMonth}/${formattedDay}`;
+  }
+
+
+  getHomeData(date: string): void {    
+    this.http.get<IHomeData>('http://localhost:8080/assistant/api/' + date)
+      .pipe(
+          repeatWhen(() => timer(1000)) // Повторять запрос каждую секунду, пока не получены данные
+      )
+      .subscribe((res: IHomeData) => {
+          // Обработка полученных данных
+          this.data = res;
+          const sectionsToCheck = [
+              res.yesterday.fixed_tasks, 
+              res.today.fixed_tasks, 
+              res.tomorrow.fixed_tasks, 
+              res.free_tasks, 
+              res.late_tasks, 
+              res.soon_tasks
+          ];
+
+          for (const tasks of sectionsToCheck) {
+              if (tasks && tasks.length > 0) {
+                  const firstTaskId = tasks[0].id;
+                  this.getCategories(firstTaskId);
+                  break;
+              }
+          }
+      },
+      (error) => {
+          console.error('Произошла ошибка при получении данных:', error);
+      });
+    this.getPlans();
+  }
+  
   getCategories(id: number): void {
     this.http.get<ITackCategories>('http://localhost:8080/assistant/api/tasks/'+id).subscribe((res: ITackCategories) => {
       this.categories = res.all_categories_for_user;

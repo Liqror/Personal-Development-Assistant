@@ -34,7 +34,7 @@ export class AppComponent implements OnInit{
     const month = this.padZero(this.currentDate.getMonth() + 1); // Месяцы начинаются с 0
     const day = this.padZero(this.currentDate.getDate());
     this.formattedDate = `${year}/${month}/${day}`;
-    console.log(this.formattedDate);
+    // console.log(this.formattedDate);
   }
   private padZero(value: number): string {
     return value < 10 ? `0${value}` : `${value}`;

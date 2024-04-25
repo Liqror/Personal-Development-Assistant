@@ -44,7 +44,7 @@
    
 
         <!-- Основной контент страницы  -->
-        <div class="row justify-content-center">
+        <div class="row justify-content-center" *ngIf="data && data.yesterday"> <!-- эта строчка убирает ошибки из консоли -->
           <div class="col-md-4 col-lg-4 mt-md-1">
             <h2>{{ datesForTitle.previous }}</h2>
             <hr>
