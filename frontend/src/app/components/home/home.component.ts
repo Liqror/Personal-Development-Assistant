@@ -39,14 +39,17 @@ export class HomeComponent implements OnInit{
   // сохранение нажатой даты для обновления страницы при изменении задач
   date:any;
 
+  dates = {
+    clicked: "сегодня",
+    previous: "вчера",
+    next: "завтра"
+  };
+
   currentDate: Date;
   data: IHomeData;
   categories: ICategory[];
   plans: IPlan[];
 
-  yesterdayLabel: string = 'вчера';
-  todayLabel: string = 'сегодня';
-  tomorrowLabel: string = 'завтра';
   isDateClicked: boolean = false;
   formattedDate: string;
   // это джаваскрипт для создания задачи
