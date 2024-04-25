@@ -37,10 +37,17 @@ export class HomeComponent implements OnInit{
   taskDataUpdate: IFullTaskPage;
   
   // сохранение нажатой даты для обновления страницы при изменении задач
-  date:any;
+  date: any;
+
+  // сохранение нажатой даты для обновления страницы при изменении задач
+  dates = {
+    clicked: "сегодня",
+    previous: "вчера",
+    next: "завтра"
+  };
 
   // для вчера сегодня завтра
-  dates = {
+  datesForTitle = {
     clicked: "сегодня",
     previous: "вчера",
     next: "завтра"
@@ -83,7 +90,6 @@ export class HomeComponent implements OnInit{
     // подписка на сервис для отследивания нажатий на календаре для обновления задач
     this.subs = this.dataService.dates$.subscribe((dates) => {
       this.update(dates);
-      this.dates = dates; // Сохраняем данные dates в свойстве компонента
     });
   }
 
@@ -92,18 +98,14 @@ export class HomeComponent implements OnInit{
   }
 
   private update(dates: any): void {
+    this.dates = dates;
+    console.log("jib,rf&", this.dates);
     this.getHomeData(dates.clicked);
-    this.dates = {
-      clicked: this.formatDateForYTT(dates.clicked),
-      previous: this.formatDateForYTT(dates.previous),
-      next: this.formatDateForYTT(dates.next)
-    };
-    console.log("нажатые даты переданные с бекенда", this.dates);
   }
 
   formatDateForYTT(dateString: string): string {
     const date = new Date(dateString);
-    const monthNames = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+    const monthNames = ['янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
     const day = date.getDate().toString();
     const monthIndex = date.getMonth();
     const year = date.getFullYear();
@@ -115,14 +117,35 @@ export class HomeComponent implements OnInit{
     const month = this.padZero(this.currentDate.getMonth() + 1); // Месяцы начинаются с 0
     const day = this.padZero(this.currentDate.getDate());
     this.formattedDate = `${year}/${month}/${day}`;
-    // console.log('отформатированная дата',this.formattedDate);
   }
   private padZero(value: number): string {
     return value < 10 ? `0${value}` : `${value}`;
   }
 
-  getHomeData(data: string): void {
-    this.http.get<IHomeData>('http://localhost:8080/assistant/api/' + data).subscribe((res: IHomeData) => {
+  formatDateForComparison(dateString: string): string {
+    const [year, month, day] = dateString.split('/'); // Разделяем строку на части
+    const formattedMonth = parseInt(month).toString().padStart(2, '0'); // Преобразуем месяц в число, добавляем ведущий ноль
+    const formattedDay = parseInt(day).toString().padStart(2, '0'); // Преобразуем день в число, добавляем ведущий ноль
+    return `${year}/${formattedMonth}/${formattedDay}`;
+  }
+  
+
+  getHomeData(date: string): void {
+    if (this.formatDateForComparison(date) == this.formattedDate) {
+      this.datesForTitle = {
+        clicked: "сегодня",
+        previous: "вчера",
+        next: "завтра"
+      };
+    } else {
+      this.datesForTitle = {
+        clicked: this.formatDateForYTT(this.dates.clicked),
+        previous: this.formatDateForYTT(this.dates.previous),
+        next: this.formatDateForYTT(this.dates.next)
+      };
+    }
+    
+    this.http.get<IHomeData>('http://localhost:8080/assistant/api/' + date).subscribe((res: IHomeData) => {
       this.data = res;
       const sectionsToCheck = [
         res.yesterday.fixed_tasks, 
@@ -161,16 +184,14 @@ export class HomeComponent implements OnInit{
     this.isDiv1Visible = false; // флаг для невидимости задачи
     this.clear();
   }
+
   // Сохранение задачи
   saveTask(): void {
-    
     // задача не может быть без имени, оценки и категории. категория автоматически ставиться 0
     if (this.taskId == -1 && this.taskName !== "" && this.taskEstimate !== undefined && !isNaN(this.taskEstimate)) {
       if (this.taskDescription === "") {
         this.taskDescription = null;
       }
-
-      // console.log("время", this.startDate, this.startTime, this.stopDate, this.stopTime);
 
       const taskData: ITaskPage = {
         name: this.taskName,
