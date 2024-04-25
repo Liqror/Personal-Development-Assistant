@@ -161,6 +161,73 @@ highlight {
   left: 0;
 }
 
+.containerDelRepeat {
+  background: #e5dedc;
+  width: 40%;
+  color: #fff;
+  text-align: center;
+  padding: 15px 25px;
+  border: 1px solid #000000;
+  border-radius: 10px;
+  position: absolute;
+  right: 0;
+  margin: auto;
+  height: auto;
+  left: 0;
+}
+
+input[type='radio'],
+label {
+  cursor: pointer;
+}
+
+input[type='radio'] {
+  position: relative;
+  height: 18px;
+  width: 18px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+}
+
+input[type='radio']::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 2px solid rgb(255, 203, 30);
+}
+
+input[type='radio']:checked::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background-color: rgb(255, 203, 30);
+  transform: translate(-50%, -50%);
+  visibility: visible;
+}
+
+
+.ttlDel {
+  text-align: center;
+  font-weight: 500;
+  margin: -1px;
+  font-size: 130%;
+  color: #000000;
+}
+
+
+
 
 #new-task {
 
