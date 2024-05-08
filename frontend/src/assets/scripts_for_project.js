@@ -1,5 +1,3 @@
-
-
 (function() {
   const headings = document.querySelectorAll('h5');
 
@@ -28,6 +26,17 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("close-button").addEventListener("click", hideDiv);
 });
 
+(function() {
+  document.getElementById("repeat").addEventListener("change", function() {
+  if (this.value === "1") {
+    document.getElementById("daysForWeek").style.display = "flex";
+    console.log('see 1');
+  } else {
+    document.getElementById("daysForWeek").style.display = "none";
+    console.log('see 2');
+  }
+});
+})()
 
 function toggle() {
   var div = document.getElementById('pnlTest');
@@ -276,3 +285,4 @@ function showDivDelRepeatTask() {
 function hideDivDelRepeatTask() {
   document.getElementById("divDelRepeatTask").style.display = "none";
 }
+
