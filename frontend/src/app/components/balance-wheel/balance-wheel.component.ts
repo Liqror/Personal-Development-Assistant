@@ -27,6 +27,13 @@ export class BalanceWheelComponent implements OnInit {
     active: true
   };
 
+  // для создания новой категории
+  changeCategory: ICategory;
+
+  // для получения колеса баланса
+  start: string;
+  stop: string;
+
   @ViewChild('balanceWheelCanvas', {static: true}) balanceWheelCanvas: ElementRef<HTMLCanvasElement>;
   private ctx: CanvasRenderingContext2D | null = null;
 
@@ -62,20 +69,14 @@ export class BalanceWheelComponent implements OnInit {
     );
   }
 
-  // это пока нерабочая функция, джем пока пояивтся редактирование
-  updateCategory(category: ICategory) {
-    return this.categoryService.updateCategory(category).pipe(
-        tap(updatedCategory => {
-            // Обработка успешного обновления категории
-            console.log('Категория успешно обновлена:', updatedCategory);
-        }),
-        catchError(error => {
-            // Обработка ошибки обновления категории
-            console.error('Ошибка при обновлении категории:', error);
-            return of(null); // Возвращаем Observable с пустым значением
-        })
-    );
-}
+  // это пока работает только с галочками, нужно чтоб работало с названием и цветом
+  updateCategory(category: ICategory): void {
+    this.categoryService.updateCategory(category).subscribe(updatedCategory => {
+        console.log('Категория успешно обновлена:', updatedCategory);
+    }, error => {
+        console.error('Ошибка при обновлении категории:', error);
+    });
+  }
 
   // рисование колеса
   drawCircle() {
