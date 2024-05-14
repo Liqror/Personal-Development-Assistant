@@ -71,18 +71,7 @@
             <p>{{ data.yesterday.text_note}}</p>
             <hr>
             <h3>Задачи</h3>
-
             <h4>На день</h4>
-
-            <!-- <div *ngFor="let task of data.yesterday.fixed_tasks">
-              <p class="task_see">
-                <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
-                <label [for]="task.id.toString()" style="margin-left: 7px;" (click)="getTaskInfo($event, task.id)"> 
-                  <span class="custom_checkbox" [id]="task.id.toString()"></span>
-                  {{ task.name }} 
-                </label>
-              </p>
-            </div> -->
             <div *ngFor="let task of data.yesterday.fixed_tasks">
               <p class="task_see">
                   <label [for]="task.id.toString()" style="margin-left: 7px;">
@@ -92,12 +81,6 @@
                   </label>
               </p>
           </div>
-          
-            
-          
-          
-          
-
           </div>
 
           <div class="col-md-4 col-lg-4 mt-md-1">
@@ -129,12 +112,14 @@
             <h3>Задачи</h3>
             <h4>На день</h4>
             <div *ngFor="let task of data.today.fixed_tasks">
-              <p class="task_see"><label [for]="task.id.toString()" style="margin-left: 7px;" (click)="getTaskInfo($event, task.id)"> 
-                <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
-                <span class="custom_checkbox" [id]="task.id.toString()"></span>
-                {{ task.name }} 
-              </label></p>
-            </div>
+              <p class="task_see">
+                <label [for]="task.id.toString()" style="margin-left: 7px;">
+                    <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id" (change)="onCheckboxChange($event, task)">
+                    <span class="custom_checkbox" [id]="task.id.toString()"></span>
+                    <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
+                </label>
+            </p>
+        </div>
           </div>
 
           <div class="col-md-4 col-lg-4 mt-md-1">
@@ -164,12 +149,14 @@
             <h3>Задачи</h3>
             <h4>На день</h4>
             <div *ngFor="let task of data.tomorrow.fixed_tasks">
-              <p class="task_see"><label [for]="task.id.toString()" style="margin-left: 7px;" (click)="getTaskInfo($event, task.id)"> 
-                <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
-                <span class="custom_checkbox" [id]="task.id.toString()"></span>
-                {{ task.name }} 
-              </label></p>
-            </div>
+              <p class="task_see">
+                <label [for]="task.id.toString()" style="margin-left: 7px;">
+                    <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id" (change)="onCheckboxChange($event, task)">
+                    <span class="custom_checkbox" [id]="task.id.toString()"></span>
+                    <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
+                </label>
+            </p>
+        </div>
           </div>
 
           <div class="col-md-12 col-lg-12 mt-md-3 mb-md-3">
@@ -180,20 +167,13 @@
                 
             <div *ngFor="let task of data.late_tasks">
               <p class="task_see">
-                <label [for]="task.id.toString()" style="margin-left: 7px;" (click)="getTaskInfo($event, task.id)"> 
-                <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
-                <span class="custom_checkbox" [id]="task.id.toString()"></span>
-                {{ task.name }} 
+                <label [for]="task.id.toString()" style="margin-left: 7px;">
+                    <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id" (change)="onCheckboxChange($event, task)">
+                    <span class="custom_checkbox" [id]="task.id.toString()"></span>
+                    <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
                 </label>
-              </p>
-            </div>  
-
-                <!-- <div *ngFor="let task of data.late_tasks">
-                  <input type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
-                  <label [for]="task.id.toString()">{{ task.name }}</label><br>
-                -->
-                <!-- </div> -->
-
+            </p>
+        </div> 
                 </div>
 
 
@@ -202,48 +182,28 @@
                   <h4>Задачи с дедлайном</h4>
 
                   <div *ngFor="let task of data.soon_tasks">
-                    <p class="task_see"><label [for]="task.id.toString()" style="margin-left: 7px;" (click)="getTaskInfo($event, task.id)"> 
-                      <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
-                      <span class="custom_checkbox" [id]="task.id.toString()"></span>
-                      {{ task.name }} 
-                  </label></p>
-                      <!-- <div *ngFor="let task of data.late_tasks">
-                        <input type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
-                        <label [for]="task.id.toString()">{{ task.name }}</label><br>
-                      -->
-                      </div>
-
-                  <!-- <div *ngFor="let task of data.soon_tasks"> -->
-                    <!-- <p><label [for]="task.id.toString()" style="margin-left: 7px;">  -->
-                      <!-- <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id"> -->
-                      <!-- <span class="custom_checkbox" [id]="task.id.toString()"></span> -->
-                      <!-- {{ task.name }}  -->
-                    <!-- </label></p> -->
-                  <!-- </div>  -->
-                      <!-- <div *ngFor="let task of data.late_tasks">
-                        <input type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
-                        <label [for]="task.id.toString()">{{ task.name }}</label><br>
-                      -->
-
+                    <p class="task_see">
+                      <label [for]="task.id.toString()" style="margin-left: 7px;">
+                          <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id" (change)="onCheckboxChange($event, task)">
+                          <span class="custom_checkbox" [id]="task.id.toString()"></span>
+                          <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
+                      </label>
+                  </p>
+              </div>
             
                 </div>
                 <div class="col-md-4 col-lg-4 mt-md-1">
                   <br>
                   <h4>Беcсрочно</h4>
                   <div *ngFor="let task of data.free_tasks">
-                    <p class="task_see"><label [for]="task.id.toString()" style="margin-left: 7px;" (click)="getTaskInfo($event, task.id)"> 
-                      <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
-                      <span class="custom_checkbox" [id]="task.id.toString()"></span>
-                      {{ task.name }} 
-                    </label></p>
-                  </div>
-
-                  <!--
-                  <div *ngFor="let task of data.free_tasks">
-                    <input type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id">
-                    <label [for]="task.id.toString()">{{ task.name }}</label><br>
-                  </div>
-                -->
+                    <p class="task_see">
+                      <label [for]="task.id.toString()" style="margin-left: 7px;">
+                          <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id" (change)="onCheckboxChange($event, task)">
+                          <span class="custom_checkbox" [id]="task.id.toString()"></span>
+                          <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
+                      </label>
+                  </p>
+              </div>
                 </div>
                 </div>
 
