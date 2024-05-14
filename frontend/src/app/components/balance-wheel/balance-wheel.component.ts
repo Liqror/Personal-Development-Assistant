@@ -9,7 +9,9 @@ import {IWheel, IWheelData} from "../../interfaces/wheel";
   styleUrls: ['./balance-wheel.component.css']
 })
 export class BalanceWheelComponent implements OnInit {
+
   wheelData: IWheel[];
+
   @ViewChild('balanceWheelCanvas', {static: true}) balanceWheelCanvas: ElementRef<HTMLCanvasElement>;
   private ctx: CanvasRenderingContext2D | null = null;
 
@@ -23,7 +25,16 @@ export class BalanceWheelComponent implements OnInit {
     }
   }
 
+  // getCategories(): void {
+  //   this.http.get<ICategory[]>('http://localhost:8080/assistant/api/categories').subscribe((res: ICategory[]) => {
+  //     this.categories = res;
+  //     // console.log(this.categories);
+  //     this.taskCategory = this.categories[0].id;
+  //     // console.log(this.taskCategory);
+  //   });
+  // }
 
+  // рисование колеса
   drawCircle() {
     if (!this.ctx) {
       return;
@@ -168,4 +179,5 @@ export class BalanceWheelComponent implements OnInit {
   
     }
   }
+
 }

@@ -329,6 +329,7 @@ export class HomeComponent implements OnInit{
     this.taskDescription = null;
     this.startDate = null;
     this.startTime = null;
+    this.taskStatus = 0;
     this.stop = null;
     this.startDate = null;
     this.stopDate = null;
@@ -371,6 +372,7 @@ export class HomeComponent implements OnInit{
       this.stopDate = taskInfo.stop_date;
       this.startTime = taskInfo.start_time;
       this.stopTime = taskInfo.stop_time;
+      this.taskStatus = taskInfo.status;
 
       this.taskCategory = taskInfo.task_category.id;
       // this.belongsPlan = "choose"; // пока нет этого в бекенде
