@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit{
   stopDate: string | null = null;
   startTime: string | null = null;
   stopTime: string | null = null;
+  taskStatus: number;
   taskCategory: number;
   belongsPlan: string | number = "choose";
 
@@ -251,7 +252,7 @@ export class HomeComponent implements OnInit{
         name: this.taskName,
         estimate: this.taskEstimate,
         repeat : null,
-        status: 0,
+        status: this.taskStatus,
         timezone: "Asia/Krasnoyarsk",
         user_id: 1,
         description: this.taskDescription,
@@ -285,7 +286,7 @@ export class HomeComponent implements OnInit{
         name: this.taskName,
         estimate: this.taskEstimate,
         repeat : null,
-        status: 0,
+        status: this.taskStatus,
         timezone: "Asia/Krasnoyarsk",
         user_id: 1,
         description: this.taskDescription,
