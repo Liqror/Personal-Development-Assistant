@@ -86,7 +86,7 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    console.log("обновление страницы");
+    console.log("Инициализация страницы");
     this.currentDate = new Date();
     this.formatDateForData();
     this.updateDatesForTitle(this.dates.clicked);
@@ -189,7 +189,6 @@ export class HomeComponent implements OnInit{
     }
   }
 
-
   getHomeData(date: string): void {    
     this.http.get<IHomeData>('http://localhost:8080/assistant/api/' + date)
       .pipe(
@@ -230,15 +229,6 @@ export class HomeComponent implements OnInit{
       // console.log(this.taskCategory);
     });
   }
-
-  // getCategories(id: number): void {
-  //   this.http.get<ITackCategories>('http://localhost:8080/assistant/api/tasks/'+id).subscribe((res: ITackCategories) => {
-  //     this.categories = res.all_categories_for_user;
-  //     console.log(this.categories);
-  //     this.taskCategory = this.categories[0].id;
-  //     console.log(this.taskCategory);
-  //   });
-  // }
 
   getPlans(): void {
     this.http.get<IPlan[]>('http://localhost:8080/assistant/api/plans').subscribe((res: IPlan[]) => {
