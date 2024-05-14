@@ -148,7 +148,6 @@ export class HomeComponent implements OnInit{
       previous: this.formattedDate,
       next: this.formattedDate,
     };
-   
   }
   private padZero(value: number): string {
     return value < 10 ? `0${value}` : `${value}`;
@@ -171,7 +170,7 @@ export class HomeComponent implements OnInit{
                 "value": 1
             }
         ]).subscribe(response => {
-            // console.log('PATCH-запрос успешно выполнен:', response);
+            console.log('PATCH-запрос успешно выполнен:', response);
         }, error => {
             console.error('Ошибка при выполнении PATCH-запроса:', error);
         });
@@ -183,7 +182,7 @@ export class HomeComponent implements OnInit{
                 "value": 0
             }
         ]).subscribe(response => {
-            // console.log('PATCH-запрос успешно выполнен:', response);
+            console.log('PATCH-запрос успешно выполнен:', response);
         }, error => {
             console.error('Ошибка при выполнении PATCH-запроса:', error);
         });
@@ -210,8 +209,9 @@ export class HomeComponent implements OnInit{
 
           for (const tasks of sectionsToCheck) {
               if (tasks && tasks.length > 0) {
-                  const firstTaskId = tasks[0].id;
-                  this.getCategories(firstTaskId);
+                  // const firstTaskId = tasks[0].id;
+                  // this.getCategories(firstTaskId);
+                  this.getCategories();
                   break;
               }
           }
@@ -222,12 +222,23 @@ export class HomeComponent implements OnInit{
     this.getPlans();
   }
   
-  getCategories(id: number): void {
-    this.http.get<ITackCategories>('http://localhost:8080/assistant/api/tasks/'+id).subscribe((res: ITackCategories) => {
-      this.categories = res.all_categories_for_user;
+  getCategories(): void {
+    this.http.get<ICategory[]>('http://localhost:8080/assistant/api/categories').subscribe((res: ICategory[]) => {
+      this.categories = res;
+      // console.log(this.categories);
       this.taskCategory = this.categories[0].id;
+      // console.log(this.taskCategory);
     });
   }
+
+  // getCategories(id: number): void {
+  //   this.http.get<ITackCategories>('http://localhost:8080/assistant/api/tasks/'+id).subscribe((res: ITackCategories) => {
+  //     this.categories = res.all_categories_for_user;
+  //     console.log(this.categories);
+  //     this.taskCategory = this.categories[0].id;
+  //     console.log(this.taskCategory);
+  //   });
+  // }
 
   getPlans(): void {
     this.http.get<IPlan[]>('http://localhost:8080/assistant/api/plans').subscribe((res: IPlan[]) => {
