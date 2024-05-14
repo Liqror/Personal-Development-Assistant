@@ -171,7 +171,7 @@ export class HomeComponent implements OnInit{
                 "value": 1
             }
         ]).subscribe(response => {
-            console.log('PATCH-запрос успешно выполнен:', response);
+            // console.log('PATCH-запрос успешно выполнен:', response);
         }, error => {
             console.error('Ошибка при выполнении PATCH-запроса:', error);
         });
@@ -183,7 +183,7 @@ export class HomeComponent implements OnInit{
                 "value": 0
             }
         ]).subscribe(response => {
-            console.log('PATCH-запрос успешно выполнен:', response);
+            // console.log('PATCH-запрос успешно выполнен:', response);
         }, error => {
             console.error('Ошибка при выполнении PATCH-запроса:', error);
         });
@@ -303,7 +303,7 @@ export class HomeComponent implements OnInit{
 
       this.taskService.updateTask(taskDataUpdate).subscribe({
         next: (response) => {
-          console.log('Задача обновлена', response);
+          // console.log('Задача обновлена', response);
           this.clear();
         },
         error: (error) => {
