@@ -162,13 +162,30 @@ export class HomeComponent implements OnInit{
   }
 
   onCheckboxChange(event: any, task: any) {
-    // Здесь вы можете выполнять любую логику, которая должна выполняться при изменении состояния чекбокса
     if (event.target.checked) {
-      console.log('Галочка установлена для задачи:', task.id);
-      // Здесь можно вызывать другие функции или выполнять другие действия
+      this.http.patch('http://localhost:8080/assistant/api/tasks/' + task.id, [
+            {
+                "op": "replace",
+                "path": "/status",
+                "value": 1
+            }
+        ]).subscribe(response => {
+            console.log('PATCH-запрос успешно выполнен:', response);
+        }, error => {
+            console.error('Ошибка при выполнении PATCH-запроса:', error);
+        });
     } else {
-      console.log('Галочка снята для задачи:', task.id);
-      // Здесь также можно вызывать другие функции или выполнять другие действия
+      this.http.patch('http://localhost:8080/assistant/api/tasks/' + task.id, [
+            {
+                "op": "replace",
+                "path": "/status",
+                "value": 0
+            }
+        ]).subscribe(response => {
+            console.log('PATCH-запрос успешно выполнен:', response);
+        }, error => {
+            console.error('Ошибка при выполнении PATCH-запроса:', error);
+        });
     }
   }
 
