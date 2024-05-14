@@ -164,16 +164,18 @@
               <div class="col-md-4 col-lg-4 mt-md-1">
                 <br>
                 <h4>Просрочено</h4>
+
+                <div *ngFor="let task of data.late_tasks">
+                  <p class="task_see">
+                    <label [for]="task.id.toString()" style="margin-left: 7px;">
+                        <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id" [(ngModel)]="task.status" (change)="onCheckboxChange($event, task)">
+                        <span class="custom_checkbox" [id]="task.id.toString()"></span>
+                        <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
+                    </label>
+                  </p>
+                </div>
                 
-            <div *ngFor="let task of data.late_tasks">
-              <p class="task_see">
-                <label [for]="task.id.toString()" style="margin-left: 7px;">
-                    <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id" [(ngModel)]="task.status" (change)="onCheckboxChange($event, task)">
-                    <span class="custom_checkbox" [id]="task.id.toString()"></span>
-                    <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
-                </label>
-            </p>
-        </div> 
+    
                 </div>
 
 
@@ -188,8 +190,8 @@
                           <span class="custom_checkbox" [id]="task.id.toString()"></span>
                           <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
                       </label>
-                  </p>
-              </div>
+                    </p>
+                  </div>
             
                 </div>
                 <div class="col-md-4 col-lg-4 mt-md-1">

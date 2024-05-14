@@ -1,6 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {wheel} from '../../data/wheel'
 import {IWheel, IWheelData} from "../../interfaces/wheel";
+import {ICategory} from "../../interfaces/category"
+import {HttpClient} from "@angular/common/http";
+
 
 @Component({
   selector: 'app-balance-wheel',
@@ -11,13 +14,17 @@ import {IWheel, IWheelData} from "../../interfaces/wheel";
 export class BalanceWheelComponent implements OnInit {
 
   wheelData: IWheel[];
+  categories: ICategory[];
 
   @ViewChild('balanceWheelCanvas', {static: true}) balanceWheelCanvas: ElementRef<HTMLCanvasElement>;
   private ctx: CanvasRenderingContext2D | null = null;
 
+  constructor(private http: HttpClient) {}
+
   ngOnInit() {
     // Присвойте данные колеса переменной wheelData
     this.wheelData = wheel.wheel;
+    this.getCategories();
 
     this.ctx = this.balanceWheelCanvas.nativeElement.getContext('2d');
     if (this.ctx) {
@@ -25,14 +32,11 @@ export class BalanceWheelComponent implements OnInit {
     }
   }
 
-  // getCategories(): void {
-  //   this.http.get<ICategory[]>('http://localhost:8080/assistant/api/categories').subscribe((res: ICategory[]) => {
-  //     this.categories = res;
-  //     // console.log(this.categories);
-  //     this.taskCategory = this.categories[0].id;
-  //     // console.log(this.taskCategory);
-  //   });
-  // }
+  getCategories(): void {
+    this.http.get<ICategory[]>('http://localhost:8080/assistant/api/categories').subscribe((res: ICategory[]) => {
+      this.categories = res;
+    });
+  }
 
   // рисование колеса
   drawCircle() {

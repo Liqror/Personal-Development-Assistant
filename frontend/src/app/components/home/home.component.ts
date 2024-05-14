@@ -25,8 +25,6 @@ export class HomeComponent implements OnInit{
   taskName: string = "";
   taskEstimate: number;
   taskDescription: string | null = null;
-  // start: Date | null = null;
-  // start1: string | null = null;
   stop: string | null = null;
   startDate: string | null = null;
   stopDate: string | null = null;
