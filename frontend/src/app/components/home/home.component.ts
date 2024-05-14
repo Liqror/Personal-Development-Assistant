@@ -106,7 +106,7 @@ export class HomeComponent implements OnInit{
   private update(dates: any): void {
     this.dates = dates;
     this.updateDatesForTitle(dates.clicked);
-    console.log("в апдэйт", this.datesForTitle);
+    // console.log("в апдэйт", this.datesForTitle);
     this.getHomeData(dates.clicked);
   }
 
@@ -134,7 +134,7 @@ export class HomeComponent implements OnInit{
         next: this.formatDateForYTT(this.dates.next)
       };
     }
-    console.log("обновление дат", this.datesForTitle);
+    // console.log("обновление дат", this.datesForTitle);
   }
   
   formatDateForData(): void {
@@ -159,6 +159,17 @@ export class HomeComponent implements OnInit{
     const formattedMonth = parseInt(month).toString().padStart(2, '0'); // Преобразуем месяц в число, добавляем ведущий ноль
     const formattedDay = parseInt(day).toString().padStart(2, '0'); // Преобразуем день в число, добавляем ведущий ноль
     return `${year}/${formattedMonth}/${formattedDay}`;
+  }
+
+  onCheckboxChange(event: any, task: any) {
+    // Здесь вы можете выполнять любую логику, которая должна выполняться при изменении состояния чекбокса
+    if (event.target.checked) {
+      console.log('Галочка установлена для задачи:', task.name);
+      // Здесь можно вызывать другие функции или выполнять другие действия
+    } else {
+      console.log('Галочка снята для задачи:', task.name);
+      // Здесь также можно вызывать другие функции или выполнять другие действия
+    }
   }
 
 
