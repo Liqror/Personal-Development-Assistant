@@ -1,8 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {wheel} from '../../data/wheel'
 import {IWheel, IWheelData} from "../../interfaces/wheel";
-import {ICategory} from "../../interfaces/category"
+import {ICategory, ICategoryForCreate} from "../../interfaces/category"
 import {HttpClient} from "@angular/common/http";
+import { CategoryService } from 'src/app/services/category.service';
+import { tap, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 
 @Component({
@@ -15,11 +18,20 @@ export class BalanceWheelComponent implements OnInit {
 
   wheelData: IWheel[];
   categories: ICategory[];
+  
+  // для создания новой категории
+  newCategory: ICategoryForCreate = {
+    user_id: 1,
+    title: '',
+    color: '',
+    active: true
+  };
 
   @ViewChild('balanceWheelCanvas', {static: true}) balanceWheelCanvas: ElementRef<HTMLCanvasElement>;
   private ctx: CanvasRenderingContext2D | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+    private categoryService: CategoryService) {}
 
   ngOnInit() {
     // Присвойте данные колеса переменной wheelData
@@ -33,10 +45,37 @@ export class BalanceWheelComponent implements OnInit {
   }
 
   getCategories(): void {
-    this.http.get<ICategory[]>('http://localhost:8080/assistant/api/categories').subscribe((res: ICategory[]) => {
+    this.categoryService.getCategories().subscribe((res: ICategory[]) => { 
       this.categories = res;
     });
   }
+
+  createCategory(): void {
+    // Вызовите сервис для создания новой категории и передайте новую категорию
+    this.categoryService.createCategory(this.newCategory).subscribe(
+      createdCategory => {
+        console.log('Категория успешно создана:', createdCategory);
+      },
+      error => {
+        console.error('Ошибка при создании категории:', error);
+      }
+    );
+  }
+
+  // это пока нерабочая функция, джем пока пояивтся редактирование
+  updateCategory(category: ICategory) {
+    return this.categoryService.updateCategory(category).pipe(
+        tap(updatedCategory => {
+            // Обработка успешного обновления категории
+            console.log('Категория успешно обновлена:', updatedCategory);
+        }),
+        catchError(error => {
+            // Обработка ошибки обновления категории
+            console.error('Ошибка при обновлении категории:', error);
+            return of(null); // Возвращаем Observable с пустым значением
+        })
+    );
+}
 
   // рисование колеса
   drawCircle() {
@@ -60,7 +99,7 @@ export class BalanceWheelComponent implements OnInit {
         max_point = this.wheelData[i].points;
       }
     }
-    console.log(`max points in all categories -----  ${max_point}`);
+    // console.log(`max points in all categories -----  ${max_point}`);
     const numCircles = 10; //рисуем всегда 10 внутренних кругов. 10 круг - 100%.
 
     // Нарисовать внешний круг
@@ -143,7 +182,7 @@ export class BalanceWheelComponent implements OnInit {
       this.ctx.textAlign = 'center';
       this.ctx.textBaseline = 'middle';
 
-      console.log(`Угол: ${angleCenterText}`);
+      // console.log(`Угол: ${angleCenterText}`);
       
       if (angleCenterText > 0 && angleCenterText < Math.PI) {
         //Инвертируем текст ели он лежит от 0 до pi/2 (то есть внизу круга)

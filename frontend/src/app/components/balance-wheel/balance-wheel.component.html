@@ -20,12 +20,14 @@
                 <h2>Категории</h2>
                 <hr>
                 <!-- Кнопка "Создание новой категории" -->
-                <p><button onclick="showDivNewCtg()" style="border: none;"> <img src="././assets/image/add.png" alt="новая категория" style="height: 20px"> Добавить категорию</button></p>
+                <p>
+                    <button onclick="showDivNewCtg()" style="border: none;"> <img src="././assets/image/add.png" alt="новая категория" style="height: 20px">Добавить категорию</button>
+                </p>
 
                     <div *ngFor="let category of categories" style="display: flex; width:100%"> 
                         <div style=" width:90%">  
                             <label style="margin-left: 7px;"> 
-                                <input class="real_checkbox" type="checkbox" name="ctg">
+                                <input class="real_checkbox" type="checkbox" name="ctg" [(ngModel)]="category.active" (change)="updateCategory(category)">
                                 <span class="custom_checkbox"></span>
                                 <p style="display: inline-block;"> {{ category.title }} </p> 
                             </label>
@@ -38,7 +40,7 @@
                         </div>                    
                     </div>
                                        
-                <p style="text-align: center;"><button style="width: 70%; background-color: #F0f0f0;"> Обновить колесо баланса</button></p>
+                <p style="text-align: center;"><button style="width: 70%; background-color: #F0f0f0;">Обновить колесо баланса</button></p>
             </div>
 
             <div class="col-md-7 col-lg-7 mt-md-1">
@@ -49,12 +51,12 @@
 
     <div id="newCtg" style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
         <div class="container">
-            <p><input id="nameCtg" type="text" name="userName" placeholder="Введите название категории" style="width: 100%" /></p>
+            <p><input [(ngModel)]="newCategory.title" id="nameCtg" type="text" name="userName" placeholder="Введите название категории" style="width: 100%" /></p>
             <p>Выберите цвет для категории: </p>
-            <input type="color" id="head" name="head" value="#F8A831" style="width: 100%; height: 150px;"/>
+            <input type="color" id="head" name="head" value="#F8A831" style="width: 100%; height: 150px;" [(ngModel)]="newCategory.color"/>
             <div class="row justify-content-center">
                 <div class="col-md-6 col-lg-6">
-                  <p style="text-align: center"><button  onclick="hideDivCtg()" onclick="checkInputForBalanceWheel()" id="save-button-new-ctg" class="save">Сохранить</button><p>
+                  <p style="text-align: center"><button  onclick="hideDivCtg()" onclick="checkInputForBalanceWheel()" id="save-button-new-ctg" class="save" (click)="createCategory()">Сохранить</button><p>
                 </div>
                 <div class="col-md-6 col-lg-6">
                   <p style="text-align: center"><button onclick="hideDivCtg()" id="close-button" class="close">Закрыть</button><p>
@@ -64,7 +66,6 @@
             <div class="error-massage">
                 <p id="checkCtgName" style="color: red;"></p> <!-- ЕСЛИ НАЗВАНИЕ ПУСТО, ТО ВЫЛАЗИТ ОШИБКА ПРИ СОХРАНЕНИИ -->
             </div>
-
 
         </div>
     </div>
