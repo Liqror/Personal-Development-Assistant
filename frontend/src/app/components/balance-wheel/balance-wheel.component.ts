@@ -75,15 +75,17 @@ export class BalanceWheelComponent implements OnInit {
   }
 
   createCategory(): void {
-    // Вызовите сервис для создания новой категории и передайте новую категорию
-    this.categoryService.createCategory(this.newCategory).subscribe(
-      createdCategory => {
-        console.log('Категория успешно создана:', createdCategory);
-      },
-      error => {
-        console.error('Ошибка при создании категории:', error);
-      }
-    );
+    if (this.newCategory.title != "") {
+      // Вызовите сервис для создания новой категории и передайте новую категорию
+      this.categoryService.createCategory(this.newCategory).subscribe(
+        createdCategory => {
+          console.log('Категория успешно создана:', createdCategory);
+        },
+        error => {
+          console.error('Ошибка при создании категории:', error);
+        }
+      );
+    }
   }
 
   // это пока работает только с галочками, нужно чтоб работало с названием и цветом
