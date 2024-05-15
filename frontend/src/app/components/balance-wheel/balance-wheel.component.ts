@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import {wheel} from '../../data/wheel'
 import {IWheel, IWheelData} from "../../interfaces/wheel";
 import {ICategory, ICategoryForCreate} from "../../interfaces/category"
 import {HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
@@ -41,8 +40,6 @@ export class BalanceWheelComponent implements OnInit {
     private categoryService: CategoryService) {}
 
   ngOnInit() {
-    // Присвойте данные колеса переменной wheelData
-    this.wheelData = wheel.wheel;
     this.getCategories();
 
     this.ctx = this.balanceWheelCanvas.nativeElement.getContext('2d');
