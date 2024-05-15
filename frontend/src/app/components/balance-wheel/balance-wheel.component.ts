@@ -1,6 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {wheel} from '../../data/wheel'
 import {IWheel, IWheelData} from "../../interfaces/wheel";
+import {ICategory, ICategoryForCreate} from "../../interfaces/category"
+import {HttpClient} from "@angular/common/http";
+import { CategoryService } from 'src/app/services/category.service';
+import { tap, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+
 
 @Component({
   selector: 'app-balance-wheel',
@@ -9,13 +15,35 @@ import {IWheel, IWheelData} from "../../interfaces/wheel";
   styleUrls: ['./balance-wheel.component.css']
 })
 export class BalanceWheelComponent implements OnInit {
+
   wheelData: IWheel[];
+  categories: ICategory[];
+  
+  // для создания новой категории
+  newCategory: ICategoryForCreate = {
+    user_id: 1,
+    title: '',
+    color: '',
+    active: true
+  };
+
+  // для создания новой категории
+  changeCategory: ICategory;
+
+  // для получения колеса баланса
+  start: string;
+  stop: string;
+
   @ViewChild('balanceWheelCanvas', {static: true}) balanceWheelCanvas: ElementRef<HTMLCanvasElement>;
   private ctx: CanvasRenderingContext2D | null = null;
+
+  constructor(private http: HttpClient,
+    private categoryService: CategoryService) {}
 
   ngOnInit() {
     // Присвойте данные колеса переменной wheelData
     this.wheelData = wheel.wheel;
+    this.getCategories();
 
     this.ctx = this.balanceWheelCanvas.nativeElement.getContext('2d');
     if (this.ctx) {
@@ -23,7 +51,34 @@ export class BalanceWheelComponent implements OnInit {
     }
   }
 
+  getCategories(): void {
+    this.categoryService.getCategories().subscribe((res: ICategory[]) => { 
+      this.categories = res;
+    });
+  }
 
+  createCategory(): void {
+    // Вызовите сервис для создания новой категории и передайте новую категорию
+    this.categoryService.createCategory(this.newCategory).subscribe(
+      createdCategory => {
+        console.log('Категория успешно создана:', createdCategory);
+      },
+      error => {
+        console.error('Ошибка при создании категории:', error);
+      }
+    );
+  }
+
+  // это пока работает только с галочками, нужно чтоб работало с названием и цветом
+  updateCategory(category: ICategory): void {
+    this.categoryService.updateCategory(category).subscribe(updatedCategory => {
+        console.log('Категория успешно обновлена:', updatedCategory);
+    }, error => {
+        console.error('Ошибка при обновлении категории:', error);
+    });
+  }
+
+  // рисование колеса
   drawCircle() {
     if (!this.ctx) {
       return;
@@ -45,7 +100,7 @@ export class BalanceWheelComponent implements OnInit {
         max_point = this.wheelData[i].points;
       }
     }
-    console.log(`max points in all categories -----  ${max_point}`);
+    // console.log(`max points in all categories -----  ${max_point}`);
     const numCircles = 10; //рисуем всегда 10 внутренних кругов. 10 круг - 100%.
 
     // Нарисовать внешний круг
@@ -128,7 +183,7 @@ export class BalanceWheelComponent implements OnInit {
       this.ctx.textAlign = 'center';
       this.ctx.textBaseline = 'middle';
 
-      console.log(`Угол: ${angleCenterText}`);
+      // console.log(`Угол: ${angleCenterText}`);
       
       if (angleCenterText > 0 && angleCenterText < Math.PI) {
         //Инвертируем текст ели он лежит от 0 до pi/2 (то есть внизу круга)
@@ -168,4 +223,5 @@ export class BalanceWheelComponent implements OnInit {
   
     }
   }
+
 }

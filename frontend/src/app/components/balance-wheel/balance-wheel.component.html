@@ -20,57 +20,27 @@
                 <h2>Категории</h2>
                 <hr>
                 <!-- Кнопка "Создание новой категории" -->
-                <p><button onclick="showDivNewCtg()" class="showDivNewCtg"> <img src="././assets/image/add.png" alt="новая категория" class="styleImg"> Добавить категорию</button></p>
-                
-                <div class="styleForCtg"> 
-                    <div class="divTextCtg">  
-                        <label class="labelTextCtg"> 
-                            <input class="real_checkbox" type="checkbox" name="ctg">
-                            <span class="custom_checkbox"></span>
-                            <p class="textCtg"> Семья </p> 
-                        </label>
-                    </div>
-                    <div class="colorCircle"> 
-                        <!-- Это цветовая метка категории. Сюда потом можно будет вставить любой цвет-->
-                        <svg width="20" height="20" >
-                            <circle cx="10" cy="10" r="10" fill="#FFD12F" />
-                        </svg>
-                    </div>                    
-                </div>
-                
-                <div class="styleForCtg"> 
-                    <div class="divTextCtg">  
-                        <label class="labelTextCtg"> 
-                            <input class="real_checkbox" type="checkbox" name="ctg">
-                            <span class="custom_checkbox"></span>
-                            <p class="textCtg"> Здоровье </p> 
-                        </label>
-                    </div>
-                    <div class="colorCircle"> 
-                        <!-- Это цветовая метка категории. Сюда потом можно будет вставить любой цвет-->
-                        <svg width="20" height="20" >
-                            <circle cx="10" cy="10" r="10" fill="#98ED00" />
-                        </svg>
-                    </div>                    
-                </div> 
+                <p>
+                    <button onclick="showDivNewCtg()" style="border: none;"> <img src="././assets/image/add.png" alt="новая категория" style="height: 20px">Добавить категорию</button>
+                </p>
 
-                <div class="styleForCtg"> 
-                    <div class="divTextCtg">  
-                        <label class="labelTextCtg"> 
-                            <input class="real_checkbox" type="checkbox" name="ctg">
-                            <span class="custom_checkbox"></span>
-                            <p class="textCtg"> Друзья </p> 
-                        </label>
+                    <div *ngFor="let category of categories" style="display: flex; width:100%"> 
+                        <div style=" width:90%">  
+                            <label style="margin-left: 7px;"> 
+                                <input class="real_checkbox" type="checkbox" name="ctg" [(ngModel)]="category.active" (change)="updateCategory(category)">
+                                <span class="custom_checkbox"></span>
+                                <p style="display: inline-block;"> {{ category.title }} </p> 
+                            </label>
+                        </div>
+                        <div style="width:10%; align-items: end;"> 
+                            <!-- Это цветовая метка категории. Сюда потом можно будет вставить любой цвет-->
+                            <svg width="20" height="20" >
+                                <circle cx="10" cy="10" r="10" [attr.fill]="category.color" />
+                            </svg>
+                        </div>                    
                     </div>
-                    <div class="colorCircle"> 
-                        <!-- Это цветовая метка категории. Сюда потом можно будет вставить любой цвет-->
-                        <svg width="20" height="20" >
-                            <circle cx="10" cy="10" r="10" fill="#30F6FF" />
-                        </svg>
-                    </div>                    
-                </div>
-
-                <p class="textUpdWheel"><button class="UpdWheelBtn"> Обновить колесо баланса</button></p>
+                                       
+                <p style="text-align: center;"><button style="width: 70%; background-color: #F0f0f0;">Обновить колесо баланса</button></p>
             </div>
 
             <div class="col-md-7 col-lg-7 mt-md-1">
@@ -81,12 +51,12 @@
 
     <div id="newCtg" class="newCtg">
         <div class="container">
-            <p><input type="text" class="newNameCtg" id="nameCtg" name="newNameCtg" placeholder="Введите название категории" /></p>
+            <p><input [(ngModel)]="newCategory.title" id="nameCtg" type="text" name="userName" placeholder="Введите название категории" style="width: 100%" /></p>
             <p>Выберите цвет для категории: </p>
-            <input type="color" class="newColorCtg" id="newColorCtg" name="newColorCtg" value="#F8A831"/>
+            <input type="color" id="head" name="head" value="#F8A831" style="width: 100%; height: 150px;" [(ngModel)]="newCategory.color"/>
             <div class="row justify-content-center">
                 <div class="col-md-6 col-lg-6">
-                  <p class="textBtnStyle"><button  onclick="hideDivCtg()" onclick="checkInputForBalanceWheel()" id="save-button-new-ctg" class="save">Сохранить</button><p>
+                  <p style="text-align: center"><button  onclick="hideDivCtg()" onclick="checkInputForBalanceWheel()" id="save-button-new-ctg" class="save" (click)="createCategory()">Сохранить</button><p>
                 </div>
                 <div class="col-md-6 col-lg-6">
                   <p class="textBtnStyle"><button onclick="hideDivCtg()" id="close-button" class="close">Закрыть</button><p>
@@ -96,7 +66,6 @@
             <div class="error-massage">
                 <p id="checkCtgName" style="color: red;"></p> <!-- ЕСЛИ НАЗВАНИЕ ПУСТО, ТО ВЫЛАЗИТ ОШИБКА ПРИ СОХРАНЕНИИ -->
             </div>
-
 
         </div>
     </div>

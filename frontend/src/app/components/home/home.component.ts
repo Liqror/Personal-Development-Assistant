@@ -25,13 +25,12 @@ export class HomeComponent implements OnInit{
   taskName: string = "";
   taskEstimate: number;
   taskDescription: string | null = null;
-  // start: Date | null = null;
-  // start1: string | null = null;
   stop: string | null = null;
   startDate: string | null = null;
   stopDate: string | null = null;
   startTime: string | null = null;
   stopTime: string | null = null;
+  taskStatus: number;
   taskCategory: number;
   belongsPlan: string | number = "choose";
 
@@ -85,7 +84,7 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    console.log("обновление страницы");
+    console.log("Инициализация страницы");
     this.currentDate = new Date();
     this.formatDateForData();
     this.updateDatesForTitle(this.dates.clicked);
@@ -106,7 +105,7 @@ export class HomeComponent implements OnInit{
   private update(dates: any): void {
     this.dates = dates;
     this.updateDatesForTitle(dates.clicked);
-    console.log("в апдэйт", this.datesForTitle);
+    // console.log("в апдэйт", this.datesForTitle);
     this.getHomeData(dates.clicked);
   }
 
@@ -134,7 +133,7 @@ export class HomeComponent implements OnInit{
         next: this.formatDateForYTT(this.dates.next)
       };
     }
-    console.log("обновление дат", this.datesForTitle);
+    // console.log("обновление дат", this.datesForTitle);
   }
   
   formatDateForData(): void {
@@ -147,7 +146,6 @@ export class HomeComponent implements OnInit{
       previous: this.formattedDate,
       next: this.formattedDate,
     };
-   
   }
   private padZero(value: number): string {
     return value < 10 ? `0${value}` : `${value}`;
@@ -161,6 +159,33 @@ export class HomeComponent implements OnInit{
     return `${year}/${formattedMonth}/${formattedDay}`;
   }
 
+  onCheckboxChange(event: any, task: any) {
+    if (event.target.checked) {
+      this.http.patch('http://localhost:8080/assistant/api/tasks/' + task.id, [
+            {
+                "op": "replace",
+                "path": "/status",
+                "value": 1
+            }
+        ]).subscribe(response => {
+            console.log('PATCH-запрос успешно выполнен:', response);
+        }, error => {
+            console.error('Ошибка при выполнении PATCH-запроса:', error);
+        });
+    } else {
+      this.http.patch('http://localhost:8080/assistant/api/tasks/' + task.id, [
+            {
+                "op": "replace",
+                "path": "/status",
+                "value": 0
+            }
+        ]).subscribe(response => {
+            console.log('PATCH-запрос успешно выполнен:', response);
+        }, error => {
+            console.error('Ошибка при выполнении PATCH-запроса:', error);
+        });
+    }
+  }
 
   getHomeData(date: string): void {    
     this.http.get<IHomeData>('http://localhost:8080/assistant/api/' + date)
@@ -181,8 +206,9 @@ export class HomeComponent implements OnInit{
 
           for (const tasks of sectionsToCheck) {
               if (tasks && tasks.length > 0) {
-                  const firstTaskId = tasks[0].id;
-                  this.getCategories(firstTaskId);
+                  // const firstTaskId = tasks[0].id;
+                  // this.getCategories(firstTaskId);
+                  this.getCategories();
                   break;
               }
           }
@@ -193,10 +219,12 @@ export class HomeComponent implements OnInit{
     this.getPlans();
   }
   
-  getCategories(id: number): void {
-    this.http.get<ITackCategories>('http://localhost:8080/assistant/api/tasks/'+id).subscribe((res: ITackCategories) => {
-      this.categories = res.all_categories_for_user;
+  getCategories(): void {
+    this.http.get<ICategory[]>('http://localhost:8080/assistant/api/categories').subscribe((res: ICategory[]) => {
+      this.categories = res;
+      // console.log(this.categories);
       this.taskCategory = this.categories[0].id;
+      // console.log(this.taskCategory);
     });
   }
 
@@ -223,7 +251,7 @@ export class HomeComponent implements OnInit{
         name: this.taskName,
         estimate: this.taskEstimate,
         repeat : null,
-        status: 0,
+        status: this.taskStatus,
         timezone: "Asia/Krasnoyarsk",
         user_id: 1,
         description: this.taskDescription,
@@ -257,7 +285,7 @@ export class HomeComponent implements OnInit{
         name: this.taskName,
         estimate: this.taskEstimate,
         repeat : null,
-        status: 0,
+        status: this.taskStatus,
         timezone: "Asia/Krasnoyarsk",
         user_id: 1,
         description: this.taskDescription,
@@ -274,7 +302,7 @@ export class HomeComponent implements OnInit{
 
       this.taskService.updateTask(taskDataUpdate).subscribe({
         next: (response) => {
-          console.log('Задача обновлена', response);
+          // console.log('Задача обновлена', response);
           this.clear();
         },
         error: (error) => {
@@ -299,6 +327,7 @@ export class HomeComponent implements OnInit{
     this.taskDescription = null;
     this.startDate = null;
     this.startTime = null;
+    this.taskStatus = 0;
     this.stop = null;
     this.startDate = null;
     this.stopDate = null;
@@ -341,6 +370,7 @@ export class HomeComponent implements OnInit{
       this.stopDate = taskInfo.stop_date;
       this.startTime = taskInfo.start_time;
       this.stopTime = taskInfo.stop_time;
+      this.taskStatus = taskInfo.status;
 
       this.taskCategory = taskInfo.task_category.id;
       // this.belongsPlan = "choose"; // пока нет этого в бекенде
