@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {wheel} from '../../data/wheel'
 import {IWheel, IWheelData} from "../../interfaces/wheel";
 import {ICategory, ICategoryForCreate} from "../../interfaces/category"
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { CategoryService } from 'src/app/services/category.service';
 import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -46,15 +46,33 @@ export class BalanceWheelComponent implements OnInit {
     this.getCategories();
 
     this.ctx = this.balanceWheelCanvas.nativeElement.getContext('2d');
-    if (this.ctx) {
-      this.drawCircle();
-    }
   }
 
   getCategories(): void {
     this.categoryService.getCategories().subscribe((res: ICategory[]) => { 
       this.categories = res;
     });
+  }
+
+  getWheel(): void {
+    const url = 'http://localhost:8080/assistant/api/wheel';
+    const data = {
+      start_date: this.start,
+      end_date: this.stop
+    };
+
+    this.http.post<any>(url, data).subscribe(
+      (response) => {
+        // Обработка ответа здесь, например, сохранение в переменную res
+        this.wheelData = response;
+        this.clearCanvas();
+        this.drawCircle();
+        console.log('Response:', response);
+      },
+      (error) => {
+        console.error('Error:', error);
+      }
+    );
   }
 
   createCategory(): void {
@@ -76,6 +94,15 @@ export class BalanceWheelComponent implements OnInit {
     }, error => {
         console.error('Ошибка при обновлении категории:', error);
     });
+  }
+
+  // Очистка холста
+  clearCanvas() {
+    if (!this.ctx) {
+      return;
+    }
+    const canvas = this.balanceWheelCanvas.nativeElement;
+    this.ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 
   // рисование колеса
