@@ -30,8 +30,8 @@ export class BalanceWheelComponent implements OnInit {
   changeCategory: ICategory;
 
   // для получения колеса баланса
-  start: string;
-  stop: string;
+  start: string = "";
+  stop: string = "";
 
   @ViewChild('balanceWheelCanvas', {static: true}) balanceWheelCanvas: ElementRef<HTMLCanvasElement>;
   private ctx: CanvasRenderingContext2D | null = null;
@@ -41,7 +41,6 @@ export class BalanceWheelComponent implements OnInit {
 
   ngOnInit() {
     this.getCategories();
-
     this.ctx = this.balanceWheelCanvas.nativeElement.getContext('2d');
   }
 
@@ -52,24 +51,27 @@ export class BalanceWheelComponent implements OnInit {
   }
 
   getWheel(): void {
-    const url = 'http://localhost:8080/assistant/api/wheel';
-    const data = {
-      start_date: this.start,
-      end_date: this.stop
-    };
+    console.log("даты??",this.start, this.stop);
+    if (this.start != "" && this.stop != "") {
+      const url = 'http://localhost:8080/assistant/api/wheel';
+      const data = {
+        start_date: this.start,
+        end_date: this.stop
+      };
 
-    this.http.post<any>(url, data).subscribe(
-      (response) => {
-        // Обработка ответа здесь, например, сохранение в переменную res
-        this.wheelData = response;
-        this.clearCanvas();
-        this.drawCircle();
-        console.log('Response:', response);
-      },
-      (error) => {
-        console.error('Error:', error);
-      }
-    );
+      this.http.post<any>(url, data).subscribe(
+        (response) => {
+          // Обработка ответа здесь, например, сохранение в переменную res
+          this.wheelData = response;
+          this.clearCanvas();
+          this.drawCircle();
+          console.log('Response:', response);
+        },
+        (error) => {
+          console.error('Error:', error);
+        }
+      );
+    }
   }
 
   createCategory(): void {
