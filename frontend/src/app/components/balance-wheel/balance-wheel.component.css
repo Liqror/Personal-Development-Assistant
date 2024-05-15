@@ -21,3 +21,62 @@ canvas {
     height: 100%; /* По высоте у нас гибкий подход */
   }
 }
+.styleImg {
+  height: 20px;
+}
+
+.showDivNewCtg {
+  border: none;
+}
+
+.colorCircle {
+  width:10%; 
+  align-items: end;
+}
+.textCtg {
+  display: inline-block;
+}
+
+.styleForCtg {
+  display: flex; 
+  width: 100%;
+}
+
+.divTextCtg {
+  width: 90%;
+}
+
+.labelTextCtg {
+  margin-left: 7px;
+}
+
+.UpdWheelBtn {
+  width: 70%; 
+  background-color: #F0f0f0;
+}
+
+.UpdWheelBtn:hover {
+  background-color: #f1c477;
+}
+
+.textUpdWheel {
+  text-align: center;
+}
+
+.newCtg {
+  display: none; 
+  width: 100%; 
+  height: 100%; 
+  position: absolute; 
+  top: 0; 
+  left: 0;
+}
+
+.newNameCtg {
+  width: 100%;
+}
+
+.newColorCtg {
+  width: 50%; 
+  height: 150px;
+}

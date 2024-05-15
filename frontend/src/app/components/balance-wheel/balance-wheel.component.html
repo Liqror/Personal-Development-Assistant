@@ -51,7 +51,7 @@
         </div>
     </div>
 
-    <div id="newCtg" style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+    <div id="newCtg" class="newCtg">
         <div class="container">
             <p><input [(ngModel)]="newCategory.title" id="nameCtg" type="text" name="userName" placeholder="Введите название категории" style="width: 100%" /></p>
             <p>Выберите цвет для категории: </p>
@@ -61,7 +61,7 @@
                   <p style="text-align: center"><button  onclick="hideDivCtg()" onclick="checkInputForBalanceWheel()" id="save-button-new-ctg" class="save" (click)="createCategory()">Сохранить</button><p>
                 </div>
                 <div class="col-md-6 col-lg-6">
-                  <p style="text-align: center"><button onclick="hideDivCtg()" id="close-button" class="close">Закрыть</button><p>
+                  <p class="textBtnStyle"><button onclick="hideDivCtg()" id="close-button" class="close">Закрыть</button><p>
                 </div>
             </div>
 
