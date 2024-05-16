@@ -2,12 +2,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { IPlanAll } from '../interfaces/plan';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlanService {
-  private plansApiUrl = 'http://localhost:8080/assistant/api/plans';
+  private plansApiUrl = 'http://localhost:8080/assistant/api/plans/';
 
   constructor(private http: HttpClient) {}
 
@@ -16,9 +17,9 @@ export class PlanService {
     return this.http.get(this.plansApiUrl);
   }
 
-  // Получить план по ID
-  getPlanById(id: number): Observable<any> {
-    return this.http.get(`${this.plansApiUrl}/${id}`);
+  // Метод для получения дополнительных данных о плане по его id
+  getPlanDetails(id: number): Observable<IPlanAll> {
+    return this.http.get<IPlanAll>(this.plansApiUrl + id);
   }
 
   // Добавить новый план

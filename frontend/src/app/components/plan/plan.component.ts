@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {IPlan} from "../../interfaces/plan";
+import {IPlan, IPlanAll} from "../../interfaces/plan";
 import { PlanService } from 'src/app/services/plan.service';
 import { ITask } from 'src/app/interfaces/task';
 import {ITaskPage} from "../../interfaces/task-page";
@@ -17,7 +17,7 @@ declare function openPlan(): void;
 export class PlanComponent {
   myScriptElement: HTMLScriptElement;
 
-  plans: IPlan[]; // Предполагается, что планы будут массивом объектов
+  plans: IPlanAll[]; 
   planId: number;
   planName: string = "";
   planDetails: string | null = null;
@@ -43,21 +43,45 @@ export class PlanComponent {
       next: (data) => {
         this.plans = data;
         console.log(this.plans);
+
+        // Для каждого плана вызывается функция для получения дополнительных данных
+        this.plans.forEach((plan) => {
+          console.log(plan.id);
+          this.getPlanDetails(plan.id);
+        });
       },
       error: (error) => console.error(error),
     });
   }
 
-  getPlanInformation(id: number) {
-    console.log(id);
-    // Отправка GET-запроса
-    this.http.get<IPlan>('http://localhost:8080/assistant/api/plans/'+id).subscribe(
-      (data: IPlan) => {
-        this.planTasksMap.set(id, data.tasks); // Сохранение списка задач для данного плана
-        console.log('Полученные данные:', this.planTasksMap);
+  getPlanDetails(id: number): void {
+    this.planService.getPlanDetails(id).subscribe({
+      next: (data) => {
+        // Находим индекс плана в массиве this.plans
+        const index = this.plans.findIndex((plan) => plan.id === id);
+        if (index !== -1) {
+          // Обновляем данные плана с полученными данными
+          this.plans[index] = { ...this.plans[index], ...data };
+          console.log('Обновленные данные плана', this.plans[index]);
+        } else {
+          console.error('План с id', id, 'не найден.');
+        }
       },
-      (error) => {console.error('Ошибка при получении данных:', error);}
-    );
+      error: (error) => console.error(error),
+    });
   }
+  
+
+  // getPlanInformation(id: number) {
+  //   console.log(id);
+  //   // Отправка GET-запроса
+  //   this.http.get<IPlan>('http://localhost:8080/assistant/api/plans/'+id).subscribe(
+  //     (data: IPlan) => {
+  //       this.planTasksMap.set(id, data.tasks); // Сохранение списка задач для данного плана
+  //       console.log('Полученные данные:', this.planTasksMap);
+  //     },
+  //     (error) => {console.error('Ошибка при получении данных:', error);}
+  //   );
+  // }
   
 }
