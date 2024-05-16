@@ -42,11 +42,11 @@ export class PlanComponent {
     this.planService.getPlans().subscribe({
       next: (data) => {
         this.plans = data;
-        console.log(this.plans);
+        // console.log(this.plans);
 
         // Для каждого плана вызывается функция для получения дополнительных данных
         this.plans.forEach((plan) => {
-          console.log(plan.id);
+          // console.log(plan.id);
           this.getPlanDetails(plan.id);
         });
       },
@@ -62,7 +62,9 @@ export class PlanComponent {
         if (index !== -1) {
           // Обновляем данные плана с полученными данными
           this.plans[index] = { ...this.plans[index], ...data };
-          console.log('Обновленные данные плана', this.plans[index]);
+          // console.log('Обновленные данные плана', this.plans[index]);
+
+          console.log("категории", index, this.plans[index].categories);
         } else {
           console.error('План с id', id, 'не найден.');
         }
