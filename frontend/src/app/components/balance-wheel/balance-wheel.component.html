@@ -10,8 +10,8 @@
     <!-- Основной контент страницы  -->
      <div  class="col-md-12 col-lg-12 mt-md-2">
         <h2>Просмотр колеса баланса
-            от <input class="wheel_date_input" type="date" id="wheel_date_from"> 
-            до <input class="wheel_date_input" type="date" id="wheel_date_to">
+            от <input [(ngModel)]="start" class="wheel_date_input" type="date" id="wheel_date_from"> 
+            до <input [(ngModel)]="stop" class="wheel_date_input" type="date" id="wheel_date_to">
         </h2>
     </div>
     <div class="col-md-12 col-lg-12 content-container">       
@@ -40,7 +40,9 @@
                         </div>                    
                     </div>
                                        
-                <p style="text-align: center;"><button style="width: 70%; background-color: #F0f0f0;">Обновить колесо баланса</button></p>
+                <p style="text-align: center;">
+                    <button (click)="getWheel()" style="width: 70%; background-color: #F0f0f0;">Обновить колесо баланса</button>
+                </p>
             </div>
 
             <div class="col-md-7 col-lg-7 mt-md-1">

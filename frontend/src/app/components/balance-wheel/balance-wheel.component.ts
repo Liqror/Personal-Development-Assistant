@@ -1,8 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import {wheel} from '../../data/wheel'
 import {IWheel, IWheelData} from "../../interfaces/wheel";
 import {ICategory, ICategoryForCreate} from "../../interfaces/category"
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { CategoryService } from 'src/app/services/category.service';
 import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -31,8 +30,8 @@ export class BalanceWheelComponent implements OnInit {
   changeCategory: ICategory;
 
   // для получения колеса баланса
-  start: string;
-  stop: string;
+  start: string = "";
+  stop: string = "";
 
   @ViewChild('balanceWheelCanvas', {static: true}) balanceWheelCanvas: ElementRef<HTMLCanvasElement>;
   private ctx: CanvasRenderingContext2D | null = null;
@@ -41,14 +40,8 @@ export class BalanceWheelComponent implements OnInit {
     private categoryService: CategoryService) {}
 
   ngOnInit() {
-    // Присвойте данные колеса переменной wheelData
-    this.wheelData = wheel.wheel;
     this.getCategories();
-
     this.ctx = this.balanceWheelCanvas.nativeElement.getContext('2d');
-    if (this.ctx) {
-      this.drawCircle();
-    }
   }
 
   getCategories(): void {
@@ -57,16 +50,42 @@ export class BalanceWheelComponent implements OnInit {
     });
   }
 
+  getWheel(): void {
+    console.log("даты??",this.start, this.stop);
+    if (this.start != "" && this.stop != "") {
+      const url = 'http://localhost:8080/assistant/api/wheel';
+      const data = {
+        start_date: this.start,
+        end_date: this.stop
+      };
+
+      this.http.post<any>(url, data).subscribe(
+        (response) => {
+          // Обработка ответа здесь, например, сохранение в переменную res
+          this.wheelData = response;
+          this.clearCanvas();
+          this.drawCircle();
+          console.log('Response:', response);
+        },
+        (error) => {
+          console.error('Error:', error);
+        }
+      );
+    }
+  }
+
   createCategory(): void {
-    // Вызовите сервис для создания новой категории и передайте новую категорию
-    this.categoryService.createCategory(this.newCategory).subscribe(
-      createdCategory => {
-        console.log('Категория успешно создана:', createdCategory);
-      },
-      error => {
-        console.error('Ошибка при создании категории:', error);
-      }
-    );
+    if (this.newCategory.title != "") {
+      // Вызовите сервис для создания новой категории и передайте новую категорию
+      this.categoryService.createCategory(this.newCategory).subscribe(
+        createdCategory => {
+          console.log('Категория успешно создана:', createdCategory);
+        },
+        error => {
+          console.error('Ошибка при создании категории:', error);
+        }
+      );
+    }
   }
 
   // это пока работает только с галочками, нужно чтоб работало с названием и цветом
@@ -76,6 +95,15 @@ export class BalanceWheelComponent implements OnInit {
     }, error => {
         console.error('Ошибка при обновлении категории:', error);
     });
+  }
+
+  // Очистка холста
+  clearCanvas() {
+    if (!this.ctx) {
+      return;
+    }
+    const canvas = this.balanceWheelCanvas.nativeElement;
+    this.ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 
   // рисование колеса
