@@ -80,3 +80,7 @@ canvas {
   width: 50%; 
   height: 150px;
 }
+
+.seeCtgInfo {
+  border-style: none;
+}

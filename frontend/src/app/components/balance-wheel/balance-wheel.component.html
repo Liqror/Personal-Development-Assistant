@@ -29,7 +29,7 @@
                             <label style="margin-left: 7px;"> 
                                 <input class="real_checkbox" type="checkbox" name="ctg" [(ngModel)]="category.active" (change)="updateCategory(category)">
                                 <span class="custom_checkbox"></span>
-                                <p style="display: inline-block;"> {{ category.title }} </p> 
+                                <p style="display: inline-block;"> <button class="seeCtgInfo" onclick="showDivNewCtg()"> {{ category.title }} </button> </p> 
                             </label>
                         </div>
                         <div style="width:10%; align-items: end;"> 
