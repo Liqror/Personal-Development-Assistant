@@ -93,7 +93,7 @@ export class HomeComponent implements OnInit{
     // подписка на сервис для отследивания нажатий на календаре для обновления задач
     this.subs = this.dataService.dates$.subscribe((dates) => {
       this.dates = dates;
-      this.updateDatesForTitle(dates.clicked);
+      // this.updateDatesForTitle(dates.clicked);
       this.update(dates);
     });
   }
@@ -105,7 +105,7 @@ export class HomeComponent implements OnInit{
   private update(dates: any): void {
     this.dates = dates;
     this.updateDatesForTitle(dates.clicked);
-    // console.log("в апдэйт", this.datesForTitle);
+    console.log("в апдэйт", this.datesForTitle);
     this.getHomeData(dates.clicked);
   }
 
@@ -133,7 +133,7 @@ export class HomeComponent implements OnInit{
         next: this.formatDateForYTT(this.dates.next)
       };
     }
-    // console.log("обновление дат", this.datesForTitle);
+    console.log("обновление дат", this.datesForTitle);
   }
   
   formatDateForData(): void {

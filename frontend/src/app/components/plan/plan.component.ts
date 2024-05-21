@@ -36,6 +36,32 @@ export class PlanComponent {
 
   ngOnInit() {
     this.getPlans();
+    // this.planService.getPlans().subscribe({
+    //   next: (data) => {
+    //     this.plans = data;
+    //     console.log(this.plans);
+
+    //     this.plans.forEach((plan) => {
+    //       // this.getPlanDetails(plan.id); // Вызов функции получения деталей для каждого плана
+    //       this.planService.getPlanDetails(plan.id).subscribe({
+    //         next: (data) => {
+    //           // Находим индекс плана в массиве this.plans
+    //           const index = this.plans.findIndex((plan) => plan.id === plan.id);
+    //           if (index !== -1) {
+    //             // Обновляем данные плана с полученными данными
+    //             this.plans[index] = data;
+    //             console.log('Детали плана', this.plans[index]);
+    //           } else {
+    //             console.error('План с id', plan.id, 'не найден.');
+    //           }
+    //         },
+    //         error: (error) => console.error(error),
+    //       });
+    //     });
+
+    //   },
+    //   error: (error) => console.error(error),
+    // });
   }
 
   getPlans(): void {
@@ -46,7 +72,7 @@ export class PlanComponent {
 
         // Для каждого плана вызывается функция для получения дополнительных данных
         this.plans.forEach((plan) => {
-          // console.log(plan.id);
+          console.log(plan.id);
           this.getPlanDetails(plan.id);
         });
       },
