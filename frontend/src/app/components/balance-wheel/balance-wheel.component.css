@@ -30,7 +30,7 @@ canvas {
 }
 
 .colorCircle {
-  width:10%; 
+  width: 10%; 
   align-items: end;
 }
 .textCtg {
@@ -59,6 +59,10 @@ canvas {
   background-color: #f1c477;
 }
 
+.seeCtgInfo:hover {
+  color: #e59917;
+}
+
 .textUpdWheel {
   text-align: center;
 }
@@ -83,4 +87,8 @@ canvas {
 
 .seeCtgInfo {
   border-style: none;
+}
+
+.errorText {
+  color: red;
 }
