@@ -8,6 +8,7 @@ import {ICategory} from "../../interfaces/category";
 import {ITackCategories} from "../../interfaces/task_categories";
 import { HttpClient } from '@angular/common/http';
 declare function openPlan(): void;
+import { IPlanForCreate } from '../../interfaces/plan';
 
 @Component({
   selector: 'app-plan',
@@ -26,100 +27,14 @@ export class PlanComponent {
   planTasks: ITask[]; // возможно не нужно
   planTasksMap: Map<number, ITask[]> = new Map(); // Хранение задач для каждого плана
 
+  newPlanTitle: string;
+  newPlanDetails: string;
+
   constructor(
     private planService: PlanService,
     private http: HttpClient,
-  ) {
-    // this.myScriptElement = document.createElement("script");
-    // this.myScriptElement.src = "././assets/scripts_for_project.js";
-    // document.body.appendChild(this.myScriptElement);
-  }
+  ) {}
 
-  // ngOnInit() {
-  //   this.getPlans();
-  // }
-
-  // getPlans(): void {
-  //   this.planService.getPlans().subscribe({
-  //     next: (data) => {
-  //       this.allPlans = data;
-  //       console.log(this.allPlans);
-
-  //       // Для каждого плана вызывается функция для получения дополнительных данных
-  //       this.allPlans.forEach((plan) => {
-  //         this.getPlanDetails(plan.id);
-  //       });
-  //     },
-  //     error: (error) => console.error(error),
-  //   });
-  //   this.plans = this.allPlans;
-  // }
-
-  // getPlanDetails(id: number): void {
-  //   this.planService.getPlanDetails(id).subscribe({
-  //     next: (data) => {
-  //       // Находим индекс плана в массиве this.plans
-  //       const index = this.allPlans.findIndex((allPlans) => allPlans.id === id);
-  //       if (index !== -1) {
-  //         // Обновляем данные плана с полученными данными
-  //         this.allPlans[index] = { ...this.allPlans[index], ...data };
-  //         console.log('Обновленные данные плана', this.allPlans[index]);
-
-  //         console.log("категории", index, this.allPlans[index].categories);
-  //       } else {
-  //         console.error('План с id', id, 'не найден.');
-  //       }
-  //     },
-  //     error: (error) => console.error(error),
-  //   });
-  // }
-  
-
-  // ngOnInit() {
-  //   this.loadPlans();
-  // }
-
-  // async loadPlans() {
-  //   try {
-  //     await this.getPlans();
-  //     this.plans = this.allPlans;
-  //     console.log('Все планы загружены:', this.plans);
-  //   } catch (error) {
-  //     console.error('Ошибка при загрузке планов:', error);
-  //   }
-  // }
-
-  // async getPlans(): Promise<void> {
-  //   try {
-  //     const data = await this.planService.getPlans().toPromise();
-  //     this.allPlans = data;
-  //     console.log(this.allPlans);
-
-  //     // Для каждого плана вызывается функция для получения дополнительных данных
-  //     const detailsPromises = this.allPlans.map(plan => this.getPlanDetails(plan.id));
-  //     await Promise.all(detailsPromises);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
-
-  // async getPlanDetails(id: number): Promise<void> {
-  //   try {
-  //     const data = await this.planService.getPlanDetails(id).toPromise();
-  //     // Находим индекс плана в массиве this.allPlans
-  //     const index = this.allPlans.findIndex(plan => plan.id === id);
-  //     if (index !== -1) {
-  //       // Обновляем данные плана с полученными данными
-  //       this.allPlans[index] = { ...this.allPlans[index], ...data };
-  //       console.log('Обновленные данные плана', this.allPlans[index]);
-  //       console.log("категории", index, this.allPlans[index].categories);
-  //     } else {
-  //       console.error('План с id', id, 'не найден.');
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
   async ngOnInit() {
     await this.loadPlans();
     this.myScriptElement = document.createElement("script");
@@ -158,6 +73,26 @@ export class PlanComponent {
       }
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  saveNewPlan(): void {
+    if (this.newPlanTitle != "") {
+      const newPlan: IPlanForCreate = {
+        user_id: 1,
+        name: this.newPlanTitle,
+        details: this.newPlanDetails,
+        status : 0,
+      }
+
+      // console.log("", newPlan);
+
+      this.planService.addPlan(newPlan).subscribe(response => {
+        console.log("Plan added:", response);
+        this.getPlans();  // Обновить список планов после добавления нового
+      }, error => {
+        console.error("Error adding plan:", error);
+      });
     }
   }
   

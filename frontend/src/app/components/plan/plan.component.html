@@ -21,11 +21,12 @@
         <!-- Здесь будет появляться поле для создания нового плана при нажатии на кнопку -->
         <div id="divPlan" style="display: none; position: flex;" class="col-md-11 col-lg-11 planDiv mt-md-4 mb-md-4">
             <h4>
-              <input id="newNamePlan" class="inputNamePlan" type="text" name="objectName" placeholder="Введите название нового плана" style="width: 100%;" />
+              <input [(ngModel)]="newPlanTitle" id="newNamePlan" class="inputNamePlan" type="text" name="objectName" placeholder="Введите название нового плана" style="width: 100%;" />
             </h4>
             <div class="row justify-content-start" style="background-color: #F0F0F0">
               
-              <div class="row justify-content-center">
+              <!-- Это пока не нужно. воспользуемся позже -->
+              <!--  <div class="row justify-content-center">
                 <div class="col-md-6 col-lg-6">
                   <br>
                   <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
@@ -34,10 +35,11 @@
                 <div class="col-md-6 col-lg-6">
                   <br>
                   <p>ДО <input type="date" id="datePlan_to" style="width: 82%; background-color: #f0f0f0"></p>
-                </div>
-              </div>
+                </div> 
+              </div>-->
+
               <div class="row justify-content-center">
-                <textarea name="message" id="mess" rows="5" class="form-control md-textarea"
+                <textarea [(ngModel)]="newPlanDetails" name="message" id="mess" rows="5" class="form-control md-textarea"
                 type="text" style="color: #595959; height: 130px; width: 90%;"></textarea>
               </div>
               <br>
@@ -46,7 +48,7 @@
               
                 <div class="row justify-content-center">
                   <div class="col-md-6 col-lg-6">
-                    <p style="text-align: center"><button onclick="saveObject()" onclick="hideDivPlan()" onclick="checkInputForPlan()" id="save-button-plan" class="save">Сохранить</button><p>
+                    <p style="text-align: center"><button (click)="saveNewPlan()" onclick="hideDivPlan()" onclick="checkInputForPlan()" id="save-button-plan" class="save">Сохранить</button><p>
                   </div>
                   <div class="col-md-6 col-lg-6">
                     <p style="text-align: center"><button onclick="hideDivPlan()" id="close-button" class="close">Закрыть</button><p>
