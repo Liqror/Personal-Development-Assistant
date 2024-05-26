@@ -9,7 +9,7 @@ import {ICategory} from "../../interfaces/category";
 import {ITackCategories} from "../../interfaces/task_categories";
 import { DataService } from "../../services/data.service";
 import { Subscription } from 'rxjs';
-import { IPlan } from 'src/app/interfaces/plan';
+import { IPlan, IPlanAll } from 'src/app/interfaces/plan';
 import { retry } from 'rxjs/operators';
 import { repeatWhen, delay } from 'rxjs/operators';
 import { EMPTY, timer } from 'rxjs';
@@ -33,6 +33,8 @@ export class HomeComponent implements OnInit{
   taskStatus: number;
   taskCategory: number;
   belongsPlan: string | number = "choose";
+  planId: number;
+  taskPlan: IPlanAll | null;
 
   // для просмотра и удаления задачи
   taskId: number = -1;
@@ -58,7 +60,7 @@ export class HomeComponent implements OnInit{
   currentDate: Date;
   data: IHomeData;
   categories: ICategory[];
-  plans: IPlan[];
+  plans: IPlanAll[];
 
   isDateClicked: boolean = false;
 
@@ -233,10 +235,17 @@ export class HomeComponent implements OnInit{
   }
 
   getPlans(): void {
-    this.http.get<IPlan[]>('http://localhost:8080/assistant/api/plans').subscribe((res: IPlan[]) => {
+    this.http.get<IPlanAll[]>('http://localhost:8080/assistant/api/plans').subscribe((res: IPlanAll[]) => {
       this.plans = res;
+      console.log("", this.plans);
     });
   }
+
+  getPlanById(id: number): IPlanAll | null {
+    const foundPlan = this.plans.find(plan => plan.id === id);
+    return foundPlan !== undefined ? foundPlan : null;
+  }
+
   // Просто закрытие поля просмотра/создания задачи --- кнопка закрыть(cancel)
   hideTask(): void {
     this.isDiv1Visible = false; // флаг для невидимости задачи
@@ -249,6 +258,22 @@ export class HomeComponent implements OnInit{
     if (this.taskId == -1 && this.taskName !== "" && this.taskEstimate !== undefined && !isNaN(this.taskEstimate) && (this.taskEstimate <= 100) && (this.taskEstimate >= 1)) {
       if (this.taskDescription === "") {
         this.taskDescription = null;
+      }
+
+      // try {
+      //   this.planId = (this.belongsPlan);
+      //   this.taskPlan = this.getPlanById(this.belongsPlan);
+      //   console.log("", this.taskPlan);
+      // } catch (error) {
+      //   console.error("Ошибка при преобразовании строки в число:", error);
+      // }
+      
+
+      this.planId = Number(this.belongsPlan);// Преобразование строки в целое число потому что мы получаем строку почему-то. По-хорошему понять бы почему
+
+      if (typeof this.planId === 'number') {
+        this.taskPlan = this.getPlanById(this.planId);
+        console.log("", this.taskPlan);
       }
 
       const taskData: ITaskPage = {
@@ -265,13 +290,16 @@ export class HomeComponent implements OnInit{
         stop_time: this.stopTime,
         task_category: {
           id: this.taskCategory,
-        },  
+        },
+        plan: this.taskPlan,  
       };
 
       this.taskService.addTask(taskData).subscribe(
         (response) => {
           console.log('Задача успешно сохранена', response);
           console.log("", taskData);
+          console.log("", this.belongsPlan);
+          console.log("", this.taskPlan);
           this.clear(); 
         },
         (error) => {
@@ -284,7 +312,8 @@ export class HomeComponent implements OnInit{
       if (this.taskDescription === "") {
         this.taskDescription = null;
       }
-      
+    
+
       const taskDataUpdate: IFullTaskPage = {
         id: this.taskId,
         name: this.taskName,
@@ -300,7 +329,8 @@ export class HomeComponent implements OnInit{
         stop_time: this.stopTime,
         task_category: {
           id: this.taskCategory,
-        },  
+        },
+        plan: this.taskPlan,  
       };
 
       // console.log("Задача в режиме редактирования", taskDataUpdate);

@@ -1,3 +1,5 @@
+import { IPlanAll } from "./plan";
+
 export interface ITaskPage {
   name: string;
   estimate: number;
@@ -13,6 +15,7 @@ export interface ITaskPage {
   task_category: {
     id: number;
   };
+  plan: IPlanAll | null;
 }
 
 // POST http://localhost:8080/assistant/api/tasks
