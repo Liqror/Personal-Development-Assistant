@@ -27,9 +27,9 @@
                     <div *ngFor="let category of categories" class="styleForCtg"> 
                         <div class="divTextCtg">  
                             <label class="labelTextCtg"> 
-                                <input class="real_checkbox" type="checkbox" name="ctg" [(ngModel)]="category.active" (change)="updateCategory(category)">
+                                <input class="real_checkbox" type="checkbox" name="ctg" [(ngModel)]="category.active" (change)="updateCategoryTick(category)">
                                 <span class="custom_checkbox"></span>
-                                <p class="textCtg"> <button class="seeCtgInfo" onclick="showDivNewCtg()"> {{ category.title }} </button> </p> 
+                                <p class="textCtg"> <button class="seeCtgInfo" onclick="showDivNewCtg()" (click)="click(category)"> {{ category.title }} </button> </p> 
                             </label>
                         </div>
                         <div class="colorCircle"> 
@@ -55,13 +55,13 @@
         <div class="container">
             <p><input [(ngModel)]="newCategory.title" id="nameCtg" type="text" name="userName" placeholder="Введите название категории" class="newNameCtg" /></p>
             <p>Выберите цвет для категории: </p>
-            <input type="color" id="head" name="head" value="#F8A831" class="newColorCtg" [(ngModel)]="newCategory.color"/>
+            <input type="color" id="head" name="head" value="#F8A831" class="newColorCtg" [(ngModel)]="newCategory.color" />
             <div class="row justify-content-center">
                 <div class="col-md-6 col-lg-6">
-                  <p class="textUpdWheel"><button  onclick="hideDivCtg()" onclick="checkInputForBalanceWheel()" id="save-button-new-ctg" class="save" (click)="createCategory()">Сохранить</button><p>
+                  <p class="textUpdWheel"><button onclick="checkInputForBalanceWheel()" id="save-button-new-ctg" class="save" (click)="createOrUpdateCategory()" (click)="changeFlag()" onclick="hideDivCtg()">Сохранить</button><p>
                 </div>
                 <div class="col-md-6 col-lg-6">
-                  <p class="textBtnStyle"><button onclick="hideDivCtg()" id="close-button" class="close">Закрыть</button><p>
+                  <p class="textBtnStyle"><button onclick="hideDivCtg()" id="close-button" class="close" (click)="changeFlag()">Закрыть</button><p>
                 </div>
             </div>
 
