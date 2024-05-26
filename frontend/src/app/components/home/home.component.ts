@@ -62,6 +62,8 @@ export class HomeComponent implements OnInit{
 
   isDateClicked: boolean = false;
 
+  noteHere: boolean = true;
+
   // отформатированная дата которая передается на бекенд 
   formattedDate: string;
 
@@ -126,12 +128,14 @@ export class HomeComponent implements OnInit{
         previous: "вчера",
         next: "завтра"
       };
+      this.noteHere = true;
     } else {
       this.datesForTitle = {
         clicked: this.formatDateForYTT(this.dates.clicked),
         previous: this.formatDateForYTT(this.dates.previous),
         next: this.formatDateForYTT(this.dates.next)
       };
+      this.noteHere = false;
     }
     console.log("обновление дат", this.datesForTitle);
   }
