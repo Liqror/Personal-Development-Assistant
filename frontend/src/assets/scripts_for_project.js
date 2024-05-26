@@ -85,7 +85,14 @@ document.addEventListener("DOMContentLoaded", function() {
 })
 
 function deleteElement(elem) {
-  elem.parentNode.innerHTML = '';
+  // elem.parentNode.innerHTML = '';
+  const cell = elem.parentNode;
+  const prevCell = cell.previousElementSibling;
+  
+  cell.innerHTML = ''; // Очищаем содержимое текущей ячейки
+  if (prevCell) {
+    prevCell.innerHTML = ''; // Очищаем содержимое ячейки слева, если она есть
+  }
 }
 
 
