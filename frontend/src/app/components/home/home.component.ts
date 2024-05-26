@@ -241,8 +241,8 @@ export class HomeComponent implements OnInit{
 
   // Сохранение задачи
   saveTask(): void {
-    // задача не может быть без имени, оценки и категории. категория автоматически ставиться 0
-    if (this.taskId == -1 && this.taskName !== "" && this.taskEstimate !== undefined && !isNaN(this.taskEstimate)) {
+    // задача не может быть без имени, оценки и категории. категория автоматически ставиться 0 
+    if (this.taskId == -1 && this.taskName !== "" && this.taskEstimate !== undefined && !isNaN(this.taskEstimate) && (this.taskEstimate <= 100) && (this.taskEstimate >= 1)) {
       if (this.taskDescription === "") {
         this.taskDescription = null;
       }
@@ -268,6 +268,7 @@ export class HomeComponent implements OnInit{
         (response) => {
           console.log('Задача успешно сохранена', response);
           console.log("", taskData);
+          this.clear(); 
         },
         (error) => {
           console.error('Ошибка при сохранении задачи', error);
@@ -313,10 +314,7 @@ export class HomeComponent implements OnInit{
       this.taskId = -1;
     }
 
-    this.isDiv1Visible = false; // флаг для невидимости задачи
-    this.clear();
-
-    
+    this.isDiv1Visible = false; // флаг для невидимости задачи    
   }
 
   // очистка полей, нужна при закрытии формы задачи
