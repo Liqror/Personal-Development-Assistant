@@ -96,9 +96,9 @@ function deleteElement(elem) {
 }
 
 
-function deletePlan(planElement) {
-  planElement.remove();
-}
+// function deletePlan(planElement) {
+//   planElement.remove();
+// }
 
 function weeksSettingDiv() {
   document.getElementById("divWeek").style.display = "block";

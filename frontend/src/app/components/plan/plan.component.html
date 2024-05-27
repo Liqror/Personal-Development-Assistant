@@ -16,6 +16,10 @@
     </button></p>
     </div>
     
+    <!-- <div *ngIf="isLoading">
+      <p>Загрузка данных...</p>
+    </div> -->
+
     <div class="col-md-12 col-lg-12 content-container">
       <div class="row justify-content-center">
         <!-- Здесь будет появляться поле для создания нового плана при нажатии на кнопку -->
@@ -48,7 +52,7 @@
               
                 <div class="row justify-content-center">
                   <div class="col-md-6 col-lg-6">
-                    <p style="text-align: center"><button (click)="saveNewPlan()" onclick="hideDivPlan()" onclick="checkInputForPlan()" id="save-button-plan" class="save">Сохранить</button><p>
+                    <p style="text-align: center"><button onclick="checkInputForPlan()" (click)="saveNewPlan()" id="save-button-plan" class="save" onclick="hideDivPlan()" >Сохранить</button><p>
                   </div>
                   <div class="col-md-6 col-lg-6">
                     <p style="text-align: center"><button onclick="hideDivPlan()" id="close-button" class="close">Закрыть</button><p>
@@ -106,7 +110,8 @@
                   Добавить задачу к плану</button></p>
               </div>
               <div class="col-md-6 col-lg-6">
-                <p style="text-align: end"><button onclick="deletePlan(document.getElementById('Plan1'))" class="close">
+                <!-- onclick="deletePlan(document.getElementById('Plan1'))" -->
+                <p style="text-align: end"><button (click)="deletePlan(plan.id)" class="close">
                   <img src="././assets/image/delete.png" alt="удалить план" style="height: 20px">
                   Удалить план
                 </button></p>

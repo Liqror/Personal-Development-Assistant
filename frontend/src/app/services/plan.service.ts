@@ -34,6 +34,6 @@ export class PlanService {
 
   // Удалить план по ID
   deletePlan(id: number): Observable<any> {
-    return this.http.delete(`${this.plansApiUrl}/${id}`);
+    return this.http.delete(`${this.plansApiUrl}${id}`);
   }
 }

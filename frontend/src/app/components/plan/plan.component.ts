@@ -66,7 +66,7 @@ export class PlanComponent {
       const index = this.allPlans.findIndex(plan => plan.id === id);
       if (index !== -1) {
         this.allPlans[index] = { ...this.allPlans[index], ...data };
-        // console.log('Обновленные данные плана', this.allPlans[index]);
+        console.log('Обновленные данные плана', this.allPlans[index]);
         // console.log("категории", index, this.allPlans[index].categories);
       } else {
         console.error('План с id', id, 'не найден.');
@@ -85,15 +85,27 @@ export class PlanComponent {
         status : 0,
       }
 
-      // console.log("", newPlan);
-
       this.planService.addPlan(newPlan).subscribe(response => {
         console.log("Plan added:", response);
-        this.getPlans();  // Обновить список планов после добавления нового
+        this.loadPlans();  // Обновить список планов после добавления нового
       }, error => {
         console.error("Error adding plan:", error);
       });
     }
   }
   
+  deletePlan(id: number): void {
+    this.planService.deletePlan(id).subscribe({
+      next: () => {
+        // console.log(`План с ID ${id} удален`);
+        // Обновить список планов
+        this.allPlans = this.allPlans.filter(plan => plan.id !== id);
+        this.plans = this.plans.filter(plan => plan.id !== id);
+      },
+      error: (error) => {
+        console.error('Ошибка при удалении плана:', error);
+      }
+    });
+  }
+
 }
