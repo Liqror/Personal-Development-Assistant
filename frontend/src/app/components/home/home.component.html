@@ -98,8 +98,14 @@
 
             <hr>
             <h3>Заметка</h3>
-            <p>{{ data.today.text_note }}</p>
-<!--            <textarea name="message" id="message" rows="5" class="form-control md-textarea" type="text" style="color: #595959;"></textarea>-->
+
+            <div *ngIf="noteHere; else editNote">
+              <textarea name="message" id="message" rows="5" class="form-control md-textarea" type="text" style="color: #595959;">{{ data.today.text_note }}</textarea>
+            </div>
+            <ng-template #editNote>
+              <p>{{ data.today.text_note }}</p>
+            </ng-template>
+            
             <hr>
             <h3>Задачи</h3>
             <h4>На день</h4>

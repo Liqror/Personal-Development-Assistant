@@ -9,6 +9,13 @@ export interface IPlan {
     tasks : ITask[];
 }
 
+export interface IPlanForCreate {
+    user_id: number;
+    name: string;
+    details : string;
+    status : number;
+}
+
 export interface IPlanAll {
     id: number;
     name: string;

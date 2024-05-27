@@ -8,6 +8,7 @@ import {ICategory} from "../../interfaces/category";
 import {ITackCategories} from "../../interfaces/task_categories";
 import { HttpClient } from '@angular/common/http';
 declare function openPlan(): void;
+import { IPlanForCreate } from '../../interfaces/plan';
 
 @Component({
   selector: 'app-plan',
@@ -17,6 +18,7 @@ declare function openPlan(): void;
 export class PlanComponent {
   myScriptElement: HTMLScriptElement;
 
+  allPlans: IPlanAll[]; 
   plans: IPlanAll[]; 
   planId: number;
   planName: string = "";
@@ -25,91 +27,85 @@ export class PlanComponent {
   planTasks: ITask[]; // возможно не нужно
   planTasksMap: Map<number, ITask[]> = new Map(); // Хранение задач для каждого плана
 
+  newPlanTitle: string;
+  newPlanDetails: string;
+
   constructor(
     private planService: PlanService,
     private http: HttpClient,
-  ) {
+  ) {}
+
+  async ngOnInit() {
+    await this.loadPlans();
     this.myScriptElement = document.createElement("script");
     this.myScriptElement.src = "././assets/scripts_for_project.js";
     document.body.appendChild(this.myScriptElement);
   }
 
-  ngOnInit() {
-    this.getPlans();
-    // this.planService.getPlans().subscribe({
-    //   next: (data) => {
-    //     this.plans = data;
-    //     console.log(this.plans);
+  async loadPlans() {
+    try {
+      this.allPlans = await this.getPlans();
+      // console.log(this.allPlans);
 
-    //     this.plans.forEach((plan) => {
-    //       // this.getPlanDetails(plan.id); // Вызов функции получения деталей для каждого плана
-    //       this.planService.getPlanDetails(plan.id).subscribe({
-    //         next: (data) => {
-    //           // Находим индекс плана в массиве this.plans
-    //           const index = this.plans.findIndex((plan) => plan.id === plan.id);
-    //           if (index !== -1) {
-    //             // Обновляем данные плана с полученными данными
-    //             this.plans[index] = data;
-    //             console.log('Детали плана', this.plans[index]);
-    //           } else {
-    //             console.error('План с id', plan.id, 'не найден.');
-    //           }
-    //         },
-    //         error: (error) => console.error(error),
-    //       });
-    //     });
-
-    //   },
-    //   error: (error) => console.error(error),
-    // });
+      for (const plan of this.allPlans) {
+        await this.getPlanDetails(plan.id);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    this.plans = this.allPlans;
   }
 
-  getPlans(): void {
-    this.planService.getPlans().subscribe({
-      next: (data) => {
-        this.plans = data;
-        // console.log(this.plans);
+  async getPlans(): Promise<IPlanAll[]> {
+    return this.planService.getPlans().toPromise();
+  }
 
-        // Для каждого плана вызывается функция для получения дополнительных данных
-        this.plans.forEach((plan) => {
-          console.log(plan.id);
-          this.getPlanDetails(plan.id);
-        });
+  async getPlanDetails(id: number): Promise<void> {
+    try {
+      const data = await this.planService.getPlanDetails(id).toPromise();
+      const index = this.allPlans.findIndex(plan => plan.id === id);
+      if (index !== -1) {
+        this.allPlans[index] = { ...this.allPlans[index], ...data };
+        console.log('Обновленные данные плана', this.allPlans[index]);
+        // console.log("категории", index, this.allPlans[index].categories);
+      } else {
+        console.error('План с id', id, 'не найден.');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  saveNewPlan(): void {
+    if (this.newPlanTitle != "") {
+      const newPlan: IPlanForCreate = {
+        user_id: 1,
+        name: this.newPlanTitle,
+        details: this.newPlanDetails,
+        status : 0,
+      }
+
+      this.planService.addPlan(newPlan).subscribe(response => {
+        console.log("Plan added:", response);
+        this.loadPlans();  // Обновить список планов после добавления нового
+      }, error => {
+        console.error("Error adding plan:", error);
+      });
+    }
+  }
+  
+  deletePlan(id: number): void {
+    this.planService.deletePlan(id).subscribe({
+      next: () => {
+        // console.log(`План с ID ${id} удален`);
+        // Обновить список планов
+        this.allPlans = this.allPlans.filter(plan => plan.id !== id);
+        this.plans = this.plans.filter(plan => plan.id !== id);
       },
-      error: (error) => console.error(error),
+      error: (error) => {
+        console.error('Ошибка при удалении плана:', error);
+      }
     });
   }
 
-  getPlanDetails(id: number): void {
-    this.planService.getPlanDetails(id).subscribe({
-      next: (data) => {
-        // Находим индекс плана в массиве this.plans
-        const index = this.plans.findIndex((plan) => plan.id === id);
-        if (index !== -1) {
-          // Обновляем данные плана с полученными данными
-          this.plans[index] = { ...this.plans[index], ...data };
-          // console.log('Обновленные данные плана', this.plans[index]);
-
-          console.log("категории", index, this.plans[index].categories);
-        } else {
-          console.error('План с id', id, 'не найден.');
-        }
-      },
-      error: (error) => console.error(error),
-    });
-  }
-  
-
-  // getPlanInformation(id: number) {
-  //   console.log(id);
-  //   // Отправка GET-запроса
-  //   this.http.get<IPlan>('http://localhost:8080/assistant/api/plans/'+id).subscribe(
-  //     (data: IPlan) => {
-  //       this.planTasksMap.set(id, data.tasks); // Сохранение списка задач для данного плана
-  //       console.log('Полученные данные:', this.planTasksMap);
-  //     },
-  //     (error) => {console.error('Ошибка при получении данных:', error);}
-  //   );
-  // }
-  
 }

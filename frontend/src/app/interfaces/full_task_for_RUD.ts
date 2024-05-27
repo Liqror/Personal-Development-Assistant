@@ -1,3 +1,5 @@
+import { IPlanAll } from "./plan";
+
 export interface IFullTaskPage {
     id: number;
     name: string;
@@ -14,4 +16,5 @@ export interface IFullTaskPage {
     task_category: {
         id: number;
     };
+    plan: IPlanAll | null;
 }

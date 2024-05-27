@@ -29,6 +29,11 @@ export class BalanceWheelComponent implements OnInit {
   // для создания новой категории
   changeCategory: ICategory;
 
+  // для редактирования
+  // title: string;
+  // color: string;
+  categoryHaveId: boolean = false;
+
   // для получения колеса баланса
   start: string = "";
   stop: string = "";
@@ -47,6 +52,59 @@ export class BalanceWheelComponent implements OnInit {
   getCategories(): void {
     this.categoryService.getCategories().subscribe((res: ICategory[]) => { 
       this.categories = res;
+      // console.log(res);
+    });
+  }
+
+  createOrUpdateCategory(): void {
+    if (this.newCategory.title != "") {
+      if (!this.categoryHaveId) {
+        console.log("открыта для создания")
+        // Вызовите сервис для создания новой категории и передайте новую категорию
+        this.categoryService.createCategory(this.newCategory).subscribe(
+          createdCategory => {
+            console.log('Категория успешно создана:', createdCategory);
+          },
+          error => {
+            console.error('Ошибка при создании категории:', error);
+          }
+        );
+      } else {
+        console.log("открыта для редактирования");
+
+        this.changeCategory.title = this.newCategory.title;
+        this.changeCategory.color = this.newCategory.color;
+
+        this.categoryService.updateCategory(this.changeCategory).subscribe(updatedCategory => {
+          console.log('Категория успешно обновлена:', updatedCategory);
+        }, error => {
+            console.error('Ошибка при обновлении категории:', error);
+        });
+      }
+      
+    }
+  }
+
+  changeFlag(): void {
+    this.categoryHaveId = false;
+  }
+
+  // заполнение формы редактирования
+  click(category: ICategory): void {
+    this.categoryHaveId = true;
+    // для заполения формы
+    this.newCategory.title = category.title;
+    this.newCategory.color = category.color;
+    //сохраним то что есть   
+    this.changeCategory = category;
+  }
+
+  // это пока работает только с галочками, нужно чтоб работало с названием и цветом
+  updateCategoryTick(category: ICategory): void {
+    this.categoryService.updateCategory(category).subscribe(updatedCategory => {
+        console.log('Категория успешно обновлена:', updatedCategory);
+    }, error => {
+        console.error('Ошибка при обновлении категории:', error);
     });
   }
 
@@ -74,28 +132,21 @@ export class BalanceWheelComponent implements OnInit {
     }
   }
 
-  createCategory(): void {
-    if (this.newCategory.title != "") {
-      // Вызовите сервис для создания новой категории и передайте новую категорию
-      this.categoryService.createCategory(this.newCategory).subscribe(
-        createdCategory => {
-          console.log('Категория успешно создана:', createdCategory);
-        },
-        error => {
-          console.error('Ошибка при создании категории:', error);
-        }
-      );
-    }
-  }
 
-  // это пока работает только с галочками, нужно чтоб работало с названием и цветом
-  updateCategory(category: ICategory): void {
-    this.categoryService.updateCategory(category).subscribe(updatedCategory => {
-        console.log('Категория успешно обновлена:', updatedCategory);
-    }, error => {
-        console.error('Ошибка при обновлении категории:', error);
-    });
-  }
+  // открыть категорию для редактирования
+  // saveCategoryChanges(): void {
+  //   this.categoryService.updateCategory(this.changeCategory).subscribe(
+  //     updatedCategory => {
+  //       console.log('Категория успешно обновлена:', updatedCategory);
+  //       this.getCategories(); // обновить список категорий
+  //       // this.hideEditCategoryForm();
+  //     },
+  //     error => {
+  //       console.error('Ошибка при обновлении категории:', error);
+  //     }
+  //   );
+  // }
+
 
   // Очистка холста
   clearCanvas() {

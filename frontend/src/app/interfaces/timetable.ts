@@ -1,0 +1,19 @@
+export interface IEvent {
+    name: string;
+    place: string;
+    format: string;
+    start_time: string;
+    stop_time: string;
+}
+  
+export interface IDay {
+    day_by_num_order: number;
+    odd_week: IEvent[] | null;
+    even_week: IEvent[] | null;
+}
+  
+export interface ITimetable {
+    days: IDay[];
+    weeks_num: number;
+}
+  
