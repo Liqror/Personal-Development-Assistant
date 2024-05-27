@@ -7,32 +7,24 @@
 
 <body>
 
-  <!-- выпадающий список -->
-  <div class="container-fluid" style="background-color: #D4CBC8">
+  <div class="container-fluid">
 
     <div class="row">
+
       <!-- Основной контент страницы  -->
       <div class="col-md-12 col-lg-12 content-container">
-<!--        <form>-->
-<!--          <select id="3days" name="days">-->
-<!--            <option value="3day">3 дня</option>-->
-<!--            <option value="month">месяц</option>-->
-<!--            <option value="year">год</option>-->
-<!--          </select>-->
-<!--        </form>-->
-
 
         <!-- Кнопка "Создание задачи" -->
-        <div class="col-md-12" style="top: 0%;">
-          <p style="text-align: end;"><button onclick="showDiv()" class="fixed_button">
-          <img src="././assets/image/new_task.png" alt="новая задача" style="height: 20px">
+        <div class="col-md-12 mt-md-0">
+          <p class="textpOsitionForBtn"><button onclick="showDiv()" class="fixed_button">
+          <img src="././assets/image/new_task.png" alt="новая задача" class="sizeForImg">
           Создание задачи
           </button> </p>
         </div>
       
         <!-- Стрелки временно закоментированы-->
           <!-- <button style="float: left; border-style: none; background-color: transparent;">
-            <img src="././assets/image/back.png" alt="назад" style="height: 20px">
+            <img src="././assets/image/back.png" alt="назад" class="sizeForImg">
           </button>
             
           <button style="float: right; border-style: none; background-color: transparent;">
@@ -74,7 +66,7 @@
             <h4>На день</h4>
             <div *ngFor="let task of data.yesterday.fixed_tasks">
               <p class="task_see">
-                  <label [for]="task.id.toString()" style="margin-left: 7px;">
+                  <label [for]="task.id.toString()" class="labelForTask">
                       <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [(ngModel)]="task.status" [value]="task.id" (change)="onCheckboxChange($event, task)">
                       <span class="custom_checkbox" [id]="task.id.toString()"></span>
                       <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
@@ -113,7 +105,7 @@
             <h4>На день</h4>
             <div *ngFor="let task of data.today.fixed_tasks">
               <p class="task_see">
-                <label [for]="task.id.toString()" style="margin-left: 7px;">
+                <label [for]="task.id.toString()" class="labelForTask">
                     <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [(ngModel)]="task.status" [value]="task.id" (change)="onCheckboxChange($event, task)">
                     <span class="custom_checkbox" [id]="task.id.toString()"></span>
                     <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
@@ -124,7 +116,7 @@
 
           <div class="col-md-4 col-lg-4 mt-md-1">
             <h2>{{ datesForTitle.next }}</h2>
-            <hr style="border-style: solid; border-width: 1px; border-color: #000000">
+            <hr>
             <h3>Расписание</h3>
             <!-- Таблица расписание -->
             <table class="table">
@@ -150,7 +142,7 @@
             <h4>На день</h4>
             <div *ngFor="let task of data.tomorrow.fixed_tasks">
               <p class="task_see">
-                <label [for]="task.id.toString()" style="margin-left: 7px;">
+                <label [for]="task.id.toString()" class="labelForTask">
                     <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id" [(ngModel)]="task.status" (change)="onCheckboxChange($event, task)">
                     <span class="custom_checkbox" [id]="task.id.toString()"></span>
                     <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
@@ -167,7 +159,7 @@
 
                 <div *ngFor="let task of data.late_tasks">
                   <p class="task_see">
-                    <label [for]="task.id.toString()" style="margin-left: 7px;">
+                    <label [for]="task.id.toString()" class="labelForTask">
                         <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id" [(ngModel)]="task.status" (change)="onCheckboxChange($event, task)">
                         <span class="custom_checkbox" [id]="task.id.toString()"></span>
                         <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
@@ -185,7 +177,7 @@
 
                   <div *ngFor="let task of data.soon_tasks">
                     <p class="task_see">
-                      <label [for]="task.id.toString()" style="margin-left: 7px;">
+                      <label [for]="task.id.toString()" class="labelForTask">
                           <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id" [(ngModel)]="task.status" (change)="onCheckboxChange($event, task)">
                           <span class="custom_checkbox" [id]="task.id.toString()"></span>
                           <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
@@ -199,7 +191,7 @@
                   <h4>Беcсрочно</h4>
                   <div *ngFor="let task of data.free_tasks">
                     <p class="task_see">
-                      <label [for]="task.id.toString()" style="margin-left: 7px;">
+                      <label [for]="task.id.toString()" class="labelForTask">
                           <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id" [(ngModel)]="task.status" (change)="onCheckboxChange($event, task)">
                           <span class="custom_checkbox" [id]="task.id.toString()"></span>
                           <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
@@ -218,7 +210,7 @@
   </div>
 
   <!-- Кнопка новой задачи  -->
-    <div id="div1" [ngStyle]="{'display': isDiv1Visible ? 'block' : 'none'}" style="display: none; width: 100%; height: 100%; position: absolute; top: 10%; left: 0;">
+    <div id="div1" [ngStyle]="{'display': isDiv1Visible ? 'block' : 'none'}" class="divNewTask">
     <div class="container">
 
       <div class="row">
@@ -226,8 +218,7 @@
           <p><input [(ngModel)]="taskName" id="taskName" type="text" name="userName" placeholder="Введите название задачи" style="width: 100%" /></p>
         </div>
         <div class="col-lg-1 col-md-1 col-ms-1">
-          <p style="text-align: end;"><button (click)="hideTask()" onclick=hideDiv() style="border-style: none; background-color: transparent;"><img src="././assets/image/cancel.png" alt="закрыть" style="height: 20px; margin-right: 0px"></button></p>
-          
+          <p class="textpOsitionForBtn"><button (click)="hideTask()" onclick=hideDiv() class="closeBtn"><img src="././assets/image/cancel.png" alt="закрыть" style="height: 20px; margin-right: 0px"></button></p>
         </div>
     </div>
 
@@ -366,7 +357,7 @@
           <p class="ttlDel">Удалить повторяющуюся задачу</p>
         </div>
         <div class="col-lg-1 col-md-1 col-ms-1">
-          <p style="text-align: end;">
+          <p class="textpOsitionForBtn">
             <button onclick=hideDivDelRepeatTask() style="border-style: none; background-color: transparent;">
               <img src="././assets/image/cancel.png" alt="закрыть" style="height: 20px; margin-right: 0px">
             </button>

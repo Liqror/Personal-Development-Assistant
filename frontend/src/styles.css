@@ -2,6 +2,36 @@
 @import url("https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:ital,wght@1,200&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:ital,wght@1,600&display=swap");
 
+.textpOsitionForBtn {
+  text-align: end;
+}
+
+.sizeForImg {
+  height: 20px;
+}
+
+.labelForTask {
+  margin-left: 7px;
+}
+
+.divNewTask {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 10%;
+  left: 0;
+}
+.closeBtn {
+  border-style: none;
+  background-color: transparent;
+}
+
+
+
+
+
+
 .task_see:hover {
   color: #F3A352;
   text-shadow: #f0f0f0 2px 0 10px; }
