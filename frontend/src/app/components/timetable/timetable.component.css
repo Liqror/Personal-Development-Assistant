@@ -43,3 +43,34 @@ th {
   text-decoration: none;
   text-shadow: #d5d8dd 1px 0 10px;
 }
+
+
+.clickable2 {
+  /* Устанавливаем значение по умолчанию для переменной */
+  --clicked: 0;
+  padding: 0 20px;
+  font-weight: bold;
+  text-align: center;
+
+  cursor: pointer;
+  transition-property: background-color;
+  transition-duration: 0.3s;
+
+  margin: 2px 20px 15px 10px;
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #000000;
+  background-color: #F0F0F0;
+  color: #000000;
+  bottom: 0;
+}
+
+.clickable2:active {
+  /* Устанавливаем другой цвет фона при нажатии */
+  background-color: #f1c477;
+}
+
+.clickable2.clicked {
+  background-color: #F3A352;
+}

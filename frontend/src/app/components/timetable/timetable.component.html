@@ -103,13 +103,56 @@
         <p>ДО <input type="time" id="time_to_tt" style="width: 82%; background-color: #f0f0f0"></p>
       </div>
     </div>
+    <fieldset>
+      <p>
+        <input type="radio" id="everyWeek" name="repeatWeek" checked/>
+        <label for="everyWeek">Каждую неделю</label>
+      </p>
+
+      <p>
+        <input type="radio" id="oneWeek" name="repeatWeek" checked/>
+        <label for="everyWeek">Четную неделю</label>
+      </p>
+
+      <p>
+        <input type="radio" id="twoWeek" name="repeatWeek" checked/>
+        <label for="everyWeek">Нечетную неделю</label>
+      </p>
+  </fieldset>
+
+    <div class="row" style="justify-content: space-between; width: 90%; ">
+      <div class="col-md-1 col-lg-1">
+        <button class="clickable2" id="monday"> ПН </button>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <button class="clickable2" id="tuesday"> ВТ </button>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <button class="clickable2" id="wednesday"> СР </button>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <button class="clickable2" id="thursday"> ЧТ </button>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <button class="clickable2" id="friday"> ПТ </button>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <button class="clickable2" id="saturday"> СБ </button>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <button class="clickable2" id="sunday"> ВС </button>
+      </div>
+
+    </div>
+
+<!--
 
     <p>
       <input type="checkbox" id="chkTest" />
       <label for="chkTest" style="margin-left: 5px;">Разделение на четную/нечетную недели</label>
     </p>
 
-    <div id="pnlTest" class="Iseewhencheck">
+      <div id="pnlTest" class="Iseewhencheck">
       <div class="row justify-content-start">
 
       <p>Когда проходит в четную неделю</p>
@@ -160,7 +203,7 @@
         <button class="clickable" id="sunday2"> ВС </button>
       </div>
       </div>
-    </div>
+    </div> -->
     <br>
     <div class="row justify-content-center">
       <div class="col-md-6 col-lg-6">

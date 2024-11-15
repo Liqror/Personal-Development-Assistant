@@ -1,0 +1,33 @@
+.divDiary {
+    background-color: #F0F0F0;
+    border: 1px solid #000000;
+    padding: 0 10px 0 10px;
+}
+
+.textNewDiary {
+    background: none; 
+    border-width: 0; 
+    font-size: 120%;
+    width: 100%;
+    padding: 0 20px 0 20px;
+
+}
+
+.saveNewDiary {
+    background-color: #35EF3D;
+}
+
+
+.flex1 {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.titleDiary {
+    text-align: center; 
+    margin: 10px 0 0 50px; 
+    font-size: 160%;
+    color: #F3A972;
+
+}

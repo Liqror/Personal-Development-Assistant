@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Личный ассистент</title>
+</head>
+
+<body>
+    
+    <!-- Основной контент страницы  -->
+     <div  class="col-md-12 col-lg-12 mt-md-2">
+        <h2>Дневник</h2>
+    </div>
+
+    <!-- Новая запись в дневнике - привязана к текущей дате -->
+    <div class=" row justify-content-center">
+
+        <div class="col-md-11 col-lg-11 mt-md-2 divDiary" id="divNewDiary">
+            <!--<div class="flex1">
+            <div class="flex-items"> <h2 class="titleDiary">Сегодня</h2> </div>
+            <div class="flex-items"> <p style="text-align: center"><button id="save-new-diary" class="save">Сохранить</button></p></div>
+            </div> -->
+
+            <h2 class="titleDiary">Сегодня</h2>
+            
+            <textarea cols="30" rows="3" class="textNewDiary">Здесь уже может быть какая-нибудь запись, которую мы написали ранее сегодня. Берется из БД</textarea> 
+            <p style="text-align: center"><button id="save-new-diary" class="save">Сохранить</button></p>
+        </div>
+
+        <div class="col-md-11 col-lg-11 mt-md-2 divDiary" id="divNewDiary">
+            <h2 class="titleDiary"> 01.11.2024</h2>
+            <p  class="textNewDiary">
+                Какая-то запись в дневнике, привязанная к 01.11.2024.
+            </p>
+        </div>
+    
+
+
+
+        <div class="col-md-11 col-lg-11 mt-md-2 divDiary" id="divNewDiary">
+            <h2 class="titleDiary"> 31.10.2024</h2>
+            <p  class="textNewDiary">
+                Какая-то запись в дневнике, привязанная к 31.10.2024. 
+                <br>
+                <br>Имеет любой размер.
+                <br>
+                <br>...
+            </p>
+        </div>
+
+</div>
+    
+</body>

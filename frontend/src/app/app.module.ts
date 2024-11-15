@@ -14,7 +14,7 @@ import { BalanceWheelComponent } from './components/balance-wheel/balance-wheel.
 import {CalendarComponent} from "./components/calendar/calendar.component";
 import {PlanComponent} from "./components/plan/plan.component";
 import {TimetableComponent} from "./components/timetable/timetable.component";
-
+import { DiaryComponent } from './components/diary/diary.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +23,7 @@ import {TimetableComponent} from "./components/timetable/timetable.component";
     CalendarComponent,
     PlanComponent,
     TimetableComponent,
+    DiaryComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +42,7 @@ import {TimetableComponent} from "./components/timetable/timetable.component";
     CalendarComponent,
     PlanComponent,
     TimetableComponent,
+    DiaryComponent,
   ],
   bootstrap: [AppComponent]
 })
