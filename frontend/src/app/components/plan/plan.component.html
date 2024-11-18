@@ -15,10 +15,7 @@
       Создать новый план
     </button></p>
     </div>
-    
-    <!-- <div *ngIf="isLoading">
-      <p>Загрузка данных...</p>
-    </div> -->
+
 
     <div class="col-md-12 col-lg-12 content-container">
       <div class="row justify-content-center">
@@ -66,9 +63,9 @@
             </div>
           </div>        
 
-        <div *ngFor="let plan of plans" class="col-md-11 col-lg-11 mt-md-1 planDiv" id="Plan1">
+        <div *ngFor="let plan of plans" class="col-md-11 col-lg-11 mt-md-1 planDiv">
           <h5>
-            <button aria-expanded="false">
+            <button (click)="togglePlanVisibility(plan.id)" aria-expanded="false">
               {{ plan.name }}
               <svg aria-hidden="true" focusable="false" viewBox="0 0 10 10">
                 <rect class="vert" height="8" width="2" y="1" x="4"/>
@@ -76,54 +73,66 @@
               </svg>
             </button>
           </h5>
-          <div hidden class="row justify-content-start" style="background-color: #F0F0F0">
-
+          <div *ngIf="planVisibility[plan.id]" class="row justify-content-start" style="background-color: #F0F0F0">
             <div class="row justify-content-center">
               <div class="col-md-5 col-lg-5">
-                <p>Баллы: {{plan.done_points}}/{{plan.goal_points}}</p>
+                <p>Баллы: {{ plan.done_points }} / {{ plan.goal_points }}</p>
               </div>
-              <!-- этого поля пока нет -->
-              <!-- <div class="col-md-7 col-lg-7">
+              <div class="col-md-7 col-lg-7">
                 <p style="text-align: end">Срок выполнения: "ДД.ММ.ГГГГ - ДД.ММ.ГГГГ"</p>
-              </div> -->
-            </div>
-
-            <div *ngFor="let category of plan.categories" class="row justify-content-start">
-              <div class="col-md-3 col-lg-3" [style.background-color]="category.color">
-                <p style="vertical-align: center; text-align: center; ">{{ category.title }}</p>
               </div>
-            </div> 
+            </div>
+            <div class="row justify-content-start">
+             
+              <div class="col-md-3 col-lg-3" style="background-color: #98ED00;">
+                <p style="vertical-align: center; text-align: center; ">Здоровье</p>
+              </div>
+              <div class="col-md-3 col-lg-3">
+                <p style="vertical-align: center; text-align: center; ">Категория2</p>
+              </div>
+              <div class="col-md-3 col-lg-3">
+                <p style="vertical-align: center; text-align: center; ">Категория3</p>
+              </div>
+            </div>
+            <input type="text" value="Введите текст..." style=" background: none; border-width: 0 0 1px 0; font-size: 100%;">
 
-            <input type="text" [value]="plan.details" style=" background: none; border-width: 0 0 1px 0; font-size: 100%;">
-            
-            <div *ngFor="let task of plan.tasks">
+            <p><label style="margin-left: 7px;"> 
+              <input class="real_checkbox" type="checkbox">
+              <span class="custom_checkbox"></span>
+                задача 1  
+              </label></p>
+
               <p><label style="margin-left: 7px;"> 
                 <input class="real_checkbox" type="checkbox">
                 <span class="custom_checkbox"></span>
-                  {{ task.task.name }}
+                  задача 2  
+              </label></p>
+
+              <p><label style="margin-left: 7px;"> 
+                <input class="real_checkbox" type="checkbox">
+                <span class="custom_checkbox"></span>
+                  задача 3  
                 </label></p>
-            </div>
-          
+
             <div class="row justify-content-center">
               <div class="col-md-6 col-lg-6">
                 <p style="margin-top: 10px;"><button onclick="showDiv()" style="background-color: #FFF; border-radius: 5px;">
                   Добавить задачу к плану</button></p>
               </div>
               <div class="col-md-6 col-lg-6">
-                <!-- onclick="deletePlan(document.getElementById('Plan1'))" -->
-                <p style="text-align: end"><button (click)="deletePlan(plan.id)" class="close">
+                <p style="text-align: end"><button onclick="deletePlan(document.getElementById('Plan1'))" class="close">
                   <img src="././assets/image/delete.png" alt="удалить план" style="height: 20px">
                   Удалить план
                 </button></p>
               </div>
-          </div>            
+            </div>            
           </div>
         </div>
 
 
 
         <!-- это пример -->
-        <!-- <div class="col-md-11 col-lg-11 mt-md-1 planDiv" id="Plan1">
+        <div class="col-md-11 col-lg-11 mt-md-1 planDiv" >
           <h5>
             <button aria-expanded="false">
               План пример для оформнения
@@ -188,7 +197,7 @@
               </div>
           </div>            
           </div>
-        </div> -->
+        </div>
 
 
       </div>

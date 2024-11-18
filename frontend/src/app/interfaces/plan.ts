@@ -16,6 +16,18 @@ export interface IPlanForCreate {
     status : number;
 }
 
+export interface IPlanFull {
+    id: number;
+    name: string;
+    details : string;
+    status : number;
+    tasks : ITaskForPlanFull[];
+    categories: ICategory[],
+    user_id: number,
+    goal_points: number,
+    done_points: number,
+}
+
 export interface IPlanAll {
     id: number;
     name: string;
@@ -26,6 +38,12 @@ export interface IPlanAll {
     user_id: number,
     goal_points: number,
     done_points: number,
+}
+
+export interface ITaskForPlanFull {
+    task_id: number;
+    plan_id: number;
+    step_number: number;
 }
 
 export interface ITaskForPlan {
