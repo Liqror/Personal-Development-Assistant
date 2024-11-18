@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {IPlanFull} from "../../interfaces/plan";
+import {IPlanFull } from "../../interfaces/plan";
 import { PlanService } from 'src/app/services/plan.service';
 import { ITask } from 'src/app/interfaces/task';
 import {ITaskPage} from "../../interfaces/task-page";
@@ -9,6 +9,8 @@ import {ITackCategories} from "../../interfaces/task_categories";
 import { HttpClient } from '@angular/common/http';
 declare function openPlan(): void;
 import { IPlanForCreate } from '../../interfaces/plan';
+import { forkJoin } from 'rxjs';
+
 
 @Component({
   selector: 'app-plan',
@@ -29,32 +31,30 @@ export class PlanComponent {
     private http: HttpClient,
   ) {}
 
-  // ngOnInit() {
-    //   await this.loadPlans();
-    //   this.myScriptElement = document.createElement("script");
-    //   this.myScriptElement.src = "././assets/scripts_for_project.js";
-    //   document.body.appendChild(this.myScriptElement);
-    // }
-
   ngOnInit(): void {
     this.myScriptElement = document.createElement("script");
     this.myScriptElement.src = "././assets/scripts_for_project.js";
     document.body.appendChild(this.myScriptElement);
 
-    this.planService.getPlans().subscribe({
-      next: (data) => {
-        this.plans = data;
-        console.log(this.plans);
-        // Инициализируем видимость для каждого плана
-        this.plans.forEach(plan => {
-        this.planVisibility[plan.id] = false; // Все планы по умолчанию скрыты
-      });
-      },
-      error: (error) => console.error('Error', error)
-    });
+    this.getPlans();
   }
   togglePlanVisibility(planId: number): void {
     this.planVisibility[planId] = !this.planVisibility[planId]; // Переключаем видимость
+  }
+
+  getPlans(): void {
+    this.planService.getPlans().subscribe({
+      next: (data) => {
+        this.plans = data;
+
+        // Инициализируем видимость для каждого плана
+        this.plans.forEach(plan => {
+          this.planVisibility[plan.id] = false; // Все планы по умолчанию скрыты
+        });
+
+      },
+      error: (error) => console.error('Error', error)
+    });
   }
 
   saveNewPlan(): void {}
@@ -79,17 +79,6 @@ export class PlanComponent {
   // newPlanTitle: string;
   // newPlanDetails: string;
 
-  // constructor(
-  //   private planService: PlanService,
-  //   private http: HttpClient,
-  // ) {}
-
-  // async ngOnInit() {
-  //   await this.loadPlans();
-  //   this.myScriptElement = document.createElement("script");
-  //   this.myScriptElement.src = "././assets/scripts_for_project.js";
-  //   document.body.appendChild(this.myScriptElement);
-  // }
 
   // async loadPlans() {
   //   try {

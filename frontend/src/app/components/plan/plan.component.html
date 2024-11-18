@@ -26,8 +26,7 @@
             </h4>
             <div class="row justify-content-start" style="background-color: #F0F0F0">
               
-              <!-- Это пока не нужно. воспользуемся позже -->
-              <!--  <div class="row justify-content-center">
+               <div class="row justify-content-center">
                 <div class="col-md-6 col-lg-6">
                   <br>
                   <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
@@ -37,7 +36,7 @@
                   <br>
                   <p>ДО <input type="date" id="datePlan_to" style="width: 82%; background-color: #f0f0f0"></p>
                 </div> 
-              </div>-->
+              </div>
 
               <div class="row justify-content-center">
                 <textarea [(ngModel)]="newPlanDetails" name="message" id="mess" rows="5" class="form-control md-textarea"
@@ -82,19 +81,16 @@
                 <p style="text-align: end">Срок выполнения: "ДД.ММ.ГГГГ - ДД.ММ.ГГГГ"</p>
               </div>
             </div>
-            <div class="row justify-content-start">
-             
-              <div class="col-md-3 col-lg-3" style="background-color: #98ED00;">
+
+            <div *ngFor="let category of plan.categories" class="row justify-content-start">
+              <div class="col-md-3 col-lg-3" [ngStyle]="{ 'background-color': category.color }">
                 <p style="vertical-align: center; text-align: center; ">Здоровье</p>
               </div>
-              <div class="col-md-3 col-lg-3">
-                <p style="vertical-align: center; text-align: center; ">Категория2</p>
-              </div>
-              <div class="col-md-3 col-lg-3">
-                <p style="vertical-align: center; text-align: center; ">Категория3</p>
-              </div>
             </div>
-            <input type="text" value="Введите текст..." style=" background: none; border-width: 0 0 1px 0; font-size: 100%;">
+
+            <input type="text" 
+            [value]="plan.details" 
+            style=" background: none; border-width: 0 0 1px 0; font-size: 100%;">
 
             <p><label style="margin-left: 7px;"> 
               <input class="real_checkbox" type="checkbox">
@@ -128,77 +124,6 @@
             </div>            
           </div>
         </div>
-
-
-
-        <!-- это пример -->
-        <div class="col-md-11 col-lg-11 mt-md-1 planDiv" >
-          <h5>
-            <button aria-expanded="false">
-              План пример для оформнения
-              <svg aria-hidden="true" focusable="false" viewBox="0 0 10 10">
-                <rect class="vert" height="8" width="2" y="1" x="4"/>
-                <rect height="2" width="8" y="4" x="1"/>
-              </svg>
-            </button>
-          </h5>
-          <div hidden class="row justify-content-start" style="background-color: #F0F0F0">
-
-            <div class="row justify-content-center">
-              <div class="col-md-5 col-lg-5">
-                <p>Сумма баллов: "число"</p>
-              </div>
-              <div class="col-md-7 col-lg-7">
-                <p style="text-align: end">Срок выполнения: "ДД.ММ.ГГГГ - ДД.ММ.ГГГГ"</p>
-              </div>
-            </div>
-            <div class="row justify-content-start">
-             
-              <div class="col-md-3 col-lg-3" style="background-color: #98ED00;">
-                <p style="vertical-align: center; text-align: center; ">Здоровье</p>
-              </div>
-              <div class="col-md-3 col-lg-3">
-                <p style="vertical-align: center; text-align: center; ">Категория2</p>
-              </div>
-              <div class="col-md-3 col-lg-3">
-                <p style="vertical-align: center; text-align: center; ">Категория3</p>
-              </div>
-            </div>
-            <input type="text" value="Введите текст..." style=" background: none; border-width: 0 0 1px 0; font-size: 100%;">
-
-            <p><label style="margin-left: 7px;"> 
-              <input class="real_checkbox" type="checkbox">
-              <span class="custom_checkbox"></span>
-                задача 1  
-              </label></p>
-
-              <p><label style="margin-left: 7px;"> 
-                <input class="real_checkbox" type="checkbox">
-                <span class="custom_checkbox"></span>
-                  задача 2  
-              </label></p>
-
-              <p><label style="margin-left: 7px;"> 
-                <input class="real_checkbox" type="checkbox">
-                <span class="custom_checkbox"></span>
-                  задача 3  
-                </label></p>
-
-            <div class="row justify-content-center">
-              <div class="col-md-6 col-lg-6">
-                <p style="margin-top: 10px;"><button onclick="showDiv()" style="background-color: #FFF; border-radius: 5px;">
-                  Добавить задачу к плану</button></p>
-              </div>
-              <div class="col-md-6 col-lg-6">
-                <p style="text-align: end"><button onclick="deletePlan(document.getElementById('Plan1'))" class="close">
-                  <img src="././assets/image/delete.png" alt="удалить план" style="height: 20px">
-                  Удалить план
-                </button></p>
-              </div>
-          </div>            
-          </div>
-        </div>
-
 
       </div>
     </div>
