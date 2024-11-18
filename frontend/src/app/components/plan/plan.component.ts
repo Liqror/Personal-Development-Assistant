@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {IPlanFull } from "../../interfaces/plan";
+import { IPlanFull, INewPlan } from "../../interfaces/plan";
 import { PlanService } from 'src/app/services/plan.service';
 import { ITask } from 'src/app/interfaces/task';
 import {ITaskPage} from "../../interfaces/task-page";
@@ -57,7 +57,23 @@ export class PlanComponent {
     });
   }
 
-  saveNewPlan(): void {}
+  createNewPlan(): void {
+    if (this.newPlanTitle != "") {
+      const newPlan: INewPlan = {
+        user_id: 1,
+        name: this.newPlanTitle,
+        details: this.newPlanDetails,
+        status : 0,
+      }
+
+      this.planService.createPlan(newPlan).subscribe(response => {
+        console.log("Plan added:", response);
+        this.getPlans();  // Обновить список планов после добавления нового
+      }, error => {
+        console.error("Error adding plan:", error);
+      });
+    }
+  }
 
   deletePlan(id: number): void {}
   

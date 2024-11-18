@@ -56,3 +56,18 @@ export interface ITaskForPlan {
       };
       step_number: number;
 }
+
+export interface INewPlan {
+    user_id: number,
+    name: string;
+    details : string;
+    status : number;
+}
+
+export interface IUpdatePlan {
+    id: number,
+    user_id: number,
+    name: string;
+    details : string;
+    status : number;
+}

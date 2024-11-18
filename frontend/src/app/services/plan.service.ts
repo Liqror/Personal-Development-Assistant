@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IPlanFull } from '../interfaces/plan';
+import { IPlanFull, INewPlan } from '../interfaces/plan';
 
 @Injectable({
   providedIn: 'root'
@@ -23,10 +23,10 @@ export class PlanService {
   //   return this.http.get<IPlanAll>(this.plansApiUrl + id);
   // }
 
-  // // Добавить новый план
-  // addPlan(planData: any): Observable<any> {
-  //   return this.http.post(this.plansApiUrl, planData);
-  // }
+  // Добавить новый план
+  createPlan(plan: INewPlan): Observable<INewPlan> {
+    return this.http.post<INewPlan>(this.plansApiUrl, plan);
+  }
 
   // // Обновить существующий план
   // updatePlan(planData: any): Observable<any> {
