@@ -2,8 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {DatePipe} from "@angular/common";
 import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
-import { ITimetable } from 'src/app/interfaces/timetable';
-import { TimetableService } from 'src/app/services/event.service';
+import { ITimetable, INewEvent } from 'src/app/interfaces/timetable';
+import { EventService } from 'src/app/services/event.service';
+
 
 @Component({
   selector: 'app-timetable',
@@ -15,10 +16,10 @@ export class TimetableComponent implements OnInit {
   // это джаваскрипт для изменения расписания
   myScriptElement: HTMLScriptElement;
 
-  timetable: ITimetable;
+  events: ITimetable;
   daysOfWeek: string[] = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
 
-  constructor(private timetableService: TimetableService) {
+  constructor(private eventService: EventService) {
     // джава скрипт для изменения расписания
     this.myScriptElement = document.createElement("script");
     this.myScriptElement.src = "././assets/scripts_for_project.js";
@@ -26,16 +27,44 @@ export class TimetableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.timetableService.getEvents().subscribe({
+    this.getEvents();
+  }
+
+  getEvents(): void {
+    this.eventService.getEvents().subscribe({
       next: (data) => {
-        this.timetable = data;
-        console.log(this.timetable);
+        this.events = data;
+        console.log(this.events);
       },
-      error: (error) => console.error('Error fetching timetable', error)
+      error: (error) => console.error('Error ', error)
     });
+    this.createEvent();
   }
 
   getDayOfWeek(dayByNumOrder: number): string {
     return this.daysOfWeek[dayByNumOrder];
   }
+
+  createEvent() {
+    const newEvent: INewEvent = {
+      user_id: 1,
+      week_num: 0,
+      day_of_week: 0,
+      event_name: "пример",
+      place: "место",
+      event_format: "формат",
+      start_time: "11:11",
+      stop_time: "13:13",
+    }
+
+    this.eventService.createEvent(newEvent).subscribe(response => {
+      console.log("Added:", newEvent);
+      // this.getEvents();  // Обновить список планов после добавления нового
+    }, error => {
+      console.error("Error", error);
+    });
+  }
+
+  updateEvent() { }
+
 }

@@ -26,10 +26,7 @@ export class PlanComponent {
   newPlanTitle: string;
   newPlanDetails: string;
 
-  constructor(
-    private planService: PlanService,
-    private http: HttpClient,
-  ) {}
+  constructor(private planService: PlanService) {}
 
   ngOnInit(): void {
     this.myScriptElement = document.createElement("script");
@@ -108,5 +105,4 @@ export class PlanComponent {
       }
     });
   }
-  
 }

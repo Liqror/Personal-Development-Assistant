@@ -12,7 +12,7 @@ export class PlanService {
 
   constructor(private http: HttpClient) {}
 
-  // Получить все планы. жду пока это изменят в бекенде
+  // Получить все планы. жду пока это изменят в
   getPlans(): Observable<IPlanFull[]> {
     const fullPlansUrl = `${this.plansApiUrl}full`;
     return this.http.get<IPlanFull[]>(fullPlansUrl);
@@ -32,4 +32,5 @@ export class PlanService {
   deletePlan(id: number): Observable<any> {
     return this.http.delete(`${this.plansApiUrl}${id}`);
   }
+  
 }
