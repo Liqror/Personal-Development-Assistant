@@ -117,7 +117,7 @@
                   Добавить задачу к плану</button></p>
               </div>
               <div class="col-md-6 col-lg-6">
-                <p style="text-align: end"><button onclick="deletePlan(document.getElementById('Plan1'))" class="close">
+                <p style="text-align: end"><button (click)="deletePlan(plan.id)" onclick="deletePlan(document.getElementById('Plan1'))" class="close">
                   <img src="././assets/image/delete.png" alt="удалить план" style="height: 20px">
                   Удалить план
                 </button></p>

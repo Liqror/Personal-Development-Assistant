@@ -12,16 +12,11 @@ export class PlanService {
 
   constructor(private http: HttpClient) {}
 
-  // Получить все планы *изменено в бекенде
+  // Получить все планы. жду пока это изменят в бекенде
   getPlans(): Observable<IPlanFull[]> {
     const fullPlansUrl = `${this.plansApiUrl}full`;
     return this.http.get<IPlanFull[]>(fullPlansUrl);
   }
-
-  // // Метод для получения дополнительных данных о плане по его id
-  // getPlanDetails(id: number): Observable<IPlanAll> {
-  //   return this.http.get<IPlanAll>(this.plansApiUrl + id);
-  // }
 
   // Добавить новый план
   createPlan(plan: INewPlan): Observable<INewPlan> {
@@ -30,12 +25,11 @@ export class PlanService {
 
   // Обновить существующий план
   updatePlan(plan: IUpdatePlan): Observable<IUpdatePlan> {
-    console.log("ааа", plan);
     return this.http.put<IUpdatePlan>(this.plansApiUrl, plan);
   }
 
-  // // Удалить план по ID
-  // deletePlan(id: number): Observable<any> {
-  //   return this.http.delete(`${this.plansApiUrl}${id}`);
-  // }
+  // Удалить план по ID
+  deletePlan(id: number): Observable<any> {
+    return this.http.delete(`${this.plansApiUrl}${id}`);
+  }
 }
