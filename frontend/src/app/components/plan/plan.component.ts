@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IPlanFull, INewPlan } from "../../interfaces/plan";
+import { IPlanFull, INewPlan, IUpdatePlan } from "../../interfaces/plan";
 import { PlanService } from 'src/app/services/plan.service';
 import { ITask } from 'src/app/interfaces/task';
 import {ITaskPage} from "../../interfaces/task-page";
@@ -73,6 +73,30 @@ export class PlanComponent {
         console.error("Error adding plan:", error);
       });
     }
+  }
+
+  updatePlan(plan: IPlanFull): void {
+    // нужно передать только часть полученных данных
+    // поэтому создаем объект IUpdatePlan из IPlanFull
+    const updatedPlan: IUpdatePlan = {
+      id: plan.id,
+      user_id: plan.user_id,
+      name: plan.name,
+      details: plan.details,
+      status: plan.status
+    };
+    
+    console.log("1", plan.details);
+
+    // Вызываем метод сервиса для обновления
+    this.planService.updatePlan(updatedPlan).subscribe({
+      next: (response) => {
+        console.log('План обновлен успешно:', response);
+      },
+      error: (error) => {
+        console.error('Ошибка при обновлении плана:', error);
+      }
+    });
   }
 
   deletePlan(id: number): void {}

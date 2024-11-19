@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IPlanFull, INewPlan } from '../interfaces/plan';
+import { IPlanFull, INewPlan, IUpdatePlan } from '../interfaces/plan';
 
 @Injectable({
   providedIn: 'root'
@@ -28,10 +28,11 @@ export class PlanService {
     return this.http.post<INewPlan>(this.plansApiUrl, plan);
   }
 
-  // // Обновить существующий план
-  // updatePlan(planData: any): Observable<any> {
-  //   return this.http.put(this.plansApiUrl, planData);
-  // }
+  // Обновить существующий план
+  updatePlan(plan: IUpdatePlan): Observable<IUpdatePlan> {
+    console.log("ааа", plan);
+    return this.http.put<IUpdatePlan>(this.plansApiUrl, plan);
+  }
 
   // // Удалить план по ID
   // deletePlan(id: number): Observable<any> {
