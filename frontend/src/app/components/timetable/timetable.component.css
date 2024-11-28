@@ -1,3 +1,26 @@
+.text-table-subj {
+  text-align: center; 
+  color: rgb(121, 121, 121);
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+
+.selectSubj {
+  width: 77%;
+  background-color: #F0F0F0;
+  margin-bottom: 18px;
+  margin-left: 10px;
+}
+
+
+.checkboxText {
+  font-size: 100%;
+  font-weight: 200;
+  text-align: justify;
+  font-family: 'Shantell Sans', cursive;
+  color: #000000; /*2D2822 3F372D; 633F11*/
+}
 
 
 .button_table {
