@@ -48,11 +48,11 @@ export class TimetableComponent implements OnInit {
   createEvent() {
     const newEvent: INewEvent = {
       user_id: 1,
-      week_num: 0,
+      week_num: 1,
       day_of_week: 0,
       event_name: "пример",
       place: "место",
-      event_format: "формат",
+      event_format: "offline",
       start_time: "11:11",
       stop_time: "13:13",
     }
@@ -61,6 +61,7 @@ export class TimetableComponent implements OnInit {
       console.log("Added:", newEvent);
       // this.getEvents();  // Обновить список планов после добавления нового
     }, error => {
+      console.log(newEvent);
       console.error("Error", error);
     });
   }

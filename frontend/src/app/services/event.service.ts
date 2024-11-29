@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ITimetable, INewEvent } from '../interfaces/timetable';
 
+
 @Injectable({
   providedIn: 'root'
 })
