@@ -43,9 +43,9 @@
                   <ng-container *ngIf="day.odd_week || day.even_week">
                     <tr class="another" *ngFor="let event of day.odd_week || day.even_week">
                       <td>{{ event.start_time }} - {{ event.stop_time }}</td>
-                      <td>{{ event.name }} <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+                      <td onclick="showDiv()">{{ event.name }}  <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button> <p class="text-table-subj"> {{ event.place }} </p> <p class="text-table-subj"> {{ event.format}}  </p></td>
                       <td>{{ event.start_time }} - {{ event.stop_time }}</td>
-                      <td>{{ event.name }} <button onclick="deleteElement(this)"  style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+                      <td onclick="showDiv()">{{ event.name }} <button onclick="deleteElement(this)"  style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button> <p class="text-table-subj"> {{ event.place }} </p> <p class="text-table-subj"> {{ event.format}}  </p></td>
                     </tr>
                   </ng-container>
                   <tr *ngIf="!(day.odd_week || day.even_week)" class="another">
@@ -91,8 +91,8 @@
 
 <div id="div1" style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
   <div class="container">
-    <p><input id="objectName" type="text" name="objectName" placeholder="Введите название предмета" style="width: 100%" /></p>
-    <p><input id="objectsPlace" type="text" name="objectsPlace" placeholder="Место/онлайн" style="width: 100%" /></p>
+    <p><input id="objectName" type="text" name="objectName" placeholder="Название предмета" style="width: 100%" /></p>
+    <p><input id="objectsPlace" type="text" name="objectsPlace" placeholder="Место/ссылка" style="width: 100%" /></p>
 
     <div class="row justify-content-center">
       <div class="col-md-6 col-lg-6">
@@ -103,7 +103,39 @@
         <p>ДО <input type="time" id="time_to_tt" style="width: 82%; background-color: #f0f0f0"></p>
       </div>
     </div>
-    <fieldset>
+    
+    
+    <form style="justify-content: left; display: flex;">
+      <label for="formatSubj">Формат занятия:</label>
+      <select id="formatSubj" name="formatSubj" class="selectSubj">
+        <option value="online" class="optionSubj">Онлайн</option>
+        <option value="offline">Офлайн</option>
+      </select>
+    </form>
+
+
+    <form style="justify-content: left; display: flex;">
+      <label for="repeatSubj">Повтор занятия:</label>
+      <select id="repeatSubj" name="repeatSubj" class="selectSubj">
+        <option value="online" class="optionSubj">Каждую неделю</option>
+        <option value="offline" class="optionSubj">Четную неделю</option>
+        <option value="online" class="optionSubj">Нечетную неделю</option>
+      </select>
+    </form>
+<!--
+    <fieldset class="checkboxText">Формат занятия:
+      
+      <input type="radio" id="online" name="paramSubj" checked style="margin-left: 3%;"/>
+      <label for="everyWeek">Онлайн</label>
+
+      <input type="radio" id="offline" name="paramSubj" checked style="margin-left: 3%;"/>
+      <label for="everyWeek">Очно</label>
+
+  </fieldset>
+
+
+    
+    <fieldset >
       <p>
         <input type="radio" id="everyWeek" name="repeatWeek" checked/>
         <label for="everyWeek">Каждую неделю</label>
@@ -119,6 +151,7 @@
         <label for="everyWeek">Нечетную неделю</label>
       </p>
   </fieldset>
+  -->
 
     <div class="row" style="justify-content: space-between; width: 90%; ">
       <div class="col-md-1 col-lg-1">

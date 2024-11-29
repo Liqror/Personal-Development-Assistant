@@ -211,10 +211,10 @@ document.getElementById("save-button-task").click = checkInput;
 function checkInputForPlan() {
   console.log("HERE?!");
   let namePlan = document.getElementById("newNamePlan").value;
-  let date_from = document.getElementById("datePlan_from").value;
-  let date_to = document.getElementById("datePlan_to").value;
+  //let date_from = document.getElementById("datePlan_from").value;
+  //let date_to = document.getElementById("datePlan_to").value;
 
-  console.log(date_from, "   ", date_to);
+  //console.log(date_from, "   ", date_to);
 
   //  Проверка на введенность названия плана
   if (namePlan == "") {
@@ -229,7 +229,7 @@ function checkInputForPlan() {
   /* Проверка введенной даты для плана. 
      План не может сохраняться, если дата начала 
      наступает позже даты окончания плана.
-  */
+  
   if (date_from > date_to && date_to != "") {
     console.log("Дата начала не может быть больше даты окончания!");
     document.getElementById("checkDatePlan").innerHTML = "Дата начала не может быть больше даты окончания! ";
@@ -237,7 +237,7 @@ function checkInputForPlan() {
   else {
     console.log("Вроде ок");
     document.getElementById("checkDatePlan").innerHTML = "";
-  }
+  }*/
 }
 document.getElementById("save-button-plan").click = checkInputForPlan;
 
