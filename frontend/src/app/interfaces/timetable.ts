@@ -23,7 +23,7 @@ export interface INewEvent {
     day_of_week: number;
     event_name: string;
     place: string;
-    event_format: string;
+    format: string;
     start_time: string;
     stop_time: string;
 }

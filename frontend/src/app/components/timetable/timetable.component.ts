@@ -38,7 +38,7 @@ export class TimetableComponent implements OnInit {
       },
       error: (error) => console.error('Error ', error)
     });
-    this.createEvent();
+    // this.createEvent();
   }
 
   getDayOfWeek(dayByNumOrder: number): string {
@@ -52,7 +52,7 @@ export class TimetableComponent implements OnInit {
       day_of_week: 0,
       event_name: "пример",
       place: "место",
-      event_format: "offline",
+      format: "offline",
       start_time: "11:11",
       stop_time: "13:13",
     }
