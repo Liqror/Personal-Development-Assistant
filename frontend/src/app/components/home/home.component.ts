@@ -13,6 +13,7 @@ import { IPlan, IPlanAll } from 'src/app/interfaces/plan';
 import { retry } from 'rxjs/operators';
 import { repeatWhen, delay } from 'rxjs/operators';
 import { EMPTY, timer } from 'rxjs';
+import { CategoryService } from 'src/app/services/category.service';
 
 
 @Component({
@@ -79,7 +80,8 @@ export class HomeComponent implements OnInit{
 
   constructor(private taskService: TaskService, 
     private datePipe: DatePipe, private http: HttpClient,
-    @Inject(DataService) private readonly dataService: DataService) {
+    @Inject(DataService) private readonly dataService: DataService,
+    private categoryService: CategoryService) {
 
     // джава скрипт для создания задачи
     this.myScriptElement = document.createElement("script");
@@ -226,11 +228,10 @@ export class HomeComponent implements OnInit{
   }
   
   getCategories(): void {
-    this.http.get<ICategory[]>('http://localhost:8080/assistant/api/categories').subscribe((res: ICategory[]) => {
+    this.categoryService.getActiveCategories().subscribe((res: ICategory[]) => { 
+      console.log(res);
       this.categories = res;
-      // console.log(this.categories);
       this.taskCategory = this.categories[0].id;
-      // console.log(this.taskCategory);
     });
   }
 

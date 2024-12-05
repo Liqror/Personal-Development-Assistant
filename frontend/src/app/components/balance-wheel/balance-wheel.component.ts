@@ -46,7 +46,7 @@ export class BalanceWheelComponent implements OnInit {
   }
 
   getCategories(): void {
-    this.categoryService.getCategories().subscribe((res: ICategory[]) => { 
+    this.categoryService.getAllCategories().subscribe((res: ICategory[]) => { 
       this.categories = res;
       // console.log(res);
     });
