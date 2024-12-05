@@ -39,8 +39,10 @@ export class PlanComponent {
 
     this.getPlans();
   }
+  
   togglePlanVisibility(planId: number): void {
     this.planVisibility[planId] = !this.planVisibility[planId]; // Переключаем видимость
+    console.log(planId, this.planVisibility[planId]);
   }
 
   getPlans(): void {
