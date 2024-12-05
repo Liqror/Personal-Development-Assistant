@@ -1,6 +1,7 @@
 import { ITask } from "./task";
 import { ICategory } from "./category";
 
+
 export interface IPlan {
     id: number;
     name: string;

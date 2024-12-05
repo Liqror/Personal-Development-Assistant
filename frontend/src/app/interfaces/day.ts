@@ -1,5 +1,7 @@
 import {ITask} from "./task";
 import {IClasses} from "./classes";
+
+
 export interface IDay {
   date: string;
   fixed_tasks: ITask[];
