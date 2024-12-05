@@ -1,10 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import {IWheel, IWheelData} from "../../interfaces/wheel";
-import {ICategory, ICategoryForCreate} from "../../interfaces/category"
-import {HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
+import { IWheel } from "../../interfaces/wheel";
+import { ICategory, ICategoryForCreate } from "../../interfaces/category"
+import {HttpClient } from "@angular/common/http";
 import { CategoryService } from 'src/app/services/category.service';
-import { tap, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
 
 
 @Component({
@@ -30,8 +28,6 @@ export class BalanceWheelComponent implements OnInit {
   changeCategory: ICategory;
 
   // для редактирования
-  // title: string;
-  // color: string;
   categoryHaveId: boolean = false;
 
   // для получения колеса баланса
@@ -64,6 +60,7 @@ export class BalanceWheelComponent implements OnInit {
         this.categoryService.createCategory(this.newCategory).subscribe(
           createdCategory => {
             console.log('Категория успешно создана:', createdCategory);
+            this.getCategories();
           },
           error => {
             console.error('Ошибка при создании категории:', error);
@@ -81,7 +78,6 @@ export class BalanceWheelComponent implements OnInit {
             console.error('Ошибка при обновлении категории:', error);
         });
       }
-      
     }
   }
 
@@ -116,7 +112,6 @@ export class BalanceWheelComponent implements OnInit {
         start_date: this.start,
         end_date: this.stop
       };
-
       this.http.post<any>(url, data).subscribe(
         (response) => {
           // Обработка ответа здесь, например, сохранение в переменную res
@@ -131,22 +126,6 @@ export class BalanceWheelComponent implements OnInit {
       );
     }
   }
-
-
-  // открыть категорию для редактирования
-  // saveCategoryChanges(): void {
-  //   this.categoryService.updateCategory(this.changeCategory).subscribe(
-  //     updatedCategory => {
-  //       console.log('Категория успешно обновлена:', updatedCategory);
-  //       this.getCategories(); // обновить список категорий
-  //       // this.hideEditCategoryForm();
-  //     },
-  //     error => {
-  //       console.error('Ошибка при обновлении категории:', error);
-  //     }
-  //   );
-  // }
-
 
   // Очистка холста
   clearCanvas() {
@@ -169,8 +148,6 @@ export class BalanceWheelComponent implements OnInit {
     const centerY = this.balanceWheelCanvas.nativeElement.height / 2;
     const radius = 250;
     let innerRadius = radius;  // Радиус внутренних кругов
-
-
 
     //Поиск самой большой суммы баллов среди всех категорий или иначе говоря самой дорогой категории
     let max_point = 0;
@@ -225,7 +202,6 @@ export class BalanceWheelComponent implements OnInit {
       this.ctx.strokeStyle = 'black';
       this.ctx.stroke();
 
-
       // Раскраска сектора в соответствии с кол-вом заработанных баллов и выбранным цветом для каждой категории
       const fillRadX = centerX + Math.cos(currentAngle) * this.wheelData[i].points;
       const fillRadY = centerY + Math.sin(currentAngle) * this.wheelData[i].points;
@@ -239,7 +215,6 @@ export class BalanceWheelComponent implements OnInit {
       this.ctx.fillStyle = this.wheelData[i].color; // Цвет точки
       this.ctx.fill();   
       
-
       // Добавить надпись из JSON файла
       let text = this.wheelData[i].name;
       this.ctx.font = '20px Shantell Sans cursiveSofia';
@@ -277,8 +252,6 @@ export class BalanceWheelComponent implements OnInit {
       }
       this.ctx.save();
       
-        
-      
       for (let i = 0; i < text.length; i++) {
           this.ctx.save(); 
           const k = text.length/2;
@@ -299,8 +272,6 @@ export class BalanceWheelComponent implements OnInit {
           this.ctx.fillText(text[i], 0, 0);
           this.ctx.restore(); 
       }
-  
     }
   }
-
 }
