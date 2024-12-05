@@ -216,7 +216,7 @@ export class HomeComponent implements OnInit{
               if (tasks && tasks.length > 0) {
                   // const firstTaskId = tasks[0].id;
                   // this.getCategories(firstTaskId);
-                  this.getCategories();
+                  this.getActiveCategories();
                   break;
               }
           }
@@ -227,7 +227,7 @@ export class HomeComponent implements OnInit{
     this.getPlans();
   }
   
-  getCategories(): void {
+  getActiveCategories(): void {
     this.categoryService.getActiveCategories().subscribe((res: ICategory[]) => { 
       console.log(res);
       this.categories = res;
