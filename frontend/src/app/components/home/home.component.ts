@@ -14,6 +14,7 @@ import { retry } from 'rxjs/operators';
 import { repeatWhen, delay } from 'rxjs/operators';
 import { EMPTY, timer } from 'rxjs';
 import { CategoryService } from 'src/app/services/category.service';
+import { PlanService } from 'src/app/services/plan.service';
 
 
 @Component({
@@ -81,7 +82,8 @@ export class HomeComponent implements OnInit{
   constructor(private taskService: TaskService, 
     private datePipe: DatePipe, private http: HttpClient,
     @Inject(DataService) private readonly dataService: DataService,
-    private categoryService: CategoryService) {
+    private categoryService: CategoryService,
+    private planService: PlanService) {
 
     // джава скрипт для создания задачи
     this.myScriptElement = document.createElement("script");
@@ -90,7 +92,7 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    console.log("Инициализация страницы");
+    // console.log("Инициализация страницы");
     this.currentDate = new Date();
     this.formatDateForData();
     this.updateDatesForTitle(this.dates.clicked);
@@ -227,6 +229,7 @@ export class HomeComponent implements OnInit{
     this.getPlans();
   }
   
+  // получение АКТИВНЫХ категорий
   getActiveCategories(): void {
     this.categoryService.getActiveCategories().subscribe((res: ICategory[]) => { 
       console.log(res);
@@ -235,10 +238,16 @@ export class HomeComponent implements OnInit{
     });
   }
 
+  // Получить АКТИВНЫЕ планы
   getPlans(): void {
-    this.http.get<IPlan[]>('http://localhost:8080/assistant/api/plans').subscribe((res: IPlan[]) => {
-      this.plans = res;
-      console.log("", this.plans);
+    this.planService.getPlansByStatus(0).subscribe({
+      next: (activePlans) => {
+        this.plans = activePlans;
+        // console.log('Active Plans:', activePlans);
+      },
+      error: (err) => {
+        console.error('Error fetching active plans:', err);
+      },
     });
   }
 
@@ -409,6 +418,13 @@ export class HomeComponent implements OnInit{
       // this.belongsPlan = "choose"; // пока нет этого в бекенде
 
     });
+  }
+
+  // адаптивная высота поля заметки
+  adjustHeight(event: Event): void {
+    const textarea = event.target as HTMLTextAreaElement;
+    textarea.style.height = 'auto'; // Сброс высоты
+    textarea.style.height = `${textarea.scrollHeight}px`; // Установка новой высоты
   }
 
 }  
