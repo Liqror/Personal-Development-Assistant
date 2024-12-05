@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IPlanFull, INewPlan, IUpdatePlan } from '../interfaces/plan';
+import { IPlan, IPlanCreate, IPlanUpdate } from '../interfaces/plan';
 
 
 @Injectable({
@@ -14,25 +14,25 @@ export class PlanService {
   constructor(private http: HttpClient) {}
 
   // Получить все планы
-  getPlans(): Observable<IPlanFull[]> {
+  getPlans(): Observable<IPlan[]> {
     const fullPlansUrl = `${this.plansApiUrl}full`;
-    return this.http.get<IPlanFull[]>(fullPlansUrl);
+    return this.http.get<IPlan[]>(fullPlansUrl);
   }
   
   // Получить активные или архивные планы
-  getPlansByStatus(status: number): Observable<IPlanFull[]> {
+  getPlansByStatus(status: number): Observable<IPlan[]> {
     const url = `${this.plansApiUrl}full?status=${status}`;
-    return this.http.get<IPlanFull[]>(url);
+    return this.http.get<IPlan[]>(url);
   }
 
   // Добавить новый план
-  createPlan(plan: INewPlan): Observable<INewPlan> {
-    return this.http.post<INewPlan>(this.plansApiUrl, plan);
+  createPlan(plan: IPlanCreate): Observable<IPlanCreate> {
+    return this.http.post<IPlanCreate>(this.plansApiUrl, plan);
   }
 
   // Обновить существующий план
-  updatePlan(plan: IUpdatePlan): Observable<IUpdatePlan> {
-    return this.http.put<IUpdatePlan>(this.plansApiUrl, plan);
+  updatePlan(plan: IPlanUpdate): Observable<IPlanUpdate> {
+    return this.http.put<IPlanUpdate>(this.plansApiUrl, plan);
   }
 
   // Удалить план по ID

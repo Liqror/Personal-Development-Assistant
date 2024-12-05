@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IPlanFull, INewPlan, IUpdatePlan } from "../../interfaces/plan";
+import { IPlan, IPlanCreate, IPlanUpdate } from "../../interfaces/plan";
 import { PlanService } from 'src/app/services/plan.service';
 import { ITask } from 'src/app/interfaces/task';
 import {ITaskPage} from "../../interfaces/task-page";
@@ -8,7 +8,6 @@ import {ICategory} from "../../interfaces/category";
 import {ITackCategories} from "../../interfaces/task_categories";
 import { HttpClient } from '@angular/common/http';
 declare function openPlan(): void;
-import { IPlanForCreate } from '../../interfaces/plan';
 import { forkJoin } from 'rxjs';
 
 
@@ -19,10 +18,10 @@ import { forkJoin } from 'rxjs';
 })
 export class PlanComponent {
   myScriptElement: HTMLScriptElement;
-  // plans: IPlanFull[];
+  // plans: IPlan[];
 
-  activePlans: IPlanFull[];
-  archivedPlans: IPlanFull[];
+  activePlans: IPlan[];
+  archivedPlans: IPlan[];
 
   planVisibility: { [key: number]: boolean } = {}; // Объект для отслеживания видимости каждого плана
 
@@ -39,7 +38,7 @@ export class PlanComponent {
 
     this.getPlans();
   }
-  
+
   togglePlanVisibility(planId: number): void {
     this.planVisibility[planId] = !this.planVisibility[planId]; // Переключаем видимость
     console.log(planId, this.planVisibility[planId]);
@@ -81,7 +80,7 @@ export class PlanComponent {
 
   createNewPlan(): void {
     if (this.newPlanTitle != "") {
-      const newPlan: INewPlan = {
+      const newPlan: IPlanCreate = {
         user_id: 1,
         name: this.newPlanTitle,
         details: this.newPlanDetails,
@@ -97,10 +96,10 @@ export class PlanComponent {
     }
   }
 
-  updatePlan(plan: IPlanFull): void {
+  updatePlan(plan: IPlan): void {
     // нужно передать только часть полученных данных
-    // поэтому создаем объект IUpdatePlan из IPlanFull
-    const updatedPlan: IUpdatePlan = {
+    // поэтому создаем объект IUpdatePlan из IPlan
+    const updatedPlan: IPlanUpdate = {
       id: plan.id,
       user_id: plan.user_id,
       name: plan.name,

@@ -1,4 +1,4 @@
-import { IPlanAll } from "./plan";
+import { IPlan } from "./plan";
 
 export interface IFullTaskPage {
     id: number;
@@ -16,5 +16,5 @@ export interface IFullTaskPage {
     task_category: {
         id: number;
     };
-    plan: IPlanAll | null;
+    plan: IPlan | null;
 }

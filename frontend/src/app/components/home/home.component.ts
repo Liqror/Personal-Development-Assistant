@@ -9,7 +9,7 @@ import {ICategory} from "../../interfaces/category";
 import {ITackCategories} from "../../interfaces/task_categories";
 import { DataService } from "../../services/data.service";
 import { Subscription } from 'rxjs';
-import { IPlan, IPlanAll } from 'src/app/interfaces/plan';
+import { IPlan } from 'src/app/interfaces/plan';
 import { retry } from 'rxjs/operators';
 import { repeatWhen, delay } from 'rxjs/operators';
 import { EMPTY, timer } from 'rxjs';
@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit{
   taskCategory: number;
   belongsPlan: string | number = "choose";
   planId: number;
-  taskPlan: IPlanAll | null;
+  taskPlan: IPlan | null;
 
   // для просмотра и удаления задачи
   taskId: number = -1;
@@ -61,7 +61,7 @@ export class HomeComponent implements OnInit{
   currentDate: Date;
   data: IHomeData;
   categories: ICategory[];
-  plans: IPlanAll[];
+  plans: IPlan[];
 
   isDateClicked: boolean = false;
 
@@ -236,13 +236,13 @@ export class HomeComponent implements OnInit{
   }
 
   getPlans(): void {
-    this.http.get<IPlanAll[]>('http://localhost:8080/assistant/api/plans').subscribe((res: IPlanAll[]) => {
+    this.http.get<IPlan[]>('http://localhost:8080/assistant/api/plans').subscribe((res: IPlan[]) => {
       this.plans = res;
       console.log("", this.plans);
     });
   }
 
-  getPlanById(id: number): IPlanAll | null {
+  getPlanById(id: number): IPlan | null {
     const foundPlan = this.plans.find(plan => plan.id === id);
     return foundPlan !== undefined ? foundPlan : null;
   }
