@@ -13,10 +13,16 @@ export class PlanService {
 
   constructor(private http: HttpClient) {}
 
-  // Получить все планы. жду пока это изменят в
+  // Получить все планы
   getPlans(): Observable<IPlanFull[]> {
     const fullPlansUrl = `${this.plansApiUrl}full`;
     return this.http.get<IPlanFull[]>(fullPlansUrl);
+  }
+  
+  // Получить активные или архивные планы
+  getPlansByStatus(status: number): Observable<IPlanFull[]> {
+    const url = `${this.plansApiUrl}full?status=${status}`;
+    return this.http.get<IPlanFull[]>(url);
   }
 
   // Добавить новый план

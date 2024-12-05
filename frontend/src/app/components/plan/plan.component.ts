@@ -19,7 +19,11 @@ import { forkJoin } from 'rxjs';
 })
 export class PlanComponent {
   myScriptElement: HTMLScriptElement;
-  plans: IPlanFull[];
+  // plans: IPlanFull[];
+
+  activePlans: IPlanFull[];
+  archivedPlans: IPlanFull[];
+
   planVisibility: { [key: number]: boolean } = {}; // Объект для отслеживания видимости каждого плана
 
   // для создания нового плана
@@ -40,17 +44,36 @@ export class PlanComponent {
   }
 
   getPlans(): void {
-    this.planService.getPlans().subscribe({
-      next: (data) => {
-        this.plans = data;
+    // Получить активные планы
+    this.planService.getPlansByStatus(0).subscribe({
+      next: (activePlans) => {
+        this.activePlans = activePlans;
+        // console.log('Active Plans:', activePlans);
 
         // Инициализируем видимость для каждого плана
-        this.plans.forEach(plan => {
-          this.planVisibility[plan.id] = false; // Все планы по умолчанию скрыты
+        this.activePlans.forEach(activePlans => {
+          this.planVisibility[activePlans.id] = false; // Все планы по умолчанию скрыты
         });
-
       },
-      error: (error) => console.error('Error', error)
+      error: (err) => {
+        console.error('Error fetching active plans:', err);
+      },
+    });
+
+    // Получить архивные планы
+    this.planService.getPlansByStatus(1).subscribe({
+      next: (archivedPlans) => {
+        this.archivedPlans = archivedPlans;
+        // console.log('Archived Plans:', archivedPlans);
+
+        // Инициализируем видимость для каждого плана
+        this.archivedPlans.forEach(archivedPlans => {
+          this.planVisibility[archivedPlans.id] = false; // Все планы по умолчанию скрыты
+        });
+      },
+      error: (err) => {
+        console.error('Error fetching archived plans:', err);
+      },
     });
   }
 

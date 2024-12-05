@@ -62,7 +62,7 @@
             </div>
           </div>        
 
-        <div *ngFor="let plan of plans" class="col-md-11 col-lg-11 mt-md-1 planDiv">
+        <div *ngFor="let plan of activePlans" class="col-md-11 col-lg-11 mt-md-1 planDiv">
           <h5>
             <button (click)="togglePlanVisibility(plan.id)" aria-expanded="false">
               <input type="text" value="{{ plan.name }}" id="planName" class="inputNamePlan" style="width: 90%;"> 
@@ -197,9 +197,9 @@
   <div class="col-md-12 col-lg-12 content-container">
     <div class="row justify-content-center">
 
-  <div *ngFor="let plan of plans" class="col-md-11 col-lg-11 mt-md-1 planDiv" style="background-color: #b1aca7;" id="Plan1">
+  <div *ngFor="let plan of archivedPlans" class="col-md-11 col-lg-11 mt-md-1 planDiv" style="background-color: #b1aca7;" id="Plan1">
           <h5>
-            <button aria-expanded="false">
+            <button (click)="togglePlanVisibility(plan.id)" aria-expanded="false">
 
               <input type="text" value="{{ plan.name }}" id="planName" class="inputNamePlan" style="width: 90%;"> 
 
