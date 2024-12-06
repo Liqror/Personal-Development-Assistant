@@ -17,8 +17,8 @@ export class DiaryService {
     return this.http.get<IDiary[]>(this.apiUrl);
   }
 
-  createDiary(event: IDiaryCreate): Observable<IDiaryCreate> {
-    return this.http.post<IDiaryCreate>(this.apiUrl, event);
+  createDiary(event: IDiaryCreate): Observable<IDiary> {
+    return this.http.post<IDiary>(this.apiUrl, event);
   }
 
   updateDiary(event: IDiary): Observable<IDiary> {

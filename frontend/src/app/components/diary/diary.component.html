@@ -16,14 +16,16 @@
 
         <!-- Секция для записи на сегодня -->
         <div class="col-md-11 col-lg-11 mt-md-2 divDiary" id="divNewDiary">
-          <h2 class="titleDiary">Сегодня ({{ formatDateForDisplay(todayDate) }})</h2>
-      
-          <textarea 
+            <h2 class="titleDiary">Сегодня ({{ formatDateForDisplay(todayDate) }})</h2>
+        
+            <textarea 
             class="textNewDiary"
             [(ngModel)]="diaryEntry"
-            (input)="adjustHeight($event)"
-          ></textarea>
+            (input)="onDiaryInput()"
+            (blur)="onDiaryBlur()"
+            ></textarea>
         </div>
+  
       
         <!-- Секция для остальных записей -->
         <div *ngFor="let diary of diaries" class="col-md-11 col-lg-11 mt-md-2 divDiary" id="divDiary">

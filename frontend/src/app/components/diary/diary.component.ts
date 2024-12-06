@@ -14,22 +14,14 @@ import { formatDate as angularFormatDate } from '@angular/common';
   styleUrls: ['./diary.component.css']
 })
 export class DiaryComponent implements OnInit {
-  // public currentRoute: string;
+
   // это джаваскрипт для изменения расписания
   myScriptElement: HTMLScriptElement;
-
 
   diaries: IDiary[] = []; // Все записи дневника
   todayDiary: IDiary | null = null; // Запись на текущий день или null
   todayDate: string; // Форматированная текущая дата
   diaryEntry: string = ''; // Текст для редактирования записи на текущий день
-
-  newDiary: IDiaryCreate = {
-    text: "",
-    user_id: 1,
-    assigned_day: "",
-  };
-
 
   constructor(private diaryService: DiaryService) {
     // Получение текущей даты в формате YYYY-MM-DD
@@ -65,8 +57,63 @@ export class DiaryComponent implements OnInit {
       }
     });
   }
-  
 
+  // проверка есть ли запись на сегодня
+  onDiaryInput(): void {
+    if (this.todayDiary) {
+      // Если запись на сегодня существует, обновляем её содержимое на сервере
+      this.updateTodayDiary();
+    } else if (this.diaryEntry.trim()) {
+      // Если записи нет, но пользователь начал ввод текста, создаем запись
+      this.createTodayDiary();
+    }
+  }
+
+  // обновление в режиме реального времени
+  onDiaryBlur(): void {
+    if (this.todayDiary) {
+      this.updateTodayDiary();
+    }
+  }
+
+  createTodayDiary(): void {
+    const newDiary: IDiaryCreate = {
+      text: this.diaryEntry,
+      user_id: 1, // Замените ID пользователя на нужный
+      assigned_day: this.todayDate,
+    };
+
+    this.diaryService.createDiary(newDiary).subscribe({
+      next: (createdDiary: IDiary) => {  // тип ответа IDiary
+        this.todayDiary = createdDiary;  // Теперь присваиваем объект типа IDiary
+        // console.log('Новая запись создана:', createdDiary);
+      },
+      error: (error) => {
+        console.error('Ошибка при создании записи:', error);
+      }
+    });
+  }
+
+  updateTodayDiary(): void {
+    if (this.todayDiary) {
+      const updatedDiary: IDiary = {
+        id: this.todayDiary.id, // Обязательно сохраняем id
+        text: this.diaryEntry,  // Новый текст
+        user_id: this.todayDiary.user_id, 
+        assigned_day: this.todayDiary.assigned_day,  
+      };
+
+      this.diaryService.updateDiary(updatedDiary).subscribe({
+        next: (response) => {
+          this.todayDiary = response; // Обновляем локальную запись после успешного обновления
+          // console.log('Запись успешно обновлена:', response);
+        },
+        error: (error) => {
+          console.error('Ошибка при обновлении записи:', error);
+        }
+      });
+    }
+  }
 
   // адаптивная высота поля ввода
   adjustHeight(event: Event): void {
@@ -75,6 +122,7 @@ export class DiaryComponent implements OnInit {
     textarea.style.height = `${textarea.scrollHeight}px`; // Установка высоты в зависимости от содержимого
   }  
 
+  // форматирования вида 2023-12-03 в 3 дек 2023 
   formatDateForDisplay(dateString: string): string {
     const date = new Date(dateString); // Преобразуем строку в объект Date
     const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short', year: 'numeric' };
