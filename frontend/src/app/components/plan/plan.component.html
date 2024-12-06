@@ -8,6 +8,7 @@
 
 <div class="container-fluid" style="background-color: #D4CBC8">
   <div class="row">
+
     <!--Кнопка создания нового плана-->
     <div class="mb-md-4">
       <p style="text-align: end;"> <button onclick="showDivPlan()" class="fixed_button" style="width: auto;">
@@ -16,71 +17,97 @@
       </button></p>
     </div>
 
-
     <div class="col-md-12 col-lg-12 content-container">
       <div class="row justify-content-center">
-        <!-- Здесь будет появляться поле для создания нового плана при нажатии на кнопку -->
+
+        <!-- Поле для создания нового плана -->
         <div id="divPlan" style="display: none; position: flex;" class="col-md-11 col-lg-11 planDiv mt-md-4 mb-md-4">
             <h4>
-              <input [(ngModel)]="newPlanTitle" id="newNamePlan" class="inputNamePlan" type="text" name="objectName" placeholder="Введите название нового плана" style="width: 100%;" />
+              <input [(ngModel)]="newPlan.name" id="newNamePlan" class="inputNamePlan" type="text" name="objectName" placeholder="Введите название нового плана" style="width: 100%;" />
             </h4>
-            <div class="row justify-content-start" style="background-color: #F0F0F0">
-              
-               <div class="row justify-content-center">
-                <div class="col-md-6 col-lg-6">
-                  <br>
-                  <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
-                    ОТ <input type="date" id="datePlan_from" style="width: 70%; background-color: #f0f0f0"> </p>
-                </div>
-                <div class="col-md-6 col-lg-6">
-                  <br>
-                  <p>ДО <input type="date" id="datePlan_to" style="width: 82%; background-color: #f0f0f0"></p>
-                </div> 
+          <div class="row justify-content-start" style="background-color: #F0F0F0">
+            
+            <div class="row justify-content-center">
+              <div class="col-md-6 col-lg-6">
+                <br>
+                <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
+                  ОТ <input [(ngModel)]="newPlan.start_date" type="date" id="datePlan_from" style="width: 70%; background-color: #f0f0f0"> </p>
               </div>
-
-              <div class="row justify-content-center">
-                <textarea [(ngModel)]="newPlanDetails" name="message" id="mess" rows="5" class="form-control md-textarea"
-                type="text" style="color: #595959; height: 130px; width: 90%;"></textarea>
-              </div>
-              <br>
-              <p style="margin-top: 10px;"><button onclick="showDiv()" style="background-color: #FFF; border-radius: 5px;">
-                Добавить задачу к плану</button></p>
-              
-                <div class="row justify-content-center">
-                  <div class="col-md-6 col-lg-6">
-                    <p style="text-align: center"><button (click)="createNewPlan()" id="save-button-plan" class="save" onclick="hideDivPlan()" onclick="checkInputForPlan()" >Сохранить</button><p>
-                  </div>
-                  <div class="col-md-6 col-lg-6">
-                    <p style="text-align: center"><button onclick="hideDivPlan()" id="close-button" class="close">Закрыть</button><p>
-                  </div>
-                </div>
-                <div class="error-massage">
-                  <p id="checkPlanName" style="color: red;"></p> <!-- ЕСЛИ НАЗВАНИЕ ПУСТО, ТО ВЫЛАЗИТ ОШИБКА ПРИ СОХРАНЕНИИ -->
-                  <p id="checkDatePlan" style="color: red;"></p> <!-- ЕСЛИ ДАТА НАЧАЛА БОЛЬШЕ ДАТЫ ОКОНЧАНИЯ ПЛАНА -->
-                </div>
- 
+              <div class="col-md-6 col-lg-6">
+                <br>
+                <p>ДО <input [(ngModel)]="newPlan.stop_date" type="date" id="datePlan_to" style="width: 82%; background-color: #f0f0f0"></p>
+              </div> 
             </div>
+
+            <div class="row justify-content-center">
+              <textarea [(ngModel)]="newPlan.details" name="message" id="mess" rows="5" class="form-control md-textarea"
+              type="text" style="color: #595959; height: 130px; width: 90%;"></textarea>
+            </div>
+            <br>
+            <p style="margin-top: 10px;"><button onclick="showDiv()" style="background-color: #FFF; border-radius: 5px;">
+              Добавить задачу к плану</button></p>
+            
+            <div class="row justify-content-center">
+              <div class="col-md-6 col-lg-6">
+                <p style="text-align: center"><button (click)="createNewPlan()" id="save-button-plan" class="save" onclick="hideDivPlan()" onclick="checkInputForPlan()" >Сохранить</button><p>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <p style="text-align: center"><button onclick="hideDivPlan()" id="close-button" class="close" (click)="cleanForm()">Закрыть</button><p>
+              </div>
+            </div>
+
+            <div class="error-massage">
+              <p id="checkPlanName" style="color: red;"></p> <!-- ЕСЛИ НАЗВАНИЕ ПУСТО, ТО ВЫЛАЗИТ ОШИБКА ПРИ СОХРАНЕНИИ -->
+              <p id="checkDatePlan" style="color: red;"></p> <!-- ЕСЛИ ДАТА НАЧАЛА БОЛЬШЕ ДАТЫ ОКОНЧАНИЯ ПЛАНА -->
+            </div>
+
+          </div>
         </div>        
 
         <div *ngFor="let plan of activePlans" class="col-md-11 col-lg-11 mt-md-1 planDiv">
           <h5>
             <button (click)="togglePlanVisibility(plan.id)" aria-expanded="false">
-              <input type="text" value="{{ plan.name }}" id="planName" class="inputNamePlan" style="width: 90%;"> 
-
+              <input type="text"   
+              [(ngModel)]="plan.name" 
+              (ngModelChange)="updatePlan(plan)"  
+              id="planName" 
+              class="inputNamePlan" 
+              style="width: 90%;"> 
               <button style="width: 3%; padding: 0; padding-right: 10px;">
                 <img src="././assets/image/mark_plan.png" alt="завершить план" style="height: 8"> 
               </button>
             </button>
           </h5>
+
           <div *ngIf="planVisibility[plan.id]" class="row justify-content-start" style="background-color: #F0F0F0">
+
             <div class="row justify-content-center">
+
               <div class="col-md-5 col-lg-5">
                 <p>Баллы: {{plan.done_points}}/{{plan.goal_points}}</p>
               </div>
-              <!-- этого поля пока нет -->
+              
               <div class="col-md-7 col-lg-7">
-                <p style="text-align: end">Срок выполнения: "ДД.ММ.ГГГГ - ДД.ММ.ГГГГ"</p>
+                <p style="text-align: end">
+                  Срок выполнения: 
+                  <input 
+                  type="date" 
+                  [(ngModel)]="plan.start_date" 
+                  (ngModelChange)="updatePlan(plan)" 
+                  class="inputFormPlan" 
+                  style="text-align: center;"
+                >
+                -
+                <input 
+                  type="date" 
+                  [(ngModel)]="plan.stop_date" 
+                  (ngModelChange)="updatePlan(plan)" 
+                  class="inputFormPlan" 
+                  style="text-align: center;"
+                >                
+                </p>
               </div>
+              
             </div>
 
             <div *ngFor="let category of plan.categories" class="row justify-content-start">
@@ -89,15 +116,113 @@
               </div>
             </div> 
 
-            <input type="text" [value]="plan.details" style=" background: none; border-width: 0 0 1px 0; font-size: 100%;">
-            
-            <!-- <div *ngFor="let task of plan.tasks">
+            <input 
+              type="text" 
+              [(ngModel)]="plan.details" 
+              (ngModelChange)="updatePlan(plan)" 
+              style="background: none; border-width: 0 0 1px 0; font-size: 100%;"
+            >
+
+            <div *ngFor="let task of plan.tasks">
               <p><label style="margin-left: 7px;"> 
                 <input class="real_checkbox" type="checkbox">
                 <span class="custom_checkbox"></span>
-                  {{ task.task.name }}
+                  {{ task.name }}
                 </label></p>
-            </div> -->
+            </div>
+          
+            <div class="row justify-content-center">
+              <div class="col-md-6 col-lg-6">
+                <p style="margin-top: 10px;"><button onclick="showDiv()" style="background-color: #FFF; border-radius: 5px;">
+                  Добавить задачу к плану</button></p>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <p style="text-align: end"><button (click)="deletePlan(plan.id)" class="close">
+                  <img src="././assets/image/delete.png" alt="удалить план" style="height: 20px">
+                  Удалить план
+                </button></p>
+              </div>
+            </div> 
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <!--  АРХИВ ПЛАНОВ  -->
+    <h2 style="margin-top: 25px; margin-bottom: 0;">Архив планов</h2>
+    <hr style="margin-right: 100px;">
+
+    <div class="col-md-12 col-lg-12 content-container">
+      <div class="row justify-content-center">
+
+        <div *ngFor="let plan of archivedPlans" class="col-md-11 col-lg-11 mt-md-1 planDiv" style="background-color: #b1aca7;" >
+      
+          <h5>
+            <button (click)="togglePlanVisibility(plan.id)" aria-expanded="false">
+              <input type="text" value="{{ plan.name }}" (ngModelChange)="updatePlan(plan)" id="planName" class="inputNamePlan" style="width: 90%;"> 
+              <button style="width: 3%; padding: 0; padding-right: 10px;">
+                <img src="././assets/image/mark_plan.png" alt="завершить план" style="height: 8"> 
+              </button>
+            </button>
+          </h5>
+
+          <div *ngIf="planVisibility[plan.id]" class="row justify-content-start" style="background-color: #F0F0F0">
+
+            <div class="row justify-content-center">
+
+              <div class="col-md-5 col-lg-5">
+                <p>Баллы: {{plan.done_points}}/{{plan.goal_points}}</p>
+              </div>
+              
+              <div class="col-md-7 col-lg-7">
+                <p style="text-align: end">
+                  Срок выполнения: 
+                  <input 
+                  type="date" 
+                  [(ngModel)]="plan.start_date" 
+                  (ngModelChange)="updatePlan(plan)" 
+                  class="inputFormPlan" 
+                  style="text-align: center;"
+                >
+                -
+                <input 
+                  type="date" 
+                  [(ngModel)]="plan.stop_date" 
+                  (ngModelChange)="updatePlan(plan)" 
+                  class="inputFormPlan" 
+                  style="text-align: center;"
+                >                
+                </p>
+              </div>
+
+            </div>
+
+            <div *ngFor="let category of plan.categories" class="row justify-content-start">
+              <div class="col-md-3 col-lg-3" [style.background-color]="category.color">
+                <p style="vertical-align: center; text-align: center; ">{{ category.title }}</p>
+              </div>
+            </div> 
+
+            <input 
+              type="text" 
+              [(ngModel)]="plan.details" 
+              (ngModelChange)="updatePlan(plan)" 
+              style="background: none; border-width: 0 0 1px 0; font-size: 100%;"
+            >
+
+            <div *ngFor="let task of plan.tasks">
+              <p>
+                <label style="margin-left: 7px;"> 
+                  <input class="real_checkbox" type="checkbox">
+                  <span class="custom_checkbox"></span>
+                    {{ task.name }}
+                </label>
+              </p>
+            </div>
           
             <div class="row justify-content-center">
               <div class="col-md-6 col-lg-6">
@@ -111,283 +236,143 @@
                   Удалить план
                 </button></p>
               </div>
-          </div>            
+            </div>  
+
           </div>
         </div>
-
-
-
-        <!-- это пример -->
-        <!-- <div class="col-md-11 col-lg-11 mt-md-1 planDiv" id="Plan1">
-          <h5>
-            <button aria-expanded="false">
-              План пример для оформнения
-              <svg aria-hidden="true" focusable="false" viewBox="0 0 10 10">
-                <rect class="vert" height="8" width="2" y="1" x="4"/>
-                <rect height="2" width="8" y="4" x="1"/>
-              </svg>
-            </button>
-          </h5>
-          <div hidden class="row justify-content-start" style="background-color: #F0F0F0">
-
-            <div class="row justify-content-center">
-              <div class="col-md-5 col-lg-5">
-                <p>Сумма баллов: "число"</p>
-              </div>
-              <div class="col-md-7 col-lg-7">
-                <p style="text-align: end">Срок выполнения: "ДД.ММ.ГГГГ - ДД.ММ.ГГГГ"</p>
-              </div>
-            </div>
-
-            <div *ngFor="let category of plan.categories" class="row justify-content-start">
-              <div class="col-md-3 col-lg-3" [ngStyle]="{ 'background-color': category.color }">
-                <p style="vertical-align: center; text-align: center; ">{{ category.title }}</p>
-              </div>
-            </div>
-
-            <input type="text" 
-            [(ngModel)]="plan.details" 
-            (blur)="updatePlan(plan)"
-            style=" background: none; border-width: 0 0 1px 0; font-size: 100%;">
-
-            <p><label style="margin-left: 7px;"> 
-              <input class="real_checkbox" type="checkbox">
-              <span class="custom_checkbox"></span>
-                задача 1  
-              </label></p>
-
-              <p><label style="margin-left: 7px;"> 
-                <input class="real_checkbox" type="checkbox">
-                <span class="custom_checkbox"></span>
-                  задача 2  
-              </label></p>
-
-              <p><label style="margin-left: 7px;"> 
-                <input class="real_checkbox" type="checkbox">
-                <span class="custom_checkbox"></span>
-                  задача 3  
-                </label></p>
-
-            <div class="row justify-content-center">
-              <div class="col-md-6 col-lg-6">
-                <p style="margin-top: 10px;"><button onclick="showDiv()" style="background-color: #FFF; border-radius: 5px;">
-                  Добавить задачу к плану</button></p>
-              </div>
-              <div class="col-md-6 col-lg-6">
-                <p style="text-align: end"><button (click)="deletePlan(plan.id)" onclick="deletePlan(document.getElementById('Plan1'))" class="close">
-                  <img src="././assets/image/delete.png" alt="удалить план" style="height: 20px">
-                  Удалить план
-                </button></p>
-              </div>
-            </div>            
-          </div>
-        </div> -->
-
       </div>
     </div>
-
-
-
-
-  <!--  АРХИВ ПЛАНОВ  -->
-  <h2 style="margin-top: 25px; margin-bottom: 0;">Архив планов</h2>
-
-  <hr style="margin-right: 100px;">
-
-  <div class="col-md-12 col-lg-12 content-container">
-    <div class="row justify-content-center">
-
-    <div *ngFor="let plan of archivedPlans" class="col-md-11 col-lg-11 mt-md-1 planDiv" style="background-color: #b1aca7;" >
-  
-      <h5>
-        <button (click)="togglePlanVisibility(plan.id)" aria-expanded="false">
-          <input type="text" value="{{ plan.name }}" id="planName" class="inputNamePlan" style="width: 90%;"> 
-
-          <button style="width: 3%; padding: 0; padding-right: 10px;">
-            <img src="././assets/image/mark_plan.png" alt="завершить план" style="height: 8"> 
-          </button>
-        </button>
-      </h5>
-
-      <div *ngIf="planVisibility[plan.id]" class="row justify-content-start" style="background-color: #F0F0F0">
-
-        <div class="row justify-content-center">
-          <div class="col-md-5 col-lg-5">
-            <p>Баллы: {{plan.done_points}}/{{plan.goal_points}}</p>
-          </div>
-          
-          <div class="col-md-7 col-lg-7">
-            <p style="text-align: end">Срок выполнения: <input type="date" value="ДД.ММ.ГГГГ" id="planTimeFrom" class="inputFormPlan" style="text-align: center;"> - <input type="date" value="ДД.ММ.ГГГГ" id="planTimeTo" class="inputFormPlan" style="text-align: center;"></p>
-          </div>
-        </div>
-
-        <div *ngFor="let category of plan.categories" class="row justify-content-start">
-          <div class="col-md-3 col-lg-3" [style.background-color]="category.color">
-            <p style="vertical-align: center; text-align: center; ">{{ category.title }}</p>
-          </div>
-        </div> 
-
-        <input type="text" [value]="plan.details" class="inputFormPlan">
-<!--             
-        <div *ngFor="let task of plan.tasks">
-          <p><label style="margin-left: 7px;"> 
-            <input class="real_checkbox" type="checkbox">
-            <span class="custom_checkbox"></span>
-              {{ task.task.name }}
-            </label></p>
-        </div> -->
-      
-        <div class="row justify-content-center">
-          <div class="col-md-6 col-lg-6">
-            <p style="margin-top: 10px;"><button onclick="showDiv()" style="background-color: #FFF; border-radius: 5px;">
-              Добавить задачу к плану</button></p>
-          </div>
-          <div class="col-md-6 col-lg-6">
-            <!-- onclick="deletePlan(document.getElementById('Plan1'))" -->
-            <p style="text-align: end"><button (click)="deletePlan(plan.id)" class="close">
-              <img src="././assets/image/delete.png" alt="удалить план" style="height: 20px">
-              Удалить план
-            </button></p>
-          </div>
-      </div>            
-      </div>
-    </div>
-      
-    </div>
-  </div>
-
-
 
   </div>
 </div>
 
 
 
-<!-- Кнопка новой задачи  -->
-<div id="div1" style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
-  <div class="container">
-    <p><input type="text" name="userName" placeholder="Введите название задачи" style="width: 100%" /></p>
-    <div class="row justify-content-center">
+  <!-- Кнопка новой задачи  -->
+  <div id="div1" style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+    <div class="container">
+      <p><input type="text" name="userName" placeholder="Введите название задачи" style="width: 100%" /></p>
+      <div class="row justify-content-center">
 
-      <div class="col-md-6 col-lg-6">
-        <p>
-          <img src="././assets/image/category.png" alt="категория для задачи" style="height: 30px">
-          <select id="category-for-task" name="category" style="width: 80%; background-color: #f0f0f0">
-            <option value="chooth">Выберите категорию</option>
-            <option value="health">здоровье</option>
-            <option value="family">семья</option>
-            <option value="love">отношения</option>
-            <option value="education">образование</option>
-            <option value="career">карьера</option>
-          </select>
-        </p>
-        <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
-          ОТ <input type="datetime-local" id="date_from" style="width: 70%; background-color: #f0f0f0"> </p>
+        <div class="col-md-6 col-lg-6">
+          <p>
+            <img src="././assets/image/category.png" alt="категория для задачи" style="height: 30px">
+            <select id="category-for-task" name="category" style="width: 80%; background-color: #f0f0f0">
+              <option value="chooth">Выберите категорию</option>
+              <option value="health">здоровье</option>
+              <option value="family">семья</option>
+              <option value="love">отношения</option>
+              <option value="education">образование</option>
+              <option value="career">карьера</option>
+            </select>
+          </p>
+          <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
+            ОТ <input type="datetime-local" id="date_from" style="width: 70%; background-color: #f0f0f0"> </p>
+
+        </div>
+        <div class="col-md-6 col-lg-6">
+          <p> <img src="././assets/image/score.png" alt="оценка" style="height: 30px; margin-right: 10px">
+            <input style="width: 80%" type="text" name="userName" id="mark_task" placeholder="Оценка задачи" /> </p>
+          <p>ДО <input type="datetime-local" id="date_to" style="width: 82%; background-color: #f0f0f0"></p>
+        </div>
+        <div class="col-md-12 col-lg-12">
+
+          <p>
+            <img src="././assets/image/plans.png" alt="планы" style="height: 30px; margin-right: 10px">
+            <select id="task-in-plan" name="task-plan" style="width: 90%; background-color: #f0f0f0">
+              <option value="chooth"> Принадлежит плану</option>
+              <option value="plan-no"> нет</option>
+              <option value="plan1">план1</option>
+              <option value="plan2">план2</option>
+              <option value="plan3">план3</option>
+              <option value="plan4">план4</option>
+            </select>
+          </p>
+        </div>
 
       </div>
-      <div class="col-md-6 col-lg-6">
-        <p> <img src="././assets/image/score.png" alt="оценка" style="height: 30px; margin-right: 10px">
-          <input style="width: 80%" type="text" name="userName" id="mark_task" placeholder="Оценка задачи" /> </p>
-        <p>ДО <input type="datetime-local" id="date_to" style="width: 82%; background-color: #f0f0f0"></p>
-      </div>
-      <div class="col-md-12 col-lg-12">
 
-        <p>
-          <img src="././assets/image/plans.png" alt="планы" style="height: 30px; margin-right: 10px">
-          <select id="task-in-plan" name="task-plan" style="width: 90%; background-color: #f0f0f0">
-            <option value="chooth"> Принадлежит плану</option>
-            <option value="plan-no"> нет</option>
-            <option value="plan1">план1</option>
-            <option value="plan2">план2</option>
-            <option value="plan3">план3</option>
-            <option value="plan4">план4</option>
-          </select>
-        </p>
-      </div>
-
-    </div>
-
-    <p>
-      <input type="checkbox" id="chkTest" />
-      <label for="chkTest" style="margin-left: 5px;">Повторяется</label>
-    </p>
-
-    <div id="pnlTest" class="Iseewhencheck">
-
-      <p> Повторяется <input type="text" name="userName" style="width: 15%; margin: 0 3px 0 3px; justify-content: center;" placeholder="кол-во"/>
-        раз в
-        <select id="repeat" name="repeat" style="background-color: #f0f0f0; width: 40%;">
-          <option value="1"> неделю</option>
-          <option value="2"> месяц </option>
-          <option value="3"> год </option>
-        </select>
+      <p>
+        <input type="checkbox" id="chkTest" />
+        <label for="chkTest" style="margin-left: 5px;">Повторяется</label>
       </p>
 
+      <div id="pnlTest" class="Iseewhencheck">
 
-    <div class="row justify-content-start">
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable" id="monday"> ПН </button>
+        <p> Повторяется <input type="text" name="userName" style="width: 15%; margin: 0 3px 0 3px; justify-content: center;" placeholder="кол-во"/>
+          раз в
+          <select id="repeat" name="repeat" style="background-color: #f0f0f0; width: 40%;">
+            <option value="1"> неделю</option>
+            <option value="2"> месяц </option>
+            <option value="3"> год </option>
+          </select>
+        </p>
+
+
+      <div class="row justify-content-start">
+        <div class="col-md-1 col-lg-1">
+          <button class="clickable" id="monday"> ПН </button>
+        </div>
+        <div class="col-md-1 col-lg-1">
+          <button class="clickable" id="tuesday"> ВТ </button>
+        </div>
+
+        <div class="col-md-1 col-lg-1">
+          <button class="clickable" id="wednesday"> СР </button>
+        </div>
+        <div class="col-md-1 col-lg-1">
+          <button class="clickable" id="thursday"> ЧТ </button>
+        </div>
+        <div class="col-md-1 col-lg-1">
+          <button class="clickable" id="friday"> ПТ </button>
+        </div>
+        <div class="col-md-1 col-lg-1">
+          <button class="clickable" id="saturday"> СБ </button>
+        </div>
+        <div class="col-md-1 col-lg-1">
+          <button class="clickable" id="sunday"> ВС </button>
+        </div>
+
       </div>
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable" id="tuesday"> ВТ </button>
+        <p>Заканчивается</p>
+        <div class="param-when-end-task">
+
+            <div style="float: left; width: auto;">
+              <p><input type="radio" id="never-end-task" name="drone" value="never-end-task" checked />
+              <label for="never-end-task">Никогда</label> </p>
+            </div>
+
+            <div style="float: left; width: 30%; margin-left: 15px">
+              <p><input type="radio" id="data-when-end-task" name="drone" value="data-when-end-task" />
+                <label for="data-when-end-task"><input type="datetime-local" id="date_end-task" style="width: 100%; background-color: #f0f0f0"></label> </p>
+            </div>
+
+            <div style="float: left; width: auto">
+              <p><input type="radio" id="how-repeat-task" name="drone" value="how-repeat-task" />
+              <label for="how-repeat-task">После
+                <input style="width: 20%" type="text" name="userName" id="count-repeat-task" placeholder="кол-во" />
+                раз</label> </p>
+            </div>
+
+        </div>
+
+
+
       </div>
 
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable" id="wednesday"> СР </button>
-      </div>
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable" id="thursday"> ЧТ </button>
-      </div>
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable" id="friday"> ПТ </button>
-      </div>
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable" id="saturday"> СБ </button>
-      </div>
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable" id="sunday"> ВС </button>
-      </div>
-
+      <br>
+      <textarea name="message" id="mess" rows="5" class="form-control md-textarea"
+                type="text" style="color: #595959; height: 130px"></textarea>
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-6">
+          <p style="text-align: center"><button onclick="saveTask()" onclick="hideDiv()" id="save-button" class="save">Сохранить</button><p>
+        </div>
+        <div class="col-md-6 col-lg-6">
+          <p style="text-align: center"><button onclick="hideDiv()" id="close-button" class="close">Закрыть</button><p>
+        </div>
     </div>
-      <p>Заканчивается</p>
-      <div class="param-when-end-task">
-
-          <div style="float: left; width: auto;">
-            <p><input type="radio" id="never-end-task" name="drone" value="never-end-task" checked />
-            <label for="never-end-task">Никогда</label> </p>
-          </div>
-
-          <div style="float: left; width: 30%; margin-left: 15px">
-            <p><input type="radio" id="data-when-end-task" name="drone" value="data-when-end-task" />
-              <label for="data-when-end-task"><input type="datetime-local" id="date_end-task" style="width: 100%; background-color: #f0f0f0"></label> </p>
-          </div>
-
-          <div style="float: left; width: auto">
-            <p><input type="radio" id="how-repeat-task" name="drone" value="how-repeat-task" />
-            <label for="how-repeat-task">После
-              <input style="width: 20%" type="text" name="userName" id="count-repeat-task" placeholder="кол-во" />
-              раз</label> </p>
-          </div>
-
-      </div>
-
-
-
-    </div>
-
-    <br>
-    <textarea name="message" id="mess" rows="5" class="form-control md-textarea"
-              type="text" style="color: #595959; height: 130px"></textarea>
-    <div class="row justify-content-center">
-      <div class="col-md-6 col-lg-6">
-        <p style="text-align: center"><button onclick="saveTask()" onclick="hideDiv()" id="save-button" class="save">Сохранить</button><p>
-      </div>
-      <div class="col-md-6 col-lg-6">
-        <p style="text-align: center"><button onclick="hideDiv()" id="close-button" class="close">Закрыть</button><p>
-      </div>
   </div>
-</div>
-</div>
+  </div>
 
 </body>
 <script>

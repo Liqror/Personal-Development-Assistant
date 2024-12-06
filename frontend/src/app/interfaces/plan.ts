@@ -10,6 +10,8 @@ export interface IPlan {
     tasks : ITask[];
     categories: ICategory[],
     user_id: number,
+    start_date: string;
+    stop_date: string;
     goal_points: number,
     done_points: number,
 }
@@ -17,14 +19,16 @@ export interface IPlan {
 export interface IPlanCreate {
     user_id: number;
     name: string;
-    details : string;
+    details: string;
+    start_date: string;
+    stop_date: string;
     status : number;
 }
 
 export interface IPlanUpdate {
-    id: number,
-    user_id: number,
     name: string;
     details : string;
+    start_date: string;
+    stop_date: string;
     status : number;
 }

@@ -18,16 +18,23 @@ import { forkJoin } from 'rxjs';
 })
 export class PlanComponent {
   myScriptElement: HTMLScriptElement;
-  // plans: IPlan[];
 
+  // Получение планов
   activePlans: IPlan[];
   archivedPlans: IPlan[];
 
-  planVisibility: { [key: number]: boolean } = {}; // Объект для отслеживания видимости каждого плана
+  // Объект для отслеживания видимости каждого плана
+  planVisibility: { [key: number]: boolean } = {}; 
 
-  // для создания нового плана
-  newPlanTitle: string;
-  newPlanDetails: string;
+  // Создания нового плана
+  newPlan: IPlanCreate = {
+    user_id: 1,
+    name: "",
+    details: "",
+    start_date: "",
+    stop_date: "",
+    status : 0,
+  }
 
   constructor(private planService: PlanService) {}
 
@@ -39,9 +46,9 @@ export class PlanComponent {
     this.getPlans();
   }
 
+  // открытие/закрытие планов
   togglePlanVisibility(planId: number): void {
     this.planVisibility[planId] = !this.planVisibility[planId]; // Переключаем видимость
-    console.log(planId, this.planVisibility[planId]);
   }
 
   getPlans(): void {
@@ -79,31 +86,26 @@ export class PlanComponent {
   }
 
   createNewPlan(): void {
-    if (this.newPlanTitle != "") {
-      const newPlan: IPlanCreate = {
-        user_id: 1,
-        name: this.newPlanTitle,
-        details: this.newPlanDetails,
-        status : 0,
-      }
+    if (this.newPlan.name != "") {
 
-      this.planService.createPlan(newPlan).subscribe(response => {
-        console.log("Plan added:", response);
+      this.planService.createPlan(this.newPlan).subscribe(response => {
+        // console.log("Plan added:", response);
         this.getPlans();  // Обновить список планов после добавления нового
       }, error => {
         console.error("Error adding plan:", error);
       });
     }
+    this.cleanForm();
   }
 
   updatePlan(plan: IPlan): void {
     // нужно передать только часть полученных данных
-    // поэтому создаем объект IUpdatePlan из IPlan
+    // поэтому создаем объект IPlanUpdate из IPlan
     const updatedPlan: IPlanUpdate = {
-      id: plan.id,
-      user_id: plan.user_id,
       name: plan.name,
       details: plan.details,
+      start_date:  plan.start_date,
+      stop_date: plan.stop_date,
       status: plan.status
     };
 
@@ -129,4 +131,16 @@ export class PlanComponent {
       }
     });
   }
+
+  cleanForm(): void {
+    this.newPlan = {
+      user_id: 1,
+      name: "",
+      details: "",
+      start_date: "",
+      stop_date: "",
+      status : 0,
+    }
+  }
+
 }
