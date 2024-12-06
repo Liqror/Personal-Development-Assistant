@@ -215,13 +215,23 @@
             >
 
             <div *ngFor="let task of plan.tasks">
-              <p>
+
+              <p class="task_see">
+                <label [for]="task.id.toString()" class="labelForTask">
+                    <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [(ngModel)]="task.status" [value]="task.id" (change)="onCheckboxChange($event, task)">
+                    <span class="custom_checkbox" [id]="task.id.toString()"></span>
+                    <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
+                </label>
+              </p>
+
+              <!-- <p>
                 <label style="margin-left: 7px;"> 
                   <input class="real_checkbox" type="checkbox">
                   <span class="custom_checkbox"></span>
                     {{ task.name }}
                 </label>
-              </p>
+              </p> -->
+
             </div>
           
             <div class="row justify-content-center">

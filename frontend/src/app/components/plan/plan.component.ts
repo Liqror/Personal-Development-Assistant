@@ -143,4 +143,55 @@ export class PlanComponent {
     }
   }
 
+  // функция из хом пока заглушка потому что хом в рефакторинге
+  getTaskInfo(event: MouseEvent, taskId: number): void {
+    // event.preventDefault(); // Предотвращаем стандартное действие
+    // this.http.get<IFullTaskPage>(`http://localhost:8080/assistant/api/tasks/${taskId}`).subscribe((taskInfo: IFullTaskPage) => {
+      
+    //   this.isDiv1Visible = true; // Показываем окно
+      
+    //   // Заполляем окно данными
+    //   this.taskId = taskInfo.id;
+    //   this.taskName = taskInfo.name;
+    //   this.taskEstimate = taskInfo.estimate; 
+    //   this.taskDescription = taskInfo.description;
+    //   this.startDate = taskInfo.start_date;
+    //   this.stopDate = taskInfo.stop_date;
+    //   this.startTime = taskInfo.start_time;
+    //   this.stopTime = taskInfo.stop_time;
+    //   this.taskStatus = taskInfo.status;
+
+    //   this.taskCategory = taskInfo.task_category.id;
+    //   // this.belongsPlan = "choose"; // пока нет этого в бекенде
+
+    // });
+  }
+  onCheckboxChange(event: any, task: any) {
+    // if (event.target.checked) {
+    //   this.http.patch('http://localhost:8080/assistant/api/tasks/' + task.id, [
+    //         {
+    //             "op": "replace",
+    //             "path": "/status",
+    //             "value": 1
+    //         }
+    //     ]).subscribe(response => {
+    //         console.log('PATCH-запрос успешно выполнен:', response);
+    //     }, error => {
+    //         console.error('Ошибка при выполнении PATCH-запроса:', error);
+    //     });
+    // } else {
+    //   this.http.patch('http://localhost:8080/assistant/api/tasks/' + task.id, [
+    //         {
+    //             "op": "replace",
+    //             "path": "/status",
+    //             "value": 0
+    //         }
+    //     ]).subscribe(response => {
+    //         console.log('PATCH-запрос успешно выполнен:', response);
+    //     }, error => {
+    //         console.error('Ошибка при выполнении PATCH-запроса:', error);
+    //     });
+    // }
+  }
+
 }
