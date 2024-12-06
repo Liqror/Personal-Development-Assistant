@@ -32,6 +32,7 @@ export class DiaryComponent implements OnInit {
     this.getDiaries();
   }
 
+  // получение и раскладывание по полям всех записей
   getDiaries(): void {
     this.diaryService.getDiary().subscribe({
       next: (diaries) => {
@@ -76,6 +77,7 @@ export class DiaryComponent implements OnInit {
     }
   }
 
+  // создание записи на сегодня
   createTodayDiary(): void {
     const newDiary: IDiaryCreate = {
       text: this.diaryEntry,
@@ -94,6 +96,7 @@ export class DiaryComponent implements OnInit {
     });
   }
 
+  // одновление записи на сегодня
   updateTodayDiary(): void {
     if (this.todayDiary) {
       const updatedDiary: IDiary = {
