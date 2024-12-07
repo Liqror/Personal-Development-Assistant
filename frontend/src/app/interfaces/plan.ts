@@ -26,6 +26,8 @@ export interface IPlanCreate {
 }
 
 export interface IPlanUpdate {
+    id: number;
+    user_id: number;
     name: string;
     details : string;
     start_date: string;

@@ -102,6 +102,8 @@ export class PlanComponent {
     // нужно передать только часть полученных данных
     // поэтому создаем объект IPlanUpdate из IPlan
     const updatedPlan: IPlanUpdate = {
+      id: plan.id,
+      user_id: plan.user_id,
       name: plan.name,
       details: plan.details,
       start_date:  plan.start_date,
@@ -112,7 +114,7 @@ export class PlanComponent {
     // Вызываем метод сервиса для обновления
     this.planService.updatePlan(updatedPlan).subscribe({
       next: (response) => {
-        console.log('План обновлен успешно:', response);
+        // console.log('План обновлен успешно:', response);
       },
       error: (error) => {
         console.error('Ошибка при обновлении плана:', error);
