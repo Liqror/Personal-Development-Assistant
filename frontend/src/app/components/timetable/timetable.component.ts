@@ -20,8 +20,17 @@ export class TimetableComponent implements OnInit {
   timetable: ITimetable;
   daysOfWeek: string[] = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
   
-  newEvent: IEventCreate;
-  formEvent: IEvent;
+  // newEvent: IEventCreate;
+  formEvent: IEventCreate = {
+    user_id: 1,
+    week_num: 0,
+    day_of_week: -1,
+    name: '',
+    place: '',
+    format: '',
+    start_time: '',
+    stop_time: '',
+  };
 
   // для редактирования события
   eventBeingEdited: IEvent | null = null;
@@ -115,4 +124,7 @@ export class TimetableComponent implements OnInit {
     this.formEvent = event;
   }
    
+  createOrUpdateEvent(event: IEvent | IEventCreate): void {
+
+  }
 }

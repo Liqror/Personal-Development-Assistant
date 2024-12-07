@@ -34,7 +34,7 @@ export interface IEventCreate {
     user_id: number;
     week_num: number;
     day_of_week: number;
-    event_name: string;
+    name: string;
     place: string;
     format: string;
     start_time: string;
