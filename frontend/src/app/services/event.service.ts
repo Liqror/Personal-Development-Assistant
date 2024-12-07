@@ -13,7 +13,7 @@ export class EventService {
 
   constructor(private http: HttpClient) { }
 
-  getEvents(): Observable<ITimetable> {
+  getTimetable(): Observable<ITimetable> {
     return this.http.get<ITimetable>(this.apiUrl);
   }
 
@@ -23,6 +23,10 @@ export class EventService {
 
   updateEvent(event: ITimetable): Observable<ITimetable> {
     return this.http.put<ITimetable>(this.apiUrl, event);
+  }
+
+  deleteEvent(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}${id}`);
   }
 
 }
