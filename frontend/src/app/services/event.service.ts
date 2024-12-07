@@ -13,16 +13,19 @@ export class EventService {
 
   constructor(private http: HttpClient) { }
 
+  // Получение расписания
   getTimetable(): Observable<ITimetable> {
     return this.http.get<ITimetable>(this.apiUrl);
   }
 
-  createEvent(event: IEventCreate): Observable<IEvent> {
-    return this.http.post<IEvent>(this.apiUrl, event);
+  // Создание нового события
+  createEvent(event: IEventCreate): Observable<IEventCreate> {
+    return this.http.post<IEventCreate>(this.apiUrl, event);
   }
 
-  updateEvent(event: ITimetable): Observable<ITimetable> {
-    return this.http.put<ITimetable>(this.apiUrl, event);
+  // Обновление события
+  updateEvent(event: IEvent): Observable<IEvent> {
+    return this.http.put<IEvent>(this.apiUrl, event);
   }
 
   deleteEvent(id: number): Observable<any> {

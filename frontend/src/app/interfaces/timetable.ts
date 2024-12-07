@@ -1,16 +1,16 @@
-export interface IEventForTimetable {
-    id: number;
-    name: string;
-    place: string;
-    format: string;
-    start_time: string;
-    stop_time: string;
-}
+// export interface IEventForTimetable {
+//     id: number;
+//     name: string;
+//     place: string;
+//     format: string;
+//     start_time: string;
+//     stop_time: string;
+// }
   
 export interface IDay {
     day_by_num_order: number;
-    odd_week: IEventForTimetable[] | null;
-    even_week: IEventForTimetable[] | null;
+    odd_week: IEvent[] | null;
+    even_week: IEvent[] | null;
 }
   
 export interface ITimetable {
@@ -23,7 +23,7 @@ export interface IEvent {
     user_id: number;
     week_num: number;
     day_of_week: number;
-    event_name: string;
+    name: string;
     place: string;
     format: string;
     start_time: string;

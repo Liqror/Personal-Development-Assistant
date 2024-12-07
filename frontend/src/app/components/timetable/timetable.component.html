@@ -47,7 +47,7 @@
                       <td *ngIf="!event.odd">—</td>
       
                       <!-- Событие для нечетной недели -->
-                      <td *ngIf="event.odd" onclick="showDiv()">
+                      <td *ngIf="event.odd" onclick="showDiv()" (click)="fillForm(event.odd)">
                         {{ event.odd.name }}  
                         <p class="text-table-subj">{{ event.odd.place }}</p> 
                         <p class="text-table-subj">{{ event.odd.format }}</p>
@@ -59,7 +59,7 @@
                       <td *ngIf="!event.even">—</td>
       
                       <!-- Событие для четной недели -->
-                      <td *ngIf="event.even" onclick="showDiv()">
+                      <td *ngIf="event.even" onclick="showDiv()" (click)="fillForm(event.even)">
                         {{ event.even.name }}  
                         <p class="text-table-subj">{{ event.even.place }}</p> 
                         <p class="text-table-subj">{{ event.even.format }}</p>
@@ -164,6 +164,83 @@
 
   </div>
 </div>
+
+<!-- <div id="div1" style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+  <div class="container">
+    <p><input [(ngModel)]="newEvent.event_name" id="objectName" type="text" name="objectName" placeholder="Название предмета" style="width: 100%" /></p>
+    <p><input [(ngModel)]="newEvent.place" id="objectsPlace" type="text" name="objectsPlace" placeholder="Место/ссылка" style="width: 100%" /></p>
+
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-6">
+        <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
+          ОТ <input type="time" [(ngModel)]="newEvent.start_time" id="time_from_tt" style="width: 70%; background-color: #f0f0f0"> </p>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <p>ДО <input type="time" [(ngModel)]="newEvent.stop_time" id="time_to_tt" style="width: 82%; background-color: #f0f0f0"></p>
+      </div>
+    </div>
+    
+    
+    <form style="justify-content: left; display: flex;">
+      <label for="formatSubj">Формат занятия:</label>
+      <select [(ngModel)]="newEvent.format" id="formatSubj" name="formatSubj" class="selectSubj">
+        <option value="online" class="optionSubj">Онлайн</option>
+        <option value="offline">Очно</option>
+      </select>
+    </form>
+
+
+    <form style="justify-content: left; display: flex;">
+      <label for="repeatSubj">Повтор занятия:</label>
+      <select id="repeatSubj" name="repeatSubj" class="selectSubj">
+        <option value="online" class="optionSubj">Каждую неделю</option>
+        <option value="offline" class="optionSubj">Четную неделю</option>
+        <option value="online" class="optionSubj">Нечетную неделю</option>
+      </select>
+    </form>
+
+    <div class="row" style="justify-content: space-between; width: 90%; ">
+      <div class="col-md-1 col-lg-1">
+        <button (click)="setDayOfWeek(0)"  class="clickable2" id="monday"> ПН </button>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <button (click)="setDayOfWeek(1)" class="clickable2" id="tuesday"> ВТ </button>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <button (click)="setDayOfWeek(2)" class="clickable2" id="wednesday"> СР </button>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <button (click)="setDayOfWeek(3)" class="clickable2" id="thursday"> ЧТ </button>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <button (click)="setDayOfWeek(4)" class="clickable2" id="friday"> ПТ </button>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <button (click)="setDayOfWeek(5)" class="clickable2" id="saturday"> СБ </button>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <button (click)="setDayOfWeek(6)" class="clickable2" id="sunday"> ВС </button>
+      </div>
+    </div>
+
+    <br>
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-6">
+        <p style="text-align: center"><button (click)="saveEvent()" onclick="saveObject()" onclick="hideDiv()" onclick="checkInputForTimetable()" id="save-button-new-obj" class="save">Сохранить</button><p>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <p style="text-align: center"><button onclick="hideDiv()" id="close-button" class="close">Удалить</button><p>
+      </div>
+    </div> -->
+
+    <div class="error-massage">
+      <p id="checkObjName" style="color: red; margin: 0;"></p> <!-- ЕСЛИ ОЦЕНКА ЗАДАЧИ НЕ В ДИАПАЗОНЕ [1, 100], ТО ВЫЛАЗИТ ОШИБКА ПРИ СОХРАНЕНИИ-->
+      <p id="checkPlace" style="color: red; margin: 0;"></p> <!-- ЕСЛИ НАЗВАНИЕ ПУСТО, ТО ВЫЛАЗИТ ОШИБКА ПРИ СОХРАНЕНИИ-->
+      <p id="checkTimeTT" style="color: red; margin: 0;"></p> <!-- -->
+    </div>
+
+  <!-- </div>
+</div> -->
 
 </body>
 <script>

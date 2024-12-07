@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
-import { ITimetable, IEventCreate, IEventForTimetable } from 'src/app/interfaces/timetable';
+import { ITimetable, IEventCreate, IEvent } from 'src/app/interfaces/timetable';
 import { EventService } from 'src/app/services/event.service';
 
 
@@ -12,12 +12,19 @@ import { EventService } from 'src/app/services/event.service';
   styleUrls: ['./timetable.component.css']
 })
 export class TimetableComponent implements OnInit {
-  public currentRoute: string;
+
   // это джаваскрипт для изменения расписания
   myScriptElement: HTMLScriptElement;
 
+  // все расписание
   timetable: ITimetable;
   daysOfWeek: string[] = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+  
+  newEvent: IEventCreate;
+  formEvent: IEvent;
+
+  // для редактирования события
+  eventBeingEdited: IEvent | null = null;
 
   constructor(private eventService: EventService) {
     // джава скрипт для изменения расписания
@@ -27,24 +34,53 @@ export class TimetableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getEvents();
+    this.getTimetable();
   }
 
-  getEvents(): void {
+  // получение всего расписания
+  getTimetable(): void {
     this.eventService.getTimetable().subscribe({
       next: (data) => {
-        this.timetable = data;
+        // this.timetable = data; - я бы хотела воспользоваться этим но не судьба
+        this.timetable = this.trimEventTimes(data);
         // console.log(this.events);
       },
       error: (error) => console.error('Error ', error)
     });
   }
+  // Обрезает секунды у start_time и stop_time для всех событий расписания
+  trimEventTimes(timetable: ITimetable): ITimetable {
+    return {
+      ...timetable,
+      days: timetable.days.map(day => ({
+        ...day,
+        odd_week: day.odd_week 
+          ? day.odd_week.map(event => ({
+              ...event,
+              start_time: this.trimSeconds(event.start_time),
+              stop_time: this.trimSeconds(event.stop_time)
+            })) 
+          : null,
+        even_week: day.even_week 
+          ? day.even_week.map(event => ({
+              ...event,
+              start_time: this.trimSeconds(event.start_time),
+              stop_time: this.trimSeconds(event.stop_time)
+            })) 
+          : null
+      }))
+    };
+  }
+  // Убирает секунды из времени (формат HH:MM:SS -> HH:MM)
+  trimSeconds(time: string): string {
+    return time.split(':').slice(0, 2).join(':');
+  }
 
   // Объединяет события для нечетной и четной недель по времени.
   // В результате мы получаем список пар событий с одинаковым временем для нечетной и четной недели.
   // Если для одной недели событие отсутствует, то оно будет отображаться отдельно.
-  getCombinedEvents(oddWeek: IEventForTimetable[] | null, evenWeek: IEventForTimetable[] | null): 
-    { odd: IEventForTimetable | null, even: IEventForTimetable | null }[] {
+  getCombinedEvents(oddWeek: IEvent[] | null, evenWeek: IEvent[] | null): 
+    { odd: IEvent | null, even: IEvent | null }[] {
 
     const oddEvents = oddWeek || [];
     const evenEvents = evenWeek || [];
@@ -68,42 +104,15 @@ export class TimetableComponent implements OnInit {
 
     return combinedEvents;
   }
-
-  // метод для удаления события
-  deleteEvent(eventId: number, index: number): void {
-    this.eventService.deleteEvent(eventId).subscribe({
-      next: () => {
-        this.getEvents(); // Перезагружаем расписание после удаления
-      },
-      error: (error) => console.error('Ошибка при удалении события:', error)
-    });
-  }
-
   
   // Метод для получения текстового названия дня недели по номеру
   getDayOfWeek(dayNum: number): string {
     return this.daysOfWeek[dayNum] || 'Неизвестный день';
   }
 
-  createEvent() {
-    const newEvent: IEventCreate = {
-      user_id: 1,
-      week_num: 2,
-      day_of_week: 3,
-      event_name: "чт чет",
-      place: "место",
-      format: "offline",
-      start_time: "13:00",
-      stop_time: "13:13",
-    }
-
-    this.eventService.createEvent(newEvent).subscribe(response => {
-      console.log("Added:", newEvent);
-      // this.getEvents();  // Обновить список планов после добавления нового
-    }, error => {
-      console.log(newEvent);
-      console.error("Error", error);
-    });
-  } 
-
+  fillForm(event: IEvent): void {
+    console.log(event);
+    this.formEvent = event;
+  }
+   
 }
