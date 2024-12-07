@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {IHomeData} from "../../interfaces/home";
 import {DatePipe} from "@angular/common";
 import { TaskService } from "../../services/task.service"
@@ -193,7 +193,10 @@ export class HomeComponent implements OnInit{
     }
   }
 
-  getHomeData(date: string): void {    
+  
+  getHomeData(date: string): void {
+    //let headers = new HttpHeaders().set('ngrok-skip-browser-warning', 'true');    
+    //this.http.get<IHomeData>('https://opossum-viable-hopefully.ngrok-free.app/assistant/api/' + date, {headers: headers})
     this.http.get<IHomeData>('http://localhost:8080/assistant/api/' + date)
       .pipe(
           repeatWhen(() => timer(1000)) // Повторять запрос каждую секунду, пока не получены данные
