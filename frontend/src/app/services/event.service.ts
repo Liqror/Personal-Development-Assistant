@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ITimetable, INewEvent } from '../interfaces/timetable';
+import { ITimetable, IEventCreate, IEvent } from '../interfaces/timetable';
 
 
 @Injectable({
@@ -17,8 +17,8 @@ export class EventService {
     return this.http.get<ITimetable>(this.apiUrl);
   }
 
-  createEvent(event: INewEvent): Observable<INewEvent> {
-    return this.http.post<INewEvent>(this.apiUrl, event);
+  createEvent(event: IEventCreate): Observable<IEvent> {
+    return this.http.post<IEvent>(this.apiUrl, event);
   }
 
   updateEvent(event: ITimetable): Observable<ITimetable> {

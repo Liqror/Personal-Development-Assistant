@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {DatePipe} from "@angular/common";
-import {HttpClient} from "@angular/common/http";
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
-import { ITimetable, INewEvent } from 'src/app/interfaces/timetable';
+import { Component, OnInit } from '@angular/core';
+import { DatePipe } from "@angular/common";
+import { HttpClient } from "@angular/common/http";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import { ITimetable, IEventCreate } from 'src/app/interfaces/timetable';
 import { EventService } from 'src/app/services/event.service';
 
 
@@ -34,7 +34,7 @@ export class TimetableComponent implements OnInit {
     this.eventService.getEvents().subscribe({
       next: (data) => {
         this.events = data;
-        console.log(this.events);
+        // console.log(this.events);
       },
       error: (error) => console.error('Error ', error)
     });
@@ -46,7 +46,7 @@ export class TimetableComponent implements OnInit {
   }
 
   createEvent() {
-    const newEvent: INewEvent = {
+    const newEvent: IEventCreate = {
       user_id: 1,
       week_num: 1,
       day_of_week: 0,
