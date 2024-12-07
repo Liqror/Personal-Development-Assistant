@@ -1,5 +1,6 @@
 import {ICategory} from "./category";
 
+
 export interface ITackCategories {
     id: number;
     name: string;

@@ -1,10 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import {IWheel, IWheelData} from "../../interfaces/wheel";
-import {ICategory, ICategoryForCreate} from "../../interfaces/category"
-import {HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
+import { IWheel } from "../../interfaces/wheel";
+import { ICategory, ICategoryForCreate } from "../../interfaces/category"
+import { HttpClient } from "@angular/common/http";
 import { CategoryService } from 'src/app/services/category.service';
-import { tap, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
 
 
 @Component({
@@ -15,10 +13,10 @@ import { of } from 'rxjs';
 })
 export class BalanceWheelComponent implements OnInit {
 
-  wheelData: IWheel[];
+  // получение всех существующих категорий
   categories: ICategory[];
   
-  // для создания новой категории
+  // создание новой категории
   newCategory: ICategoryForCreate = {
     user_id: 1,
     title: '',
@@ -26,13 +24,14 @@ export class BalanceWheelComponent implements OnInit {
     active: true
   };
 
-  // для создания новой категории
+  // для изменения категории
   changeCategory: ICategory;
 
-  // для редактирования
-  // title: string;
-  // color: string;
+  // для выбора редактирования или создания
   categoryHaveId: boolean = false;
+
+  // данные для заполнения колеса баланса
+  wheelData: IWheel[];
 
   // для получения колеса баланса
   start: string = "";
@@ -49,48 +48,65 @@ export class BalanceWheelComponent implements OnInit {
     this.ctx = this.balanceWheelCanvas.nativeElement.getContext('2d');
   }
 
+  // получение категорий
   getCategories(): void {
-    this.categoryService.getCategories().subscribe((res: ICategory[]) => { 
+    this.categoryService.getAllCategories().subscribe((res: ICategory[]) => { 
       this.categories = res;
       // console.log(res);
     });
   }
 
+  // создание/обновление категори
   createOrUpdateCategory(): void {
     if (this.newCategory.title != "") {
+
       if (!this.categoryHaveId) {
-        console.log("открыта для создания")
-        // Вызовите сервис для создания новой категории и передайте новую категорию
+        // console.log("открыта для создания")
+        
         this.categoryService.createCategory(this.newCategory).subscribe(
           createdCategory => {
-            console.log('Категория успешно создана:', createdCategory);
+            // console.log('Категория успешно создана:', createdCategory);
+            this.getCategories();
           },
           error => {
             console.error('Ошибка при создании категории:', error);
           }
         );
+
       } else {
-        console.log("открыта для редактирования");
+        // console.log("открыта для редактирования");
 
         this.changeCategory.title = this.newCategory.title;
         this.changeCategory.color = this.newCategory.color;
 
         this.categoryService.updateCategory(this.changeCategory).subscribe(updatedCategory => {
-          console.log('Категория успешно обновлена:', updatedCategory);
+          // console.log('Категория успешно обновлена:', updatedCategory);
         }, error => {
             console.error('Ошибка при обновлении категории:', error);
         });
+
       }
-      
     }
+    this.clearForm();
   }
 
+  // очистка формы после создания/редактирования
+  clearForm(): void {
+    this.newCategory = {
+      user_id: 1,
+      title: '',
+      color: '',
+      active: true
+    };
+  }
+
+  // выбор режима редактирование/создание
   changeFlag(): void {
     this.categoryHaveId = false;
   }
 
-  // заполнение формы редактирования
-  click(category: ICategory): void {
+  // заполнение формы для редактирования категории
+  fillForm(category: ICategory): void {
     this.categoryHaveId = true;
     // для заполения формы
     this.newCategory.title = category.title;
@@ -99,24 +115,24 @@ export class BalanceWheelComponent implements OnInit {
     this.changeCategory = category;
   }
 
-  // это пока работает только с галочками, нужно чтоб работало с названием и цветом
+  // смена статуса антивности у категории
   updateCategoryTick(category: ICategory): void {
     this.categoryService.updateCategory(category).subscribe(updatedCategory => {
-        console.log('Категория успешно обновлена:', updatedCategory);
+        // console.log('Категория успешно обновлена:', updatedCategory);
     }, error => {
         console.error('Ошибка при обновлении категории:', error);
     });
   }
 
+  // получение данных для построения колеса баланса
   getWheel(): void {
-    console.log("даты??",this.start, this.stop);
+    // console.log("даты??",this.start, this.stop);
     if (this.start != "" && this.stop != "") {
       const url = 'http://localhost:8080/assistant/api/wheel';
       const data = {
         start_date: this.start,
         end_date: this.stop
       };
-
       this.http.post<any>(url, data).subscribe(
         (response) => {
           // Обработка ответа здесь, например, сохранение в переменную res
@@ -131,22 +147,6 @@ export class BalanceWheelComponent implements OnInit {
       );
     }
   }
-
-
-  // открыть категорию для редактирования
-  // saveCategoryChanges(): void {
-  //   this.categoryService.updateCategory(this.changeCategory).subscribe(
-  //     updatedCategory => {
-  //       console.log('Категория успешно обновлена:', updatedCategory);
-  //       this.getCategories(); // обновить список категорий
-  //       // this.hideEditCategoryForm();
-  //     },
-  //     error => {
-  //       console.error('Ошибка при обновлении категории:', error);
-  //     }
-  //   );
-  // }
-
 
   // Очистка холста
   clearCanvas() {
@@ -169,8 +169,6 @@ export class BalanceWheelComponent implements OnInit {
     const centerY = this.balanceWheelCanvas.nativeElement.height / 2;
     const radius = 250;
     let innerRadius = radius;  // Радиус внутренних кругов
-
-
 
     //Поиск самой большой суммы баллов среди всех категорий или иначе говоря самой дорогой категории
     let max_point = 0;
@@ -225,7 +223,6 @@ export class BalanceWheelComponent implements OnInit {
       this.ctx.strokeStyle = 'black';
       this.ctx.stroke();
 
-
       // Раскраска сектора в соответствии с кол-вом заработанных баллов и выбранным цветом для каждой категории
       const fillRadX = centerX + Math.cos(currentAngle) * this.wheelData[i].points;
       const fillRadY = centerY + Math.sin(currentAngle) * this.wheelData[i].points;
@@ -239,7 +236,6 @@ export class BalanceWheelComponent implements OnInit {
       this.ctx.fillStyle = this.wheelData[i].color; // Цвет точки
       this.ctx.fill();   
       
-
       // Добавить надпись из JSON файла
       let text = this.wheelData[i].name;
       this.ctx.font = '20px Shantell Sans cursiveSofia';
@@ -277,8 +273,6 @@ export class BalanceWheelComponent implements OnInit {
       }
       this.ctx.save();
       
-        
-      
       for (let i = 0; i < text.length; i++) {
           this.ctx.save(); 
           const k = text.length/2;
@@ -299,8 +293,6 @@ export class BalanceWheelComponent implements OnInit {
           this.ctx.fillText(text[i], 0, 0);
           this.ctx.restore(); 
       }
-  
     }
   }
-
 }

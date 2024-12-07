@@ -21,7 +21,7 @@
     </button></p>
     <div class="col-md-12 col-lg-12 content-container">
       <h1>Расписание занятий</h1>
-      <table class="table" *ngFor="let day of timetable?.days">
+      <table class="table" *ngFor="let day of events?.days">
         <thead>
           <tr>
             <th class="weekDays">{{ getDayOfWeek(day.day_by_num_order) }}</th>
@@ -43,9 +43,15 @@
                   <ng-container *ngIf="day.odd_week || day.even_week">
                     <tr class="another" *ngFor="let event of day.odd_week || day.even_week">
                       <td>{{ event.start_time }} - {{ event.stop_time }}</td>
-                      <td>{{ event.name }} <button onclick="deleteElement(this)" style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+                      <td onclick="showDiv()">{{ event.name }}  
+                        <!-- <button onclick="deleteElement(this)" style="border: none;">
+                          <img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button>  -->
+                          <p class="text-table-subj"> {{ event.place }} </p> 
+                        <p class="text-table-subj"> {{ event.format}}  </p>
+                      </td>
+
                       <td>{{ event.start_time }} - {{ event.stop_time }}</td>
-                      <td>{{ event.name }} <button onclick="deleteElement(this)"  style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button></td>
+                      <td onclick="showDiv()">{{ event.name }} <button onclick="deleteElement(this)"  style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button> <p class="text-table-subj"> {{ event.place }} </p> <p class="text-table-subj"> {{ event.format}}  </p></td>
                     </tr>
                   </ng-container>
                   <tr *ngIf="!(day.odd_week || day.even_week)" class="another">
@@ -61,38 +67,13 @@
     </div> 
   </div>
 </div>
-<!-- 
-  weeksSettingDiv 
-    Настройка четности недель 
-    После сохранения нужно удалять все предметы из расписания 
-    и менять начало отсчета для четной и нечетной недели
--->
-<div id="divWeek" style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
-  <div class="container">
-    <p>Укажите, когда начинается четная неделя 
-      <input type="date" id="time_from" style="width: 30%; background-color: #f0f0f0">
-    </p>
-
-   <p> <span style="color: #FB3838">Предупреждение.</span> После изменения четности недели текущее расписание удалится</p>
-
-   <div class="row justify-content-center">
-    <div class="col-md-6 col-lg-6">
-      <p style="text-align: center"><button onclick="delTimetable()" id="save-button" class="save">Сохранить</button><p>
-    </div>
-    <div class="col-md-6 col-lg-6">
-      <p style="text-align: center"><button onclick="hideSetDiv()" id="close-button" class="close">Закрыть</button><p>
-    </div>
-  </div>
-
-  </div>
-</div>
 
 
-
+<!-- создание нового event -->
 <div id="div1" style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
   <div class="container">
-    <p><input id="objectName" type="text" name="objectName" placeholder="Введите название предмета" style="width: 100%" /></p>
-    <p><input id="objectsPlace" type="text" name="objectsPlace" placeholder="Номер кабинета" style="width: 100%" /></p>
+    <p><input id="objectName" type="text" name="objectName" placeholder="Название предмета" style="width: 100%" /></p>
+    <p><input id="objectsPlace" type="text" name="objectsPlace" placeholder="Место/ссылка" style="width: 100%" /></p>
 
     <div class="row justify-content-center">
       <div class="col-md-6 col-lg-6">
@@ -103,22 +84,25 @@
         <p>ДО <input type="time" id="time_to_tt" style="width: 82%; background-color: #f0f0f0"></p>
       </div>
     </div>
-    <fieldset>
-      <p>
-        <input type="radio" id="everyWeek" name="repeatWeek" checked/>
-        <label for="everyWeek">Каждую неделю</label>
-      </p>
+    
+    
+    <form style="justify-content: left; display: flex;">
+      <label for="formatSubj">Формат занятия:</label>
+      <select id="formatSubj" name="formatSubj" class="selectSubj">
+        <option value="online" class="optionSubj">Онлайн</option>
+        <option value="offline">Офлайн</option>
+      </select>
+    </form>
 
-      <p>
-        <input type="radio" id="oneWeek" name="repeatWeek" checked/>
-        <label for="everyWeek">Четную неделю</label>
-      </p>
 
-      <p>
-        <input type="radio" id="twoWeek" name="repeatWeek" checked/>
-        <label for="everyWeek">Нечетную неделю</label>
-      </p>
-  </fieldset>
+    <form style="justify-content: left; display: flex;">
+      <label for="repeatSubj">Повтор занятия:</label>
+      <select id="repeatSubj" name="repeatSubj" class="selectSubj">
+        <option value="online" class="optionSubj">Каждую неделю</option>
+        <option value="offline" class="optionSubj">Четную неделю</option>
+        <option value="online" class="optionSubj">Нечетную неделю</option>
+      </select>
+    </form>
 
     <div class="row" style="justify-content: space-between; width: 90%; ">
       <div class="col-md-1 col-lg-1">
@@ -145,65 +129,6 @@
 
     </div>
 
-<!--
-
-    <p>
-      <input type="checkbox" id="chkTest" />
-      <label for="chkTest" style="margin-left: 5px;">Разделение на четную/нечетную недели</label>
-    </p>
-
-      <div id="pnlTest" class="Iseewhencheck">
-      <div class="row justify-content-start">
-
-      <p>Когда проходит в четную неделю</p>
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable" id="monday1"> ПН </button>
-      </div>
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable" id="tuesday1"> ВТ </button>
-      </div>
-
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable" id="wednesday1"> СР </button>
-      </div>
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable" id="thursday1"> ЧТ </button>
-      </div>
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable" id="friday1"> ПТ </button>
-      </div>
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable" id="saturday1"> СБ </button>
-      </div>
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable" id="sunday1"> ВС </button>
-      </div>
-
-      <p>Когда проходит в нечетную неделю</p>
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable" id="monday2"> ПН </button>
-      </div>
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable" id="tuesday2"> ВТ </button>
-      </div>
-
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable" id="wednesday2"> СР </button>
-      </div>
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable" id="thursday2"> ЧТ </button>
-      </div>
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable" id="friday2"> ПТ </button>
-      </div>
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable" id="saturday2"> СБ </button>
-      </div>
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable" id="sunday2"> ВС </button>
-      </div>
-      </div>
-    </div> -->
     <br>
     <div class="row justify-content-center">
       <div class="col-md-6 col-lg-6">
@@ -227,4 +152,3 @@
 <script>
 </script>
 </html>
-

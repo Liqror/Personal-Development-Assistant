@@ -9,10 +9,12 @@ import {ICategory} from "../../interfaces/category";
 import {ITackCategories} from "../../interfaces/task_categories";
 import { DataService } from "../../services/data.service";
 import { Subscription } from 'rxjs';
-import { IPlan, IPlanAll } from 'src/app/interfaces/plan';
+import { IPlan } from 'src/app/interfaces/plan';
 import { retry } from 'rxjs/operators';
 import { repeatWhen, delay } from 'rxjs/operators';
 import { EMPTY, timer } from 'rxjs';
+import { CategoryService } from 'src/app/services/category.service';
+import { PlanService } from 'src/app/services/plan.service';
 
 
 @Component({
@@ -34,7 +36,7 @@ export class HomeComponent implements OnInit{
   taskCategory: number;
   belongsPlan: string | number = "choose";
   planId: number;
-  taskPlan: IPlanAll | null;
+  taskPlan: IPlan | null;
 
   // для просмотра и удаления задачи
   taskId: number = -1;
@@ -60,7 +62,7 @@ export class HomeComponent implements OnInit{
   currentDate: Date;
   data: IHomeData;
   categories: ICategory[];
-  plans: IPlanAll[];
+  plans: IPlan[];
 
   isDateClicked: boolean = false;
 
@@ -79,7 +81,9 @@ export class HomeComponent implements OnInit{
 
   constructor(private taskService: TaskService, 
     private datePipe: DatePipe, private http: HttpClient,
-    @Inject(DataService) private readonly dataService: DataService) {
+    @Inject(DataService) private readonly dataService: DataService,
+    private categoryService: CategoryService,
+    private planService: PlanService) {
 
     // джава скрипт для создания задачи
     this.myScriptElement = document.createElement("script");
@@ -88,7 +92,7 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    console.log("Инициализация страницы");
+    // console.log("Инициализация страницы");
     this.currentDate = new Date();
     this.formatDateForData();
     this.updateDatesForTitle(this.dates.clicked);
@@ -217,7 +221,7 @@ export class HomeComponent implements OnInit{
               if (tasks && tasks.length > 0) {
                   // const firstTaskId = tasks[0].id;
                   // this.getCategories(firstTaskId);
-                  this.getCategories();
+                  this.getActiveCategories();
                   break;
               }
           }
@@ -228,23 +232,29 @@ export class HomeComponent implements OnInit{
     this.getPlans();
   }
   
-  getCategories(): void {
-    this.http.get<ICategory[]>('http://localhost:8080/assistant/api/categories').subscribe((res: ICategory[]) => {
+  // получение АКТИВНЫХ категорий
+  getActiveCategories(): void {
+    this.categoryService.getActiveCategories().subscribe((res: ICategory[]) => { 
+      console.log(res);
       this.categories = res;
-      // console.log(this.categories);
       this.taskCategory = this.categories[0].id;
-      // console.log(this.taskCategory);
     });
   }
 
+  // Получить АКТИВНЫЕ планы
   getPlans(): void {
-    this.http.get<IPlanAll[]>('http://localhost:8080/assistant/api/plans').subscribe((res: IPlanAll[]) => {
-      this.plans = res;
-      console.log("", this.plans);
+    this.planService.getPlansByStatus(0).subscribe({
+      next: (activePlans) => {
+        this.plans = activePlans;
+        // console.log('Active Plans:', activePlans);
+      },
+      error: (err) => {
+        console.error('Error fetching active plans:', err);
+      },
     });
   }
 
-  getPlanById(id: number): IPlanAll | null {
+  getPlanById(id: number): IPlan | null {
     const foundPlan = this.plans.find(plan => plan.id === id);
     return foundPlan !== undefined ? foundPlan : null;
   }
@@ -411,6 +421,13 @@ export class HomeComponent implements OnInit{
       // this.belongsPlan = "choose"; // пока нет этого в бекенде
 
     });
+  }
+
+  // адаптивная высота поля заметки
+  adjustHeight(event: Event): void {
+    const textarea = event.target as HTMLTextAreaElement;
+    textarea.style.height = 'auto'; // Сброс высоты
+    textarea.style.height = `${textarea.scrollHeight}px`; // Установка новой высоты
   }
 
 }  

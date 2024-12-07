@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {IPlan, IPlanAll} from "../../interfaces/plan";
+import { IPlan, IPlanCreate, IPlanUpdate } from "../../interfaces/plan";
 import { PlanService } from 'src/app/services/plan.service';
 import { ITask } from 'src/app/interfaces/task';
 import {ITaskPage} from "../../interfaces/task-page";
@@ -8,7 +8,8 @@ import {ICategory} from "../../interfaces/category";
 import {ITackCategories} from "../../interfaces/task_categories";
 import { HttpClient } from '@angular/common/http';
 declare function openPlan(): void;
-import { IPlanForCreate } from '../../interfaces/plan';
+import { forkJoin } from 'rxjs';
+
 
 @Component({
   selector: 'app-plan',
@@ -18,94 +19,179 @@ import { IPlanForCreate } from '../../interfaces/plan';
 export class PlanComponent {
   myScriptElement: HTMLScriptElement;
 
-  allPlans: IPlanAll[]; 
-  plans: IPlanAll[]; 
-  planId: number;
-  planName: string = "";
-  planDetails: string | null = null;
-  planStatus: number;
-  planTasks: ITask[]; // возможно не нужно
-  planTasksMap: Map<number, ITask[]> = new Map(); // Хранение задач для каждого плана
+  // Получение планов
+  activePlans: IPlan[];
+  archivedPlans: IPlan[];
 
-  newPlanTitle: string;
-  newPlanDetails: string;
+  // Объект для отслеживания видимости каждого плана
+  planVisibility: { [key: number]: boolean } = {}; 
 
-  constructor(
-    private planService: PlanService,
-    private http: HttpClient,
-  ) {}
+  // Создания нового плана
+  newPlan: IPlanCreate = {
+    user_id: 1,
+    name: "",
+    details: "",
+    start_date: "",
+    stop_date: "",
+    status : 0,
+  }
 
-  async ngOnInit() {
-    await this.loadPlans();
+  constructor(private planService: PlanService) {}
+
+  ngOnInit(): void {
     this.myScriptElement = document.createElement("script");
     this.myScriptElement.src = "././assets/scripts_for_project.js";
     document.body.appendChild(this.myScriptElement);
+
+    this.getPlans();
   }
 
-  async loadPlans() {
-    try {
-      this.allPlans = await this.getPlans();
-      // console.log(this.allPlans);
-
-      for (const plan of this.allPlans) {
-        await this.getPlanDetails(plan.id);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-    this.plans = this.allPlans;
+  // открытие/закрытие планов
+  togglePlanVisibility(planId: number): void {
+    this.planVisibility[planId] = !this.planVisibility[planId]; // Переключаем видимость
   }
 
-  async getPlans(): Promise<IPlanAll[]> {
-    return this.planService.getPlans().toPromise();
+  getPlans(): void {
+    // Получить активные планы
+    this.planService.getPlansByStatus(0).subscribe({
+      next: (activePlans) => {
+        this.activePlans = activePlans;
+        // console.log('Active Plans:', activePlans);
+
+        // Инициализируем видимость для каждого плана
+        this.activePlans.forEach(activePlans => {
+          this.planVisibility[activePlans.id] = false; // Все планы по умолчанию скрыты
+        });
+      },
+      error: (err) => {
+        console.error('Error fetching active plans:', err);
+      },
+    });
+
+    // Получить архивные планы
+    this.planService.getPlansByStatus(1).subscribe({
+      next: (archivedPlans) => {
+        this.archivedPlans = archivedPlans;
+        // console.log('Archived Plans:', archivedPlans);
+
+        // Инициализируем видимость для каждого плана
+        this.archivedPlans.forEach(archivedPlans => {
+          this.planVisibility[archivedPlans.id] = false; // Все планы по умолчанию скрыты
+        });
+      },
+      error: (err) => {
+        console.error('Error fetching archived plans:', err);
+      },
+    });
   }
 
-  async getPlanDetails(id: number): Promise<void> {
-    try {
-      const data = await this.planService.getPlanDetails(id).toPromise();
-      const index = this.allPlans.findIndex(plan => plan.id === id);
-      if (index !== -1) {
-        this.allPlans[index] = { ...this.allPlans[index], ...data };
-        console.log('Обновленные данные плана', this.allPlans[index]);
-        // console.log("категории", index, this.allPlans[index].categories);
-      } else {
-        console.error('План с id', id, 'не найден.');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  createNewPlan(): void {
+    if (this.newPlan.name != "") {
 
-  saveNewPlan(): void {
-    if (this.newPlanTitle != "") {
-      const newPlan: IPlanForCreate = {
-        user_id: 1,
-        name: this.newPlanTitle,
-        details: this.newPlanDetails,
-        status : 0,
-      }
-
-      this.planService.addPlan(newPlan).subscribe(response => {
-        console.log("Plan added:", response);
-        this.loadPlans();  // Обновить список планов после добавления нового
+      this.planService.createPlan(this.newPlan).subscribe(response => {
+        // console.log("Plan added:", response);
+        this.getPlans();  // Обновить список планов после добавления нового
       }, error => {
         console.error("Error adding plan:", error);
       });
     }
+    this.cleanForm();
   }
-  
+
+  updatePlan(plan: IPlan): void {
+    // нужно передать только часть полученных данных
+    // поэтому создаем объект IPlanUpdate из IPlan
+    const updatedPlan: IPlanUpdate = {
+      name: plan.name,
+      details: plan.details,
+      start_date:  plan.start_date,
+      stop_date: plan.stop_date,
+      status: plan.status
+    };
+
+    // Вызываем метод сервиса для обновления
+    this.planService.updatePlan(updatedPlan).subscribe({
+      next: (response) => {
+        console.log('План обновлен успешно:', response);
+      },
+      error: (error) => {
+        console.error('Ошибка при обновлении плана:', error);
+      }
+    });
+  }
+
   deletePlan(id: number): void {
     this.planService.deletePlan(id).subscribe({
       next: () => {
-        // console.log(`План с ID ${id} удален`);
         // Обновить список планов
-        this.allPlans = this.allPlans.filter(plan => plan.id !== id);
-        this.plans = this.plans.filter(plan => plan.id !== id);
+        this.getPlans();
       },
       error: (error) => {
         console.error('Ошибка при удалении плана:', error);
       }
     });
+  }
+
+  cleanForm(): void {
+    this.newPlan = {
+      user_id: 1,
+      name: "",
+      details: "",
+      start_date: "",
+      stop_date: "",
+      status : 0,
+    }
+  }
+
+  // функция из хом пока заглушка потому что хом в рефакторинге
+  getTaskInfo(event: MouseEvent, taskId: number): void {
+    // event.preventDefault(); // Предотвращаем стандартное действие
+    // this.http.get<IFullTaskPage>(`http://localhost:8080/assistant/api/tasks/${taskId}`).subscribe((taskInfo: IFullTaskPage) => {
+      
+    //   this.isDiv1Visible = true; // Показываем окно
+      
+    //   // Заполляем окно данными
+    //   this.taskId = taskInfo.id;
+    //   this.taskName = taskInfo.name;
+    //   this.taskEstimate = taskInfo.estimate; 
+    //   this.taskDescription = taskInfo.description;
+    //   this.startDate = taskInfo.start_date;
+    //   this.stopDate = taskInfo.stop_date;
+    //   this.startTime = taskInfo.start_time;
+    //   this.stopTime = taskInfo.stop_time;
+    //   this.taskStatus = taskInfo.status;
+
+    //   this.taskCategory = taskInfo.task_category.id;
+    //   // this.belongsPlan = "choose"; // пока нет этого в бекенде
+
+    // });
+  }
+  onCheckboxChange(event: any, task: any) {
+    // if (event.target.checked) {
+    //   this.http.patch('http://localhost:8080/assistant/api/tasks/' + task.id, [
+    //         {
+    //             "op": "replace",
+    //             "path": "/status",
+    //             "value": 1
+    //         }
+    //     ]).subscribe(response => {
+    //         console.log('PATCH-запрос успешно выполнен:', response);
+    //     }, error => {
+    //         console.error('Ошибка при выполнении PATCH-запроса:', error);
+    //     });
+    // } else {
+    //   this.http.patch('http://localhost:8080/assistant/api/tasks/' + task.id, [
+    //         {
+    //             "op": "replace",
+    //             "path": "/status",
+    //             "value": 0
+    //         }
+    //     ]).subscribe(response => {
+    //         console.log('PATCH-запрос успешно выполнен:', response);
+    //     }, error => {
+    //         console.error('Ошибка при выполнении PATCH-запроса:', error);
+    //     });
+    // }
   }
 
 }
