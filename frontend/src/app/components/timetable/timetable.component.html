@@ -19,47 +19,6 @@
     <div class="col-md-12 col-lg-12 content-container">
 
       <h1>Расписание занятий</h1>
-      
-      <!-- <table class="table" *ngFor="let day of timetable?.days">
-        <thead>
-          <tr>
-            <th class="weekDays">{{ getDayOfWeek(day.day_by_num_order) }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <table class="table">
-                <thead>
-                  <tr class="another">
-                    <th>Время</th>
-                    <th>Четная неделя</th>
-                    <th>Время</th>
-                    <th>Нечетная неделя</th>
-                  </tr>
-                </thead>
-                <tbody class="myTable">
-                  <ng-container *ngIf="day.odd_week || day.even_week">
-                    <tr class="another" *ngFor="let event of day.odd_week || day.even_week">
-                      <td>{{ event.start_time }} - {{ event.stop_time }}</td>
-                      <td onclick="showDiv()">{{ event.name }}  
-                          <p class="text-table-subj"> {{ event.place }} </p> 
-                        <p class="text-table-subj"> {{ event.format}}  </p>
-                      </td>
-
-                      <td>{{ event.start_time }} - {{ event.stop_time }}</td>
-                      <td onclick="showDiv()">{{ event.name }} <button onclick="deleteElement(this)"  style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button> <p class="text-table-subj"> {{ event.place }} </p> <p class="text-table-subj"> {{ event.format}}  </p></td>
-                    </tr>
-                  </ng-container>
-                  <tr *ngIf="!(day.odd_week || day.even_week)" class="another">
-                    <td colspan="4">Нет занятий</td>
-                  </tr>
-                </tbody>
-              </table>
-            </td>
-          </tr>
-        </tbody>
-      </table> -->
 
       <table class="table" *ngFor="let day of timetable?.days">
         <thead>
@@ -82,12 +41,13 @@
                 <tbody class="myTable">
                   <ng-container *ngIf="day.odd_week?.length || day.even_week?.length; else noClasses">
                     <tr class="another" *ngFor="let event of getCombinedEvents(day.odd_week, day.even_week)">
+
                       <!-- Время для нечетной недели -->
                       <td *ngIf="event.odd">{{ event.odd.start_time }} - {{ event.odd.stop_time }}</td>
                       <td *ngIf="!event.odd">—</td>
       
                       <!-- Событие для нечетной недели -->
-                      <td *ngIf="event.odd">
+                      <td *ngIf="event.odd" onclick="showDiv()">
                         {{ event.odd.name }}  
                         <p class="text-table-subj">{{ event.odd.place }}</p> 
                         <p class="text-table-subj">{{ event.odd.format }}</p>
@@ -99,11 +59,12 @@
                       <td *ngIf="!event.even">—</td>
       
                       <!-- Событие для четной недели -->
-                      <td *ngIf="event.even">
+                      <td *ngIf="event.even" onclick="showDiv()">
                         {{ event.even.name }}  
                         <p class="text-table-subj">{{ event.even.place }}</p> 
                         <p class="text-table-subj">{{ event.even.format }}</p>
                       </td>
+
                       <td *ngIf="!event.even">—</td>
                     </tr>
                   </ng-container>
@@ -119,9 +80,6 @@
           </tr>
         </tbody>
       </table>
-      
-      
-      
       
     </div> 
   </div>

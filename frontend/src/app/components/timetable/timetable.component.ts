@@ -38,90 +38,52 @@ export class TimetableComponent implements OnInit {
       },
       error: (error) => console.error('Error ', error)
     });
-    // this.createEvent();
   }
 
-  /**
- * Метод для объединения событий четной и нечетной недели
- * Если события идут не синхронно, то объединяем по индексу и проверяем на существование.
- */
-  getMergedEvents(evenWeek: IEventForTimetable[] | null, oddWeek: IEventForTimetable[] | null): { even: IEventForTimetable | null, odd: IEventForTimetable | null }[] {
-    const maxLength = Math.max(evenWeek?.length || 0, oddWeek?.length || 0);
-    const mergedEvents = [];
+  // Объединяет события для нечетной и четной недель по времени.
+  // В результате мы получаем список пар событий с одинаковым временем для нечетной и четной недели.
+  // Если для одной недели событие отсутствует, то оно будет отображаться отдельно.
+  getCombinedEvents(oddWeek: IEventForTimetable[] | null, evenWeek: IEventForTimetable[] | null): 
+    { odd: IEventForTimetable | null, even: IEventForTimetable | null }[] {
 
-    for (let i = 0; i < maxLength; i++) {
-      mergedEvents.push({
-        even: evenWeek?.[i] || null,
-        odd: oddWeek?.[i] || null
-      });
-    }
-    return mergedEvents;
+    const oddEvents = oddWeek || [];
+    const evenEvents = evenWeek || [];
+
+    // Собираем уникальные времена из обеих недель
+    const allTimes = new Set<string>();
+    oddEvents.forEach(event => allTimes.add(`${event.start_time}-${event.stop_time}`));
+    evenEvents.forEach(event => allTimes.add(`${event.start_time}-${event.stop_time}`));
+
+    // Сортируем времена
+    const sortedTimes = Array.from(allTimes).sort();
+
+    const combinedEvents = sortedTimes.map(time => {
+      const [start, stop] = time.split('-');
+
+      const oddEvent = oddEvents.find(event => event.start_time === start && event.stop_time === stop) || null;
+      const evenEvent = evenEvents.find(event => event.start_time === start && event.stop_time === stop) || null;
+
+      return { odd: oddEvent, even: evenEvent };
+    });
+
+    return combinedEvents;
   }
 
-  /**
- * Объединяет события для нечетной и четной недель по времени.
- * В результате мы получаем список пар событий с одинаковым временем для нечетной и четной недели.
- * Если для одной недели событие отсутствует, то оно будет отображаться отдельно.
- */
-getCombinedEvents(oddWeek: IEventForTimetable[] | null, evenWeek: IEventForTimetable[] | null): 
-  { odd: IEventForTimetable | null, even: IEventForTimetable | null }[] {
-
-  const oddEvents = oddWeek || [];
-  const evenEvents = evenWeek || [];
-
-  // Собираем уникальные времена из обеих недель
-  const allTimes = new Set<string>();
-  oddEvents.forEach(event => allTimes.add(`${event.start_time}-${event.stop_time}`));
-  evenEvents.forEach(event => allTimes.add(`${event.start_time}-${event.stop_time}`));
-
-  // Сортируем времена
-  const sortedTimes = Array.from(allTimes).sort();
-
-  const combinedEvents = sortedTimes.map(time => {
-    const [start, stop] = time.split('-');
-
-    const oddEvent = oddEvents.find(event => event.start_time === start && event.stop_time === stop) || null;
-    const evenEvent = evenEvents.find(event => event.start_time === start && event.stop_time === stop) || null;
-
-    return { odd: oddEvent, even: evenEvent };
-  });
-
-  return combinedEvents;
-  }
-
-
-  /**
-   * Метод для отображения подробной информации о событии
-   */
-  showEventDetails(event: IEventForTimetable): void {
-    alert(`Детали события:\nНазвание: ${event.name}\nМесто: ${event.place}\nФормат: ${event.format}`);
-  }
-
-  /**
-   * Метод для удаления события
-   */
+  // метод для удаления события
   deleteEvent(eventId: number, index: number): void {
-    if (confirm('Вы уверены, что хотите удалить это событие?')) {
-      this.eventService.deleteEvent(eventId).subscribe({
-        next: () => {
-          alert('Событие удалено.');
-          this.getEvents(); // Перезагружаем расписание после удаления
-        },
-        error: (error) => console.error('Ошибка при удалении события:', error)
-      });
-    }
+    this.eventService.deleteEvent(eventId).subscribe({
+      next: () => {
+        this.getEvents(); // Перезагружаем расписание после удаления
+      },
+      error: (error) => console.error('Ошибка при удалении события:', error)
+    });
   }
 
-  /**
-   * Метод для получения текстового названия дня недели по номеру
-   */
+  
+  // Метод для получения текстового названия дня недели по номеру
   getDayOfWeek(dayNum: number): string {
     return this.daysOfWeek[dayNum] || 'Неизвестный день';
   }
-
-  // getDayOfWeek(dayByNumOrder: number): string {
-  //   return this.daysOfWeek[dayByNumOrder];
-  // }
 
   createEvent() {
     const newEvent: IEventCreate = {
@@ -142,23 +104,6 @@ getCombinedEvents(oddWeek: IEventForTimetable[] | null, evenWeek: IEventForTimet
       console.log(newEvent);
       console.error("Error", error);
     });
-  }
-
-  updateEvent() { }
-
-
-  getMaxEventCount(evenWeek: IEventForTimetable[] | null, oddWeek: IEventForTimetable[] | null): number[] {
-    const evenCount = evenWeek?.length || 0;
-    const oddCount = oddWeek?.length || 0;
-    const maxCount = Math.max(evenCount, oddCount);
-    return Array.from({ length: maxCount });
-  }
-  
-  // deleteEvent(id: number): void {
-  //   this.eventService.deleteEvent(id).subscribe({
-  //     next: () => this.getEvents(),
-  //     error: (error) => console.error('Error ', error)
-  //   });
-  // }  
+  } 
 
 }
