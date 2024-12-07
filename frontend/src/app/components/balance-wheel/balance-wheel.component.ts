@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IWheel } from "../../interfaces/wheel";
 import { ICategory, ICategoryForCreate } from "../../interfaces/category"
-import {HttpClient } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { CategoryService } from 'src/app/services/category.service';
 
 
@@ -13,10 +13,10 @@ import { CategoryService } from 'src/app/services/category.service';
 })
 export class BalanceWheelComponent implements OnInit {
 
-  wheelData: IWheel[];
+  // получение всех существующих категорий
   categories: ICategory[];
   
-  // для создания новой категории
+  // создание новой категории
   newCategory: ICategoryForCreate = {
     user_id: 1,
     title: '',
@@ -24,11 +24,14 @@ export class BalanceWheelComponent implements OnInit {
     active: true
   };
 
-  // для создания новой категории
+  // для изменения категории
   changeCategory: ICategory;
 
-  // для редактирования
+  // для выбора редактирования или создания
   categoryHaveId: boolean = false;
+
+  // данные для заполнения колеса баланса
+  wheelData: IWheel[];
 
   // для получения колеса баланса
   start: string = "";
@@ -45,6 +48,7 @@ export class BalanceWheelComponent implements OnInit {
     this.ctx = this.balanceWheelCanvas.nativeElement.getContext('2d');
   }
 
+  // получение категорий
   getCategories(): void {
     this.categoryService.getAllCategories().subscribe((res: ICategory[]) => { 
       this.categories = res;
@@ -52,41 +56,57 @@ export class BalanceWheelComponent implements OnInit {
     });
   }
 
+  // создание/обновление категори
   createOrUpdateCategory(): void {
     if (this.newCategory.title != "") {
+
       if (!this.categoryHaveId) {
-        console.log("открыта для создания")
-        // Вызовите сервис для создания новой категории и передайте новую категорию
+        // console.log("открыта для создания")
+        
         this.categoryService.createCategory(this.newCategory).subscribe(
           createdCategory => {
-            console.log('Категория успешно создана:', createdCategory);
+            // console.log('Категория успешно создана:', createdCategory);
             this.getCategories();
           },
           error => {
             console.error('Ошибка при создании категории:', error);
           }
         );
+
       } else {
-        console.log("открыта для редактирования");
+        // console.log("открыта для редактирования");
 
         this.changeCategory.title = this.newCategory.title;
         this.changeCategory.color = this.newCategory.color;
 
         this.categoryService.updateCategory(this.changeCategory).subscribe(updatedCategory => {
-          console.log('Категория успешно обновлена:', updatedCategory);
+          // console.log('Категория успешно обновлена:', updatedCategory);
         }, error => {
             console.error('Ошибка при обновлении категории:', error);
         });
+
       }
     }
+    this.clearForm();
   }
 
+  // очистка формы после создания/редактирования
+  clearForm(): void {
+    this.newCategory = {
+      user_id: 1,
+      title: '',
+      color: '',
+      active: true
+    };
+  }
+
+  // выбор режима редактирование/создание
   changeFlag(): void {
     this.categoryHaveId = false;
   }
 
-  // заполнение формы редактирования
-  click(category: ICategory): void {
+  // заполнение формы для редактирования категории
+  fillForm(category: ICategory): void {
     this.categoryHaveId = true;
     // для заполения формы
     this.newCategory.title = category.title;
@@ -95,17 +115,18 @@ export class BalanceWheelComponent implements OnInit {
     this.changeCategory = category;
   }
 
-  // это пока работает только с галочками, нужно чтоб работало с названием и цветом
+  // смена статуса антивности у категории
   updateCategoryTick(category: ICategory): void {
     this.categoryService.updateCategory(category).subscribe(updatedCategory => {
-        console.log('Категория успешно обновлена:', updatedCategory);
+        // console.log('Категория успешно обновлена:', updatedCategory);
     }, error => {
         console.error('Ошибка при обновлении категории:', error);
     });
   }
 
+  // получение данных для построения колеса баланса
   getWheel(): void {
-    console.log("даты??",this.start, this.stop);
+    // console.log("даты??",this.start, this.stop);
     if (this.start != "" && this.stop != "") {
       const url = 'http://localhost:8080/assistant/api/wheel';
       const data = {

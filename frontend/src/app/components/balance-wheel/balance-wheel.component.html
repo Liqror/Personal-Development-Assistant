@@ -29,7 +29,7 @@
                             <label class="labelTextCtg"> 
                                 <input class="real_checkbox" type="checkbox" name="ctg" [(ngModel)]="category.active" (change)="updateCategoryTick(category)">
                                 <span class="custom_checkbox"></span>
-                                <p class="textCtg"> <button class="seeCtgInfo" onclick="showDivNewCtg()" (click)="click(category)"> {{ category.title }} </button> </p> 
+                                <p class="textCtg"> <button class="seeCtgInfo" onclick="showDivNewCtg()" (click)="fillForm(category)"> {{ category.title }} </button> </p> 
                             </label>
                         </div>
                         <div class="colorCircle"> 
