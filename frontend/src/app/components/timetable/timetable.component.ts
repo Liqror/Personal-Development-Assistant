@@ -214,7 +214,7 @@ export class TimetableComponent implements OnInit {
     // console.log('Выбрано значение:', this.selectedRepeatOption);
   }
 
-  // заполнение формы конкретным мероприятием
+  // Просмотр мероприятия
   viewEvent(event: IEvent): void {
     // Заполняем данные формы
     this.formEvent = {
@@ -230,7 +230,7 @@ export class TimetableComponent implements OnInit {
 
     // Устанавливаем вариант повторения (each, odd, or even)
     this.selectedRepeatOption = event.week_num === 1 ? 'odd' : (event.week_num === 2 ? 'even' : 'each');
-    
+
     // Делаем подсветку для дня недели
     const buttons = document.querySelectorAll('.clickable2');
     buttons.forEach(button => {
