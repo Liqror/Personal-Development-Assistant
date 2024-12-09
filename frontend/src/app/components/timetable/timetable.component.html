@@ -47,7 +47,7 @@
                       <td *ngIf="!event.odd">—</td>
       
                       <!-- Событие для нечетной недели -->
-                      <td *ngIf="event.odd" onclick="showDiv()" (click)="fillForm(event.odd)">
+                      <td *ngIf="event.odd" onclick="showDiv()" (click)="viewEvent(event.odd)">
                         {{ event.odd.name }}  
                         <p class="text-table-subj">{{ event.odd.place }}</p> 
                         <p class="text-table-subj">{{ event.odd.format }}</p>
@@ -59,7 +59,7 @@
                       <td *ngIf="!event.even">—</td>
       
                       <!-- Событие для четной недели -->
-                      <td *ngIf="event.even" onclick="showDiv()" (click)="fillForm(event.even)">
+                      <td *ngIf="event.even" onclick="showDiv()" (click)="viewEvent(event.even)">
                         {{ event.even.name }}  
                         <p class="text-table-subj">{{ event.even.place }}</p> 
                         <p class="text-table-subj">{{ event.even.format }}</p>
@@ -124,25 +124,25 @@
     <!-- Дни недели -->
     <div class="row" style="justify-content: space-between; width: 90%; ">
       <div class="col-md-1 col-lg-1">
-        <button class="clickable2" id="monday" (click)="toggleDaySelection(0)"> ПН </button>
+        <button class="clickable2" data-day="0" (click)="toggleDaySelection(0)"> ПН </button>
       </div>
       <div class="col-md-1 col-lg-1">
-        <button class="clickable2" id="tuesday"(click)="toggleDaySelection(1)"> ВТ </button>
+        <button class="clickable2" data-day="1" (click)="toggleDaySelection(1)"> ВТ </button>
       </div>
       <div class="col-md-1 col-lg-1">
-        <button class="clickable2" id="wednesday" (click)="toggleDaySelection(2)"> СР </button>
+        <button class="clickable2" data-day="2" (click)="toggleDaySelection(2)"> СР </button>
       </div>
       <div class="col-md-1 col-lg-1">
-        <button class="clickable2" id="thursday" (click)="toggleDaySelection(3)"> ЧТ </button>
+        <button class="clickable2" data-day="3" (click)="toggleDaySelection(3)"> ЧТ </button>
       </div>
       <div class="col-md-1 col-lg-1">
-        <button class="clickable2" id="friday" (click)="toggleDaySelection(4)"> ПТ </button>
+        <button class="clickable2" data-day="4" (click)="toggleDaySelection(4)"> ПТ </button>
       </div>
       <div class="col-md-1 col-lg-1">
-        <button class="clickable2" id="saturday" (click)="toggleDaySelection(5)"> СБ </button>
+        <button class="clickable2" data-day="5" (click)="toggleDaySelection(5)"> СБ </button>
       </div>
       <div class="col-md-1 col-lg-1">
-        <button class="clickable2" id="sunday" (click)="toggleDaySelection(6)"> ВС </button>
+        <button class="clickable2" data-day="6" (click)="toggleDaySelection(6)"> ВС </button>
       </div>
     </div>
 
