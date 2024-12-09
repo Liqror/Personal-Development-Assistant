@@ -1,6 +1,6 @@
 (function() {
   const buttons = document.querySelectorAll(".clickable2");
-  console.log('poiuytfdx');
+  // console.log('poiuytfdx');
   
   // Привязываем обработчик событий к каждой кнопке
   for (let i = 0; i < buttons.length; i++) {

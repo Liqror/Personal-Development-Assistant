@@ -21,16 +21,27 @@ export class TimetableComponent implements OnInit {
   daysOfWeek: string[] = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
   
   // newEvent: IEventCreate;
-  formEvent: IEventCreate = {
-    user_id: 1,
-    week_num: 0,
-    day_of_week: -1,
+  // formEvent: IEventCreate = {
+  //   user_id: 1,
+  //   week_num: 0,
+  //   day_of_week: -1,
+  //   name: '',
+  //   place: '',
+  //   format: '',
+  //   start_time: '',
+  //   stop_time: '',
+  // };
+
+  // создание события/ий
+  formEvent = {
     name: '',
     place: '',
-    format: '',
+    format: 'Онлайн',
     start_time: '',
-    stop_time: '',
+    stop_time: ''
   };
+  selectedDaysOfWeek: number[] = []; // Номера дней недели [0, 1, 2, ...]
+  selectedRepeatOption: 'each' | 'odd' | 'even' = 'each'; // Вариант повторения
 
   // для редактирования события
   eventBeingEdited: IEvent | null = null;
@@ -46,13 +57,43 @@ export class TimetableComponent implements OnInit {
     this.getTimetable();
   }
 
+  // удалить ВСЁ
+  deleteAllEvents(timetable: ITimetable): void {
+    // Собираем все id событий из расписания (и из четных, и из нечетных недель)
+    const eventIds: number[] = [];
+  
+    // Проходим по дням недели
+    timetable.days.forEach(day => {
+      // Добавляем id для нечетной недели
+      if (day.odd_week) {
+        day.odd_week.forEach(event => eventIds.push(event.id));
+      }
+  
+      // Добавляем id для четной недели
+      if (day.even_week) {
+        day.even_week.forEach(event => eventIds.push(event.id));
+      }
+    });
+  
+    // Теперь удаляем все события поочередно
+    eventIds.forEach(id => {
+      this.eventService.deleteEvent(id).subscribe({
+        next: () => console.log(`Событие с id ${id} успешно удалено`),
+        error: (error) => console.error(`Ошибка при удалении события с id ${id}:`, error)
+      });
+    });
+  }
+  
+
   // получение всего расписания
   getTimetable(): void {
     this.eventService.getTimetable().subscribe({
       next: (data) => {
         // this.timetable = data; - я бы хотела воспользоваться этим но не судьба
         this.timetable = this.trimEventTimes(data);
-        // console.log(this.events);
+        // console.log(this.timetable);
+        // Пример использования функции
+        // this.deleteAllEvents(this.timetable);
       },
       error: (error) => console.error('Error ', error)
     });
@@ -119,12 +160,111 @@ export class TimetableComponent implements OnInit {
     return this.daysOfWeek[dayNum] || 'Неизвестный день';
   }
 
+  // Метод для обработки нажатия на кнопки дней недели
+  toggleDaySelection(dayNumber: number) {
+    const index = this.selectedDaysOfWeek.indexOf(dayNumber);
+    if (index === -1) {
+      this.selectedDaysOfWeek.push(dayNumber);
+    } else {
+      this.selectedDaysOfWeek.splice(index, 1);
+    }
+  }
+  
+  // создание событие/ий
+  createEvent() {
+    const userId = 1; // ID текущего пользователя, его можно взять из контекста авторизации
+    const { name, place, format, start_time, stop_time } = this.formEvent;
+  
+    // Проверяем сразу все необходимые поля и условия
+    if (name && place && format && start_time && stop_time && this.selectedDaysOfWeek?.length && this.selectedRepeatOption) {
+      
+      const weeksToCreate = this.getWeeksForCreation(this.selectedRepeatOption);
+      const events: IEventCreate[] = [];
+  
+      for (const week of weeksToCreate) {
+        for (const day of this.selectedDaysOfWeek) {
+          events.push({
+            user_id: userId,
+            week_num: week,
+            day_of_week: day,
+            name: name,
+            place: place,
+            format: format,
+            start_time: start_time,
+            stop_time: stop_time
+          });
+        }
+      }
+  
+      events.forEach(event => {
+        this.eventService.createEvent(event).subscribe({
+          next: () => {
+            // console.log('Событие успешно создано:', event);
+            this.getTimetable();
+          },
+          error: (error) => console.error('Ошибка при создании события:', event, error)
+        });
+      });
+
+      this.getTimetable();
+
+    }
+    else{
+      console.log("что-то не заполнено");
+      console.log(name, place, format, start_time, stop_time, this.selectedDaysOfWeek?.length, this.selectedRepeatOption);
+    }
+  }
+  
+  // Определяет недели, для которых нужно создавать события
+  getWeeksForCreation(repeatOption: 'each' | 'odd' | 'even'): number[] {
+    if (repeatOption === 'each') return [1, 2]; // Каждую неделю — обе недели
+    if (repeatOption === 'odd') return [1]; // Нечетная неделя
+    if (repeatOption === 'even') return [2]; // Четная неделя
+    return [];
+  }
+  
+  // Метод для выбора варианта повторения (чётная/нечётная/каждая неделя)
+  selectRepeatOption(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    this.selectedRepeatOption = selectElement.value as 'each' | 'odd' | 'even'; // Прямое присвоение значения
+    // console.log('Выбрано значение:', this.selectedRepeatOption);
+  }
+
+  // заполнение формы конкретным мероприятием
   fillForm(event: IEvent): void {
     console.log(event);
     this.formEvent = event;
   }
-   
-  createOrUpdateEvent(event: IEvent | IEventCreate): void {
 
+  // Очистка формы после сохранения
+  clearForm() {
+
+    // Очистка данных формы
+    this.formEvent = {
+      name: '',
+      place: '',
+      format: 'Онлайн',
+      start_time: '',
+      stop_time: ''
+    };
+    
+    // Очистка выбранных дней
+    this.selectedDaysOfWeek = [];
+    
+    // Сброс значения выбранного варианта повторения
+    this.selectedRepeatOption = 'each';
+  
+    // Сброс значения в форме (для <select>)
+    const repeatSelect = document.getElementById('repeatSubj') as HTMLSelectElement;
+    if (repeatSelect) {
+      repeatSelect.value = 'each'; // Устанавливаем значение на "Каждую неделю"
+    }
+  
+    // Убираем подсветку с кнопок
+    const buttons = document.querySelectorAll('.clickable2')
+    buttons.forEach(button => {
+      button.classList.remove('clicked'); // Убираем класс подсветки
+    });
   }
+
 }

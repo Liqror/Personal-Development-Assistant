@@ -9,7 +9,7 @@ import { ITimetable, IEventCreate, IEvent } from '../interfaces/timetable';
 })
 export class EventService {
 
-  private apiUrl = 'http://localhost:8080/assistant/api/events';
+  private apiUrl = 'http://localhost:8080/assistant/api/events/';
 
   constructor(private http: HttpClient) { }
 
