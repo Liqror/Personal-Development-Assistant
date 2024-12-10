@@ -47,7 +47,7 @@
                       <td *ngIf="!event.odd">—</td>
       
                       <!-- Событие для нечетной недели -->
-                      <td *ngIf="event.odd" onclick="showDiv()" (click)="viewEvent(event.odd)">
+                      <td *ngIf="event.odd" onclick="showDiv()">
                         {{ event.odd.name }}  
                         <p class="text-table-subj">{{ event.odd.place }}</p> 
                         <p class="text-table-subj">{{ event.odd.format }}</p>
@@ -59,7 +59,7 @@
                       <td *ngIf="!event.even">—</td>
       
                       <!-- Событие для четной недели -->
-                      <td *ngIf="event.even" onclick="showDiv()" (click)="viewEvent(event.even)">
+                      <td *ngIf="event.even" onclick="showDiv()">
                         {{ event.even.name }}  
                         <p class="text-table-subj">{{ event.even.place }}</p> 
                         <p class="text-table-subj">{{ event.even.format }}</p>
@@ -152,7 +152,7 @@
         <p style="text-align: center"><button onclick="saveObject()" onclick="checkInputForTimetable()" id="save-button-new-obj" class="save"  onclick="hideDiv()" (click)="createEvent()" (click)="clearForm()">Сохранить</button><p>
       </div>
       <div class="col-md-6 col-lg-6">
-        <p style="text-align: center"><button onclick="hideDiv()" id="close-button" class="close" (click)="clearForm()">Удалить</button><p>
+        <p style="text-align: center"><button onclick="hideDiv()" id="close-button" class="close" (click)="clearForm()">Закрыть</button><p>
       </div>
     </div>
 

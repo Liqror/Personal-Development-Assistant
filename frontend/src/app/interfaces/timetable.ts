@@ -30,4 +30,4 @@ export interface IEventCreate {
     format: string; // онлайн/офлайн
     start_time: string;
     stop_time: string;
-  }
+}

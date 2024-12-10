@@ -22,6 +22,7 @@ export class TimetableComponent implements OnInit {
 
   // создание события/ий
   formEvent = {
+    id: -1,
     name: '',
     place: '',
     format: 'Онлайн',
@@ -29,7 +30,7 @@ export class TimetableComponent implements OnInit {
     stop_time: ''
   };
   selectedDaysOfWeek: number[] = []; // Номера дней недели [0, 1, 2, ...]
-  selectedRepeatOption: 'each' | 'odd' | 'even' = 'each'; // Вариант повторения
+  selectedRepeatOption: 'each' | 'odd' | 'even' = 'each'; // Вариант повторения  
 
   constructor(private eventService: EventService) {
     // джава скрипт для изменения расписания
@@ -153,7 +154,7 @@ export class TimetableComponent implements OnInit {
       this.selectedDaysOfWeek.splice(index, 1);
     }
   }
-  
+
   // создание событие/ий
   createEvent() {
     const userId = 1; // ID текущего пользователя, его можно взять из контекста авторизации
@@ -214,51 +215,12 @@ export class TimetableComponent implements OnInit {
     // console.log('Выбрано значение:', this.selectedRepeatOption);
   }
 
-  // Просмотр мероприятия
-  viewEvent(event: IEvent): void {
-    // Заполняем данные формы
-    this.formEvent = {
-      name: event.name,
-      place: event.place,
-      format: event.format,
-      start_time: event.start_time,
-      stop_time: event.stop_time
-    };
-
-    // Заполняем дни недели
-    this.selectedDaysOfWeek = [event.day_of_week]; // Делаем выбранным только тот день недели
-
-    // Устанавливаем вариант повторения (each, odd, or even)
-    this.selectedRepeatOption = event.week_num === 1 ? 'odd' : (event.week_num === 2 ? 'even' : 'each');
-
-    // Делаем подсветку для дня недели
-    const buttons = document.querySelectorAll('.clickable2');
-    buttons.forEach(button => {
-      // Убираем подсветку с всех кнопок
-      button.classList.remove('clicked');
-      
-      // Получаем значение из атрибута data-day
-      const day = parseInt(button.getAttribute('data-day') || '0');
-      
-      // Подсвечиваем кнопку, если её data-day соответствует event.day_of_week
-      if (day === event.day_of_week) {
-        button.classList.add('clicked'); // Подсвечиваем
-      }
-    });
-
-    // Устанавливаем правильное значение в селектор повторения
-    const repeatSelect = document.getElementById('repeatSubj') as HTMLSelectElement;
-    if (repeatSelect) {
-      repeatSelect.value = this.selectedRepeatOption; // Устанавливаем значение для повторения
-    }
-
-  }
-
   // Очистка формы после сохранения
   clearForm() {
 
     // Очистка данных формы
     this.formEvent = {
+      id: -1,
       name: '',
       place: '',
       format: 'Онлайн',
