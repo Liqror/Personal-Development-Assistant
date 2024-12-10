@@ -247,4 +247,17 @@ export class TimetableComponent implements OnInit {
     });
   }
 
+  // Удаление события из БД
+  deleteEvent(eventId: number) {
+    this.eventService.deleteEvent(eventId).subscribe({
+      next: () => {
+        // console.log(`Удалено событие с id: ${eventId}`);
+        this.getTimetable();
+      },
+      error: (error) => {
+        console.log('Ошибка при удалении события:', error);
+      }
+    });
+  }
+
 }

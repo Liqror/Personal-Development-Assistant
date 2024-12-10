@@ -23,11 +23,7 @@ export class EventService {
     return this.http.post<IEventCreate>(this.apiUrl, event);
   }
 
-  // Обновление события
-  updateEvent(event: IEvent): Observable<IEvent> {
-    return this.http.put<IEvent>(this.apiUrl, event);
-  }
-
+  // Удаление события
   deleteEvent(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}${id}`);
   }

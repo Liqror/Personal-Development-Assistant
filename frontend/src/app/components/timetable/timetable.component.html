@@ -47,10 +47,13 @@
                       <td *ngIf="!event.odd">—</td>
       
                       <!-- Событие для нечетной недели -->
-                      <td *ngIf="event.odd" onclick="showDiv()">
+                      <td *ngIf="event.odd">
                         {{ event.odd.name }}  
                         <p class="text-table-subj">{{ event.odd.place }}</p> 
                         <p class="text-table-subj">{{ event.odd.format }}</p>
+                        <button onclick="deleteElement(this)" (click)="deleteEvent(event.odd.id)" style="border: none;">
+                          <img src="././assets/image/delete2.png" alt="удалить" style="height: 20px">
+                        </button>
                       </td>
                       <td *ngIf="!event.odd">—</td>
       
@@ -59,10 +62,13 @@
                       <td *ngIf="!event.even">—</td>
       
                       <!-- Событие для четной недели -->
-                      <td *ngIf="event.even" onclick="showDiv()">
+                      <td *ngIf="event.even">
                         {{ event.even.name }}  
                         <p class="text-table-subj">{{ event.even.place }}</p> 
-                        <p class="text-table-subj">{{ event.even.format }}</p>
+                        <p class="text-table-subj">{{ event.even.format }}</p>        
+                        <button onclick="deleteElement(this)" (click)="deleteEvent(event.even.id)" style="border: none;">
+                          <img src="././assets/image/delete2.png" alt="удалить" style="height: 20px">
+                        </button> 
                       </td>
 
                       <td *ngIf="!event.even">—</td>
