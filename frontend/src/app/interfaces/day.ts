@@ -1,5 +1,5 @@
 import {ITask} from "./task";
-import {IClasses} from "./classes";
+import {IEvent} from "./timetable";
 import {INote} from "./note";
 
 
@@ -8,5 +8,5 @@ export interface IDay {
   fixed_tasks: ITask[];
   done_tasks: ITask[];
   text_note: INote;
-  day_classes: IClasses[];
+  day_classes: IEvent[];
 }

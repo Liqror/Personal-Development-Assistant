@@ -6,7 +6,6 @@ import { TaskService } from "../../services/task.service"
 import {ITaskPage} from "../../interfaces/task-page";
 import {IFullTaskPage} from "../../interfaces/full_task_for_RUD";
 import {ICategory} from "../../interfaces/category";
-import {ITackCategories} from "../../interfaces/task_categories";
 import { DataService } from "../../services/data.service";
 import { Subscription } from 'rxjs';
 import { IPlan } from 'src/app/interfaces/plan';
