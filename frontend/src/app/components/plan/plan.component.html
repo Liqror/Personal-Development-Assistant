@@ -73,8 +73,8 @@
               id="planName" 
               class="inputNamePlan" 
               style="width: 90%;"> 
-              <button style="width: 3%; padding: 0; padding-right: 10px;">
-                <img src="././assets/image/mark_plan.png" alt="завершить план" style="height: 8"> 
+              <button (click)="goToArchivActiv(plan)" (click)="togglePlanVisibility(plan.id)" style="width: 3%; padding: 0; padding-right: 10px;">
+                <img src="././assets/image/mark.png" alt="архивировать план" style="height: 8"> 
               </button>
             </button>
           </h5>
@@ -120,7 +120,7 @@
               type="text" 
               [(ngModel)]="plan.details" 
               (ngModelChange)="updatePlan(plan)" 
-              style="background: none; border-width: 0 0 1px 0; font-size: 100%;"
+              style="background: none; border-width: 0 0 1px 0; font-size: 100%; margin-bottom: 1px;"
             >
 
             <div *ngFor="let task of plan.tasks">
@@ -128,6 +128,7 @@
                 <label style="margin-left: 7px;"> 
                   <input class="real_checkbox" type="checkbox">
                   <span class="custom_checkbox"></span>
+                  <!-- ПОДСВЕТКА БУДЕТ, КОГДА БУДЕТ SPAN У ЗАДАЧИ -->
                   <button onclick="showDiv()" style="border: none;" > {{ task.name }}  </button> <!--<span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span> -->
                 </label>
               </p>
@@ -166,8 +167,8 @@
           <h5>
             <button (click)="togglePlanVisibility(plan.id)" aria-expanded="false">
               <input type="text" value="{{ plan.name }}" (ngModelChange)="updatePlan(plan)" id="planName" class="inputNamePlan" style="width: 90%;"> 
-              <button style="width: 3%; padding: 0; padding-right: 10px;">
-                <img src="././assets/image/mark_plan.png" alt="завершить план" style="height: 8"> 
+              <button (click)="goToArchivActiv(plan)" (click)="togglePlanVisibility(plan.id)"style="width: 3%; padding: 0; padding-right: 10px;">
+                <img src="././assets/image/up.png" alt="разархивировать план" style="height: 8"> 
               </button>
             </button>
           </h5>
