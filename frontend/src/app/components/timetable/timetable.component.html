@@ -10,7 +10,7 @@
   <div class="row">
 
     <p style="text-align: end;">
-      <button onclick="showDiv()" class="fixed_button" style="top: 0;">
+      <button onclick="showDiv()" class="fixed_button" style="top: 0;  position: fixed; width: 250px;">
       <img src="././assets/image/change.png" alt="добавить предмет" style="height: 20px">
       Добавить мероприятие
       </button>
@@ -86,6 +86,12 @@
           </tr>
         </tbody>
       </table>
+
+      <button class="delete-all-events" (click)="deleteAllEvents(timetable)"> 
+        <p class="text-del-all-events">
+          Удалить все мероприятия из расписания
+        </p>
+      </button>
       
     </div> 
   </div>
@@ -93,7 +99,7 @@
 
 
 <!-- создание нового event -->
-<div id="div1" style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+<div id="div1" style="display: none; width: 100%; height: 100%; position: fixed; top: 0; left: 0;">
   <div class="container">
     <p><input [(ngModel)]="formEvent.name" id="objectName" type="text" name="objectName" placeholder="Название события" style="width: 100%" /></p>
     <p><input [(ngModel)]="formEvent.place" id="objectsPlace" type="text" name="objectsPlace" placeholder="Место/ссылка" style="width: 100%" /></p>
@@ -155,7 +161,7 @@
     <br>
     <div class="row justify-content-center">
       <div class="col-md-6 col-lg-6">
-        <p style="text-align: center"><button onclick="saveObject()" onclick="checkInputForTimetable()" id="save-button-new-obj" class="save"  onclick="hideDiv()" (click)="createEvent()" (click)="clearForm()">Сохранить</button><p>
+        <p style="text-align: center"><button onclick="saveObject()"  id="save-button-new-obj" class="save"  onclick="hideDiv()" (click)="createEvent()" (click)="clearForm()">Сохранить</button><p>
       </div>
       <div class="col-md-6 col-lg-6">
         <p style="text-align: center"><button onclick="hideDiv()" id="close-button" class="close" (click)="clearForm()">Закрыть</button><p>
