@@ -111,7 +111,7 @@
     
     <form style="justify-content: left; display: flex;">
       <label for="formatSubj">Формат занятия:</label>
-      <select id="formatSubj" name="formatSubj" class="selectSubj">
+      <select id="formatSubj" name="formatSubj" class="selectSubj" [(ngModel)]="formEvent.format">
         <option value="Онлайн" class="optionSubj">Онлайн</option>
         <option value="Офлайн">Офлайн</option>
       </select>

@@ -25,7 +25,7 @@ export class TimetableComponent implements OnInit {
     id: -1,
     name: '',
     place: '',
-    format: 'Онлайн',
+    format: '',
     start_time: '',
     stop_time: ''
   };
@@ -159,6 +159,7 @@ export class TimetableComponent implements OnInit {
   createEvent() {
     const userId = 1; // ID текущего пользователя, его можно взять из контекста авторизации
     const { name, place, format, start_time, stop_time } = this.formEvent;
+    console.log(format);
   
     // Проверяем сразу все необходимые поля и условия
     if (name && place && format && start_time && stop_time && this.selectedDaysOfWeek?.length && this.selectedRepeatOption) {
@@ -223,7 +224,7 @@ export class TimetableComponent implements OnInit {
       id: -1,
       name: '',
       place: '',
-      format: 'Онлайн',
+      format: '',
       start_time: '',
       stop_time: ''
     };
