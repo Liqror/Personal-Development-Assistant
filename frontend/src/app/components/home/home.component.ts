@@ -1,11 +1,11 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {IHomeData} from "../../interfaces/home";
-import {DatePipe} from "@angular/common";
+import { HttpClient } from "@angular/common/http";
+import { IHomeData } from "../../interfaces/home";
+import { DatePipe } from "@angular/common";
 import { TaskService } from "../../services/task.service"
-import {ITaskPage} from "../../interfaces/task-page";
-import {IFullTaskPage} from "../../interfaces/full_task_for_RUD";
-import {ICategory} from "../../interfaces/category";
+import { ITaskCreate } from "../../interfaces/task";
+import { ITask } from "../../interfaces/task";
+import { ICategory } from "../../interfaces/category";
 import { DataService } from "../../services/data.service";
 import { Subscription } from 'rxjs';
 import { IPlan } from 'src/app/interfaces/plan';
@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit{
 
   // для просмотра и удаления задачи
   taskId: number = -1;
-  taskDataUpdate: IFullTaskPage;
+  taskDataUpdate: ITask;
   
   // сохранение нажатой даты для обновления страницы при изменении задач
   date: any;
@@ -285,7 +285,7 @@ export class HomeComponent implements OnInit{
         console.log("", this.taskPlan);
       }
 
-      const taskData: ITaskPage = {
+      const taskData: ITaskCreate = {
         name: this.taskName,
         estimate: this.taskEstimate,
         repeat : null,
@@ -323,7 +323,7 @@ export class HomeComponent implements OnInit{
       }
     
 
-      const taskDataUpdate: IFullTaskPage = {
+      const taskDataUpdate: ITask = {
         id: this.taskId,
         name: this.taskName,
         estimate: this.taskEstimate,
@@ -398,7 +398,7 @@ export class HomeComponent implements OnInit{
 
   getTaskInfo(event: MouseEvent, taskId: number): void {
     event.preventDefault(); // Предотвращаем стандартное действие
-    this.http.get<IFullTaskPage>(`http://localhost:8080/assistant/api/tasks/${taskId}`).subscribe((taskInfo: IFullTaskPage) => {
+    this.http.get<ITask>(`http://localhost:8080/assistant/api/tasks/${taskId}`).subscribe((taskInfo: ITask) => {
       
       this.isDiv1Visible = true; // Показываем окно
       

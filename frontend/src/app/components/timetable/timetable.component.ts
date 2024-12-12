@@ -25,7 +25,7 @@ export class TimetableComponent implements OnInit {
     id: -1,
     name: '',
     place: '',
-    format: '',
+    format: 'Онлайн',
     start_time: '',
     stop_time: ''
   };
@@ -64,7 +64,10 @@ export class TimetableComponent implements OnInit {
     // Теперь удаляем все события поочередно
     eventIds.forEach(id => {
       this.eventService.deleteEvent(id).subscribe({
-        next: () => console.log(`Событие с id ${id} успешно удалено`),
+        next: () => {
+          // console.log(`Событие с id ${id} успешно удалено`)
+          this.getTimetable();
+        },
         error: (error) => console.error(`Ошибка при удалении события с id ${id}:`, error)
       });
     });
@@ -224,7 +227,7 @@ export class TimetableComponent implements OnInit {
       id: -1,
       name: '',
       place: '',
-      format: '',
+      format: 'Онлайн',
       start_time: '',
       stop_time: ''
     };

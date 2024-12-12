@@ -54,25 +54,6 @@
                 Главный экран
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/plans">
-                <img src="././assets/image/plans.png" alt="планы">
-                Планы
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/balance-wheel">
-                <img src="././assets/image/balance.png" alt="колесо баланса">
-                Колесо баланса
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" >
-                <img src="././assets/image/archiv.png" alt="хранилище">
-                Хранилище
-              </a>
-            </li>
 
             <li class="nav-item">
               <a class="nav-link" routerLink="/timetable">
@@ -82,9 +63,30 @@
             </li>
 
             <li class="nav-item">
+              <a class="nav-link" routerLink="/plans">
+                <img src="././assets/image/plans.png" alt="планы">
+                Планы
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/balance-wheel">
+                <img src="././assets/image/balance.png" alt="колесо баланса">
+                Колесо баланса
+              </a>
+            </li>
+
+            <li class="nav-item">
               <a class="nav-link" routerLink="/diary">
                 <img src="././assets/image/diary.png" alt="Дневник">
                 Дневник
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" >
+                <img src="././assets/image/archiv.png" alt="хранилище">
+                Хранилище
               </a>
             </li>
 
@@ -106,12 +108,12 @@
         </div>
       </nav>
     </div>
+
     <div class="col-md-10 col-lg-10 content-container">
       <router-outlet></router-outlet>
-      <!--<app-balance-wheel></app-balance-wheel>-->
     </div>
+
   </div>
 </div>
 </body>
 </html>
-

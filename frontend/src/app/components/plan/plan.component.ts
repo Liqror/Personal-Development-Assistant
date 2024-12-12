@@ -1,13 +1,7 @@
 import { Component } from '@angular/core';
 import { IPlan, IPlanCreate, IPlanUpdate } from "../../interfaces/plan";
 import { PlanService } from 'src/app/services/plan.service';
-import { ITask } from 'src/app/interfaces/task';
-import {ITaskPage} from "../../interfaces/task-page";
-import {IFullTaskPage} from "../../interfaces/full_task_for_RUD";
-import {ICategory} from "../../interfaces/category";
-import { HttpClient } from '@angular/common/http';
 declare function openPlan(): void;
-import { forkJoin } from 'rxjs';
 
 
 @Component({
