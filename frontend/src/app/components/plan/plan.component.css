@@ -1,5 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:ital,wght@1,200&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:ital,wght@1,600&display=swap");
+
+.task_see:hover {
+  color: #F3A352;
+  text-shadow: #f0f0f0 2px 0 10px; 
+}
 .inputFormPlan {
   background: none;
   border-width: 0 0 1px 0;

@@ -58,10 +58,10 @@
             <input type="color" id="head" name="head" value="#F8A831" class="newColorCtg" [(ngModel)]="newCategory.color" />
             <div class="row justify-content-center">
                 <div class="col-md-6 col-lg-6">
-                  <p class="textUpdWheel"><button onclick="checkInputForBalanceWheel()" id="save-button-new-ctg" class="save" (click)="createOrUpdateCategory()" (click)="changeFlag()" onclick="hideDivCtg()">Сохранить</button><p>
+                  <p class="textUpdWheel"><button onclick="checkInputForBalanceWheel()" id="save-button-new-ctg" class="save" (click)="createOrUpdateCategory()" (click)="changeFlag()" onclick="hideDivCtg()" (click)="clearForm()">Сохранить</button><p>
                 </div>
                 <div class="col-md-6 col-lg-6">
-                  <p class="textBtnStyle"><button onclick="hideDivCtg()" id="close-button" class="close" (click)="changeFlag()">Закрыть</button><p>
+                  <p class="textBtnStyle"><button onclick="hideDivCtg()" id="close-button" class="close" (click)="changeFlag()" (click)="clearForm()">Закрыть</button><p>
                 </div>
             </div>
 

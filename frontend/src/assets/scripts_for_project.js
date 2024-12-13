@@ -1,6 +1,6 @@
 (function() {
   const buttons = document.querySelectorAll(".clickable2");
-  console.log('poiuytfdx');
+  // console.log('poiuytfdx');
   
   // Привязываем обработчик событий к каждой кнопке
   for (let i = 0; i < buttons.length; i++) {
@@ -171,11 +171,11 @@ function checkInput() {
   
     //  Проверка оценки задачи на принадлежность диапазону от 1 до 100
     if (est >= 1 && est <= 100) {
-      console.log(est, "В нужном диапазоне, все ок");
+      // console.log(est, "В нужном диапазоне, все ок");
       document.getElementById("checkEstimate").innerHTML = "";
     }
     else {
-      console.log(est, "Выход за границу [1,100]!!!");
+      // console.log(est, "Выход за границу [1,100]!!!");
       document.getElementById("checkEstimate").innerHTML = "Оценка задачи должна быть в диапазоне [1,100]";
     }
   
@@ -185,7 +185,7 @@ function checkInput() {
       document.getElementById("checkTaskName").innerHTML = "Вы не ввели название задачи! ";
     }
     else {
-      console.log(text, "Вроде ок");
+      // console.log(text, "Вроде ок");
       document.getElementById("checkTaskName").innerHTML = "";
     }
   
@@ -198,7 +198,7 @@ function checkInput() {
       document.getElementById("checkDateTime").innerHTML = "Время для задачи указано не корректно! ";
     }
     else {
-      console.log(text, "Вроде ок");
+      // console.log(text, "Вроде ок");
       document.getElementById("checkDateTime").innerHTML = "";
     }
     
@@ -222,7 +222,7 @@ function checkInputForPlan() {
     document.getElementById("checkPlanName").innerHTML = "Вы не ввели название плана! ";
   }
   else {
-    console.log("Вроде ок");
+    // console.log("Вроде ок");
     document.getElementById("checkPlanName").innerHTML = "";
   }
 
@@ -256,7 +256,7 @@ function checkInputForBalanceWheel() {
     document.getElementById("checkCtgName").innerHTML = "Вы не ввели название категории! ";
   }
   else {
-    console.log("Вроде ок");
+    // console.log("Вроде ок");
     document.getElementById("checkCtgName").innerHTML = "";
   }
 }
@@ -281,7 +281,7 @@ function checkInputForTimetable() {
     document.getElementById("checkObjName").innerHTML = "Вы не ввели название занятия! ";
   }
   else {
-    console.log("Вроде ок");
+    // console.log("Вроде ок");
     document.getElementById("checkObjName").innerHTML = "";
   }
 
@@ -291,7 +291,7 @@ function checkInputForTimetable() {
     document.getElementById("checkPlace").innerHTML = "Вы не ввели номер кабинета или место проведения занятия! ";
   }
   else {
-    console.log("Вроде ок");
+    // console.log("Вроде ок");
     document.getElementById("checkPlace").innerHTML = "";
   }
   // Проверка времени занятия. Должно быть указано начало и конец
@@ -300,7 +300,7 @@ function checkInputForTimetable() {
     document.getElementById("checkTimeTT").innerHTML = "Время указано неверно!";
   }
   else {
-    console.log("Вроде ок");
+    // console.log("Вроде ок");
     document.getElementById("checkTimeTT").innerHTML = "";
   }
 

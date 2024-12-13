@@ -9,20 +9,23 @@ import { ITimetable, IEventCreate, IEvent } from '../interfaces/timetable';
 })
 export class EventService {
 
-  private apiUrl = 'http://localhost:8080/assistant/api/events';
+  private apiUrl = 'http://localhost:8080/assistant/api/events/';
 
   constructor(private http: HttpClient) { }
 
-  getEvents(): Observable<ITimetable> {
+  // Получение расписания
+  getTimetable(): Observable<ITimetable> {
     return this.http.get<ITimetable>(this.apiUrl);
   }
 
-  createEvent(event: IEventCreate): Observable<IEvent> {
-    return this.http.post<IEvent>(this.apiUrl, event);
+  // Создание нового события
+  createEvent(event: IEventCreate): Observable<IEventCreate> {
+    return this.http.post<IEventCreate>(this.apiUrl, event);
   }
 
-  updateEvent(event: ITimetable): Observable<ITimetable> {
-    return this.http.put<ITimetable>(this.apiUrl, event);
+  // Удаление события
+  deleteEvent(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}${id}`);
   }
 
 }

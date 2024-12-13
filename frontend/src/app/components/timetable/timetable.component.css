@@ -1,3 +1,18 @@
+.delete-all-events {
+  background-color: #ff5b5b;;
+  width: 100%;
+  margin-bottom: 1%;
+}
+.delete-all-events:hover {
+  background-color: #e6e6ff;;
+}
+.text-del-all-events {
+  text-align: center;
+  margin-bottom: 0;
+  font-size: 120%;
+  font-weight: 500;
+}
+
 .text-table-subj {
   text-align: center; 
   color: rgb(121, 121, 121);

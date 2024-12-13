@@ -87,7 +87,6 @@ export class BalanceWheelComponent implements OnInit {
 
       }
     }
-    this.clearForm();
   }
 
   // очистка формы после создания/редактирования

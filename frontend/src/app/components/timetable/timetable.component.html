@@ -8,20 +8,19 @@
 
 <div class="container-fluid" style="background-color: #D4CBC8">
   <div class="row">
-    <!--Кнопка изменения четности недель для расписания-->
 
-    <!--<p><button onclick="weeksSettingDiv()" class="fixed_button" style="right: 210px; width: 300px;">
-      <img src="././assets/image/change.png" alt="изменить четность недели" style="height: 20px">
-      Настройка четности недель
-    </button></p> -->
-    <!--Кнопка изменения расписания-->
-    <p style="text-align: end;"><button onclick="showDiv()" class="fixed_button" style="top: 0;">
+    <p style="text-align: end;">
+      <button onclick="showDiv()" class="fixed_button" style="top: 0;  position: fixed; width: 250px;">
       <img src="././assets/image/change.png" alt="добавить предмет" style="height: 20px">
-      Добавить предмет
-    </button></p>
+      Добавить мероприятие
+      </button>
+    </p>
+
     <div class="col-md-12 col-lg-12 content-container">
+
       <h1>Расписание занятий</h1>
-      <table class="table" *ngFor="let day of events?.days">
+
+      <table class="table" *ngFor="let day of timetable?.days">
         <thead>
           <tr>
             <th class="weekDays">{{ getDayOfWeek(day.day_by_num_order) }}</th>
@@ -34,35 +33,66 @@
                 <thead>
                   <tr class="another">
                     <th>Время</th>
-                    <th>Четная неделя</th>
-                    <th>Время</th>
                     <th>Нечетная неделя</th>
+                    <th>Время</th>
+                    <th>Четная неделя</th>
                   </tr>
                 </thead>
                 <tbody class="myTable">
-                  <ng-container *ngIf="day.odd_week || day.even_week">
-                    <tr class="another" *ngFor="let event of day.odd_week || day.even_week">
-                      <td>{{ event.start_time }} - {{ event.stop_time }}</td>
-                      <td onclick="showDiv()">{{ event.name }}  
-                        <!-- <button onclick="deleteElement(this)" style="border: none;">
-                          <img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button>  -->
-                          <p class="text-table-subj"> {{ event.place }} </p> 
-                        <p class="text-table-subj"> {{ event.format}}  </p>
+                  <ng-container *ngIf="day.odd_week?.length || day.even_week?.length; else noClasses">
+                    <tr class="another" *ngFor="let event of getCombinedEvents(day.odd_week, day.even_week)">
+
+                      <!-- Время для нечетной недели -->
+                      <td *ngIf="event.odd">{{ event.odd.start_time.slice(0, 5) }} - {{ event.odd.stop_time.slice(0, 5) }}</td>
+                      <td *ngIf="!event.odd">—</td>
+      
+                      <!-- Событие для нечетной недели -->
+                      <td *ngIf="event.odd">
+                        {{ event.odd.name }}  
+                        <!--<p class="text-table-subj">{{ event.odd.place }}</p> -->
+                        <p class="text-table-subj" > <a href="{{ event.odd.place }}">Ссылка на мероприятие</a></p> 
+                        <p class="text-table-subj">{{ event.odd.format }}</p>
+                        <button onclick="deleteElement(this)" (click)="deleteEvent(event.odd.id)" style="border: none;">
+                          <img src="././assets/image/delete2.png" alt="удалить" style="height: 20px">
+                        </button>
+                      </td>
+                      <td *ngIf="!event.odd">—</td>
+      
+                      <!-- Время для четной недели -->
+                      <td *ngIf="event.even">{{ event.even.start_time.slice(0, 5) }} - {{ event.even.stop_time.slice(0, 5) }}</td>
+                      <td *ngIf="!event.even">—</td>
+      
+                      <!-- Событие для четной недели -->
+                      <td *ngIf="event.even">
+                        {{ event.even.name }}  
+                        <p class="text-table-subj">{{ event.even.place }}</p> 
+                        <p class="text-table-subj">{{ event.even.format }}</p>        
+                        <button onclick="deleteElement(this)" (click)="deleteEvent(event.even.id)" style="border: none;">
+                          <img src="././assets/image/delete2.png" alt="удалить" style="height: 20px">
+                        </button> 
                       </td>
 
-                      <td>{{ event.start_time }} - {{ event.stop_time }}</td>
-                      <td onclick="showDiv()">{{ event.name }} <button onclick="deleteElement(this)"  style="border: none;"><img src="././assets/image/delete2.png" alt="удалить" style="height: 20px"></button> <p class="text-table-subj"> {{ event.place }} </p> <p class="text-table-subj"> {{ event.format}}  </p></td>
+                      <td *ngIf="!event.even">—</td>
                     </tr>
                   </ng-container>
-                  <tr *ngIf="!(day.odd_week || day.even_week)" class="another">
-                    <td colspan="4">Нет занятий</td>
-                  </tr>
+      
+                  <ng-template #noClasses>
+                    <tr class="another">
+                      <td colspan="4">Нет мероприятий</td>
+                    </tr>
+                  </ng-template>
                 </tbody>
               </table>
             </td>
           </tr>
         </tbody>
       </table>
+
+      <button class="delete-all-events" (click)="deleteAllEvents(timetable)"> 
+        <p class="text-del-all-events">
+          Удалить все мероприятия из расписания
+        </p>
+      </button>
       
     </div> 
   </div>
@@ -70,72 +100,72 @@
 
 
 <!-- создание нового event -->
-<div id="div1" style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+<div id="div1" style="display: none; width: 100%; height: 100%; position: fixed; top: 0; left: 0;">
   <div class="container">
-    <p><input id="objectName" type="text" name="objectName" placeholder="Название предмета" style="width: 100%" /></p>
-    <p><input id="objectsPlace" type="text" name="objectsPlace" placeholder="Место/ссылка" style="width: 100%" /></p>
+    <p><input [(ngModel)]="formEvent.name" id="objectName" type="text" name="objectName" placeholder="Название события" style="width: 100%" /></p>
+    <p><input [(ngModel)]="formEvent.place" id="objectsPlace" type="text" name="objectsPlace" placeholder="Место/ссылка" style="width: 100%" /></p>
 
     <div class="row justify-content-center">
       <div class="col-md-6 col-lg-6">
         <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
-          ОТ <input type="time" id="time_from_tt" style="width: 70%; background-color: #f0f0f0"> </p>
+          ОТ <input [(ngModel)]="formEvent.start_time" type="time" id="time_from_tt" style="width: 70%; background-color: #f0f0f0"> </p>
       </div>
       <div class="col-md-6 col-lg-6">
-        <p>ДО <input type="time" id="time_to_tt" style="width: 82%; background-color: #f0f0f0"></p>
+        <p>ДО <input [(ngModel)]="formEvent.stop_time" type="time" id="time_to_tt" style="width: 82%; background-color: #f0f0f0"></p>
       </div>
     </div>
     
     
     <form style="justify-content: left; display: flex;">
       <label for="formatSubj">Формат занятия:</label>
-      <select id="formatSubj" name="formatSubj" class="selectSubj">
-        <option value="online" class="optionSubj">Онлайн</option>
-        <option value="offline">Офлайн</option>
+      <select id="formatSubj" name="formatSubj" class="selectSubj" [(ngModel)]="formEvent.format">
+        <option value="Онлайн" class="optionSubj">Онлайн</option>
+        <option value="Офлайн">Офлайн</option>
       </select>
     </form>
 
-
+    <!-- Повтор недели -->
     <form style="justify-content: left; display: flex;">
       <label for="repeatSubj">Повтор занятия:</label>
-      <select id="repeatSubj" name="repeatSubj" class="selectSubj">
-        <option value="online" class="optionSubj">Каждую неделю</option>
-        <option value="offline" class="optionSubj">Четную неделю</option>
-        <option value="online" class="optionSubj">Нечетную неделю</option>
+      <select id="repeatSubj" name="repeatSubj" class="selectSubj" [(ngModel)]="selectedRepeatOption" (change)="selectRepeatOption($event)">
+        <option value="each" class="optionSubj">Каждую неделю</option>
+        <option value="odd" class="optionSubj">Нечетную неделю</option>
+        <option value="even" class="optionSubj">Четную неделю</option>
       </select>
     </form>
 
+    <!-- Дни недели -->
     <div class="row" style="justify-content: space-between; width: 90%; ">
       <div class="col-md-1 col-lg-1">
-        <button class="clickable2" id="monday"> ПН </button>
+        <button class="clickable2" data-day="0" (click)="toggleDaySelection(0)"> ПН </button>
       </div>
       <div class="col-md-1 col-lg-1">
-        <button class="clickable2" id="tuesday"> ВТ </button>
+        <button class="clickable2" data-day="1" (click)="toggleDaySelection(1)"> ВТ </button>
       </div>
       <div class="col-md-1 col-lg-1">
-        <button class="clickable2" id="wednesday"> СР </button>
+        <button class="clickable2" data-day="2" (click)="toggleDaySelection(2)"> СР </button>
       </div>
       <div class="col-md-1 col-lg-1">
-        <button class="clickable2" id="thursday"> ЧТ </button>
+        <button class="clickable2" data-day="3" (click)="toggleDaySelection(3)"> ЧТ </button>
       </div>
       <div class="col-md-1 col-lg-1">
-        <button class="clickable2" id="friday"> ПТ </button>
+        <button class="clickable2" data-day="4" (click)="toggleDaySelection(4)"> ПТ </button>
       </div>
       <div class="col-md-1 col-lg-1">
-        <button class="clickable2" id="saturday"> СБ </button>
+        <button class="clickable2" data-day="5" (click)="toggleDaySelection(5)"> СБ </button>
       </div>
       <div class="col-md-1 col-lg-1">
-        <button class="clickable2" id="sunday"> ВС </button>
+        <button class="clickable2" data-day="6" (click)="toggleDaySelection(6)"> ВС </button>
       </div>
-
     </div>
 
     <br>
     <div class="row justify-content-center">
       <div class="col-md-6 col-lg-6">
-        <p style="text-align: center"><button onclick="saveObject()" onclick="hideDiv()" onclick="checkInputForTimetable()" id="save-button-new-obj" class="save">Сохранить</button><p>
+        <p style="text-align: center"><button onclick="saveObject()"  id="save-button-new-obj" class="save"  onclick="hideDiv()" (click)="createEvent()" (click)="clearForm()">Сохранить</button><p>
       </div>
       <div class="col-md-6 col-lg-6">
-        <p style="text-align: center"><button onclick="hideDiv()" id="close-button" class="close">Закрыть</button><p>
+        <p style="text-align: center"><button onclick="hideDiv()" id="close-button" class="close" (click)="clearForm()">Закрыть</button><p>
       </div>
     </div>
 

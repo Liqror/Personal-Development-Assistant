@@ -18,12 +18,15 @@
         <div class="col-md-11 col-lg-11 mt-md-2 divDiary" id="divNewDiary">
             <h2 class="titleDiary">Сегодня ({{ formatDateForDisplay(todayDate) }})</h2>
         
-            <textarea 
-            class="textNewDiary"
+            <textarea
+            class="form-control md-textarea"
+            type="text"
+            style="color: #595959; overflow: hidden; resize: none; font-size: 120%;"
             [(ngModel)]="diaryEntry"
-            (input)="onDiaryInput()"
+            (input)="onDiaryInput()" (input)="adjustHeight($event)"
             (blur)="onDiaryBlur()"
             ></textarea>
+            <br>
         </div>
   
       

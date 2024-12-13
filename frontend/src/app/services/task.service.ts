@@ -2,24 +2,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ITaskPage } from '../interfaces/task-page';
+import { ITaskCreate } from '../interfaces/task';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
+  
   private apiUrl = 'http://localhost:8080/assistant/api/tasks';
 
   constructor(private http: HttpClient) {}
 
   // Добавление задачи
-  addTask(taskData: ITaskPage): Observable<any> {
+  addTask(taskData: ITaskCreate): Observable<any> {
     return this.http.post(this.apiUrl, taskData);
   }
 
   // Обновление задачи
-  updateTask(taskData: ITaskPage): Observable<any> {
+  updateTask(taskData: ITaskCreate): Observable<any> {
     return this.http.put(this.apiUrl, taskData);
   }
+
 }

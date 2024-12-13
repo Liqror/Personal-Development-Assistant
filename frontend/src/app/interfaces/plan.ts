@@ -1,4 +1,4 @@
-import { ITask } from "./task";
+import { IShortTask } from "./task";
 import { ICategory } from "./category";
 
 
@@ -7,7 +7,7 @@ export interface IPlan {
     name: string;
     details : string;
     status : number;
-    tasks : ITask[];
+    tasks : IShortTask[];
     categories: ICategory[],
     user_id: number,
     start_date: string;
@@ -26,6 +26,8 @@ export interface IPlanCreate {
 }
 
 export interface IPlanUpdate {
+    id: number;
+    user_id: number;
     name: string;
     details : string;
     start_date: string;
