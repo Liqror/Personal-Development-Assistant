@@ -17,6 +17,7 @@ export interface ITask {
     task_category: {
         id: number;
     };
+    plan_id: number | null; //это поле для псвязывания задачи и плана (перемещения из плана в план пока нет)
     plan: IPlan | null;
 }
 
@@ -35,6 +36,7 @@ export interface ITaskCreate {
   task_category: {
     id: number;
   };
+  plan_id: number | null; //это поле для псвязывания задачи и плана (перемещения из плана в план пока нет)
   plan: IPlan | null;
 }
 

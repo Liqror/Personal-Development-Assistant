@@ -38,7 +38,7 @@
         <!-- Основной контент страницы  -->
         <div class="row justify-content-center" *ngIf="data && data.yesterday"> <!-- эта строчка убирает ошибки из консоли -->
           <div class="col-md-4 col-lg-4 mt-md-1">
-            <h2>{{ datesForTitle.previous }}</h2>
+            <h2>{{ titles.previous }}</h2>
             <hr>
             <h3>Расписание</h3>
             <!-- Таблица расписание -->
@@ -58,9 +58,12 @@
               </tbody>
             </table>
 
-            <hr>
-            <h3>Заметка</h3>
-            <p>{{ data.yesterday.text_note.text}}</p>
+            <div *ngIf="!isDateGreaterThanToday(data.yesterday.date)">
+              <hr>
+              <h3>Заметка</h3>
+              <p>{{ data.yesterday.text_note.text }}</p>
+            </div>
+
             <hr>
             
             <h3>Задачи</h3>
@@ -77,7 +80,7 @@
           </div>
 
           <div class="col-md-4 col-lg-4 mt-md-1">
-            <h2>{{ datesForTitle.clicked }}</h2>
+            <h2>{{ titles.clicked }}</h2>
             <hr>
             <h3>Расписание</h3>
             <!-- Таблица расписание -->
@@ -104,7 +107,7 @@
               <textarea
                 name="message"
                 id="message"
-                class="form-control md-textarea note-area"
+                class="form-control md-textarea"
                 type="text"
                 style="color: #595959; overflow: hidden; resize: none;"
                 [(ngModel)]="data.today.text_note.text"
@@ -116,6 +119,7 @@
             </ng-template>            
             
             <hr>
+
             <h3>Задачи</h3>
             <h4>На день</h4>
             <div *ngFor="let task of data.today.fixed_tasks">
@@ -130,7 +134,7 @@
           </div>
 
           <div class="col-md-4 col-lg-4 mt-md-1">
-            <h2>{{ datesForTitle.next }}</h2>
+            <h2>{{ titles.next }}</h2>
             <hr>
             <h3>Расписание</h3>
             <!-- Таблица расписание -->
@@ -149,10 +153,15 @@
               </tr>
               </tbody>
             </table>
+  
+            <div *ngIf="!isDateGreaterThanToday(data.tomorrow.date)">
               <hr>
-            <h3>Заметка</h3>
-            <p>{{ data.tomorrow.text_note.text }}</p>
+              <h3>Заметка</h3>
+              <p>{{ data.tomorrow.text_note.text }}</p>
+            </div>
+
             <hr>
+
             <h3>Задачи</h3>
             <h4>На день</h4>
             <div *ngFor="let task of data.tomorrow.fixed_tasks">

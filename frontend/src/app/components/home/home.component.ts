@@ -6,7 +6,6 @@ import { TaskService } from "../../services/task.service"
 import { ITaskCreate } from "../../interfaces/task";
 import { ITask } from "../../interfaces/task";
 import { ICategory } from "../../interfaces/category";
-import { DataService } from "../../services/data.service";
 import { Subscription } from 'rxjs';
 import { IPlan } from 'src/app/interfaces/plan';
 import { retry } from 'rxjs/operators';
@@ -14,6 +13,9 @@ import { repeatWhen, delay } from 'rxjs/operators';
 import { EMPTY, timer } from 'rxjs';
 import { CategoryService } from 'src/app/services/category.service';
 import { PlanService } from 'src/app/services/plan.service';
+import { combineLatest } from 'rxjs';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 
 @Component({
@@ -44,43 +46,41 @@ export class HomeComponent implements OnInit{
   // сохранение нажатой даты для обновления страницы при изменении задач
   date: any;
 
-  // сохранение нажатой даты для обновления страницы при изменении задач
-  dates = {
-    clicked: "сегодня",
-    previous: "вчера",
-    next: "завтра"
-  };
-
-  // для вчера сегодня завтра
-  datesForTitle = {
-    clicked: "сегодня",
-    previous: "вчера",
-    next: "завтра"
-  };
-
-  currentDate: Date;
-  data: IHomeData;
-  categories: ICategory[];
-  plans: IPlan[];
-
-  isDateClicked: boolean = false;
-
   noteHere: boolean = true;
 
-  // отформатированная дата которая передается на бекенд 
-  formattedDate: string;
 
+  // для заголовков таблицы
+  titles: { [key: string]: string } = {
+    clicked: '',
+    previous: '',
+    next: ''
+  };
+  LablesForTitles: { [key: string]: string } = {
+    clicked: 'сегодня',
+    previous: 'вчера',
+    next: 'завтра'
+  };
 
   // это джаваскрипт для создания задачи
   myScriptElement: HTMLScriptElement;
   private subs: Subscription;
 
-  isDiv1Visible: boolean = false; // Переменная для отслеживания видимости окна задачи
+  // Переменная для отслеживания видимости окна задачи
+  isDiv1Visible: boolean = false; 
 
+  // Дата, которую мы получили из URL
+  public urlDate: string = ''; 
+  // для первого получения хом дата
+  private isFirstNavigation = true;
 
-  constructor(private taskService: TaskService, 
-    private datePipe: DatePipe, private http: HttpClient,
-    @Inject(DataService) private readonly dataService: DataService,
+  data: IHomeData;
+  categories: ICategory[];
+  plans: IPlan[];
+
+  constructor(private router: Router, // Позволяет получить параметры URL
+    private http: HttpClient, // Для запросов на бэкенд
+    private taskService: TaskService, 
+    private datePipe: DatePipe,
     private categoryService: CategoryService,
     private planService: PlanService) {
 
@@ -91,83 +91,140 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    // console.log("Инициализация страницы");
-    this.currentDate = new Date();
-    this.formatDateForData();
-    this.updateDatesForTitle(this.dates.clicked);
-    // Вызываем загрузку данных, получение категорий и планов для создания задач
-    this.getHomeData(this.formattedDate);
-    // подписка на сервис для отследивания нажатий на календаре для обновления задач
-    this.subs = this.dataService.dates$.subscribe((dates) => {
-      this.dates = dates;
-      // this.updateDatesForTitle(dates.clicked);
-      this.update(dates);
+    
+    this.router.events.subscribe(event => {
+      const fullUrl = window.location.href;
+
+      // Если это первый переход
+      if (this.isFirstNavigation) {
+        // console.log('Первый переход, URL:', fullUrl);
+
+        const match = fullUrl.match(/\/(\d{4})\/(\d{2})\/(\d{2})/);
+        this.urlDate = match ? `${match[1]}/${match[2]}/${match[3]}` : '';
+        this.getHomeData();        
+
+        this.isFirstNavigation = false; // Устанавливаем флаг в false, чтобы игнорировать этот блок для дальнейших переходов
+      }
+    });
+
+    // После первого перехода фильтруем только NavigationEnd
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd) // фильтрация только NavigationEnd
+    ).subscribe(() => {
+      const fullUrl = window.location.href;
+      // console.log('URL изменился (NavigationEnd):', fullUrl);
+
+      const match = fullUrl.match(/\/(\d{4})\/(\d{2})\/(\d{2})/);
+      this.urlDate = match ? `${match[1]}/${match[2]}/${match[3]}` : '';
+      this.getHomeData();
+
+    });
+  }
+ 
+  // Функция для получения данных для заполенеия главной таблицы
+  getHomeData(): void {
+    const url = `http://localhost:8080/assistant/api/${this.urlDate}`;
+
+    if (this.urlDate) {
+      this.http.get<IHomeData>(url).subscribe(
+        (data: IHomeData) => {
+          // console.log('Данные с бэкенда для даты:', this.urlDate);
+          this.data = data; // Сохраняем данные для отображения
+        },
+        (error) => {
+          console.error('Ошибка при получении данных с бэкенда', error);
+        }
+      );
+
+      this.getTitles();
+      this.getActiveCategories();
+      this.getPlans();
+    }    
+  }
+
+  // Функция для получения АКТИВНЫХ планов категорий
+  getActiveCategories(): void {
+    this.categoryService.getActiveCategories().subscribe((res: ICategory[]) => { 
+      // console.log(res);
+      this.categories = res;
+      this.taskCategory = this.categories[0].id;
+    });
+  }
+  
+  // Функция для получения АКТИВНЫХ планов
+  getPlans(): void {
+    this.planService.getPlansByStatus(0).subscribe({
+      next: (activePlans) => {
+        this.plans = activePlans;
+        // console.log('Active Plans:', activePlans);
+      },
+      error: (err) => {
+        console.error('Error fetching active plans:', err);
+      },
     });
   }
 
-  ngOnDestroy(): void {
-    this.subs.unsubscribe();
+  // Функция для получения заголовков таблицы 
+  getTitles() {
+    const today = new Date();
+    const urlDateObj = new Date(this.urlDate);
+  
+    // Проверка, если urlDate совпадает с сегодняшней датой
+    this.titles = this.isSameDay(today, urlDateObj)
+      ? { ...this.LablesForTitles } // Если совпадает, присваиваем LablesForTitles
+      : {
+          clicked: this.formatDateForTitles(urlDateObj),
+          previous: this.formatDateForTitles(this.addDays(urlDateObj, -1)),
+          next: this.formatDateForTitles(this.addDays(urlDateObj, 1)),
+        };
+  
+    // console.log('Titles:', this.titles); // Проверка
   }
-
-  private update(dates: any): void {
-    this.dates = dates;
-    this.updateDatesForTitle(dates.clicked);
-    console.log("в апдэйт", this.datesForTitle);
-    this.getHomeData(dates.clicked);
+  // Функция для проверки, одинаковые ли дни
+  isSameDay(date1: Date, date2: Date): boolean {
+    return date1.toDateString() === date2.toDateString(); 
   }
-
-  formatDateForYTT(dateString: string): string {
-    const date = new Date(dateString);
+  // Функция для добавления/вычитания дней
+  addDays(date: Date, days: number): Date {
+    date.setDate(date.getDate() + days);
+    return date;
+  }
+  // Функция для форматирования даты в слова
+  formatDateForTitles(date: Date): string {
     const monthNames = ['янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
     const day = date.getDate().toString();
-    const monthIndex = date.getMonth();
+    const month = monthNames[date.getMonth()];
     const year = date.getFullYear();
-    return `${day} ${monthNames[monthIndex]} ${year}`;
+    return `${day} ${month} ${year}`;
   }
 
-  // изменения вида дат для вчера/сегодня/завтра
-  private updateDatesForTitle(date: string): void {
-    if (this.formatDateForComparison(date) == this.formattedDate) {
-      this.datesForTitle = {
-        clicked: "сегодня",
-        previous: "вчера",
-        next: "завтра"
-      };
-      this.noteHere = true;
-    } else {
-      this.datesForTitle = {
-        clicked: this.formatDateForYTT(this.dates.clicked),
-        previous: this.formatDateForYTT(this.dates.previous),
-        next: this.formatDateForYTT(this.dates.next)
-      };
-      this.noteHere = false;
-    }
-    console.log("обновление дат", this.datesForTitle);
+  // Функция проверки совпадает ли текущая дата с сегодняшней
+  isToday(urlDate: string): boolean {
+    const today = new Date();
+    const urlDateObj = new Date(urlDate);
+    return this.isSameDay(today, urlDateObj);
+  }
+
+  // Функция для отображения заметки только для сегодняшнего и прошедших дней
+  isDateGreaterThanToday(data:string): boolean {
+    const today = new Date();
+    const formDate = new Date(data);
+    return formDate > today;
   }
   
-  formatDateForData(): void {
-    const year = this.currentDate.getFullYear();
-    const month = this.padZero(this.currentDate.getMonth() + 1); // Месяцы начинаются с 0
-    const day = this.padZero(this.currentDate.getDate());
-    this.formattedDate = `${year}/${month}/${day}`;
-    this.dates= {
-      clicked: this.formattedDate,
-      previous: this.formattedDate,
-      next: this.formattedDate,
-    };
-  }
-  private padZero(value: number): string {
-    return value < 10 ? `0${value}` : `${value}`;
+
+
+
+  // адаптивная высота поля заметки
+  adjustHeight(event: Event): void {
+    const textarea = event.target as HTMLTextAreaElement;
+    textarea.style.height = 'auto'; // Сброс высоты
+    textarea.style.height = `${textarea.scrollHeight}px`; // Установка новой высоты
   }
 
-  // изменения вида дат для сохранения
-  formatDateForComparison(dateString: string): string {
-    const [year, month, day] = dateString.split('/'); // Разделяем строку на части
-    const formattedMonth = parseInt(month).toString().padStart(2, '0'); // Преобразуем месяц в число, добавляем ведущий ноль
-    const formattedDay = parseInt(day).toString().padStart(2, '0'); // Преобразуем день в число, добавляем ведущий ноль
-    return `${year}/${formattedMonth}/${formattedDay}`;
-  }
 
+
+  // галочка на задачах
   onCheckboxChange(event: any, task: any) {
     if (event.target.checked) {
       this.http.patch('http://localhost:8080/assistant/api/tasks/' + task.id, [
@@ -194,60 +251,6 @@ export class HomeComponent implements OnInit{
             console.error('Ошибка при выполнении PATCH-запроса:', error);
         });
     }
-  }
-
-  getHomeData(date: string): void {    
-    this.http.get<IHomeData>('http://localhost:8080/assistant/api/' + date)
-      .pipe(
-          repeatWhen(() => timer(1000)) // Повторять запрос каждую секунду, пока не получены данные
-      )
-      .subscribe((res: IHomeData) => {
-          // Обработка полученных данных
-          this.data = res;
-          const sectionsToCheck = [
-              res.yesterday.fixed_tasks, 
-              res.today.fixed_tasks, 
-              res.tomorrow.fixed_tasks, 
-              res.free_tasks, 
-              res.late_tasks, 
-              res.soon_tasks
-          ];
-
-          for (const tasks of sectionsToCheck) {
-              if (tasks && tasks.length > 0) {
-                  // const firstTaskId = tasks[0].id;
-                  // this.getCategories(firstTaskId);
-                  this.getActiveCategories();
-                  break;
-              }
-          }
-      },
-      (error) => {
-          console.error('Произошла ошибка при получении данных:', error);
-      });
-    this.getPlans();
-  }
-  
-  // получение АКТИВНЫХ категорий
-  getActiveCategories(): void {
-    this.categoryService.getActiveCategories().subscribe((res: ICategory[]) => { 
-      console.log(res);
-      this.categories = res;
-      this.taskCategory = this.categories[0].id;
-    });
-  }
-
-  // Получить АКТИВНЫЕ планы
-  getPlans(): void {
-    this.planService.getPlansByStatus(0).subscribe({
-      next: (activePlans) => {
-        this.plans = activePlans;
-        // console.log('Active Plans:', activePlans);
-      },
-      error: (err) => {
-        console.error('Error fetching active plans:', err);
-      },
-    });
   }
 
   getPlanById(id: number): IPlan | null {
@@ -282,7 +285,7 @@ export class HomeComponent implements OnInit{
 
       if (typeof this.planId === 'number') {
         this.taskPlan = this.getPlanById(this.planId);
-        console.log("", this.taskPlan);
+        // console.log("это не id?", this.taskPlan);
       }
 
       const taskData: ITaskCreate = {
@@ -300,15 +303,16 @@ export class HomeComponent implements OnInit{
         task_category: {
           id: this.taskCategory,
         },
-        plan: this.taskPlan,  
+        plan_id: this.planId,
+        plan: null,  
       };
 
       this.taskService.addTask(taskData).subscribe(
         (response) => {
           console.log('Задача успешно сохранена', response);
-          console.log("", taskData);
-          console.log("", this.belongsPlan);
-          console.log("", this.taskPlan);
+          // console.log("", taskData);
+          // console.log("", this.belongsPlan);
+          // console.log("", this.taskPlan);
           this.clear(); 
         },
         (error) => {
@@ -340,6 +344,7 @@ export class HomeComponent implements OnInit{
           id: this.taskCategory,
         },
         plan: this.taskPlan,  
+        plan_id: null, // временно
       };
 
       // console.log("Задача в режиме редактирования", taskDataUpdate);
@@ -419,11 +424,5 @@ export class HomeComponent implements OnInit{
     });
   }
 
-  // адаптивная высота поля заметки
-  adjustHeight(event: Event): void {
-    const textarea = event.target as HTMLTextAreaElement;
-    textarea.style.height = 'auto'; // Сброс высоты
-    textarea.style.height = `${textarea.scrollHeight}px`; // Установка новой высоты
-  }
 
 }  

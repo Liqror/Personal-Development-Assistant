@@ -1,19 +1,14 @@
-import { NgModule} from '@angular/core';
-import {CommonModule, DatePipe} from '@angular/common';
-import {HomeComponent} from "./home.component";
-import {BrowserModule} from "@angular/platform-browser";
-import { RouterModule } from '@angular/router';
-import {FormsModule} from "@angular/forms";
-import { DataService } from 'src/app/services/data.service';
+import { NgModule } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
+import { HomeComponent } from "./home.component";
+import { BrowserModule} from "@angular/platform-browser";
+import { FormsModule } from "@angular/forms";
 
 
 @NgModule({
   imports: [
     BrowserModule,
     CommonModule,
-    RouterModule.forChild([
-      { path: ':year/:month/:day', component: HomeComponent }
-    ]),
     FormsModule,
   ],
   declarations: [
@@ -22,7 +17,9 @@ import { DataService } from 'src/app/services/data.service';
   exports: [
     HomeComponent
   ],
-  providers: [DatePipe, DataService],
+  providers: [
+    DatePipe,
+  ],
 })
 export class HomeModule {
 }

@@ -1,19 +1,12 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';import {DatePipe, registerLocaleData} from '@angular/common';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import {DatePipe, registerLocaleData} from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
 import { Router } from '@angular/router';
-import { DataService } from "../../services/data.service";
 registerLocaleData(localeRu, 'ru');
 
-interface CalendarDay {
-  date: string;
-  isCurrentMonth: boolean;
-  isCurrentDay?: boolean;
-  tag: string;
-}
 
 @Component({
   selector: 'app-calendar',
-  // standalone: true,
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css'],
   providers: [DatePipe],
@@ -31,8 +24,9 @@ export class CalendarComponent implements OnInit {
   ];
 
   constructor(private datePipe: DatePipe,
-              private router: Router, 
-              private readonly dataService: DataService) {}
+              private router: Router
+            ) {}
+
   ngOnInit() {
     this.updateCalendar();
     this.generateCalendar();
@@ -132,10 +126,6 @@ export class CalendarComponent implements OnInit {
   handleDateClick(day: { date: string; isCurrentMonth: boolean }): void {
     if (day.isCurrentMonth && day.date !== '') {
       const clickedDate = new Date(this.currentYear, this.currentMonth, +day.date);
-      const previousDay = new Date(clickedDate);
-      previousDay.setDate(clickedDate.getDate() - 1);
-      const nextDay = new Date(clickedDate);
-      nextDay.setDate(clickedDate.getDate() + 1);
 
       const year = clickedDate.getFullYear();
       const month = (clickedDate.getMonth() + 1).toString().padStart(2, '0');
@@ -144,19 +134,7 @@ export class CalendarComponent implements OnInit {
 
       this.router.navigate([url]);
 
-      // console.log('Дата нажата', this.formatDate(clickedDate));
-
-      const dates = {
-        clicked: this.formatDate(clickedDate),
-        previous: this.formatDate(previousDay),
-        next: this.formatDate(nextDay)
-      };
-
-      // подписка на изменение нажатой даты. нужно для обновления задач в хом!
-      this.dataService.changeDate(dates);
+      // console.log('Дата нажата', url);
     }
-  }
-  formatDate(date: Date): string {
-    return `${date.getFullYear()}/${(date.getMonth() + 1).toString()}/${date.getDate().toString()}`;
   }
 }

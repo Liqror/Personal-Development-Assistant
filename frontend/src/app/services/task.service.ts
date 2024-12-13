@@ -9,6 +9,7 @@ import { ITaskCreate } from '../interfaces/task';
   providedIn: 'root'
 })
 export class TaskService {
+  
   private apiUrl = 'http://localhost:8080/assistant/api/tasks';
 
   constructor(private http: HttpClient) {}
@@ -22,4 +23,5 @@ export class TaskService {
   updateTask(taskData: ITaskCreate): Observable<any> {
     return this.http.put(this.apiUrl, taskData);
   }
+
 }
