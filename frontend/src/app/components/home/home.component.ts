@@ -282,7 +282,7 @@ export class HomeComponent implements OnInit{
 
       if (typeof this.planId === 'number') {
         this.taskPlan = this.getPlanById(this.planId);
-        console.log("", this.taskPlan);
+        // console.log("это не id?", this.taskPlan);
       }
 
       const taskData: ITaskCreate = {
@@ -300,15 +300,16 @@ export class HomeComponent implements OnInit{
         task_category: {
           id: this.taskCategory,
         },
-        plan: this.taskPlan,  
+        plan_id: this.planId,
+        plan: null,  
       };
 
       this.taskService.addTask(taskData).subscribe(
         (response) => {
           console.log('Задача успешно сохранена', response);
-          console.log("", taskData);
-          console.log("", this.belongsPlan);
-          console.log("", this.taskPlan);
+          // console.log("", taskData);
+          // console.log("", this.belongsPlan);
+          // console.log("", this.taskPlan);
           this.clear(); 
         },
         (error) => {
@@ -340,6 +341,7 @@ export class HomeComponent implements OnInit{
           id: this.taskCategory,
         },
         plan: this.taskPlan,  
+        plan_id: null, // временно
       };
 
       // console.log("Задача в режиме редактирования", taskDataUpdate);
