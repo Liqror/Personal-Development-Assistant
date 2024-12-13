@@ -77,41 +77,10 @@ export class TimetableComponent implements OnInit {
   getTimetable(): void {
     this.eventService.getTimetable().subscribe({
       next: (data) => {
-        // this.timetable = data; - я бы хотела воспользоваться этим но не судьба
-        this.timetable = this.trimEventTimes(data);
-        // console.log(this.timetable);
-        // Пример использования функции
-        // this.deleteAllEvents(this.timetable);
+        this.timetable = data;
       },
       error: (error) => console.error('Error ', error)
     });
-  }
-  // Обрезает секунды у start_time и stop_time для всех событий расписания
-  trimEventTimes(timetable: ITimetable): ITimetable {
-    return {
-      ...timetable,
-      days: timetable.days.map(day => ({
-        ...day,
-        odd_week: day.odd_week 
-          ? day.odd_week.map(event => ({
-              ...event,
-              start_time: this.trimSeconds(event.start_time),
-              stop_time: this.trimSeconds(event.stop_time)
-            })) 
-          : null,
-        even_week: day.even_week 
-          ? day.even_week.map(event => ({
-              ...event,
-              start_time: this.trimSeconds(event.start_time),
-              stop_time: this.trimSeconds(event.stop_time)
-            })) 
-          : null
-      }))
-    };
-  }
-  // Убирает секунды из времени (формат HH:MM:SS -> HH:MM)
-  trimSeconds(time: string): string {
-    return time.split(':').slice(0, 2).join(':');
   }
 
   // Объединяет события для нечетной и четной недель по времени.

@@ -46,7 +46,7 @@
               <thead>
               <tbody *ngFor="let class of data.yesterday.day_classes">
               <tr>
-                <td>{{ class.start_time }}<br>{{ class.stop_time }}</td>
+                <td>{{ class.start_time.slice(0, 5) }}<br>{{ class.stop_time.slice(0, 5) }}</td>
                 <td>
                   {{ class.name }}<br>
                   <ng-container *ngIf="class.place !== '-'">
@@ -88,7 +88,7 @@
               <thead>
               <tbody *ngFor="let class of data.today.day_classes">
               <tr>
-                <td>{{ class.start_time }}<br>{{ class.stop_time }}</td>
+                <td>{{ class.start_time.slice(0, 5) }}<br>{{ class.stop_time.slice(0, 5) }}</td>
                 <td>
                   {{ class.name }}<br>
                   <ng-container *ngIf="class.place !== '-'">
@@ -144,7 +144,7 @@
               <thead>
               <tbody *ngFor="let class of data.tomorrow.day_classes">
               <tr>
-                <td>{{ class.start_time }}<br>{{ class.stop_time }}</td>
+                <td>{{ class.start_time.slice(0, 5) }}<br>{{ class.stop_time.slice(0, 5) }}</td>
                 <td>
                   {{ class.name }}<br>
                   <ng-container *ngIf="class.place !== '-'">

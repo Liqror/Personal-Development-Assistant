@@ -43,7 +43,7 @@
                     <tr class="another" *ngFor="let event of getCombinedEvents(day.odd_week, day.even_week)">
 
                       <!-- Время для нечетной недели -->
-                      <td *ngIf="event.odd">{{ event.odd.start_time }} - {{ event.odd.stop_time }}</td>
+                      <td *ngIf="event.odd">{{ event.odd.start_time.slice(0, 5) }} - {{ event.odd.stop_time.slice(0, 5) }}</td>
                       <td *ngIf="!event.odd">—</td>
       
                       <!-- Событие для нечетной недели -->
@@ -59,7 +59,7 @@
                       <td *ngIf="!event.odd">—</td>
       
                       <!-- Время для четной недели -->
-                      <td *ngIf="event.even">{{ event.even.start_time }} - {{ event.even.stop_time }}</td>
+                      <td *ngIf="event.even">{{ event.even.start_time.slice(0, 5) }} - {{ event.even.stop_time.slice(0, 5) }}</td>
                       <td *ngIf="!event.even">—</td>
       
                       <!-- Событие для четной недели -->

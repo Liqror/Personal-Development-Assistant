@@ -14,6 +14,7 @@ import { PlanService } from 'src/app/services/plan.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { INote, INoteForCreate } from 'src/app/interfaces/note';
+import { ITimetable } from 'src/app/interfaces/timetable';
 
 
 @Component({
@@ -135,7 +136,28 @@ export class HomeComponent implements OnInit{
       this.getTitles();
       this.getActiveCategories();
       this.getPlans();
+      // this.trimEventTimes();
     }    
+  }
+
+  // Функция обрезает секунды у start_time и stop_time для всех событий расписания
+  trimEventTimes(timetable: ITimetable): ITimetable {
+    return {
+      ...timetable,
+      days: timetable.days.map(day => ({
+        ...day,
+        odd_week: day.odd_week?.map(event => ({
+          ...event,
+          start_time: event.start_time.slice(0, 5), // Убираем секунды (HH:MM:SS -> HH:MM)
+          stop_time: event.stop_time.slice(0, 5)   // Убираем секунды (HH:MM:SS -> HH:MM)
+        })) || null,
+        even_week: day.even_week?.map(event => ({
+          ...event,
+          start_time: event.start_time.slice(0, 5), // Убираем секунды (HH:MM:SS -> HH:MM)
+          stop_time: event.stop_time.slice(0, 5)   // Убираем секунды (HH:MM:SS -> HH:MM)
+        })) || null
+      }))
+    };
   }
 
   // Функция для получения АКТИВНЫХ планов категорий
@@ -241,11 +263,6 @@ export class HomeComponent implements OnInit{
       });
     }
   }  
-
-
-
-
-  
 
   // Функция для адаптивной высоты поля заметки
   adjustHeight(event: Event): void {
