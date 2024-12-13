@@ -142,6 +142,28 @@ export class HomeComponent implements OnInit{
     }    
   }
 
+  // Функция для получения АКТИВНЫХ планов категорий
+  getActiveCategories(): void {
+    this.categoryService.getActiveCategories().subscribe((res: ICategory[]) => { 
+      // console.log(res);
+      this.categories = res;
+      this.taskCategory = this.categories[0].id;
+    });
+  }
+  
+  // Функция для получения АКТИВНЫХ планов
+  getPlans(): void {
+    this.planService.getPlansByStatus(0).subscribe({
+      next: (activePlans) => {
+        this.plans = activePlans;
+        // console.log('Active Plans:', activePlans);
+      },
+      error: (err) => {
+        console.error('Error fetching active plans:', err);
+      },
+    });
+  }
+
   // Функция для получения заголовков таблицы 
   getTitles() {
     const today = new Date();
@@ -167,7 +189,7 @@ export class HomeComponent implements OnInit{
     date.setDate(date.getDate() + days);
     return date;
   }
-  // Функция для форматирования даты в строку (день месяц год)
+  // Функция для форматирования даты в слова
   formatDateForTitles(date: Date): string {
     const monthNames = ['янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
     const day = date.getDate().toString();
@@ -176,27 +198,30 @@ export class HomeComponent implements OnInit{
     return `${day} ${month} ${year}`;
   }
 
-  // получение АКТИВНЫХ категорий
-  getActiveCategories(): void {
-    this.categoryService.getActiveCategories().subscribe((res: ICategory[]) => { 
-      // console.log(res);
-      this.categories = res;
-      this.taskCategory = this.categories[0].id;
-    });
+  // Функция проверки совпадает ли текущая дата с сегодняшней
+  isToday(urlDate: string): boolean {
+    const today = new Date();
+    const urlDateObj = new Date(urlDate);
+    return this.isSameDay(today, urlDateObj);
   }
 
-  // Получить АКТИВНЫЕ планы
-  getPlans(): void {
-    this.planService.getPlansByStatus(0).subscribe({
-      next: (activePlans) => {
-        this.plans = activePlans;
-        // console.log('Active Plans:', activePlans);
-      },
-      error: (err) => {
-        console.error('Error fetching active plans:', err);
-      },
-    });
+  // Функция для отображения заметки только для сегодняшнего и прошедших дней
+  isDateGreaterThanToday(data:string): boolean {
+    const today = new Date();
+    const formDate = new Date(data);
+    return formDate > today;
   }
+  
+
+
+
+  // адаптивная высота поля заметки
+  adjustHeight(event: Event): void {
+    const textarea = event.target as HTMLTextAreaElement;
+    textarea.style.height = 'auto'; // Сброс высоты
+    textarea.style.height = `${textarea.scrollHeight}px`; // Установка новой высоты
+  }
+
 
 
   // галочка на задачах
@@ -399,11 +424,5 @@ export class HomeComponent implements OnInit{
     });
   }
 
-  // адаптивная высота поля заметки
-  adjustHeight(event: Event): void {
-    const textarea = event.target as HTMLTextAreaElement;
-    textarea.style.height = 'auto'; // Сброс высоты
-    textarea.style.height = `${textarea.scrollHeight}px`; // Установка новой высоты
-  }
 
 }  
