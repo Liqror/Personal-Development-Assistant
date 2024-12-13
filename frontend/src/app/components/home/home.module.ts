@@ -4,7 +4,6 @@ import {HomeComponent} from "./home.component";
 import {BrowserModule} from "@angular/platform-browser";
 import { RouterModule } from '@angular/router';
 import {FormsModule} from "@angular/forms";
-import { DataService } from 'src/app/services/data.service';
 
 
 @NgModule({
@@ -22,7 +21,9 @@ import { DataService } from 'src/app/services/data.service';
   exports: [
     HomeComponent
   ],
-  providers: [DatePipe, DataService],
+  providers: [
+    DatePipe,
+  ],
 })
 export class HomeModule {
 }
