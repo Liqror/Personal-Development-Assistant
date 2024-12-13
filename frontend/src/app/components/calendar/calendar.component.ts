@@ -144,19 +144,19 @@ export class CalendarComponent implements OnInit {
 
       this.router.navigate([url]);
 
-      // console.log('Дата нажата', this.formatDate(clickedDate));
+      console.log('Дата нажата', url);
 
-      const dates = {
-        clicked: this.formatDate(clickedDate),
-        previous: this.formatDate(previousDay),
-        next: this.formatDate(nextDay)
-      };
+      // const dates = {
+      //   clicked: this.formatDate(clickedDate),
+      //   previous: this.formatDate(previousDay),
+      //   next: this.formatDate(nextDay)
+      // };
 
-      // подписка на изменение нажатой даты. нужно для обновления задач в хом!
-      this.dataService.changeDate(dates);
+      // // подписка на изменение нажатой даты. нужно для обновления задач в хом!
+      // this.dataService.changeDate(dates);
     }
   }
-  formatDate(date: Date): string {
-    return `${date.getFullYear()}/${(date.getMonth() + 1).toString()}/${date.getDate().toString()}`;
-  }
+  // formatDate(date: Date): string {
+  //   return `${date.getFullYear()}/${(date.getMonth() + 1).toString()}/${date.getDate().toString()}`;
+  // }
 }

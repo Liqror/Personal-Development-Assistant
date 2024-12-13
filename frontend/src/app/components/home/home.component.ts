@@ -14,6 +14,9 @@ import { repeatWhen, delay } from 'rxjs/operators';
 import { EMPTY, timer } from 'rxjs';
 import { CategoryService } from 'src/app/services/category.service';
 import { PlanService } from 'src/app/services/plan.service';
+import { combineLatest } from 'rxjs';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 
 @Component({
@@ -77,9 +80,14 @@ export class HomeComponent implements OnInit{
 
   isDiv1Visible: boolean = false; // Переменная для отслеживания видимости окна задачи
 
+  public urlDate: string = ''; // Дата, которую мы получили из URL
+  private isFirstNavigation = true;
 
-  constructor(private taskService: TaskService, 
-    private datePipe: DatePipe, private http: HttpClient,
+  constructor(private route: ActivatedRoute, // Позволяет получить параметры URL
+    private router: Router,
+    private http: HttpClient, // Для запросов на бэкенд
+    private taskService: TaskService, 
+    private datePipe: DatePipe,
     @Inject(DataService) private readonly dataService: DataService,
     private categoryService: CategoryService,
     private planService: PlanService) {
@@ -91,74 +99,202 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    // console.log("Инициализация страницы");
-    this.currentDate = new Date();
-    this.formatDateForData();
-    this.updateDatesForTitle(this.dates.clicked);
-    // Вызываем загрузку данных, получение категорий и планов для создания задач
-    this.getHomeData(this.formattedDate);
-    // подписка на сервис для отследивания нажатий на календаре для обновления задач
-    this.subs = this.dataService.dates$.subscribe((dates) => {
-      this.dates = dates;
-      // this.updateDatesForTitle(dates.clicked);
-      this.update(dates);
+    
+    this.router.events.subscribe(event => {
+      const fullUrl = window.location.href;
+
+      // Если это первый переход
+      if (this.isFirstNavigation) {
+        // console.log('Первый переход, URL:', fullUrl);
+
+        const match = fullUrl.match(/\/(\d{4})\/(\d{2})\/(\d{2})/);
+        const date = match ? `${match[1]}/${match[2]}/${match[3]}` : '';
+        this.getHomeData(date);        
+
+        this.isFirstNavigation = false; // Устанавливаем флаг в false, чтобы игнорировать этот блок для дальнейших переходов
+      }
+    });
+
+    // После первого перехода фильтруем только NavigationEnd
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd) // фильтрация только NavigationEnd
+    ).subscribe(() => {
+      const fullUrl = window.location.href;
+      // console.log('URL изменился (NavigationEnd):', fullUrl);
+
+      const match = fullUrl.match(/\/(\d{4})\/(\d{2})\/(\d{2})/);
+      const date = match ? `${match[1]}/${match[2]}/${match[3]}` : '';
+      this.getHomeData(date);
+
     });
   }
 
-  ngOnDestroy(): void {
-    this.subs.unsubscribe();
-  }
 
-  private update(dates: any): void {
-    this.dates = dates;
-    this.updateDatesForTitle(dates.clicked);
-    console.log("в апдэйт", this.datesForTitle);
-    this.getHomeData(dates.clicked);
-  }
+  // ngOnInit(): void {
+  //   // Добавим флаг, чтобы отслеживать первый редирект
+  //   let firstNavigation = true;
 
-  formatDateForYTT(dateString: string): string {
-    const date = new Date(dateString);
-    const monthNames = ['янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
-    const day = date.getDate().toString();
-    const monthIndex = date.getMonth();
-    const year = date.getFullYear();
-    return `${day} ${monthNames[monthIndex]} ${year}`;
-  }
+  //   if (firstNavigation) {
+  //     // Вариант 2: Отслеживание изменений всего URL
+  //     this.router.events.subscribe(() => {
+  //       const fullUrl = window.location.href;
+  //       console.log('URL изменился:', fullUrl);
+  //       firstNavigation = false; // Дальше игнорируем
+  //     });
+  //     // firstNavigation = false; // Дальше игнорируем
+  //   }
 
-  // изменения вида дат для вчера/сегодня/завтра
-  private updateDatesForTitle(date: string): void {
-    if (this.formatDateForComparison(date) == this.formattedDate) {
-      this.datesForTitle = {
-        clicked: "сегодня",
-        previous: "вчера",
-        next: "завтра"
-      };
-      this.noteHere = true;
-    } else {
-      this.datesForTitle = {
-        clicked: this.formatDateForYTT(this.dates.clicked),
-        previous: this.formatDateForYTT(this.dates.previous),
-        next: this.formatDateForYTT(this.dates.next)
-      };
-      this.noteHere = false;
-    }
-    console.log("обновление дат", this.datesForTitle);
+  //   this.router.events.pipe(
+  //     filter(event => event instanceof NavigationEnd) // фильтрация только NavigationEnd
+  //   ).subscribe(() => {
+  //     const fullUrl = window.location.href;
+  //     console.log('URL изменился:', fullUrl);
+
+      
+  //   });
+    
+  // }
+
+  // ngOnInit(): void {
+
+  //   // Вариант 2: Отслеживание изменений URL с фильтрацией по NavigationEnd
+  //   this.router.events.pipe(
+  //     filter(event => event instanceof NavigationEnd) // фильтрация только NavigationEnd
+  //   ).subscribe(() => {
+  //     const fullUrl = window.location.href;
+  //     console.log('URL изменился:', fullUrl);
+  //   });
+
+    
+    // this.getHomeData();
+
+
+    // Отслеживание изменений URL с фильтрацией по NavigationEnd (иначе множественный вывод)
+  // }
+
+
+
+
+  
+  
+  
+  getHomeData(date: string): void {
+    const url = `http://localhost:8080/assistant/api/${date}`;
+    
+    this.http.get<IHomeData>(url).subscribe(
+      (data: IHomeData) => {
+        console.log('Данные с бэкенда для даты:', date);
+        this.data = data; // Сохраняем данные для отображения
+      },
+      (error) => {
+        console.error('Ошибка при получении данных с бэкенда', error);
+      }
+    );
   }
   
-  formatDateForData(): void {
-    const year = this.currentDate.getFullYear();
-    const month = this.padZero(this.currentDate.getMonth() + 1); // Месяцы начинаются с 0
-    const day = this.padZero(this.currentDate.getDate());
-    this.formattedDate = `${year}/${month}/${day}`;
-    this.dates= {
-      clicked: this.formattedDate,
-      previous: this.formattedDate,
-      next: this.formattedDate,
-    };
-  }
-  private padZero(value: number): string {
-    return value < 10 ? `0${value}` : `${value}`;
-  }
+
+  // getHomeData(date: string): void {    
+  //   this.http.get<IHomeData>('http://localhost:8080/assistant/api/' + date)
+  //     .pipe(
+  //         repeatWhen(() => timer(1000)) // Повторять запрос каждую секунду, пока не получены данные
+  //     )
+  //     .subscribe((res: IHomeData) => {
+  //         // Обработка полученных данных
+  //         this.data = res;
+  //         const sectionsToCheck = [
+  //             res.yesterday.fixed_tasks, 
+  //             res.today.fixed_tasks, 
+  //             res.tomorrow.fixed_tasks, 
+  //             res.free_tasks, 
+  //             res.late_tasks, 
+  //             res.soon_tasks
+  //         ];
+
+  //         for (const tasks of sectionsToCheck) {
+  //             if (tasks && tasks.length > 0) {
+  //                 // const firstTaskId = tasks[0].id;
+  //                 // this.getCategories(firstTaskId);
+  //                 this.getActiveCategories();
+  //                 break;
+  //             }
+  //         }
+  //     },
+  //     (error) => {
+  //         console.error('Произошла ошибка при получении данных:', error);
+  //     });
+  //   this.getPlans();
+  // }
+
+  // ngOnInit(): void {
+    // console.log("Инициализация страницы");
+    // this.currentDate = new Date();
+    // this.formatDateForData();
+    // this.updateDatesForTitle(this.dates.clicked);
+    // // Вызываем загрузку данных, получение категорий и планов для создания задач
+    // this.getHomeData(this.formattedDate);
+    // // подписка на сервис для отследивания нажатий на календаре для обновления задач
+    // this.subs = this.dataService.dates$.subscribe((dates) => {
+    //   this.dates = dates;
+    //   // this.updateDatesForTitle(dates.clicked);
+    //   this.update(dates);
+    // });
+
+  // }
+
+  // ngOnDestroy(): void {
+  //   this.subs.unsubscribe();
+  // }
+
+  // private update(dates: any): void {
+  //   this.dates = dates;
+  //   this.updateDatesForTitle(dates.clicked);
+  //   console.log("в апдэйт", this.datesForTitle);
+  //   this.getHomeData(dates.clicked);
+  // }
+
+  // formatDateForYTT(dateString: string): string {
+  //   const date = new Date(dateString);
+  //   const monthNames = ['янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+  //   const day = date.getDate().toString();
+  //   const monthIndex = date.getMonth();
+  //   const year = date.getFullYear();
+  //   return `${day} ${monthNames[monthIndex]} ${year}`;
+  // }
+
+  // изменения вида дат для вчера/сегодня/завтра
+  // private updateDatesForTitle(date: string): void {
+  //   if (this.formatDateForComparison(date) == this.formattedDate) {
+  //     this.datesForTitle = {
+  //       clicked: "сегодня",
+  //       previous: "вчера",
+  //       next: "завтра"
+  //     };
+  //     this.noteHere = true;
+  //   } else {
+  //     this.datesForTitle = {
+  //       clicked: this.formatDateForYTT(this.dates.clicked),
+  //       previous: this.formatDateForYTT(this.dates.previous),
+  //       next: this.formatDateForYTT(this.dates.next)
+  //     };
+  //     this.noteHere = false;
+  //   }
+  //   console.log("обновление дат", this.datesForTitle);
+  // }
+  
+  // formatDateForData(): void {
+  //   const year = this.currentDate.getFullYear();
+  //   const month = this.padZero(this.currentDate.getMonth() + 1); // Месяцы начинаются с 0
+  //   const day = this.padZero(this.currentDate.getDate());
+  //   this.formattedDate = `${year}/${month}/${day}`;
+  //   this.dates= {
+  //     clicked: this.formattedDate,
+  //     previous: this.formattedDate,
+  //     next: this.formattedDate,
+  //   };
+  // }
+  // private padZero(value: number): string {
+  //   return value < 10 ? `0${value}` : `${value}`;
+  // }
 
   // изменения вида дат для сохранения
   formatDateForComparison(dateString: string): string {
@@ -194,38 +330,6 @@ export class HomeComponent implements OnInit{
             console.error('Ошибка при выполнении PATCH-запроса:', error);
         });
     }
-  }
-
-  getHomeData(date: string): void {    
-    this.http.get<IHomeData>('http://localhost:8080/assistant/api/' + date)
-      .pipe(
-          repeatWhen(() => timer(1000)) // Повторять запрос каждую секунду, пока не получены данные
-      )
-      .subscribe((res: IHomeData) => {
-          // Обработка полученных данных
-          this.data = res;
-          const sectionsToCheck = [
-              res.yesterday.fixed_tasks, 
-              res.today.fixed_tasks, 
-              res.tomorrow.fixed_tasks, 
-              res.free_tasks, 
-              res.late_tasks, 
-              res.soon_tasks
-          ];
-
-          for (const tasks of sectionsToCheck) {
-              if (tasks && tasks.length > 0) {
-                  // const firstTaskId = tasks[0].id;
-                  // this.getCategories(firstTaskId);
-                  this.getActiveCategories();
-                  break;
-              }
-          }
-      },
-      (error) => {
-          console.error('Произошла ошибка при получении данных:', error);
-      });
-    this.getPlans();
   }
   
   // получение АКТИВНЫХ категорий
