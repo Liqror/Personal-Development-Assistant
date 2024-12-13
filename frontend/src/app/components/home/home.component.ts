@@ -206,8 +206,9 @@ export class HomeComponent implements OnInit{
   }
   // Функция для добавления/вычитания дней
   addDays(date: Date, days: number): Date {
-    date.setDate(date.getDate() + days);
-    return date;
+    const newDate = new Date(date);
+    newDate.setDate(date.getDate() + days);
+    return newDate;
   }
   // Функция для форматирования даты в слова
   formatDateForTitles(date: Date): string {
@@ -229,6 +230,8 @@ export class HomeComponent implements OnInit{
   isDateGreaterThanToday(data:string): boolean {
     const today = new Date();
     const formDate = new Date(data);
+    today.setHours(0, 0, 0, 0);
+    formDate.setHours(0, 0, 0, 0);
     return formDate > today;
   }
 
