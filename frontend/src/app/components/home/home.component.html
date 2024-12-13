@@ -101,9 +101,9 @@
             </table>
 
             <div *ngIf="!isDateGreaterThanToday(data.today.date)">
+              <hr>
+              <h3>Заметка</h3>
               <div *ngIf="isToday(this.urlDate); else editNote">
-                <hr>
-                <h3>Заметка</h3>
                 <textarea
                   name="message"
                   id="message"
