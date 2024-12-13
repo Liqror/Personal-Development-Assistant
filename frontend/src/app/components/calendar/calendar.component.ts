@@ -1,18 +1,12 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';import {DatePipe, registerLocaleData} from '@angular/common';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import {DatePipe, registerLocaleData} from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
 import { Router } from '@angular/router';
 registerLocaleData(localeRu, 'ru');
 
-interface CalendarDay {
-  date: string;
-  isCurrentMonth: boolean;
-  isCurrentDay?: boolean;
-  tag: string;
-}
 
 @Component({
   selector: 'app-calendar',
-  // standalone: true,
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css'],
   providers: [DatePipe],
@@ -30,9 +24,9 @@ export class CalendarComponent implements OnInit {
   ];
 
   constructor(private datePipe: DatePipe,
-              private router: Router, 
-              // private readonly dataService: 
+              private router: Router
             ) {}
+
   ngOnInit() {
     this.updateCalendar();
     this.generateCalendar();

@@ -125,19 +125,21 @@ export class HomeComponent implements OnInit{
   getHomeData(): void {
     const url = `http://localhost:8080/assistant/api/${this.urlDate}`;
 
-    this.http.get<IHomeData>(url).subscribe(
-      (data: IHomeData) => {
-        // console.log('Данные с бэкенда для даты:', this.urlDate);
-        this.data = data; // Сохраняем данные для отображения
-      },
-      (error) => {
-        console.error('Ошибка при получении данных с бэкенда', error);
-      }
-    );
+    if (this.urlDate) {
+      this.http.get<IHomeData>(url).subscribe(
+        (data: IHomeData) => {
+          // console.log('Данные с бэкенда для даты:', this.urlDate);
+          this.data = data; // Сохраняем данные для отображения
+        },
+        (error) => {
+          console.error('Ошибка при получении данных с бэкенда', error);
+        }
+      );
 
-    this.getTitles();
-    this.getActiveCategories();
-    this.getPlans();
+      this.getTitles();
+      this.getActiveCategories();
+      this.getPlans();
+    }    
   }
 
   // Функция для получения заголовков таблицы 
