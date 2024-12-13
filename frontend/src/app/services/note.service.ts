@@ -13,12 +13,12 @@ export class NoteService {
 
   constructor(private http: HttpClient) { }
 
-  createNote(event: INoteForCreate): Observable<INote> {
-    return this.http.post<INote>(this.apiUrl, event);
+  createNote(note: INoteForCreate): Observable<INote> {
+    return this.http.post<INote>(this.apiUrl, note);
   }
 
-  updateNote(event: INote): Observable<INote> {
-    return this.http.put<INote>(this.apiUrl, event);
+  updateNote(note: INote): Observable<INote> {
+    return this.http.put<INote>(this.apiUrl, note);
   }
 
 }

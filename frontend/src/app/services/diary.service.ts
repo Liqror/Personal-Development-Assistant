@@ -17,12 +17,12 @@ export class DiaryService {
     return this.http.get<IDiary[]>(this.apiUrl);
   }
 
-  createDiary(event: IDiaryCreate): Observable<IDiary> {
-    return this.http.post<IDiary>(this.apiUrl, event);
+  createDiary(diary: IDiaryCreate): Observable<IDiary> {
+    return this.http.post<IDiary>(this.apiUrl, diary);
   }
 
-  updateDiary(event: IDiary): Observable<IDiary> {
-    return this.http.put<IDiary>(this.apiUrl, event);
+  updateDiary(diary: IDiary): Observable<IDiary> {
+    return this.http.put<IDiary>(this.apiUrl, diary);
   }
 
 }

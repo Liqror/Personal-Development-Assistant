@@ -13,6 +13,7 @@ import { NoteService } from 'src/app/services/note.service';
 import { PlanService } from 'src/app/services/plan.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { INote, INoteForCreate } from 'src/app/interfaces/note';
 
 
 @Component({
@@ -20,6 +21,9 @@ import { filter } from 'rxjs/operators';
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit{
+  // это джаваскрипт для создания задачи
+  myScriptElement: HTMLScriptElement;
+  private subs: Subscription;
 
   // для сохранения данных из формы задачи
   taskName: string = "";
@@ -56,10 +60,6 @@ export class HomeComponent implements OnInit{
     previous: 'вчера',
     next: 'завтра'
   };
-
-  // это джаваскрипт для создания задачи
-  myScriptElement: HTMLScriptElement;
-  private subs: Subscription;
 
   // Переменная для отслеживания видимости окна задачи
   isDiv1Visible: boolean = false; 
@@ -210,6 +210,37 @@ export class HomeComponent implements OnInit{
     return formDate > today;
   }
 
+  // Функция для работы с полем заметки - обновление и создание (других CDUD операций нет)
+  updateAndCreateNote(note: INote): void {
+    // note.assigned_day передается как 2024-12-13, а this.urlDate как 2024/12/13
+    if (note.assigned_day == this.urlDate.replace(/\//g, '-')) {
+      // console.log("Даты совпадают");
+      this.noteService.updateNote(note).subscribe({
+        next: () => {
+          // console.log("заметка обновлена");
+        },
+        error: (error) => {
+          console.error('Ошибка при обновлении заметки:', error);
+        }
+      });
+    } else {
+      // console.log("Даты не совпадают");
+      const newNote: INoteForCreate = {
+        user_id: 1,
+        assigned_day: this.urlDate.replace(/\//g, '-'),
+        text: note.text,
+      }
+      this.noteService.createNote(newNote).subscribe({
+        next: (newNote) => {
+          // console.log("заметка создана", newNote);
+          this.getHomeData();
+        },
+        error: (error) => {
+          console.error('Ошибка при создании заметки:', error);
+        }
+      });
+    }
+  }  
 
 
 

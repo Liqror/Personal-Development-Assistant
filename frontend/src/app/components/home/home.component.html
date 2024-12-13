@@ -111,6 +111,7 @@
                   type="text"
                   style="color: #595959; overflow: hidden; resize: none;"
                   [(ngModel)]="data.today.text_note.text"
+                  (input)="updateAndCreateNote(data.today.text_note)"
                   (input)="adjustHeight($event)"
                 ></textarea>
               </div>
