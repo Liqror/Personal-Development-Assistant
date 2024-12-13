@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { IHomeData } from "../../interfaces/home";
 import { DatePipe } from "@angular/common";
@@ -8,13 +8,10 @@ import { ITask } from "../../interfaces/task";
 import { ICategory } from "../../interfaces/category";
 import { Subscription } from 'rxjs';
 import { IPlan } from 'src/app/interfaces/plan';
-import { retry } from 'rxjs/operators';
-import { repeatWhen, delay } from 'rxjs/operators';
-import { EMPTY, timer } from 'rxjs';
 import { CategoryService } from 'src/app/services/category.service';
+import { NoteService } from 'src/app/services/note.service';
 import { PlanService } from 'src/app/services/plan.service';
-import { combineLatest } from 'rxjs';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
 
@@ -46,7 +43,6 @@ export class HomeComponent implements OnInit{
   // сохранение нажатой даты для обновления страницы при изменении задач
   date: any;
 
-  noteHere: boolean = true;
 
 
   // для заголовков таблицы
@@ -79,10 +75,10 @@ export class HomeComponent implements OnInit{
 
   constructor(private router: Router, // Позволяет получить параметры URL
     private http: HttpClient, // Для запросов на бэкенд
-    private taskService: TaskService, 
-    private datePipe: DatePipe,
+    private taskService: TaskService,
     private categoryService: CategoryService,
-    private planService: PlanService) {
+    private planService: PlanService,
+    private noteService: NoteService) {
 
     // джава скрипт для создания задачи
     this.myScriptElement = document.createElement("script");
@@ -121,7 +117,7 @@ export class HomeComponent implements OnInit{
     });
   }
  
-  // Функция для получения данных для заполенеия главной таблицы
+  // Функция для получения данных для заполнения главной таблицы
   getHomeData(): void {
     const url = `http://localhost:8080/assistant/api/${this.urlDate}`;
 
@@ -167,6 +163,8 @@ export class HomeComponent implements OnInit{
   // Функция для получения заголовков таблицы 
   getTitles() {
     const today = new Date();
+
+    // не использую из this.data, т.к. она еще не прогрузилась на данный момент
     const urlDateObj = new Date(this.urlDate);
   
     // Проверка, если urlDate совпадает с сегодняшней датой
@@ -199,10 +197,10 @@ export class HomeComponent implements OnInit{
   }
 
   // Функция проверки совпадает ли текущая дата с сегодняшней
-  isToday(urlDate: string): boolean {
+  isToday(date: string): boolean {
     const today = new Date();
-    const urlDateObj = new Date(urlDate);
-    return this.isSameDay(today, urlDateObj);
+    const dateObj = new Date(date);
+    return this.isSameDay(today, dateObj);
   }
 
   // Функция для отображения заметки только для сегодняшнего и прошедших дней
@@ -211,11 +209,14 @@ export class HomeComponent implements OnInit{
     const formDate = new Date(data);
     return formDate > today;
   }
+
+
+
+
+
   
 
-
-
-  // адаптивная высота поля заметки
+  // Функция для адаптивной высоты поля заметки
   adjustHeight(event: Event): void {
     const textarea = event.target as HTMLTextAreaElement;
     textarea.style.height = 'auto'; // Сброс высоты
@@ -314,6 +315,7 @@ export class HomeComponent implements OnInit{
           // console.log("", this.belongsPlan);
           // console.log("", this.taskPlan);
           this.clear(); 
+          this.getHomeData();
         },
         (error) => {
           console.error('Ошибка при сохранении задачи', error);
