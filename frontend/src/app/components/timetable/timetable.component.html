@@ -49,7 +49,8 @@
                       <!-- Событие для нечетной недели -->
                       <td *ngIf="event.odd">
                         {{ event.odd.name }}  
-                        <p class="text-table-subj">{{ event.odd.place }}</p> 
+                        <!--<p class="text-table-subj">{{ event.odd.place }}</p> -->
+                        <p class="text-table-subj" > <a href="{{ event.odd.place }}">Ссылка на мероприятие</a></p> 
                         <p class="text-table-subj">{{ event.odd.format }}</p>
                         <button onclick="deleteElement(this)" (click)="deleteEvent(event.odd.id)" style="border: none;">
                           <img src="././assets/image/delete2.png" alt="удалить" style="height: 20px">

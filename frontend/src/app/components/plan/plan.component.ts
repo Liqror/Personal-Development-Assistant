@@ -189,4 +189,35 @@ export class PlanComponent {
     // }
   }
 
+  goToArchivActiv(plan: IPlan): void {
+    console.log("Я переношу план в архив")
+    let flag = 1;
+    if (plan.status == 1 ) {
+      flag = 0;
+    } 
+    const updatedPlan: IPlanUpdate = {
+      id: plan.id,
+      user_id: plan.user_id,
+      name: plan.name,
+      details: plan.details,
+      start_date:  plan.start_date,
+      stop_date: plan.stop_date,
+      status: flag
+    };
+
+     // Вызываем метод сервиса для обновления
+     this.planService.updatePlan(updatedPlan).subscribe({
+      next: (response) => {
+        // console.log('План обновлен успешно:', response);
+        this.getPlans();
+      },
+      error: (error) => {
+        console.error('Ошибка при обновлении плана:', error);
+      }
+    });
+
+  
+  }
+
+
 }
