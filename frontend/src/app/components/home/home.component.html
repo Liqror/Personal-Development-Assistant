@@ -100,23 +100,24 @@
               </tbody>
             </table>
 
-            <hr>
-            <h3>Заметка</h3>
-
-            <div *ngIf="noteHere; else editNote">
-              <textarea
-                name="message"
-                id="message"
-                class="form-control md-textarea"
-                type="text"
-                style="color: #595959; overflow: hidden; resize: none;"
-                [(ngModel)]="data.today.text_note.text"
-                (input)="adjustHeight($event)"
-              ></textarea>
+            <div *ngIf="!isDateGreaterThanToday(data.today.date)">
+              <div *ngIf="isToday(this.urlDate); else editNote">
+                <hr>
+                <h3>Заметка</h3>
+                <textarea
+                  name="message"
+                  id="message"
+                  class="form-control md-textarea"
+                  type="text"
+                  style="color: #595959; overflow: hidden; resize: none;"
+                  [(ngModel)]="data.today.text_note.text"
+                  (input)="adjustHeight($event)"
+                ></textarea>
+              </div>
+              <ng-template #editNote>
+                <p>{{ data.today.text_note.text }}</p>
+              </ng-template> 
             </div>
-            <ng-template #editNote>
-              <p>{{ data.today.text_note.text }}</p>
-            </ng-template>            
             
             <hr>
 
