@@ -76,7 +76,18 @@
                       <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
                   </label>
               </p>
-          </div>
+            </div>
+
+            <div *ngFor="let task of data.yesterday.done_tasks">
+              <p class="task_see">
+                <label [for]="task.id.toString()" class="labelForTask">
+                    <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [(ngModel)]="task.status" [value]="task.id" (change)="onCheckboxChange($event, task)">
+                    <span class="custom_checkbox" [id]="task.id.toString()"></span>
+                    <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
+                </label>
+              </p>
+            </div>
+
           </div>
 
           <div class="col-md-4 col-lg-4 mt-md-1">
@@ -131,8 +142,19 @@
                     <span class="custom_checkbox" [id]="task.id.toString()"></span>
                     <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
                 </label>
-            </p>
-        </div>
+              </p>
+            </div>
+
+            <div *ngFor="let task of data.today.done_tasks">
+              <p class="task_see">
+                <label [for]="task.id.toString()" class="labelForTask">
+                    <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [(ngModel)]="task.status" [value]="task.id" (change)="onCheckboxChange($event, task)">
+                    <span class="custom_checkbox" [id]="task.id.toString()"></span>
+                    <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
+                </label>
+              </p>
+            </div>
+
           </div>
 
           <div class="col-md-4 col-lg-4 mt-md-1">
@@ -173,8 +195,19 @@
                     <span class="custom_checkbox" [id]="task.id.toString()"></span>
                     <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
                 </label>
-            </p>
-        </div>
+              </p>
+            </div>
+
+            <div *ngFor="let task of data.tomorrow.done_tasks">
+              <p class="task_see">
+                <label [for]="task.id.toString()" class="labelForTask">
+                    <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id" [(ngModel)]="task.status" (change)="onCheckboxChange($event, task)">
+                    <span class="custom_checkbox" [id]="task.id.toString()"></span>
+                    <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
+                </label>
+              </p>
+            </div>
+
           </div>
 
           <div class="col-md-12 col-lg-12 mt-md-3 mb-md-3">
