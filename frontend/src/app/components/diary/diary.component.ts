@@ -1,12 +1,7 @@
-import { OnInit } from '@angular/core';
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { DatePipe } from "@angular/common";
-import { HttpClient } from "@angular/common/http";
-import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import { OnInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { formatDate } from '@angular/common';
 import { DiaryService } from "src/app/services/diary.service"
 import { IDiary, IDiaryCreate } from "src/app/interfaces/diary";
-import { formatDate } from '@angular/common';
-import { formatDate as angularFormatDate } from '@angular/common';
 
 
 @Component({
@@ -140,7 +135,7 @@ export class DiaryComponent implements OnInit {
     return text?.replace(/\n/g, '<br>') || ''; // Заменяем \n на <br>, а также защищаем от пустого текста
   }
 
-  // Устанавливаем высоту текстового поля ввода под текст
+  // Устанавливаем высоту текстового поля ввода записи
   updateTextareaHeight(): void {
     if (!this.diaryTextarea) return;
 
@@ -148,5 +143,5 @@ export class DiaryComponent implements OnInit {
     textarea.style.height = 'auto'; // сбросить текущую высоту
     textarea.style.height = `${textarea.scrollHeight}px`; // установить высоту по контенту
   }
-  
+
 }

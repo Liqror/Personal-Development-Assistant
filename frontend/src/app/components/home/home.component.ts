@@ -1,20 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { IHomeData } from "../../interfaces/home";
-import { DatePipe } from "@angular/common";
-import { TaskService } from "../../services/task.service"
-import { ITaskCreate } from "../../interfaces/task";
-import { ITask } from "../../interfaces/task";
-import { ICategory } from "../../interfaces/category";
 import { Subscription } from 'rxjs';
-import { IPlan } from 'src/app/interfaces/plan';
-import { CategoryService } from 'src/app/services/category.service';
-import { NoteService } from 'src/app/services/note.service';
-import { PlanService } from 'src/app/services/plan.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { INote, INoteForCreate } from 'src/app/interfaces/note';
+
+import { IHomeData } from "../../interfaces/home";
 import { ITimetable } from 'src/app/interfaces/timetable';
+
+import { CategoryService } from 'src/app/services/category.service';
+import { ICategory } from "../../interfaces/category";
+
+import { NoteService } from 'src/app/services/note.service';
+import { INote, INoteForCreate } from 'src/app/interfaces/note';
+
+import { PlanService } from 'src/app/services/plan.service';
+import { IPlan } from 'src/app/interfaces/plan';
+
+import { TaskService } from "../../services/task.service"
+import { ITaskCreate, ITask } from "../../interfaces/task";
 
 
 @Component({
@@ -25,6 +28,8 @@ export class HomeComponent implements OnInit{
   // это джаваскрипт для создания задачи
   myScriptElement: HTMLScriptElement;
   private subs: Subscription;
+
+  @ViewChild('noteTextarea') noteTextarea!: ElementRef<HTMLTextAreaElement>;
 
   // для сохранения данных из формы задачи
   taskName: string = "";
@@ -47,7 +52,6 @@ export class HomeComponent implements OnInit{
   
   // сохранение нажатой даты для обновления страницы при изменении задач
   date: any;
-
 
 
   // для заголовков таблицы
@@ -127,6 +131,9 @@ export class HomeComponent implements OnInit{
         (data: IHomeData) => {
           // console.log('Данные с бэкенда для даты:', this.urlDate);
           this.data = data; // Сохраняем данные для отображения
+
+          // Устанавливаем высоту textarea после загрузки текста
+          setTimeout(() => this.updateTextareaHeight(), 0);
         },
         (error) => {
           console.error('Ошибка при получении данных с бэкенда', error);
@@ -136,7 +143,8 @@ export class HomeComponent implements OnInit{
       this.getTitles();
       this.getActiveCategories();
       this.getPlans();
-      // this.trimEventTimes();
+
+
     }    
   }
 
@@ -265,14 +273,8 @@ export class HomeComponent implements OnInit{
         }
       });
     }
+    this.updateTextareaHeight();
   }  
-
-  // Функция для адаптивной высоты поля заметки
-  adjustHeight(event: Event): void {
-    const textarea = event.target as HTMLTextAreaElement;
-    textarea.style.height = 'auto'; // Сброс высоты
-    textarea.style.height = `${textarea.scrollHeight}px`; // Установка новой высоты
-  }
 
 
 
@@ -477,5 +479,13 @@ export class HomeComponent implements OnInit{
     });
   }
 
+  // Устанавливаем высоту текстового поля ввода под текст
+  updateTextareaHeight(): void {
+    if (!this.noteTextarea) return;
+
+    const textarea = this.noteTextarea.nativeElement;
+    textarea.style.height = 'auto'; // сбросить текущую высоту
+    textarea.style.height = `${textarea.scrollHeight}px`; // установить высоту по контенту
+  }
 
 }  
