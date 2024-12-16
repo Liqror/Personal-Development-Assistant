@@ -19,27 +19,26 @@
             <h2 class="titleDiary">Сегодня ({{ formatDateForDisplay(todayDate) }})</h2>
         
             <textarea
-            class="form-control md-textarea"
-            type="text"
-            style="color: #595959; overflow: hidden; resize: none; font-size: 120%;"
-            [(ngModel)]="diaryEntry"
-            (input)="onDiaryInput()" (input)="adjustHeight($event)"
-            (blur)="onDiaryBlur()"
+              class="form-control md-textarea"
+              type="text"
+              style="color: #595959; overflow: hidden; resize: none; font-size: 120%;"
+              [(ngModel)]="diaryEntry"
+              #diaryTextarea 
+              (input)="onDiaryInput()" 
+              (blur)="onDiaryBlur()"
             ></textarea>
             <br>
+
         </div>
   
-      
         <!-- Секция для остальных записей -->
         <div *ngFor="let diary of diaries" class="col-md-11 col-lg-11 mt-md-2 divDiary" id="divDiary">
           <ng-container *ngIf="diary.assigned_day !== todayDate">
             <h2 class="titleDiary">{{ formatDateForDisplay(diary.assigned_day) }}</h2>
-            <p class="textNewDiary">
-              {{ diary.text }}
-            </p>
+            <p class="textNewDiary" [innerHTML]="formatTextWithLineBreaks(diary.text)"></p>
           </ng-container>
         </div>
-      
+        
     </div>
     
 </body>

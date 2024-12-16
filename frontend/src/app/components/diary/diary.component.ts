@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { DatePipe } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
@@ -17,6 +18,8 @@ export class DiaryComponent implements OnInit {
 
   // это джаваскрипт для изменения расписания
   myScriptElement: HTMLScriptElement;
+
+  @ViewChild('diaryTextarea') diaryTextarea!: ElementRef<HTMLTextAreaElement>;
 
   diaries: IDiary[] = []; // Все записи дневника
   todayDiary: IDiary | null = null; // Запись на текущий день или null
@@ -52,6 +55,8 @@ export class DiaryComponent implements OnInit {
           this.todayDiary = null;
           this.diaryEntry = '';
         }
+        // Устанавливаем высоту textarea после загрузки текста
+        setTimeout(() => this.updateTextareaHeight(), 0);
       },
       error: (error) => {
         console.error('Ошибка при загрузке дневников:', error);
@@ -68,6 +73,9 @@ export class DiaryComponent implements OnInit {
       // Если записи нет, но пользователь начал ввод текста, создаем запись
       this.createTodayDiary();
     }
+
+    // Обновляем высоту textarea при изменении текста
+    this.updateTextareaHeight();
   }
 
   // обновление в режиме реального времени
@@ -81,7 +89,7 @@ export class DiaryComponent implements OnInit {
   createTodayDiary(): void {
     const newDiary: IDiaryCreate = {
       text: this.diaryEntry,
-      user_id: 1, // Замените ID пользователя на нужный
+      user_id: 1, // Замените ID пользователя когда их будет много
       assigned_day: this.todayDate,
     };
 
@@ -96,7 +104,7 @@ export class DiaryComponent implements OnInit {
     });
   }
 
-  // одновление записи на сегодня
+  // обновление записи на сегодня
   updateTodayDiary(): void {
     if (this.todayDiary) {
       const updatedDiary: IDiary = {
@@ -118,13 +126,6 @@ export class DiaryComponent implements OnInit {
     }
   }
 
-  // адаптивная высота поля ввода
-  adjustHeight(event: Event): void {
-    const textarea = event.target as HTMLTextAreaElement;
-    textarea.style.height = 'auto'; // Сброс высоты
-    textarea.style.height = `${textarea.scrollHeight}px`; // Установка высоты в зависимости от содержимого
-  }  
-
   // форматирования вида 2023-12-03 в 3 дек 2023 
   formatDateForDisplay(dateString: string): string {
     const date = new Date(dateString); // Преобразуем строку в объект Date
@@ -132,6 +133,20 @@ export class DiaryComponent implements OnInit {
   
     // Преобразуем дату в формат с коротким месяцем
     return date.toLocaleDateString('ru-RU', options).replace('.', ''); // Убираем точку после месяца
+  }
+
+  // вывод учитывая \n
+  formatTextWithLineBreaks(text: string): string {
+    return text?.replace(/\n/g, '<br>') || ''; // Заменяем \n на <br>, а также защищаем от пустого текста
+  }
+
+  // Устанавливаем высоту текстового поля ввода под текст
+  updateTextareaHeight(): void {
+    if (!this.diaryTextarea) return;
+
+    const textarea = this.diaryTextarea.nativeElement;
+    textarea.style.height = 'auto'; // сбросить текущую высоту
+    textarea.style.height = `${textarea.scrollHeight}px`; // установить высоту по контенту
   }
   
 }
