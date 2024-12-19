@@ -50,8 +50,17 @@
                 <td>
                   {{ class.name }}<br>
                   <ng-container *ngIf="class.place !== '-'">
-                    {{ class.place }}<br>
+                   
+                    <!-- Вывод места проведения ивента. Если онлайн, то ссылка; Иначе - место текстом-->
+                    <div *ngIf="class.format.startsWith('Онлайн')" >
+                      <p class="text-table-subj" > <a class = "link-event-place" href="{{ class.place }}">Ссылка на мероприятие</a></p>
+                    </div>
+                    <div *ngIf="class.format.startsWith('Офлайн')" >
+                      <p class="text-table-subj" > {{ class.place }} </p>
+                    </div>
+                   
                   </ng-container>
+
                   {{ class.format }}
                 </td>
               </tr>
@@ -103,7 +112,15 @@
                 <td>
                   {{ class.name }}<br>
                   <ng-container *ngIf="class.place !== '-'">
-                    {{ class.place }}<br>
+
+                      <!-- Вывод места проведения ивента. Если онлайн, то ссылка; Иначе - место текстом-->
+                      <div *ngIf="class.format.startsWith('Онлайн')" >
+                        <p class="text-table-subj" > <a class = "link-event-place" href="{{ class.place }}">Ссылка на мероприятие</a></p>
+                      </div>
+                      <div *ngIf="class.format.startsWith('Офлайн')" >
+                        <p class="text-table-subj" > {{ class.place }} </p>
+                      </div>
+
                   </ng-container>
                   {{ class.format }}
                 </td>
@@ -170,7 +187,15 @@
                 <td>
                   {{ class.name }}<br>
                   <ng-container *ngIf="class.place !== '-'">
-                    {{ class.place }}<br>
+                    
+                      <!-- Вывод места проведения ивента. Если онлайн, то ссылка; Иначе - место текстом-->
+                      <div *ngIf="class.format.startsWith('Онлайн')" >
+                        <p class="text-table-subj" > <a class = "link-event-place" href="{{ class.place }}">Ссылка на мероприятие</a></p>
+                      </div>
+                      <div *ngIf="class.format.startsWith('Офлайн')" >
+                        <p class="text-table-subj" > {{ class.place }} </p>
+                      </div>
+                      
                   </ng-container>
                   {{ class.format }}
                 </td>

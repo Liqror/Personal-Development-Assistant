@@ -1,3 +1,9 @@
+.link-event-place {
+  text-decoration: underline;
+  color: #cb841a;
+}
+
+
 .delete-all-events {
   background-color: #ff5b5b;;
   width: 100%;
