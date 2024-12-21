@@ -267,40 +267,48 @@ document.getElementById("save-button-new-ctg").click = checkInputForBalanceWheel
 Проверка вводимых данных для окна расписания занятий
 */
 function checkInputForTimetable() {
-  console.log("HEREEEEEEEEEE?!.....")
 
   let objectName = document.getElementById("objectName").value;
   let objectsPlace = document.getElementById("objectsPlace").value;
   let time_to_tt = document.getElementById("time_to_tt").value;
   let time_from_tt = document.getElementById("time_from_tt").value;
 
+  //???
+  let dd = document.getElementsByClassName("clickable2").click;
+  console.log(document.getElementsByClassName("clickable2").click);
+  //???
+
+
+
+  let error_text_for_time = "";
+
 
   //  Проверка на введенность названия предмета в расписании
   if (objectName == "") {
-    console.log("Пустой текст, название предмета не введено!");
-    document.getElementById("checkObjName").innerHTML = "Вы не ввели название занятия! ";
+    document.getElementById("checkObjName").innerHTML = "Вы не ввели название мероприятия! ";
   }
   else {
-    // console.log("Вроде ок");
     document.getElementById("checkObjName").innerHTML = "";
   }
 
   //  Проверка на введенность кабинета или места проведения занятия
   if (objectsPlace == "") {
-    console.log("Пустой текст, номер кабинета не введен!");
-    document.getElementById("checkPlace").innerHTML = "Вы не ввели номер кабинета или место проведения занятия! ";
+    document.getElementById("checkPlace").innerHTML = "Вы не ввели место проведения мероприятия или ссылку на него! ";
   }
   else {
-    // console.log("Вроде ок");
     document.getElementById("checkPlace").innerHTML = "";
   }
   // Проверка времени занятия. Должно быть указано начало и конец
   if ((time_to_tt < time_from_tt && time_to_tt != "") || (time_to_tt == "" || time_from_tt == "")){
-    console.log("Время указано неверно!");
-    document.getElementById("checkTimeTT").innerHTML = "Время указано неверно!";
+    if (time_to_tt < time_from_tt && time_to_tt != "") {
+      error_text_for_time = "Время ДО меньше ОТ!"
+    }
+    if (time_to_tt == "" || time_from_tt == "") {
+      error_text_for_time = "Время ДО или ОТ не заполнено!"
+    }
+    document.getElementById("checkTimeTT").innerHTML = error_text_for_time; 
   }
   else {
-    // console.log("Вроде ок");
     document.getElementById("checkTimeTT").innerHTML = "";
   }
 

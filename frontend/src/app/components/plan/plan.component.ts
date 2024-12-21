@@ -190,7 +190,6 @@ export class PlanComponent {
   }
 
   goToArchivActiv(plan: IPlan): void {
-    console.log("Я переношу план в архив")
     let flag = 1;
     if (plan.status == 1 ) {
       flag = 0;

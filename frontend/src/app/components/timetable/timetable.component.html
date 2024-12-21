@@ -103,7 +103,7 @@
         </tbody>
       </table>
 
-      <button class="delete-all-events" (click)="deleteAllEvents(timetable)"> 
+      <button class="delete-all-events" onclick="showDivDelRepeatTask()" > 
         <p class="text-del-all-events">
           Удалить все мероприятия из расписания
         </p>
@@ -115,7 +115,7 @@
 
 
 <!-- создание нового event -->
-<div id="div1" style="display: none; width: 100%; height: 100%; position: fixed; top: 0; left: 0;">
+<div id="div1" class="div-new-event">
   <div class="container">
     <p><input [(ngModel)]="formEvent.name" id="objectName" type="text" name="objectName" placeholder="Название события" style="width: 100%" /></p>
     <p><input [(ngModel)]="formEvent.place" id="objectsPlace" type="text" name="objectsPlace" placeholder="Место/ссылка" style="width: 100%" /></p>
@@ -177,7 +177,7 @@
     <br>
     <div class="row justify-content-center">
       <div class="col-md-6 col-lg-6">
-        <p style="text-align: center"><button onclick="saveObject()"  id="save-button-new-obj" class="save"  onclick="hideDiv()" (click)="createEvent()" (click)="clearForm()">Сохранить</button><p>
+        <p style="text-align: center"><button id="save-button-new-obj" class="save"   (click)="createEvent()" (click)="clearForm()" onclick="checkInputForTimetable()">Сохранить</button><p>
       </div>
       <div class="col-md-6 col-lg-6">
         <p style="text-align: center"><button onclick="hideDiv()" id="close-button" class="close" (click)="clearForm()">Закрыть</button><p>
@@ -185,11 +185,32 @@
     </div>
 
     <div class="error-massage">
-      <p id="checkObjName" style="color: red; margin: 0;"></p> <!-- ЕСЛИ ОЦЕНКА ЗАДАЧИ НЕ В ДИАПАЗОНЕ [1, 100], ТО ВЫЛАЗИТ ОШИБКА ПРИ СОХРАНЕНИИ-->
-      <p id="checkPlace" style="color: red; margin: 0;"></p> <!-- ЕСЛИ НАЗВАНИЕ ПУСТО, ТО ВЫЛАЗИТ ОШИБКА ПРИ СОХРАНЕНИИ-->
-      <p id="checkTimeTT" style="color: red; margin: 0;"></p> <!-- -->
+      <p id="checkObjName" style="color: red; margin: 0;"></p>  <!-- ЕСЛИ НАЗВАНИЕ ИВЕНТА НЕ ВВЕДЕНО -> ОШИБКА ПРИ СОХРАНЕНИИ -->
+      <p id="checkPlace" style="color: red; margin: 0;"></p>    <!-- ЕСЛИ МЕСТО/ССЫЛКА ИВЕНТА НЕ ВВЕДЕНО  -> ОШИБКА ПРИ СОХРАНЕНИИ -->
+      <p id="checkTimeTT" style="color: red; margin: 0;"></p>   <!-- ПРОВЕРКА ВРЕМЕНИ, ЕСЛИ НЕ ВВЕРНО  -> ОШИБКА ПРИ СОХРАНЕНИИ -->
+      <p id="checkDays" ></p>
     </div>
 
+  </div>
+</div>
+
+
+
+<!-- Окно удаления ВСЕХ мероприятий из расписания-->
+<div id="divDelRepeatTask" class="dop-div-for-del">
+  <div class="containerDelRepeat">
+  <p class="ttlDel">Вы уверены, что хотите удалить все мероприятия из расписания? Отменить действие будет невозможно.</p>
+  <div class="row">
+    <div class="col-md-6 col-lg-6 col-ms-6">
+      <p style="text-align: center"><button onclick="hideDivDelRepeatTask()" class="save">Нет</button></p>
+    </div>
+    <div class="col-md-6 col-lg-6 col-ms-6">
+      <p style="text-align: center"><button (click)="deleteAllEvents(timetable)" class="close">Да</button></p>
+    </div>
+  </div>
+  
+
+  
   </div>
 </div>
 
