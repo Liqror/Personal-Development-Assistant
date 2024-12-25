@@ -2,6 +2,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:ital,wght@1,200&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:ital,wght@1,600&display=swap");
 
+/* 
+  Для окна удаления Повторяющихся задач и 
+  для окна удаления Всех мероприятий из расписания 
+*/
+.dop-div-for-del {
+  display: none; 
+  width: 100%; 
+  height: 100%; 
+  position: absolute; 
+  top: 35%; 
+  left: 0; 
+  position: fixed;
+}
+
 .link-event-place {
   text-decoration: underline;
   color: #cb841a;

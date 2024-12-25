@@ -294,7 +294,7 @@
   </div>
 
   <!-- Кнопка новой задачи  -->
-    <div id="div1" [ngStyle]="{'display': isDiv1Visible ? 'block' : 'none'}" class="divNewTask">
+    <div id="div1" [ngStyle]="{'display': isDiv1Visible ? 'block' : 'none'}" class="divNewTask" style="position: fixed;">
     <div class="container">
 
       <div class="row">
@@ -434,7 +434,7 @@
 
 
   <!-- Окно удаления повторяющихся задач-->
-  <div id="divDelRepeatTask" style="display: none; width: 100%; height: 100%; position: absolute; top: 35%; left: 0;">
+  <div id="divDelRepeatTask" class="dop-div-for-del">
     <div class="containerDelRepeat">
       <div class="row">
         <div class="col-md-11 col-lg-11 col-ms-11">
