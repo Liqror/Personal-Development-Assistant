@@ -32,6 +32,8 @@ export class HomeComponent implements OnInit{
   @ViewChild('noteTextarea') noteTextarea!: ElementRef<HTMLTextAreaElement>;
 
   // для сохранения данных из формы задачи
+
+  task: ITask;
   taskName: string = "";
   taskEstimate: number;
   taskDescription: string | null = null;
@@ -486,6 +488,11 @@ export class HomeComponent implements OnInit{
     const textarea = this.noteTextarea.nativeElement;
     textarea.style.height = 'auto'; // сбросить текущую высоту
     textarea.style.height = `${textarea.scrollHeight}px`; // установить высоту по контенту
+  }
+
+  // вывод учитывая \n
+  formatTextWithLineBreaks(text: string): string {
+    return text?.replace(/\n/g, '<br>') || ''; // Заменяем \n на <br>, а также защищаем от пустого текста
   }
 
 }  
