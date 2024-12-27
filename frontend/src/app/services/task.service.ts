@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ITaskCreate } from '../interfaces/task';
+import { ITaskCreate, ITask } from '../interfaces/task';
 
 
 @Injectable({
@@ -20,7 +20,7 @@ export class TaskService {
   }
 
   // Обновление задачи
-  updateTask(taskData: ITaskCreate): Observable<any> {
+  updateTask(taskData: ITask): Observable<any> {
     return this.http.put(this.apiUrl, taskData);
   }
 

@@ -17,7 +17,7 @@ import { PlanService } from 'src/app/services/plan.service';
 import { IPlan } from 'src/app/interfaces/plan';
 
 import { TaskService } from "../../services/task.service"
-import { ITaskCreate, ITask } from "../../interfaces/task";
+import { ITaskCreate, ITask, IRepeat } from "../../interfaces/task";
 
 
 @Component({
@@ -32,8 +32,6 @@ export class HomeComponent implements OnInit{
   @ViewChild('noteTextarea') noteTextarea!: ElementRef<HTMLTextAreaElement>;
 
   // для сохранения данных из формы задачи
-
-  task: ITask;
   taskName: string = "";
   taskEstimate: number;
   taskDescription: string | null = null;
@@ -42,11 +40,23 @@ export class HomeComponent implements OnInit{
   stopDate: string | null = null;
   startTime: string | null = null;
   stopTime: string | null = null;
-  taskStatus: number;
+  taskStatus: number = 0;
   taskCategory: number;
   belongsPlan: string | number = "choose";
   planId: number;
   taskPlan: IPlan | null;
+  
+
+  repeatForm: IRepeat = {
+    repeat_interval: null as number | null,
+    term: 'week' as string,
+    days: [] as number[], // Список дней недели
+    start: '' as string,  // Стартовое время
+    end: '' as string,    // Время окончания
+    number_of_repeats: 0 as number, // Количество повторений
+  };
+  
+
 
   // для просмотра и удаления задачи
   taskId: number = -1;
@@ -127,7 +137,6 @@ export class HomeComponent implements OnInit{
   // Функция для получения данных для заполнения главной таблицы
   getHomeData(): void {
     const url = `http://localhost:8080/assistant/api/${this.urlDate}`;
-
     if (this.urlDate) {
       this.http.get<IHomeData>(url).subscribe(
         (data: IHomeData) => {
@@ -141,12 +150,9 @@ export class HomeComponent implements OnInit{
           console.error('Ошибка при получении данных с бэкенда', error);
         }
       );
-
       this.getTitles();
       this.getActiveCategories();
       this.getPlans();
-
-
     }    
   }
 
@@ -278,8 +284,6 @@ export class HomeComponent implements OnInit{
     this.updateTextareaHeight();
   }  
 
-
-
   // галочка на задачах
   onCheckboxChange(event: any, task: any) {
     if (event.target.checked) {
@@ -320,24 +324,29 @@ export class HomeComponent implements OnInit{
     this.clear();
   }
 
+  // Функция выбора дней недели для повторяющейся задачи
+  toggleDay(dayIndex: number): void {
+    const index = this.repeatForm.days.indexOf(dayIndex);
+    if (index === -1) {
+      // Добавляем день, если его еще нет в списке
+      this.repeatForm.days.push(dayIndex);
+    } else {
+      // Удаляем день, если он уже есть в списке
+      this.repeatForm.days.splice(index, 1);
+    }
+    // console.log('Selected days:', this.repeatForm.days);
+  }
+
   // Сохранение задачи
   saveTask(): void {
+    console.log("rrrr", String(this.repeatForm.start), this.repeatForm.end);
     // задача не может быть без имени, оценки и категории. категория автоматически ставиться 0 
     if (this.taskId == -1 && this.taskName !== "" && this.taskEstimate !== undefined && !isNaN(this.taskEstimate) && (this.taskEstimate <= 100) && (this.taskEstimate >= 1)) {
       if (this.taskDescription === "") {
         this.taskDescription = null;
-      }
+      }      
 
-      // try {
-      //   this.planId = (this.belongsPlan);
-      //   this.taskPlan = this.getPlanById(this.belongsPlan);
-      //   console.log("", this.taskPlan);
-      // } catch (error) {
-      //   console.error("Ошибка при преобразовании строки в число:", error);
-      // }
-      
-
-      this.planId = Number(this.belongsPlan);// Преобразование строки в целое число потому что мы получаем строку почему-то. По-хорошему понять бы почему
+      this.planId = Number(this.belongsPlan);  // Преобразование строки в целое число потому что мы получаем строку почему-то. По-хорошему понять бы почему
 
       if (typeof this.planId === 'number') {
         this.taskPlan = this.getPlanById(this.planId);
@@ -347,7 +356,6 @@ export class HomeComponent implements OnInit{
       const taskData: ITaskCreate = {
         name: this.taskName,
         estimate: this.taskEstimate,
-        repeat : null,
         status: this.taskStatus,
         timezone: "Asia/Krasnoyarsk",
         user_id: 1,
@@ -361,14 +369,19 @@ export class HomeComponent implements OnInit{
         },
         plan_id: this.planId,
         plan: null,  
+        repeat : null,
       };
+      // console.log("даты", this.repeatForm.repeat_interval, this.startDate);
+
+      if (this.repeatForm.repeat_interval && this.repeatForm.start) {
+        taskData.repeat = this.repeatForm;
+      }
+
+      console.log("rres", taskData);
 
       this.taskService.addTask(taskData).subscribe(
         (response) => {
           console.log('Задача успешно сохранена', response);
-          // console.log("", taskData);
-          // console.log("", this.belongsPlan);
-          // console.log("", this.taskPlan);
           this.clear(); 
           this.getHomeData();
         },
@@ -377,13 +390,13 @@ export class HomeComponent implements OnInit{
         }
       );
     }
+
     if (this.taskId !== -1) {
 
       if (this.taskDescription === "") {
         this.taskDescription = null;
       }
     
-
       const taskDataUpdate: ITask = {
         id: this.taskId,
         name: this.taskName,

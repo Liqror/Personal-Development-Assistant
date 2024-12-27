@@ -166,7 +166,7 @@ function checkInput() {
     let time_from = document.getElementById("time_from").value;
     let date_to = document.getElementById("date_to").value;
     let time_to = document.getElementById("time_to").value;
-    console.log(date_from, "   ", time_from, " ", date_to, "", time_to);
+    // console.log(date_from, "   ", time_from, " ", date_to, "", time_to);
   
   
     //  Проверка оценки задачи на принадлежность диапазону от 1 до 100
