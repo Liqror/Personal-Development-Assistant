@@ -53,7 +53,7 @@
                    
                     <!-- Вывод места проведения ивента. Если онлайн, то ссылка; Иначе - место текстом-->
                     <div *ngIf="class.format.startsWith('Онлайн')" >
-                      <p class="text-table-subj" > <a class = "link-event-place" href="{{ class.place }}">Ссылка на мероприятие</a></p>
+                      <p class="text-table-subj" > <a class = "link-event-place" href="{{ class.place }}" target="_blank" rel="noopener noreferrer">Ссылка на мероприятие</a></p>
                     </div>
                     <div *ngIf="class.format.startsWith('Офлайн')" >
                       <p class="text-table-subj" > {{ class.place }} </p>
@@ -115,7 +115,7 @@
 
                       <!-- Вывод места проведения ивента. Если онлайн, то ссылка; Иначе - место текстом-->
                       <div *ngIf="class.format.startsWith('Онлайн')" >
-                        <p class="text-table-subj" > <a class = "link-event-place" href="{{ class.place }}">Ссылка на мероприятие</a></p>
+                        <p class="text-table-subj" > <a class = "link-event-place" href="{{ class.place }}" target="_blank" rel="noopener noreferrer">Ссылка на мероприятие</a></p>
                       </div>
                       <div *ngIf="class.format.startsWith('Офлайн')" >
                         <p class="text-table-subj" > {{ class.place }} </p>
@@ -190,7 +190,7 @@
                     
                       <!-- Вывод места проведения ивента. Если онлайн, то ссылка; Иначе - место текстом-->
                       <div *ngIf="class.format.startsWith('Онлайн')" >
-                        <p class="text-table-subj" > <a class = "link-event-place" href="{{ class.place }}">Ссылка на мероприятие</a></p>
+                        <p class="text-table-subj" > <a class = "link-event-place" href="{{ class.place }}" target="_blank" rel="noopener noreferrer">Ссылка на мероприятие</a></p>
                       </div>
                       <div *ngIf="class.format.startsWith('Офлайн')" >
                         <p class="text-table-subj" > {{ class.place }} </p>

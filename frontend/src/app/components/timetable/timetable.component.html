@@ -52,7 +52,8 @@
 
                         <!-- Вывод места проведения ивента. Если онлайн, то ссылка; Иначе - место текстом-->
                         <div *ngIf="event.odd.format.startsWith('Онлайн')" >
-                          <p class="text-table-subj" > <a class = "link-event-place" href="{{ event.odd.place }}">Ссылка на мероприятие</a></p>
+                          <p class="text-table-subj" > 
+                            <a class = "link-event-place" href="{{ event.odd.place }}" target="_blank" rel="noopener noreferrer">Ссылка на мероприятие</a></p>
                         </div>
                         <div *ngIf="event.odd.format.startsWith('Офлайн')" >
                           <p class="text-table-subj" > {{ event.odd.place }} </p>

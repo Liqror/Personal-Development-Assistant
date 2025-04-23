@@ -284,6 +284,20 @@ export class HomeComponent implements OnInit{
     this.updateTextareaHeight();
   }  
 
+  // Устанавливаем высоту текстового поля ввода текста заметки
+  updateTextareaHeight(): void {
+    if (!this.noteTextarea) return;
+
+    const textarea = this.noteTextarea.nativeElement;
+    textarea.style.height = 'auto'; // сбросить текущую высоту
+    textarea.style.height = `${textarea.scrollHeight}px`; // установить высоту по контенту
+  }
+
+  // вывод заметки учитывая \n
+  formatTextWithLineBreaks(text: string): string {
+    return text?.replace(/\n/g, '<br>') || ''; // Заменяем \n на <br>, а также защищаем от пустого текста
+  }
+
   // галочка на задачах
   onCheckboxChange(event: any, task: any) {
     if (event.target.checked) {
@@ -461,6 +475,7 @@ export class HomeComponent implements OnInit{
           () => {
             console.log('Задача успешно удалена');
             this.clear();
+            this.getHomeData();
           },
           error => {
             console.error('Произошла ошибка при удалении задачи:', error);
@@ -492,20 +507,6 @@ export class HomeComponent implements OnInit{
       // this.belongsPlan = "choose"; // пока нет этого в бекенде
 
     });
-  }
-
-  // Устанавливаем высоту текстового поля ввода под текст
-  updateTextareaHeight(): void {
-    if (!this.noteTextarea) return;
-
-    const textarea = this.noteTextarea.nativeElement;
-    textarea.style.height = 'auto'; // сбросить текущую высоту
-    textarea.style.height = `${textarea.scrollHeight}px`; // установить высоту по контенту
-  }
-
-  // вывод учитывая \n
-  formatTextWithLineBreaks(text: string): string {
-    return text?.replace(/\n/g, '<br>') || ''; // Заменяем \n на <br>, а также защищаем от пустого текста
   }
 
 }  
