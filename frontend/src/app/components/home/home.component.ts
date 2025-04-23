@@ -298,33 +298,18 @@ export class HomeComponent implements OnInit{
     return text?.replace(/\n/g, '<br>') || ''; // Заменяем \n на <br>, а также защищаем от пустого текста
   }
 
-  // галочка на задачах
+  // Смена статуса задачи - галочка 
   onCheckboxChange(event: any, task: any) {
-    if (event.target.checked) {
-      this.http.patch('http://localhost:8080/assistant/api/tasks/' + task.id, [
-            {
-                "op": "replace",
-                "path": "/status",
-                "value": 1
-            }
-        ]).subscribe(response => {
-            console.log('PATCH-запрос успешно выполнен:', response);
-        }, error => {
-            console.error('Ошибка при выполнении PATCH-запроса:', error);
-        });
-    } else {
-      this.http.patch('http://localhost:8080/assistant/api/tasks/' + task.id, [
-            {
-                "op": "replace",
-                "path": "/status",
-                "value": 0
-            }
-        ]).subscribe(response => {
-            console.log('PATCH-запрос успешно выполнен:', response);
-        }, error => {
-            console.error('Ошибка при выполнении PATCH-запроса:', error);
-        });
-    }
+    const newStatus = event.target.checked ? 1 : 0;
+  
+    this.taskService.updateTaskStatus(task.id, newStatus).subscribe({
+      next: (response) => {
+        console.log('PATCH-запрос успешно выполнен:', response);
+      },
+      error: (error) => {
+        console.error('Ошибка при выполнении PATCH-запроса:', error);
+      }
+    });
   }
 
   getPlanById(id: number): IPlan | null {
@@ -353,7 +338,7 @@ export class HomeComponent implements OnInit{
 
   // Сохранение задачи
   saveTask(): void {
-    console.log("rrrr", String(this.repeatForm.start), this.repeatForm.end);
+
     // задача не может быть без имени, оценки и категории. категория автоматически ставиться 0 
     if (this.taskId == -1 && this.taskName !== "" && this.taskEstimate !== undefined && !isNaN(this.taskEstimate) && (this.taskEstimate <= 100) && (this.taskEstimate >= 1)) {
       if (this.taskDescription === "") {
@@ -385,13 +370,10 @@ export class HomeComponent implements OnInit{
         plan: null,  
         repeat : null,
       };
-      // console.log("даты", this.repeatForm.repeat_interval, this.startDate);
 
       if (this.repeatForm.repeat_interval && this.repeatForm.start) {
         taskData.repeat = this.repeatForm;
       }
-
-      console.log("rres", taskData);
 
       this.taskService.addTask(taskData).subscribe(
         (response) => {
@@ -449,6 +431,22 @@ export class HomeComponent implements OnInit{
     this.isDiv1Visible = false; // флаг для невидимости задачи    
   }
 
+  // Удаление задачи
+  deleteTask() {
+    if (this.taskId !== -1) {
+      this.taskService.deleteTask(this.taskId).subscribe({
+        next: () => {
+          this.clear();
+          this.getHomeData();
+        },
+        error: (error) => {
+          console.error('Произошла ошибка при удалении задачи:', error);
+        }
+      });
+    } 
+    this.isDiv1Visible = false;
+  }
+  
   // очистка полей, нужна при закрытии формы задачи
   clear(): void {
     this.taskId = -1;
@@ -465,25 +463,6 @@ export class HomeComponent implements OnInit{
     this.stopTime = null;
     this.taskCategory = 1;
     this.belongsPlan = "choose";
-  }
-
-  deleteTask() {
-    if (this.taskId !== -1) {
-      const url = `http://localhost:8080/assistant/api/tasks/${this.taskId}`;
-      this.http.delete(url)
-        .subscribe(
-          () => {
-            console.log('Задача успешно удалена');
-            this.clear();
-            this.getHomeData();
-          },
-          error => {
-            console.error('Произошла ошибка при удалении задачи:', error);
-          }
-        );
-      }
-    console.log('Задача просто закрыта');   
-    this.isDiv1Visible = false; // флаг для невидимости задачи
   }
 
   getTaskInfo(event: MouseEvent, taskId: number): void {

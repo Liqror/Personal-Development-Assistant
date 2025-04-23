@@ -24,4 +24,21 @@ export class TaskService {
     return this.http.put(this.apiUrl, taskData);
   }
 
+  // Обновление статуса задачи
+  updateTaskStatus(id: number, status: number): Observable<any> {
+    const patchBody = [
+      {
+        op: 'replace',
+        path: '/status',
+        value: status
+      }
+    ];
+    return this.http.patch(`${this.apiUrl}/${id}`, patchBody);
+  }
+
+  // Удаление задачи
+  deleteTask(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
 }

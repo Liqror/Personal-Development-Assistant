@@ -8,25 +8,25 @@ import { ICategory, ICategoryForCreate } from '../interfaces/category';
   providedIn: 'root'
 })
 export class CategoryService {
-    private apiUrl = 'http://localhost:8080/assistant/api/categories';
-  
-    constructor(private http: HttpClient) { }
-  
-    getAllCategories(): Observable<ICategory[]> {
-      return this.http.get<ICategory[]>(this.apiUrl);
-    }
+  private apiUrl = 'http://localhost:8080/assistant/api/categories';
 
-    getActiveCategories(): Observable<ICategory[]> {
-      const url = `${this.apiUrl}/active`;
-      return this.http.get<ICategory[]>(url);
-    }  
-    
-    createCategory(category: ICategoryForCreate): Observable<ICategoryForCreate> {
-    return this.http.post<ICategoryForCreate>(this.apiUrl, category);
-    }
+  constructor(private http: HttpClient) { }
 
-    updateCategory(category: ICategory): Observable<ICategory> {
-        return this.http.put<ICategory>(this.apiUrl, category);
-      }
-      
+  getAllCategories(): Observable<ICategory[]> {
+    return this.http.get<ICategory[]>(this.apiUrl);
   }
+
+  getActiveCategories(): Observable<ICategory[]> {
+    const url = `${this.apiUrl}/active`;
+    return this.http.get<ICategory[]>(url);
+  }  
+  
+  createCategory(category: ICategoryForCreate): Observable<ICategoryForCreate> {
+  return this.http.post<ICategoryForCreate>(this.apiUrl, category);
+  }
+
+  updateCategory(category: ICategory): Observable<ICategory> {
+      return this.http.put<ICategory>(this.apiUrl, category);
+    }
+      
+}
