@@ -67,7 +67,7 @@
               </tbody>
             </table>
 
-            <div *ngIf="!isDateGreaterThanToday(data.yesterday.date)">
+            <div *ngIf="!isDateGreaterThanToday(data.yesterday.date) && data.yesterday.text_note.text" >
               <hr>
               <h3>Заметка</h3>
               <p [innerHTML]="formatTextWithLineBreaks(data.yesterday.text_note.text)"></p>
@@ -129,9 +129,9 @@
             </table>
 
             <div *ngIf="!isDateGreaterThanToday(data.today.date)">
-              <hr>
-              <h3>Заметка</h3>
               <div *ngIf="isToday(this.urlDate); else editNote">
+                <hr>
+                <h3>Заметка</h3>
                 <textarea
                   name="message"
                   id="message"
@@ -144,7 +144,9 @@
                 ></textarea>
               </div>
               <ng-template #editNote>
-                <p [innerHTML]="formatTextWithLineBreaks(data.today.text_note.text)"></p>
+                <div *ngIf="data.today.text_note.text">
+                  <p [innerHTML]="formatTextWithLineBreaks(data.today.text_note.text)"></p>
+                </div>
               </ng-template> 
             </div>
             
@@ -203,7 +205,7 @@
               </tbody>
             </table>
   
-            <div *ngIf="!isDateGreaterThanToday(data.tomorrow.date)">
+            <div *ngIf="!isDateGreaterThanToday(data.tomorrow.date) && data.tomorrow.text_note.text">
               <hr>
               <h3>Заметка</h3>
               <p [innerHTML]="formatTextWithLineBreaks(data.tomorrow.text_note.text)"></p>
