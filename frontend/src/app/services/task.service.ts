@@ -41,4 +41,9 @@ export class TaskService {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
+  // Получение задачи по ID
+  getTaskById(id: number): Observable<ITask> {
+    return this.http.get<ITask>(`${this.apiUrl}/${id}`);
+  }
+
 }

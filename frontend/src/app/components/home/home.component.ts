@@ -336,7 +336,7 @@ export class HomeComponent implements OnInit{
     // console.log('Selected days:', this.repeatForm.days);
   }
 
-  // Сохранение задачи
+  // Кнопка сохранение задачи
   saveTask(): void {
 
     // задача не может быть без имени, оценки и категории. категория автоматически ставиться 0 
@@ -346,11 +346,7 @@ export class HomeComponent implements OnInit{
       }      
 
       this.planId = Number(this.belongsPlan);  // Преобразование строки в целое число потому что мы получаем строку почему-то. По-хорошему понять бы почему
-
-      if (typeof this.planId === 'number') {
-        this.taskPlan = this.getPlanById(this.planId);
-        // console.log("это не id?", this.taskPlan);
-      }
+      console.log(this.planId); // Проверка
 
       const taskData: ITaskCreate = {
         name: this.taskName,
@@ -375,6 +371,8 @@ export class HomeComponent implements OnInit{
         taskData.repeat = this.repeatForm;
       }
 
+      console.log('Данные задачи:', taskData); // Проверка
+
       this.taskService.addTask(taskData).subscribe(
         (response) => {
           console.log('Задача успешно сохранена', response);
@@ -387,11 +385,14 @@ export class HomeComponent implements OnInit{
       );
     }
 
+    // задача в режиме редактирования
     if (this.taskId !== -1) {
 
       if (this.taskDescription === "") {
         this.taskDescription = null;
       }
+
+      this.planId = Number(this.belongsPlan); 
     
       const taskDataUpdate: ITask = {
         id: this.taskId,
@@ -409,16 +410,15 @@ export class HomeComponent implements OnInit{
         task_category: {
           id: this.taskCategory,
         },
-        plan: this.taskPlan,  
-        plan_id: null, // временно
+        plan_id: this.planId,
+        plan: null, 
       };
-
-      // console.log("Задача в режиме редактирования", taskDataUpdate);
 
       this.taskService.updateTask(taskDataUpdate).subscribe({
         next: (response) => {
-          // console.log('Задача обновлена', response);
+          console.log('Задача обновлена', response);
           this.clear();
+          this.getHomeData();
         },
         error: (error) => {
           console.error('Ошибка при обновлении задачи', error);
@@ -447,6 +447,29 @@ export class HomeComponent implements OnInit{
     this.isDiv1Visible = false;
   }
   
+
+  getTaskInfo(event: MouseEvent, taskId: number): void {
+    event.preventDefault(); // Предотвращаем стандартное действие
+  
+    this.taskService.getTaskById(taskId).subscribe((taskInfo: ITask) => {
+      this.isDiv1Visible = true;
+  
+      this.taskId = taskInfo.id;
+      this.taskName = taskInfo.name;
+      this.taskEstimate = taskInfo.estimate;
+      this.taskDescription = taskInfo.description;
+      this.startDate = taskInfo.start_date;
+      this.stopDate = taskInfo.stop_date;
+      this.startTime = taskInfo.start_time;
+      this.stopTime = taskInfo.stop_time;
+      this.taskStatus = taskInfo.status;
+      this.taskCategory = taskInfo.task_category.id;
+  
+      this.belongsPlan = taskInfo.plan ? String(taskInfo.plan.id) : "choose";
+    });
+  }
+  
+
   // очистка полей, нужна при закрытии формы задачи
   clear(): void {
     this.taskId = -1;
@@ -463,29 +486,6 @@ export class HomeComponent implements OnInit{
     this.stopTime = null;
     this.taskCategory = 1;
     this.belongsPlan = "choose";
-  }
-
-  getTaskInfo(event: MouseEvent, taskId: number): void {
-    event.preventDefault(); // Предотвращаем стандартное действие
-    this.http.get<ITask>(`http://localhost:8080/assistant/api/tasks/${taskId}`).subscribe((taskInfo: ITask) => {
-      
-      this.isDiv1Visible = true; // Показываем окно
-      
-      // Заполляем окно данными
-      this.taskId = taskInfo.id;
-      this.taskName = taskInfo.name;
-      this.taskEstimate = taskInfo.estimate; 
-      this.taskDescription = taskInfo.description;
-      this.startDate = taskInfo.start_date;
-      this.stopDate = taskInfo.stop_date;
-      this.startTime = taskInfo.start_time;
-      this.stopTime = taskInfo.stop_time;
-      this.taskStatus = taskInfo.status;
-
-      this.taskCategory = taskInfo.task_category.id;
-      // this.belongsPlan = "choose"; // пока нет этого в бекенде
-
-    });
   }
 
 }  
