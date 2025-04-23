@@ -110,11 +110,11 @@
               
             </div>
 
-            <div *ngFor="let category of plan.categories" class="row justify-content-start">
-              <div class="col-md-3 col-lg-3" [style.background-color]="category.color">
-                <p style="vertical-align: center; text-align: center; ">{{ category.title }}</p>
+            <div class="row justify-content-start">
+              <div *ngFor="let category of plan.categories" class="col-md-2 col-lg-2" [style.background-color]="category.color">
+                <p style="text-align: center;">{{ category.title }}</p>
               </div>
-            </div> 
+            </div>
 
             <input 
               type="text" 
