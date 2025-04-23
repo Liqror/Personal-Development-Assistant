@@ -319,18 +319,21 @@
               <option *ngFor="let category of categories" [value]="category.id">{{category.title}}</option>
             </select>
           </p>
+
           <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
             ОТ <input [(ngModel)]="startDate" type="date" id="date_from" style="width: 37%; background-color: #f0f0f0; margin: 0 10px 0 10px"> 
             <input [(ngModel)]="startTime" type="time" id="time_from" style="width: 29%; background-color: #f0f0f0"> 
-          
-          </p>
-          
+          </p>  
         </div>
+
         <div class="col-md-6 col-lg-6">
-          <p> <img src="././assets/image/score.png" alt="оценка" style="height: 30px; margin-right: 10px">
-            <input [(ngModel)]="taskEstimate" style="width: 80%" type="number" step="1" name="userName" id="mark_task" placeholder="Оценка задачи"/></p>
-          <p>ДО <input [(ngModel)]="stopDate" type="date" id="date_to" style="width: 45%; background-color: #f0f0f0; margin: 0 10px 0 10px;">
-            <input [(ngModel)]="stopTime" type="time" id="time_to" style="width: 32%; background-color: #f0f0f0"></p>
+          <p> 
+            <img src="././assets/image/score.png" alt="оценка" style="height: 30px; margin-right: 10px">
+            <input [(ngModel)]="taskEstimate" style="width: 80%" type="number" step="1" name="userName" id="mark_task" placeholder="Оценка задачи"/>
+          </p>
+          <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
+            ДО <input [(ngModel)]="stopDate" type="date" id="date_to" style="width: 37%; background-color: #f0f0f0; margin: 0 10px 0 10px;">
+            <input [(ngModel)]="stopTime" type="time" id="time_to" style="width: 29%; background-color: #f0f0f0"></p>
         </div>
 
         <div class="col-md-12 col-lg-12">
@@ -357,7 +360,7 @@
         <!-- <p>ДО <input [(ngModel)]="repeatForm.end" type="date" id="date_to_2" style="width: 37%; background-color: #f0f0f0; margin: 0 10px 0 10px;">
         </p> -->
         <p> Повторять с интервалом <input type="text" [(ngModel)]="repeatForm.repeat_interval" name="userName" style="width: 15%; margin: 0 3px 0 3px; justify-content: center; text-align: center;" placeholder="кол-во"/>
-          <select id="repeat" [(ngModel)]="repeatForm.term" name="repeat" style="background-color: #f0f0f0; width: 50%;">
+          <select id="repeat" [(ngModel)]="repeatForm.term" name="repeat" style="background-color: #f0f0f0; width: 20%;">
             <option value="week"> неделя</option>
             <option value="month"> месяц </option>
             <option value="year"> год </option>
@@ -395,21 +398,20 @@
             <p><input type="radio" id="never-end-task" name="drone" value="never-end-task" checked />
             <label for="never-end-task">Никогда</label> </p>
           </div>
-          
 
-          <div style="float: left; width: auto; margin-left: 15px" >
+          <div style="float: left; width: auto; margin-left: 20px">
+            <p><input type="radio" id="data-when-end-task" name="drone" value="data-when-end-task" />
+              <label for="data-when-end-task">
+                До даты: <input [(ngModel)]="repeatForm.end" type="date" id="date_end-task" style="width: auto; background-color: #f0f0f0">
+              </label> 
+            </p>
+          </div>          
+
+          <div style="float: left; width: auto; margin-left: 20px">
             <p><input type="radio" id="how-repeat-task" name="drone" value="how-repeat-task" />
             <label for="how-repeat-task">После
               <input [(ngModel)]="repeatForm.number_of_repeats" style="width: 20%" type="text" name="userName" id="count-repeat-task" placeholder="кол-во" />
               раз</label> </p>
-          </div>
-
-
-          <div style="float: left; width: auto; margin-left: 15px">
-            <p><input type="radio" id="data-when-end-task" name="drone" value="data-when-end-task" />
-              <label for="data-when-end-task">До даты: <input [(ngModel)]="repeatForm.end" type="date" id="date_end-task" style="width: auto; background-color: #f0f0f0">
-              </label> 
-            </p>
           </div>
 
         </div>
