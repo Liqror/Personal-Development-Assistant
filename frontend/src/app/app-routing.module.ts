@@ -5,6 +5,7 @@ import { PlanComponent } from "./components/plan/plan.component";
 import { TimetableComponent } from "./components/timetable/timetable.component";
 import { BalanceWheelComponent } from "./components/balance-wheel/balance-wheel.component";
 import { DiaryComponent } from './components/diary/diary.component';
+import { AccountComponent } from './components/account/account.component';
 
 const routes: Routes = [
   // Редирект с пустого URL на текущую дату
@@ -23,6 +24,8 @@ const routes: Routes = [
   { path: 'timetable', component: TimetableComponent },
   { path: 'balance-wheel', component: BalanceWheelComponent },
   { path: 'diary', component: DiaryComponent },
+  { path: 'account', component: AccountComponent }, 
+  
   // 404 страница
   { 
     path: '**', 

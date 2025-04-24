@@ -15,6 +15,7 @@ import {CalendarComponent} from "./components/calendar/calendar.component";
 import {PlanComponent} from "./components/plan/plan.component";
 import {TimetableComponent} from "./components/timetable/timetable.component";
 import { DiaryComponent } from './components/diary/diary.component';
+import { AccountComponent } from './components/account/account.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { DiaryComponent } from './components/diary/diary.component';
     PlanComponent,
     TimetableComponent,
     DiaryComponent,
+    AccountComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,6 +45,7 @@ import { DiaryComponent } from './components/diary/diary.component';
     PlanComponent,
     TimetableComponent,
     DiaryComponent,
+    AccountComponent,
   ],
   bootstrap: [AppComponent]
 })

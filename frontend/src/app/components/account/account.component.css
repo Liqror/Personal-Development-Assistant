@@ -1,0 +1,21 @@
+.fixed_button {
+    background: #c3ff5b;
+}
+
+.div_profile_img {
+    background-color: transparent;
+    border: none;
+    padding: 0; /* Убираем отступы */
+    margin: 0;  /* Убираем поля */
+}
+
+.profile_img {
+    width: 100%;
+    height: auto; /* Меняем высоту на auto */
+    max-width: 100%; /* Добавляем ограничение по ширине */
+}
+
+.inputUserData {
+    padding: 3px 10px 3px 15px;
+    margin-bottom: 10px;
+}
