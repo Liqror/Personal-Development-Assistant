@@ -393,6 +393,7 @@ export class HomeComponent implements OnInit{
       }
 
       this.planId = Number(this.belongsPlan); 
+      console.log(this.planId); // Проверка
     
       const taskDataUpdate: ITask = {
         id: this.taskId,
@@ -414,9 +415,11 @@ export class HomeComponent implements OnInit{
         plan: null, 
       };
 
+      console.log('Данные задачи для обновления:', taskDataUpdate); // Проверка
+
       this.taskService.updateTask(taskDataUpdate).subscribe({
         next: (response) => {
-          console.log('Задача обновлена', response);
+          // console.log('Задача обновлена', response);
           this.clear();
           this.getHomeData();
         },
