@@ -46,6 +46,8 @@ export class BalanceWheelComponent implements OnInit {
   ngOnInit() {
     this.getCategories();
     this.ctx = this.balanceWheelCanvas.nativeElement.getContext('2d');
+    this.getStartDates();
+    this.getWheel();
   }
 
   // получение категорий
@@ -121,6 +123,24 @@ export class BalanceWheelComponent implements OnInit {
     }, error => {
         console.error('Ошибка при обновлении категории:', error);
     });
+  }
+
+  // изначальное колесо строится по 7 дням
+  getStartDates(): void {
+    const today = new Date();
+    const sevenDaysAgo = new Date();
+  
+    // Отнимаем 6 дней, т.к. текущий день включительно (всего 7 дней)
+    sevenDaysAgo.setDate(today.getDate() - 6);
+  
+    const formatDate = (date: Date): string => {
+      return date.toISOString().split('T')[0]; // Получаем YYYY-MM-DD
+    };
+
+    this.start = formatDate(sevenDaysAgo);
+    this.stop = formatDate(today);
+  
+    // console.log("дата ",formatDate(sevenDaysAgo), formatDate(today));
   }
 
   // получение данных для построения колеса баланса
