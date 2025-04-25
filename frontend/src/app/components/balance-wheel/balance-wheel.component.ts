@@ -27,8 +27,11 @@ export class BalanceWheelComponent implements OnInit {
   // для изменения цвета категории
   previousColor: string | null = null;
 
-  // для изменения категории
+  // Отправка изменненой категории на бекенд
   changeCategory: ICategory;
+
+  // Храним индекс категории, которую редактируем
+  isEditing: number | null = null;
 
   // для выбора редактирования или создания
   categoryHaveId: boolean = false;
@@ -40,6 +43,7 @@ export class BalanceWheelComponent implements OnInit {
   start: string = "";
   stop: string = "";
 
+  @ViewChild('inputField') inputField: any;
   @ViewChild('balanceWheelCanvas', {static: true}) balanceWheelCanvas: ElementRef<HTMLCanvasElement>;
   private ctx: CanvasRenderingContext2D | null = null;
 
@@ -51,7 +55,6 @@ export class BalanceWheelComponent implements OnInit {
     this.ctx = this.balanceWheelCanvas.nativeElement.getContext('2d');
     this.getStartDates();
     this.getWheel();
-    
   }
 
   // получение категорий
@@ -78,19 +81,6 @@ export class BalanceWheelComponent implements OnInit {
             console.error('Ошибка при создании категории:', error);
           }
         );
-
-      } else {
-        // console.log("открыта для редактирования");
-
-        this.changeCategory.title = this.newCategory.title;
-        this.changeCategory.color = this.newCategory.color;
-
-        this.categoryService.updateCategory(this.changeCategory).subscribe(updatedCategory => {
-          // console.log('Категория успешно обновлена:', updatedCategory);
-        }, error => {
-            console.error('Ошибка при обновлении категории:', error);
-        });
-
       }
     }
   }
@@ -110,21 +100,11 @@ export class BalanceWheelComponent implements OnInit {
     this.categoryHaveId = false;
   }
 
-  // заполнение формы для редактирования категории
-  fillForm(category: ICategory): void {
-    this.categoryHaveId = true;
-    // для заполения формы
-    this.newCategory.title = category.title;
-    this.newCategory.color = category.color;
-    //сохраним то что есть   
-    this.changeCategory = category;
-  }
 
   // Смена статуса антивности у категории
   updateCategoryTick(category: ICategory): void {
     this.categoryService.updateCategory(category).subscribe(updatedCategory => {
         // console.log('Категория успешно обновлена:', updatedCategory);
-        this.getStartDates();
         this.getWheel();
     }, error => {
         console.error('Ошибка при обновлении категории:', error);
@@ -132,12 +112,8 @@ export class BalanceWheelComponent implements OnInit {
   }
 
 
-  // Редактирование названия категории
-  // Храним индекс категории, которую редактируем
-  isEditing: number | null = null;
-  // Ссылка на input (если он редактируется)
-  @ViewChild('inputField') inputField: any;
-  // Метод для начала редактирования категории
+  // Функции дла редактирования названия категории
+  // Активирует режим редактирования
   editCategory(index: number) {
     this.isEditing = index; // Сохраняем индекс редактируемой категории
   }
@@ -151,14 +127,15 @@ export class BalanceWheelComponent implements OnInit {
         console.error('Ошибка при обновлении категории:', error);
     });
   }
-  // После рендера компонента, при изменении isEditing, устанавливаем фокус
+  // Устанавливает фокус на поле ввода при редактировании
   ngAfterViewChecked() {
     if (this.isEditing !== null && this.inputField) {
       this.inputField.nativeElement.focus(); // Устанавливаем фокус на input
     }
   }  
 
-// Функции для изменния цвета категории
+  // Функции для редактирования цвета категории
+  // Открытие color picker'а
   openColorPicker(index: number) {
     const colorPicker = document.querySelector(`#colorPicker-${index}`) as HTMLInputElement;
 
@@ -168,6 +145,7 @@ export class BalanceWheelComponent implements OnInit {
       colorPicker.click();
     }
   }
+  // Обработка изменения цвета
   onColorInput(index: number) {
     const newColor = this.categories[index].color;
 
@@ -180,7 +158,6 @@ export class BalanceWheelComponent implements OnInit {
         next: (res) => {
           // console.log('Категория успешно обновлена:', res);
           this.previousColor = newColor;
-          this.getStartDates();
           this.getWheel();
         },
         error: (err) => {
@@ -190,14 +167,7 @@ export class BalanceWheelComponent implements OnInit {
     }
   }
 
-  
-
-
-
-
-
-
-  // изначальное колесо строится по 7 дням
+  // Функция изначального колеса баланса - строится по 7 дням
   getStartDates(): void {
     const today = new Date();
     const sevenDaysAgo = new Date();
@@ -211,11 +181,11 @@ export class BalanceWheelComponent implements OnInit {
 
     this.start = formatDate(sevenDaysAgo);
     this.stop = formatDate(today);
-  
+
     // console.log("дата ",formatDate(sevenDaysAgo), formatDate(today));
   }
 
-  // получение данных для построения колеса баланса
+  // Получение данных для построения колеса баланса
   getWheel(): void {
     // console.log("даты??",this.start, this.stop);
     if (this.start != "" && this.stop != "") {
@@ -230,7 +200,7 @@ export class BalanceWheelComponent implements OnInit {
           this.wheelData = response;
           this.clearCanvas();
           this.drawCircle();
-          console.log('Response:', response);
+          // console.log('Response:', response);
         },
         (error) => {
           console.error('Error:', error);
@@ -386,4 +356,5 @@ export class BalanceWheelComponent implements OnInit {
       }
     }
   }
+
 }

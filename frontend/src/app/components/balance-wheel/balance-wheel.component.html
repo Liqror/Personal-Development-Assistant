@@ -10,14 +10,11 @@
     <!-- Основной контент страницы  -->
      <div  class="col-md-12 col-lg-12 mt-md-2">
         <h2>Просмотр колеса баланса
-            от <input [(ngModel)]="start" class="wheel_date_input" type="date" id="wheel_date_from"> 
-            до <input [(ngModel)]="stop" class="wheel_date_input" type="date" id="wheel_date_to">
+            от <input [(ngModel)]="start" (ngModelChange)="getWheel()" class="wheel_date_input" type="date" id="wheel_date_from"> 
+            до <input [(ngModel)]="stop" (ngModelChange)="getWheel()" class="wheel_date_input" type="date" id="wheel_date_to">
         </h2>
     </div>
     <div class="col-md-12 col-lg-12 content-container">  
-        
-
-
         <div class="row justify-content-center">
             <div class="col-md-4 col-lg-4 mt-md-1">
                 <h2>Категории</h2>
@@ -60,26 +57,6 @@
                       </label>
                     </div>
 
-
-
-
-                    <!-- Кнопка, которая вызывает выбор цвета -->
-                    <!-- <div class="colorCircle" (click)="changeColor(i)" style="position: relative; display: inline-block;">
-                        <svg width="20" height="20">
-                        <circle cx="10" cy="10" r="10" [attr.fill]="category.color" />
-                        </svg>
-                        
-                        <input
-                        id="colorPicker-{{i}}"
-                        type="color"
-                        style="position: absolute; top: 0; left: 0; opacity: 0; width: 0; height: 0;"
-                        #colorPicker
-                        [(ngModel)]="category.color"
-                        />
-                    </div>    -->
-
-
-
                     <div class="colorCircle" style="position: relative; display: inline-block;">
                         <svg width="20" height="20" (click)="openColorPicker(i)">
                           <circle cx="10" cy="10" r="10" [attr.fill]="category.color" />
@@ -97,9 +74,6 @@
                                         
                 </div>
                   
-                <p class="textUpdWheel">
-                    <button (click)="getWheel()" class="UpdWheelBtn">Обновить колесо баланса</button>
-                </p>
             </div>
 
             <div class="col-md-7 col-lg-7 mt-md-1">
