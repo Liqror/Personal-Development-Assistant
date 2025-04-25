@@ -24,6 +24,9 @@ export class BalanceWheelComponent implements OnInit {
     active: true
   };
 
+  // для изменения цвета категории
+  previousColor: string | null = null;
+
   // для изменения категории
   changeCategory: ICategory;
 
@@ -48,6 +51,7 @@ export class BalanceWheelComponent implements OnInit {
     this.ctx = this.balanceWheelCanvas.nativeElement.getContext('2d');
     this.getStartDates();
     this.getWheel();
+    
   }
 
   // получение категорий
@@ -116,14 +120,82 @@ export class BalanceWheelComponent implements OnInit {
     this.changeCategory = category;
   }
 
-  // смена статуса антивности у категории
+  // Смена статуса антивности у категории
   updateCategoryTick(category: ICategory): void {
     this.categoryService.updateCategory(category).subscribe(updatedCategory => {
         // console.log('Категория успешно обновлена:', updatedCategory);
+        this.getStartDates();
+        this.getWheel();
     }, error => {
         console.error('Ошибка при обновлении категории:', error);
     });
   }
+
+
+  // Редактирование названия категории
+  // Храним индекс категории, которую редактируем
+  isEditing: number | null = null;
+  // Ссылка на input (если он редактируется)
+  @ViewChild('inputField') inputField: any;
+  // Метод для начала редактирования категории
+  editCategory(index: number) {
+    this.isEditing = index; // Сохраняем индекс редактируемой категории
+  }
+  // Метод для сохранения изменения названия (например, по blur или Enter)
+  updateCategoryTitle(index: number) {
+    this.isEditing = null; // Останавливаем редактирование
+    this.changeCategory = this.categories[index];
+    this.categoryService.updateCategory(this.changeCategory).subscribe(changeCategory => {
+      // console.log('Категория успешно обновлена:', changeCategory);
+    }, error => {
+        console.error('Ошибка при обновлении категории:', error);
+    });
+  }
+  // После рендера компонента, при изменении isEditing, устанавливаем фокус
+  ngAfterViewChecked() {
+    if (this.isEditing !== null && this.inputField) {
+      this.inputField.nativeElement.focus(); // Устанавливаем фокус на input
+    }
+  }  
+
+// Функции для изменния цвета категории
+  openColorPicker(index: number) {
+    const colorPicker = document.querySelector(`#colorPicker-${index}`) as HTMLInputElement;
+
+    if (colorPicker) {
+      // Сохраняем старый цвет перед открытием
+      this.previousColor = this.categories[index].color;
+      colorPicker.click();
+    }
+  }
+  onColorInput(index: number) {
+    const newColor = this.categories[index].color;
+
+    if (newColor !== this.previousColor) {
+      // console.log("Цвет изменился:", newColor);
+
+      const updatedCategory = { ...this.categories[index] };
+
+      this.categoryService.updateCategory(updatedCategory).subscribe({
+        next: (res) => {
+          // console.log('Категория успешно обновлена:', res);
+          this.previousColor = newColor;
+          this.getStartDates();
+          this.getWheel();
+        },
+        error: (err) => {
+          console.error('Ошибка при обновлении категории:', err);
+        }
+      });
+    }
+  }
+
+  
+
+
+
+
+
 
   // изначальное колесо строится по 7 дням
   getStartDates(): void {

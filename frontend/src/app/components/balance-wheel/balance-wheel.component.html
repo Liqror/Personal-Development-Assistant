@@ -14,7 +14,10 @@
             до <input [(ngModel)]="stop" class="wheel_date_input" type="date" id="wheel_date_to">
         </h2>
     </div>
-    <div class="col-md-12 col-lg-12 content-container">       
+    <div class="col-md-12 col-lg-12 content-container">  
+        
+
+
         <div class="row justify-content-center">
             <div class="col-md-4 col-lg-4 mt-md-1">
                 <h2>Категории</h2>
@@ -24,22 +27,76 @@
                     <button onclick="showDivNewCtg()" class="showDivNewCtg"> <img src="././assets/image/add.png" alt="новая категория" class="styleImg">Добавить категорию</button>
                 </p>
 
-                    <div *ngFor="let category of categories" class="styleForCtg"> 
-                        <div class="divTextCtg">  
-                            <label class="labelTextCtg"> 
-                                <input class="real_checkbox" type="checkbox" name="ctg" [(ngModel)]="category.active" (change)="updateCategoryTick(category)">
-                                <span class="custom_checkbox"></span>
-                                <p class="textCtg"> <button class="seeCtgInfo" onclick="showDivNewCtg()" (click)="fillForm(category)"> {{ category.title }} </button> </p> 
-                            </label>
-                        </div>
-                        <div class="colorCircle"> 
-                            <!-- Это цветовая метка категории. Сюда потом можно будет вставить любой цвет-->
-                            <svg width="20" height="20" >
-                                <circle cx="10" cy="10" r="10" [attr.fill]="category.color" />
-                            </svg>
-                        </div>                    
+                <div *ngFor="let category of categories; let i = index" class="styleForCtg">
+                    <div class="divTextCtg">
+                      <label class="labelTextCtg">
+                        <input
+                            class="real_checkbox"
+                            type="checkbox"
+                            name="ctg"
+                            [(ngModel)]="category.active"
+                            (change)="updateCategoryTick(category)"
+                        />
+                        <span class="custom_checkbox"></span>
+                        <p class="textCtg">
+                          <button
+                            class="seeCtgInfo"
+                            (click)="editCategory(i)"
+                          >
+                            <ng-container *ngIf="isEditing === i; else showText">
+                                <input
+                                #inputField
+                                [(ngModel)]="category.title"
+                                (blur)="updateCategoryTitle(i)"
+                                (keydown.enter)="updateCategoryTitle(i)"
+                                class="edit-input"
+                              />                                                  
+                            </ng-container>
+                            <ng-template #showText>
+                              {{ category.title }}
+                            </ng-template>
+                          </button>
+                        </p>
+                      </label>
                     </div>
-                                       
+
+
+
+
+                    <!-- Кнопка, которая вызывает выбор цвета -->
+                    <!-- <div class="colorCircle" (click)="changeColor(i)" style="position: relative; display: inline-block;">
+                        <svg width="20" height="20">
+                        <circle cx="10" cy="10" r="10" [attr.fill]="category.color" />
+                        </svg>
+                        
+                        <input
+                        id="colorPicker-{{i}}"
+                        type="color"
+                        style="position: absolute; top: 0; left: 0; opacity: 0; width: 0; height: 0;"
+                        #colorPicker
+                        [(ngModel)]="category.color"
+                        />
+                    </div>    -->
+
+
+
+                    <div class="colorCircle" style="position: relative; display: inline-block;">
+                        <svg width="20" height="20" (click)="openColorPicker(i)">
+                          <circle cx="10" cy="10" r="10" [attr.fill]="category.color" />
+                        </svg>
+                      
+                        <input
+                          id="colorPicker-{{i}}"
+                          type="color"
+                          [(ngModel)]="category.color"
+                          (input)="onColorInput(i)"
+                          style="position: absolute; top: 0; left: 0; opacity: 0; width: 0; height: 0;"
+                          #colorPicker
+                        />
+                      </div>
+                                        
+                </div>
+                  
                 <p class="textUpdWheel">
                     <button (click)="getWheel()" class="UpdWheelBtn">Обновить колесо баланса</button>
                 </p>
