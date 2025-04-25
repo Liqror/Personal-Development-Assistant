@@ -23,6 +23,7 @@ export class BalanceWheelComponent implements OnInit {
     color: '',
     active: true
   };
+  isCreatingNewCategory = false;
 
   // для изменения цвета категории
   previousColor: string | null = null;
@@ -57,7 +58,7 @@ export class BalanceWheelComponent implements OnInit {
     this.getWheel();
   }
 
-  // получение категорий
+  // Получение всех категорий
   getCategories(): void {
     this.categoryService.getAllCategories().subscribe((res: ICategory[]) => { 
       this.categories = res;
@@ -65,41 +66,50 @@ export class BalanceWheelComponent implements OnInit {
     });
   }
 
-  // создание/обновление категори
-  createOrUpdateCategory(): void {
-    if (this.newCategory.title != "") {
-
-      if (!this.categoryHaveId) {
-        // console.log("открыта для создания")
-        
-        this.categoryService.createCategory(this.newCategory).subscribe(
-          createdCategory => {
-            // console.log('Категория успешно создана:', createdCategory);
-            this.getCategories();
-          },
-          error => {
-            console.error('Ошибка при создании категории:', error);
-          }
-        );
-      }
-    }
-  }
-
-  // очистка формы после создания/редактирования
-  clearForm(): void {
+  // Функции для создания новой категории
+  // Создание формы и постановка фокуса на инпут
+  startCreatingCategory() {
+    this.isCreatingNewCategory = true;
     this.newCategory = {
       user_id: 1,
       title: '',
-      color: '',
+      color: this.getRandomColor(),
       active: true
     };
+  
+    setTimeout(() => {
+      const input = document.getElementById('newCategoryInput') as HTMLInputElement;
+      input?.focus();
+    });
   }
-
-  // выбор режима редактирование/создание
-  changeFlag(): void {
-    this.categoryHaveId = false;
+  // Ранодомный цвет для новой категории
+  getRandomColor(): string {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
-
+  // Отправка новой категории на сервер
+  submitNewCategory() {
+    const trimmedTitle = this.newCategory.title.trim();
+    if (trimmedTitle) {
+      this.newCategory.title = trimmedTitle;
+      this.categoryService.createCategory(this.newCategory).subscribe(
+        newCat => {
+          // console.log('Категория успешно создана:', newCat);
+          this.getCategories();
+        },
+        error => {
+          console.error('Ошибка при создании категории:', error);
+        }
+      );
+      this.isCreatingNewCategory = false;
+    } else {
+      this.isCreatingNewCategory = false;
+    }
+  }
 
   // Смена статуса антивности у категории
   updateCategoryTick(category: ICategory): void {
