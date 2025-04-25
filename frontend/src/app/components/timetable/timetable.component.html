@@ -123,7 +123,7 @@
 
     <div class="row justify-content-center">
       <div class="col-md-6 col-lg-6">
-        <p><img src="././assets/image/timeForTask.png" alt="время" style="height: 30px">
+        <p>
           ОТ <input [(ngModel)]="formEvent.start_time" type="time" id="time_from_tt" style="width: 70%; background-color: #f0f0f0"> </p>
       </div>
       <div class="col-md-6 col-lg-6">
@@ -151,34 +151,34 @@
     </form>
 
     <!-- Дни недели -->
-    <div class="row" style="justify-content: space-between; width: 90%; ">
+    <div class="row" style="justify-content: space-between; width: 90%;">
       <div class="col-md-1 col-lg-1">
-        <button class="clickable2" data-day="0" (click)="toggleDaySelection(0)"> ПН </button>
+        <button class="clickable2" data-day="0" (click)="toggleDaySelection(0)" onclick="this.classList.toggle('selected-day')"> ПН </button>
       </div>
       <div class="col-md-1 col-lg-1">
-        <button class="clickable2" data-day="1" (click)="toggleDaySelection(1)"> ВТ </button>
+        <button class="clickable2" data-day="1" (click)="toggleDaySelection(1)" onclick="this.classList.toggle('selected-day')"> ВТ </button>
       </div>
       <div class="col-md-1 col-lg-1">
-        <button class="clickable2" data-day="2" (click)="toggleDaySelection(2)"> СР </button>
+        <button class="clickable2" data-day="2" (click)="toggleDaySelection(2)" onclick="this.classList.toggle('selected-day')"> СР </button>
       </div>
       <div class="col-md-1 col-lg-1">
-        <button class="clickable2" data-day="3" (click)="toggleDaySelection(3)"> ЧТ </button>
+        <button class="clickable2" data-day="3" (click)="toggleDaySelection(3)" onclick="this.classList.toggle('selected-day')"> ЧТ </button>
       </div>
       <div class="col-md-1 col-lg-1">
-        <button class="clickable2" data-day="4" (click)="toggleDaySelection(4)"> ПТ </button>
+        <button class="clickable2" data-day="4" (click)="toggleDaySelection(4)" onclick="this.classList.toggle('selected-day')"> ПТ </button>
       </div>
       <div class="col-md-1 col-lg-1">
-        <button class="clickable2" data-day="5" (click)="toggleDaySelection(5)"> СБ </button>
+        <button class="clickable2" data-day="5" (click)="toggleDaySelection(5)" onclick="this.classList.toggle('selected-day')"> СБ </button>
       </div>
       <div class="col-md-1 col-lg-1">
-        <button class="clickable2" data-day="6" (click)="toggleDaySelection(6)"> ВС </button>
+        <button class="clickable2" data-day="6" (click)="toggleDaySelection(6)" onclick="this.classList.toggle('selected-day')"> ВС </button>
       </div>
     </div>
 
     <br>
     <div class="row justify-content-center">
       <div class="col-md-6 col-lg-6">
-        <p style="text-align: center"><button id="save-button-new-obj" class="save"   (click)="createEvent()" (click)="clearForm()" onclick="checkInputForTimetable()">Сохранить</button><p>
+        <p style="text-align: center"><button id="save-button-new-obj" class="save" onclick="checkInputForTimetable()" (click)="createEvent()">Сохранить</button><p>
       </div>
       <div class="col-md-6 col-lg-6">
         <p style="text-align: center"><button onclick="hideDiv()" id="close-button" class="close" (click)="clearForm()">Закрыть</button><p>
@@ -189,7 +189,7 @@
       <p id="checkObjName" style="color: red; margin: 0;"></p>  <!-- ЕСЛИ НАЗВАНИЕ ИВЕНТА НЕ ВВЕДЕНО -> ОШИБКА ПРИ СОХРАНЕНИИ -->
       <p id="checkPlace" style="color: red; margin: 0;"></p>    <!-- ЕСЛИ МЕСТО/ССЫЛКА ИВЕНТА НЕ ВВЕДЕНО  -> ОШИБКА ПРИ СОХРАНЕНИИ -->
       <p id="checkTimeTT" style="color: red; margin: 0;"></p>   <!-- ПРОВЕРКА ВРЕМЕНИ, ЕСЛИ НЕ ВВЕРНО  -> ОШИБКА ПРИ СОХРАНЕНИИ -->
-      <p id="checkDays" ></p>
+      <p id="checkDays" style="color: red; margin: 0;"></p>
     </div>
 
   </div>

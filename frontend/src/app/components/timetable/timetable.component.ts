@@ -127,14 +127,27 @@ export class TimetableComponent implements OnInit {
     }
   }
 
+  // Проверка ОТ < ДО (время)
+  isTimeInvalid(start: string, stop: string): boolean {
+    const [startHours, startMinutes] = start.split(':').map(Number);
+    const [stopHours, stopMinutes] = stop.split(':').map(Number);
+  
+    const startTotalMinutes = startHours * 60 + startMinutes;
+    const stopTotalMinutes = stopHours * 60 + stopMinutes;
+
+    // console.log("startTotalMinutes", startTotalMinutes);
+    // console.log("stopTotalMinutes", stopTotalMinutes);
+      
+    return startTotalMinutes <= stopTotalMinutes;
+  }
+
   // создание событие/ий
   createEvent() {
     const userId = 1; // ID текущего пользователя, его можно взять из контекста авторизации
     const { name, place, format, start_time, stop_time } = this.formEvent;
-    console.log(format);
   
     // Проверяем сразу все необходимые поля и условия
-    if (name && place && format && start_time && stop_time && this.selectedDaysOfWeek?.length && this.selectedRepeatOption) {
+    if (name && place && format && start_time && stop_time && this.isTimeInvalid(start_time, stop_time) && this.selectedDaysOfWeek?.length && this.selectedRepeatOption) {
       
       const weeksToCreate = this.getWeeksForCreation(this.selectedRepeatOption);
       const events: IEventCreate[] = [];
@@ -159,6 +172,7 @@ export class TimetableComponent implements OnInit {
           next: () => {
             // console.log('Событие успешно создано:', event);
             this.getTimetable();
+            this.clearForm();
           },
           error: (error) => console.error('Ошибка при создании события:', event, error)
         });
@@ -168,8 +182,8 @@ export class TimetableComponent implements OnInit {
 
     }
     else{
-      console.log("что-то не заполнено");
-      console.log(name, place, format, start_time, stop_time, this.selectedDaysOfWeek?.length, this.selectedRepeatOption);
+      // console.log("что-то не заполнено");
+      // console.log(name, place, format, start_time, stop_time, this.selectedDaysOfWeek?.length, this.selectedRepeatOption);
     }
   }
   

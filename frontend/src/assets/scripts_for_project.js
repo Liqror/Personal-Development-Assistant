@@ -55,10 +55,10 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("repeat").addEventListener("change", function() {
   if (this.value === "1") {
     document.getElementById("daysForWeek").style.display = "flex";
-    console.log('see 1');
+    // console.log('see 1');
   } else {
     document.getElementById("daysForWeek").style.display = "none";
-    console.log('see 2');
+    // console.log('see 2');
   }
 });
 })()
@@ -181,7 +181,7 @@ function checkInput() {
   
     //  Проверка на введенность названия задачи
     if (text == "") {
-      console.log(text, "Пустой текст, ничего не введено!");
+      // console.log(text, "Пустой текст, ничего не введено!");
       document.getElementById("checkTaskName").innerHTML = "Вы не ввели название задачи! ";
     }
     else {
@@ -194,7 +194,7 @@ function checkInput() {
     2) Дата начала больше даты конца
     */
     if ((date_from > date_to && date_to != "") || (date_from == "" && time_from != "") || (date_to == "" && time_to != "")) {
-      console.log(text, "Время для задачи указано с ошибками!");
+      // console.log(text, "Время для задачи указано с ошибками!");
       document.getElementById("checkDateTime").innerHTML = "Время для задачи указано не корректно! ";
     }
     else {
@@ -209,7 +209,7 @@ document.getElementById("save-button-task").click = checkInput;
 Проверка вводимых данных для окна создания плана
 */
 function checkInputForPlan() {
-  console.log("HERE?!");
+  // console.log("HERE?!");
   let namePlan = document.getElementById("newNamePlan").value;
   //let date_from = document.getElementById("datePlan_from").value;
   //let date_to = document.getElementById("datePlan_to").value;
@@ -218,7 +218,7 @@ function checkInputForPlan() {
 
   //  Проверка на введенность названия плана
   if (namePlan == "") {
-    console.log("Пустой текст, ничего не введено!");
+    // console.log("Пустой текст, ничего не введено!");
     document.getElementById("checkPlanName").innerHTML = "Вы не ввели название плана! ";
   }
   else {
@@ -252,7 +252,7 @@ function checkInputForBalanceWheel() {
 
   //  Проверка на введенность названия плана
   if (nameCtg == "") {
-    console.log("Пустой текст, категория не введена!");
+    // console.log("Пустой текст, категория не введена!");
     document.getElementById("checkCtgName").innerHTML = "Вы не ввели название категории! ";
   }
   else {
@@ -275,7 +275,7 @@ function checkInputForTimetable() {
 
   //???
   let dd = document.getElementsByClassName("clickable2").click;
-  console.log(document.getElementsByClassName("clickable2").click);
+  // console.log(document.getElementsByClassName("clickable2").click);
   //???
 
 
@@ -298,6 +298,7 @@ function checkInputForTimetable() {
   else {
     document.getElementById("checkPlace").innerHTML = "";
   }
+  
   // Проверка времени занятия. Должно быть указано начало и конец
   if ((time_to_tt < time_from_tt && time_to_tt != "") || (time_to_tt == "" || time_from_tt == "")){
     if (time_to_tt < time_from_tt && time_to_tt != "") {
@@ -310,6 +311,23 @@ function checkInputForTimetable() {
   }
   else {
     document.getElementById("checkTimeTT").innerHTML = "";
+  }
+
+
+  // Проверка: выбран ли хотя бы один день недели
+  let buttons = document.getElementsByClassName("clickable2");
+  let selectedDay = false;
+  for (let i = 0; i < buttons.length; i++) {
+    if (buttons[i].classList.contains("selected-day")) {
+      selectedDay = true;
+      break;
+    }
+  }
+
+  if (!selectedDay) {
+    document.getElementById("checkDays").innerHTML = "Вы не выбрали ни одного дня недели!";
+  } else {
+    document.getElementById("checkDays").innerHTML = "";
   }
 
 }
