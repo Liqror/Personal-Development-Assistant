@@ -33,9 +33,9 @@
         <!-- Основной контент страницы  -->
         <div class="row justify-content-center" *ngIf="data && data.yesterday"> <!-- эта строчка убирает ошибки из консоли -->
           <div class="col-md-4 col-lg-4 mt-md-1">
-            <h2>{{ titles.previous }}</h2>
-            <hr>
+            <h2>{{ titles.previous }}</h2>            
             <div *ngIf="data.yesterday.day_classes.length > 0">
+              <hr>
               <h3>Расписание</h3>
               <table class="table">
                 <thead>
@@ -97,8 +97,8 @@
 
           <div class="col-md-4 col-lg-4 mt-md-1">
             <h2>{{ titles.clicked }}</h2>
-            <hr>
             <div *ngIf="data.today.day_classes.length > 0">
+              <hr>
               <h3>Расписание</h3>
               <table class="table">
                 <thead>
@@ -124,8 +124,7 @@
                 </tbody>
               </table>
             </div>
-
-
+            
             <div *ngIf="!isDateGreaterThanToday(data.today.date)">
               <div *ngIf="isToday(this.urlDate); else editNote">
                 <hr>
@@ -140,6 +139,7 @@
                   #noteTextarea 
                   (input)="updateAndCreateNote(data.today.text_note)"
                 ></textarea>
+                <p></p>
               </div>
               <ng-template #editNote>
                 <div *ngIf="data.today.text_note.text">
@@ -178,8 +178,8 @@
 
           <div class="col-md-4 col-lg-4 mt-md-1">
             <h2>{{ titles.next }}</h2>
-            <hr>
             <div *ngIf="data.tomorrow.day_classes.length > 0">
+              <hr>
               <h3>Расписание</h3>
               <table class="table">
                 <thead>
