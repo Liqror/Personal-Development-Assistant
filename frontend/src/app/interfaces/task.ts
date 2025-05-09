@@ -22,10 +22,10 @@ export interface ITask {
 }
 
 export interface IRepeat {
+  start: string, 
   repeat_interval: null | number,
   term: string,
   days: number[], 
-  start: string,  // из старт тайм выше
   end: string,
   number_of_repeats: number  // если задача никогда не заканчивается то енд нал и намбер оф репится 0 
 }

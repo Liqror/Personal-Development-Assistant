@@ -81,6 +81,10 @@
                     </label>
                 </p>
               </div>
+
+              <div *ngIf="data.yesterday.fixed_tasks.length > 0 && data.yesterday.done_tasks.length > 0" >
+                <hr>
+              </div>
   
               <div *ngFor="let task of data.yesterday.done_tasks">
                 <p class="task_see">
@@ -163,6 +167,10 @@
                 </p>
               </div>
 
+              <div *ngIf="data.today.fixed_tasks.length > 0 && data.today.done_tasks.length > 0" >
+                <hr class="thin">
+              </div>
+
               <div *ngFor="let task of data.today.done_tasks">
                 <p class="task_see">
                   <label [for]="task.id.toString()" class="labelForTask">
@@ -227,6 +235,10 @@
                 </p>
               </div>
 
+              <div *ngIf="data.tomorrow.fixed_tasks.length > 0 && data.tomorrow.done_tasks.length > 0" >
+                <hr class="thin">
+              </div>
+
               <div *ngFor="let task of data.tomorrow.done_tasks">
                 <p class="task_see">
                   <label [for]="task.id.toString()" class="labelForTask">
@@ -255,41 +267,40 @@
                     </label>
                   </p>
                 </div>
-                
-    
-                </div>
-
-
-                <div class="col-md-4 col-lg-4 mt-md-1">
-                  <br>
-                  <h4>Задачи с дедлайном</h4>
-
-                  <div *ngFor="let task of data.soon_tasks">
-                    <p class="task_see">
-                      <label [for]="task.id.toString()" class="labelForTask">
-                          <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id" [(ngModel)]="task.status" (change)="onCheckboxChange($event, task)">
-                          <span class="custom_checkbox" [id]="task.id.toString()"></span>
-                          <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
-                      </label>
-                    </p>
-                  </div>
-            
-                </div>
-                <div class="col-md-4 col-lg-4 mt-md-1">
-                  <br>
-                  <h4>Беcсрочно</h4>
-                  <div *ngFor="let task of data.free_tasks">
-                    <p class="task_see">
-                      <label [for]="task.id.toString()" class="labelForTask">
-                          <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id" [(ngModel)]="task.status" (change)="onCheckboxChange($event, task)">
-                          <span class="custom_checkbox" [id]="task.id.toString()"></span>
-                          <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
-                      </label>
-                  </p>
+                   
               </div>
-                </div>
-                </div>
 
+              <div class="col-md-4 col-lg-4 mt-md-1">
+                <br>
+                <h4>Задачи с дедлайном</h4>
+
+                <div *ngFor="let task of data.soon_tasks">
+                  <p class="task_see">
+                    <label [for]="task.id.toString()" class="labelForTask">
+                        <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id" [(ngModel)]="task.status" (change)="onCheckboxChange($event, task)">
+                        <span class="custom_checkbox" [id]="task.id.toString()"></span>
+                        <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
+                    </label>
+                  </p>
+                </div>
+          
+              </div>
+
+              <div class="col-md-4 col-lg-4 mt-md-1">
+                <br>
+                <h4>Беcсрочно</h4>
+                <div *ngFor="let task of data.free_tasks">
+                  <p class="task_see">
+                    <label [for]="task.id.toString()" class="labelForTask">
+                        <input class="real_checkbox" type="checkbox" [id]="task.id.toString()" [name]="task.name" [value]="task.id" [(ngModel)]="task.status" (change)="onCheckboxChange($event, task)">
+                        <span class="custom_checkbox" [id]="task.id.toString()"></span>
+                        <span (click)="getTaskInfo($event, task.id)">{{ task.name }}</span>
+                    </label>
+                </p>
+            </div>
+              </div>
+                
+              </div>
           </div>
         </div>
       </div>
@@ -307,12 +318,8 @@
         <div class="col-lg-1 col-md-1 col-ms-1">
           <p class="textpOsitionForBtn"><button (click)="hideTask()" onclick=hideDiv() class="closeBtn"><img src="././assets/image/cancel.png" alt="закрыть" style="height: 20px; margin-right: 0px"></button></p>
         </div>
-    </div>
-
+      </div>
       
-      
-      
-
       <div class="row justify-content-center">
 
         <div class="col-md-6 col-lg-6 justify-content-beetween">
@@ -360,9 +367,8 @@
 
         <p>Начало повторов: <input [(ngModel)]="repeatForm.start" type="date" id="date_from_2" style="width: 37%; background-color: #f0f0f0; margin: 0 10px 0 10px">
         </p>
-        <!-- <p>ДО <input [(ngModel)]="repeatForm.end" type="date" id="date_to_2" style="width: 37%; background-color: #f0f0f0; margin: 0 10px 0 10px;">
-        </p> -->
-        <p> Повторять с интервалом <input type="text" [(ngModel)]="repeatForm.repeat_interval" name="userName" style="width: 15%; margin: 0 3px 0 3px; justify-content: center; text-align: center;" placeholder="кол-во"/>
+
+        <p> Повторять с интервалом <input type="number" min="1" [(ngModel)]="repeatForm.repeat_interval" name="userName" style="width: 15%; margin: 0 3px 0 3px; justify-content: center; text-align: center;" placeholder="кол-во"/> в 
           <select id="repeat" [(ngModel)]="repeatForm.term" name="repeat" style="background-color: #f0f0f0; width: 20%;">
             <option value="week"> неделя</option>
             <option value="month"> месяц </option>
@@ -370,7 +376,7 @@
           </select>
         </p>
 
-        <div class="row" id="daysForWeek" style="justify-content: space-between; width: 90%;">
+        <div class="row" id="daysForWeek" *ngIf="repeatForm.term === 'week'" style="justify-content: space-between; width: 90%;">
           <div class="col-md-1 col-lg-1">
             <button class="clickable" (click)="toggleDay(0)" [class.selected]="repeatForm.days.includes(0)">ПН</button>
           </div>
@@ -413,7 +419,7 @@
           <div style="float: left; width: auto; margin-left: 20px">
             <p><input type="radio" id="how-repeat-task" name="drone" value="how-repeat-task" />
             <label for="how-repeat-task">После
-              <input [(ngModel)]="repeatForm.number_of_repeats" style="width: 20%" type="text" name="userName" id="count-repeat-task" placeholder="кол-во" />
+              <input [(ngModel)]="repeatForm.number_of_repeats" style="width: 20%" type="number" min="0" name="userName" id="count-repeat-task" placeholder="кол-во" />
               раз</label> </p>
           </div>
 
@@ -421,9 +427,8 @@
 
       </div>
 
-      <br>
-      <textarea [(ngModel)]="taskDescription" name="message" id="mess" rows="5" class="form-control md-textarea"
-                  type="text" style="color: #595959; height: 130px" placeholder="Подробное описание"></textarea>
+      <textarea [(ngModel)]="taskDescription" name="message" id="mess" rows="2" class="form-control md-textarea"
+                  type="text" style="color: #595959;" placeholder="Подробное описание"></textarea>
       <div class="row justify-content-center">
         <div class="col-md-6 col-lg-6">
           <p style="text-align: center"><button (click)="saveTask()" onclick="hideDiv()" onclick="checkInput()" id="save-button-task" class="save">Сохранить</button><p>
@@ -436,7 +441,9 @@
       <div class="error-massage">
         <p id="checkEstimate" style="color: red; margin: 0;"></p> <!-- ЕСЛИ ОЦЕНКА ЗАДАЧИ НЕ В ДИАПАЗОНЕ [1, 100], ТО ВЫЛАЗИТ ОШИБКА ПРИ СОХРАНЕНИИ-->
         <p id="checkTaskName" style="color: red; margin: 0;"></p> <!-- ЕСЛИ НАЗВАНИЕ ПУСТО, ТО ВЫЛАЗИТ ОШИБКА ПРИ СОХРАНЕНИИ-->
-        <p id="checkDateTime" style="color: red; margin: 0;"></p> <!-- -->
+        <p id="checkTimeAndDate" style="color: red; margin: 0;"></p>
+        <p id="checkDateRange" style="color: red; margin: 0;"></p>
+        <p id="checkTimeOrder" style="color: red; margin: 0;"></p>
       </div>
 
       <!-- <div class = "justify-content-center">

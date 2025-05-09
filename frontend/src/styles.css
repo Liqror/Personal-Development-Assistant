@@ -484,6 +484,13 @@ hr {
   border-color: #000000;
 }
 
+/* Тонкая линия для разделения фиксированных и законченых задач */
+hr.thin {
+  border: none;
+  border-top: 0.5px solid black;  /* более тонкая линия */
+  height: 0.5px;
+}
+
 h3 {
   text-align: left;
   font-weight: 600;

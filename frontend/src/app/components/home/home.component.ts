@@ -43,21 +43,18 @@ export class HomeComponent implements OnInit{
   taskStatus: number = 0;
   taskCategory: number;
   belongsPlan: string | number = "choose";
-  planId: number;
+  planId: number | null;
   taskPlan: IPlan | null;
   
-
   repeatForm: IRepeat = {
+    start: '' as string,  // Стартовая дата
     repeat_interval: null as number | null,
     term: 'week' as string,
     days: [] as number[], // Список дней недели
-    start: '' as string,  // Стартовое время
-    end: '' as string,    // Время окончания
+    end: '' as string,    // Дата окончания
     number_of_repeats: 0 as number, // Количество повторений
   };
   
-
-
   // для просмотра и удаления задачи
   taskId: number = -1;
   taskDataUpdate: ITask;
@@ -304,7 +301,8 @@ export class HomeComponent implements OnInit{
   
     this.taskService.updateTaskStatus(task.id, newStatus).subscribe({
       next: (response) => {
-        console.log('PATCH-запрос успешно выполнен:', response);
+        // console.log('PATCH-запрос успешно выполнен:', response);
+        this.getHomeData();
       },
       error: (error) => {
         console.error('Ошибка при выполнении PATCH-запроса:', error);
@@ -336,17 +334,88 @@ export class HomeComponent implements OnInit{
     // console.log('Selected days:', this.repeatForm.days);
   }
 
+  // Функция для проверки всех стандартных условий для Задачи
+  isValidTask(): boolean {
+    // Проверка даты и времени
+    if ((this.startTime && !this.startDate) || (this.stopTime && !this.stopDate)) {
+      return false; // Если время есть, но нет даты
+    }
+    if (this.startDate && this.stopDate && (this.startDate > this.stopDate)) {
+      return false; 
+    }
+    if (this.startDate && this.stopDate && this.startTime && this.stopTime &&
+      (this.startDate == this.stopDate) && (this.startTime > this.stopTime)) {
+      return false; 
+    }
+
+    // Проверка на валидность оценки задачи
+    return this.taskName !== "" && 
+    this.taskEstimate !== undefined && 
+          !isNaN(this.taskEstimate) && 
+          this.taskEstimate >= 1 && 
+          this.taskEstimate <= 100;
+  }
+
+  // Функция для проверки формы с повторами
+  isValidRepeatForm(): boolean {
+    const checkbox = document.getElementById('chkTest') as HTMLInputElement;
+    const repeatChecked = checkbox?.checked;
+  
+    if (!repeatChecked) {
+      return true; // Никаких проверок не нужно
+    }
+  
+    if (!this.repeatForm.start) {
+      console.error('Не указана дата начала повторов');
+      return false;
+    }
+  
+    if (!this.repeatForm.repeat_interval || this.repeatForm.repeat_interval <= 0) {
+      console.error('Интервал повторов должен быть больше 0');
+      return false;
+    }
+  
+    if (this.repeatForm.term === 'week' && (!this.repeatForm.days || this.repeatForm.days.length === 0)) {
+      console.error('Выберите хотя бы один день недели');
+      return false;
+    }
+  
+    const selectedEnd = (document.querySelector('input[name="drone"]:checked') as HTMLInputElement)?.value;
+  
+    if (selectedEnd === 'data-when-end-task') {
+      if (!this.repeatForm.end) {
+        console.error('Не указана дата окончания');
+        return false;
+      }
+    }
+  
+    if (selectedEnd === 'how-repeat-task') {
+      if (!this.repeatForm.number_of_repeats || this.repeatForm.number_of_repeats <= 0) {
+        console.error('Количество повторов должно быть больше 0');
+        return false;
+      }
+    }
+  
+    if (selectedEnd === 'never-end-task') {
+      this.repeatForm.number_of_repeats = 0;
+      this.repeatForm.end = '';
+    }
+  
+    return true;
+  }
+  
+
   // Кнопка сохранение задачи
   saveTask(): void {
 
-    // задача не может быть без имени, оценки и категории. категория автоматически ставиться 0 
-    if (this.taskId == -1 && this.taskName !== "" && this.taskEstimate !== undefined && !isNaN(this.taskEstimate) && (this.taskEstimate <= 100) && (this.taskEstimate >= 1)) {
+    // Создание задачи
+    if (this.taskId == -1 && this.isValidTask() && this.isValidRepeatForm()) {
+
       if (this.taskDescription === "") {
         this.taskDescription = null;
       }      
 
-      this.planId = Number(this.belongsPlan);  // Преобразование строки в целое число потому что мы получаем строку почему-то. По-хорошему понять бы почему
-      console.log(this.planId); // Проверка
+      this.planId = Number(this.belongsPlan);
 
       const taskData: ITaskCreate = {
         name: this.taskName,
@@ -367,11 +436,14 @@ export class HomeComponent implements OnInit{
         repeat : null,
       };
 
-      if (this.repeatForm.repeat_interval && this.repeatForm.start) {
+      const checkbox = document.getElementById('chkTest') as HTMLInputElement;
+      const repeatChecked = checkbox?.checked;
+      if (repeatChecked) {
         taskData.repeat = this.repeatForm;
       }
 
       console.log('Данные задачи:', taskData); // Проверка
+      // console.log("Что в повторе?", this.repeatForm)
 
       this.taskService.addTask(taskData).subscribe(
         (response) => {
@@ -393,7 +465,6 @@ export class HomeComponent implements OnInit{
       }
 
       this.planId = Number(this.belongsPlan); 
-      console.log(this.planId); // Проверка
     
       const taskDataUpdate: ITask = {
         id: this.taskId,
@@ -415,23 +486,30 @@ export class HomeComponent implements OnInit{
         plan: null, 
       };
 
-      console.log('Данные задачи для обновления:', taskDataUpdate); // Проверка
+      const checkbox = document.getElementById('chkTest') as HTMLInputElement;
+      const repeatChecked = checkbox?.checked;
+      if (repeatChecked) {
+        taskDataUpdate.repeat = this.repeatForm;
+      }
 
-      this.taskService.updateTask(taskDataUpdate).subscribe({
-        next: (response) => {
-          // console.log('Задача обновлена', response);
-          this.clear();
-          this.getHomeData();
-        },
-        error: (error) => {
-          console.error('Ошибка при обновлении задачи', error);
-        }
-      });
+      // console.log('Данные задачи для обновления:', taskDataUpdate); // Проверка
 
-      this.taskId = -1;
-    }
+      if (this.isValidTask() && this.isValidRepeatForm()) {
+        this.taskService.updateTask(taskDataUpdate).subscribe({
+          next: (response) => {
+            console.log('Задача обновлена', response);
+            this.clear();
+            this.getHomeData();
+          },
+          error: (error) => {
+            console.error('Ошибка при обновлении задачи', error);
+          }
+        });
 
-    this.isDiv1Visible = false; // флаг для невидимости задачи    
+        this.taskId = -1;
+        this.isDiv1Visible = false; // флаг для невидимости окна создания задачи 
+      }  
+    }   
   }
 
   // Удаление задачи
@@ -487,8 +565,46 @@ export class HomeComponent implements OnInit{
     this.stopDate = null;
     this.startTime = null;
     this.stopTime = null;
-    this.taskCategory = 1;
+    this.taskCategory = this.categories[0].id;
     this.belongsPlan = "choose";
+
+    // Скрыть форму повторов и убрать галочку
+    const checkbox = document.getElementById('chkTest') as HTMLInputElement;
+    const panel = document.getElementById('pnlTest') as HTMLElement;
+    if (checkbox && panel) {
+      checkbox.checked = false;
+      panel.style.display = 'none';
+    }
+
+    this.repeatForm = {
+      repeat_interval: null,
+      term: 'week',
+      days: [],
+      start: '',
+      end: '',
+      number_of_repeats: 0,
+    };
+    const buttons = document.querySelectorAll('#daysForWeek button');
+    buttons.forEach((btn) => {
+      btn.classList.remove('clicked');
+    });
+
+    // Очистить все сообщения об ошибках
+    const errorFields = [
+      "checkEstimate",
+      "checkTaskName",
+      "checkTimeAndDate",
+      "checkDateRange",
+      "checkTimeOrder"
+    ];
+
+    for (const id of errorFields) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.innerHTML = "";
+      }
+    }
+    
   }
 
 }  

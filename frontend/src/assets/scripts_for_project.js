@@ -51,17 +51,17 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("close-button").addEventListener("click", hideDiv);
 });
 
-(function() {
-  document.getElementById("repeat").addEventListener("change", function() {
-  if (this.value === "1") {
-    document.getElementById("daysForWeek").style.display = "flex";
-    // console.log('see 1');
-  } else {
-    document.getElementById("daysForWeek").style.display = "none";
-    // console.log('see 2');
-  }
-});
-})()
+// (function() {
+//   document.getElementById("repeat").addEventListener("change", function() {
+//   if (this.value === "1") {
+//     document.getElementById("daysForWeek").style.display = "flex";
+//     // console.log('see 1');
+//   } else {
+//     document.getElementById("daysForWeek").style.display = "none";
+//     // console.log('see 2');
+//   }
+// });
+// })()
 
 function toggle() {
   var div = document.getElementById('pnlTest');
@@ -178,6 +178,36 @@ function checkInput() {
       // console.log(est, "Выход за границу [1,100]!!!");
       document.getElementById("checkEstimate").innerHTML = "Оценка задачи должна быть в диапазоне [1,100]";
     }
+
+    // Проверка, что время не указано без даты
+    if ((time_from && !date_from) || (time_to && !date_to)) {
+      document.getElementById("checkTimeAndDate").innerHTML = "Нельзя создать задачу со временем без даты";
+    } else {
+      document.getElementById("checkTimeAndDate").innerHTML = "";
+    }
+
+    // Проверка, что дата начала меньше даты конца
+    if (new Date(date_from) > new Date(date_to)) {
+      document.getElementById("checkDateRange").innerHTML = "Дата начала не может быть позже даты конца";
+    } else {
+      document.getElementById("checkDateRange").innerHTML = "";
+    }
+
+    // Проверка для одинаковых дат начала и конца
+    if (date_from === date_to && time_from && time_to) {
+      let startTime = new Date("1970-01-01T" + time_from + ":00");
+      let endTime = new Date("1970-01-01T" + time_to + ":00");
+
+      // Если время начала позже времени конца
+      if (startTime >= endTime) {
+        document.getElementById("checkTimeOrder").innerHTML = "Время начала должно быть раньше времени конца для одной и той же даты";
+      } else {
+        document.getElementById("checkTimeOrder").innerHTML = "";
+      }
+    } else {
+      document.getElementById("checkTimeOrder").innerHTML = "";
+}
+
   
     //  Проверка на введенность названия задачи
     if (text == "") {
