@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit{
     repeat_interval: null as number | null,
     term: 'week' as string,
     days: [] as number[], // Список дней недели
-    end: '' as string,    // Дата окончания
+    end: '' as string | null,    // Дата окончания
     number_of_repeats: 0 as number, // Количество повторений
   };
   
@@ -392,13 +392,14 @@ export class HomeComponent implements OnInit{
     if (selectedEnd === 'how-repeat-task') {
       if (!this.repeatForm.number_of_repeats || this.repeatForm.number_of_repeats <= 0) {
         console.error('Количество повторов должно быть больше 0');
+        this.repeatForm.end = null;
         return false;
       }
     }
   
     if (selectedEnd === 'never-end-task') {
       this.repeatForm.number_of_repeats = 0;
-      this.repeatForm.end = '';
+      this.repeatForm.end = null;
     }
   
     return true;

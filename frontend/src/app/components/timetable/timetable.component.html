@@ -48,23 +48,28 @@
       
                       <!-- Событие для нечетной недели -->
                       <td *ngIf="event.odd">
-                        {{ event.odd.name }}  
+                        <div (click)="onEventClick(event.odd)" onclick="showDiv()" class="event-hover">
+                          {{ event.odd.name }}  
 
-                        <!-- Вывод места проведения ивента. Если онлайн, то ссылка; Иначе - место текстом-->
-                        <div *ngIf="event.odd.format.startsWith('Онлайн')" >
-                          <p class="text-table-subj" > 
-                            <a class = "link-event-place" href="{{ event.odd.place }}" target="_blank" rel="noopener noreferrer">Ссылка на мероприятие</a></p>
+                          <!-- Вывод места проведения ивента. Если онлайн, то ссылка; Иначе - место текстом-->
+                          <div *ngIf="event.odd.format.startsWith('Онлайн')" >
+                            <p class="text-table-subj" > 
+                              <a class = "link-event-place" href="{{ event.odd.place }}" target="_blank" rel="noopener noreferrer">Ссылка на мероприятие</a></p>
+                          </div>
+                          <div *ngIf="event.odd.format.startsWith('Офлайн')" >
+                            <p class="text-table-subj" > {{ event.odd.place }} </p>
+                          </div>
+                          
+                          <p class="text-table-subj">{{ event.odd.format }}</p>
+                          <button onclick="deleteElement(this)" (click)="deleteEvent(event.odd.id)" style="border: none;">
+                            <img src="././assets/image/delete2.png" alt="удалить" style="height: 20px">
+                          </button>
+                          
                         </div>
-                        <div *ngIf="event.odd.format.startsWith('Офлайн')" >
-                          <p class="text-table-subj" > {{ event.odd.place }} </p>
-                        </div>
-                        
-                        <p class="text-table-subj">{{ event.odd.format }}</p>
-                        <button onclick="deleteElement(this)" (click)="deleteEvent(event.odd.id)" style="border: none;">
-                          <img src="././assets/image/delete2.png" alt="удалить" style="height: 20px">
-                        </button>
                       </td>
+
                       <td *ngIf="!event.odd">—</td>
+                                                
       
                       <!-- Время для четной недели -->
                       <td *ngIf="event.even">{{ event.even.start_time.slice(0, 5) }} - {{ event.even.stop_time.slice(0, 5) }}</td>
@@ -72,22 +77,25 @@
       
                       <!-- Событие для четной недели -->
                       <td *ngIf="event.even">
-                        {{ event.even.name }}  
+                        <div (click)="onEventClick(event.even)" onclick="showDiv()" class="event-hover">
+                          {{ event.even.name }}  
+                          
+                          <!-- Вывод места проведения ивента. Если онлайн, то ссылка; Иначе - место текстом-->
+                          <div *ngIf="event.even.format.startsWith('Онлайн')" >
+                            <p class="text-table-subj" > <a class = "link-event-place" href="{{ event.even.place }}">Ссылка на мероприятие</a></p>
+                          </div>
+                          <div *ngIf="event.even.format.startsWith('Офлайн')" >
+                            <p class="text-table-subj" > {{ event.even.place }} </p>
+                          </div>
+                          
+                          <p class="text-table-subj">{{ event.even.format }}</p>        
+                          <button onclick="deleteElement(this)" (click)="deleteEvent(event.even.id)" style="border: none;">
+                            <img src="././assets/image/delete2.png" alt="удалить" style="height: 20px">
+                          </button> 
                         
-                        <!-- Вывод места проведения ивента. Если онлайн, то ссылка; Иначе - место текстом-->
-                        <div *ngIf="event.even.format.startsWith('Онлайн')" >
-                          <p class="text-table-subj" > <a class = "link-event-place" href="{{ event.even.place }}">Ссылка на мероприятие</a></p>
                         </div>
-                        <div *ngIf="event.even.format.startsWith('Офлайн')" >
-                          <p class="text-table-subj" > {{ event.even.place }} </p>
-                        </div>
-                        
-                        <p class="text-table-subj">{{ event.even.format }}</p>        
-                        <button onclick="deleteElement(this)" (click)="deleteEvent(event.even.id)" style="border: none;">
-                          <img src="././assets/image/delete2.png" alt="удалить" style="height: 20px">
-                        </button> 
                       </td>
-
+                        
                       <td *ngIf="!event.even">—</td>
                     </tr>
                   </ng-container>
@@ -116,7 +124,7 @@
 
 
 <!-- создание нового event -->
-<div id="div1" class="div-new-event">
+<div id="div1" class="div-new-event" >
   <div class="container">
     <p><input [(ngModel)]="formEvent.name" id="objectName" type="text" name="objectName" placeholder="Название события" style="width: 100%" /></p>
     <p><input [(ngModel)]="formEvent.place" id="objectsPlace" type="text" name="objectsPlace" placeholder="Место/ссылка" style="width: 100%" /></p>
@@ -140,45 +148,51 @@
       </select>
     </form>
 
-    <!-- Повтор недели -->
-    <form style="justify-content: left; display: flex;">
-      <label for="repeatSubj">Повтор занятия:</label>
-      <select id="repeatSubj" name="repeatSubj" class="selectSubj" [(ngModel)]="selectedRepeatOption" (change)="selectRepeatOption($event)">
-        <option value="each" class="optionSubj">Каждую неделю</option>
-        <option value="odd" class="optionSubj">Нечетную неделю</option>
-        <option value="even" class="optionSubj">Четную неделю</option>
-      </select>
-    </form>
+    <!-- не видно во время редактирования -->
+    <div *ngIf="!isEditing">
+      <!-- Повтор недели -->
+      <form style="justify-content: left; display: flex;">
+        <label for="repeatSubj">Повтор занятия:</label>
+        <select id="repeatSubj" name="repeatSubj" class="selectSubj" [(ngModel)]="selectedRepeatOption" (change)="selectRepeatOption($event)">
+          <option value="each" class="optionSubj">Каждую неделю</option>
+          <option value="odd" class="optionSubj">Нечетную неделю</option>
+          <option value="even" class="optionSubj">Четную неделю</option>
+        </select>
+      </form>
 
-    <!-- Дни недели -->
-    <div class="row" style="justify-content: space-between; width: 90%;">
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable2" data-day="0" (click)="toggleDaySelection(0)" onclick="this.classList.toggle('selected-day')"> ПН </button>
-      </div>
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable2" data-day="1" (click)="toggleDaySelection(1)" onclick="this.classList.toggle('selected-day')"> ВТ </button>
-      </div>
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable2" data-day="2" (click)="toggleDaySelection(2)" onclick="this.classList.toggle('selected-day')"> СР </button>
-      </div>
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable2" data-day="3" (click)="toggleDaySelection(3)" onclick="this.classList.toggle('selected-day')"> ЧТ </button>
-      </div>
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable2" data-day="4" (click)="toggleDaySelection(4)" onclick="this.classList.toggle('selected-day')"> ПТ </button>
-      </div>
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable2" data-day="5" (click)="toggleDaySelection(5)" onclick="this.classList.toggle('selected-day')"> СБ </button>
-      </div>
-      <div class="col-md-1 col-lg-1">
-        <button class="clickable2" data-day="6" (click)="toggleDaySelection(6)" onclick="this.classList.toggle('selected-day')"> ВС </button>
+      <!-- Дни недели -->
+      <div class="row" style="justify-content: space-between; width: 90%;">
+        <div class="col-md-1 col-lg-1">
+          <button class="clickable2" data-day="0" (click)="toggleDaySelection(0)" onclick="this.classList.toggle('selected-day')"> ПН </button>
+        </div>
+        <div class="col-md-1 col-lg-1">
+          <button class="clickable2" data-day="1" (click)="toggleDaySelection(1)" onclick="this.classList.toggle('selected-day')"> ВТ </button>
+        </div>
+        <div class="col-md-1 col-lg-1">
+          <button class="clickable2" data-day="2" (click)="toggleDaySelection(2)" onclick="this.classList.toggle('selected-day')"> СР </button>
+        </div>
+        <div class="col-md-1 col-lg-1">
+          <button class="clickable2" data-day="3" (click)="toggleDaySelection(3)" onclick="this.classList.toggle('selected-day')"> ЧТ </button>
+        </div>
+        <div class="col-md-1 col-lg-1">
+          <button class="clickable2" data-day="4" (click)="toggleDaySelection(4)" onclick="this.classList.toggle('selected-day')"> ПТ </button>
+        </div>
+        <div class="col-md-1 col-lg-1">
+          <button class="clickable2" data-day="5" (click)="toggleDaySelection(5)" onclick="this.classList.toggle('selected-day')"> СБ </button>
+        </div>
+        <div class="col-md-1 col-lg-1">
+          <button class="clickable2" data-day="6" (click)="toggleDaySelection(6)" onclick="this.classList.toggle('selected-day')"> ВС </button>
+        </div>
       </div>
     </div>
 
     <br>
     <div class="row justify-content-center">
       <div class="col-md-6 col-lg-6">
-        <p style="text-align: center"><button id="save-button-new-obj" class="save" onclick="checkInputForTimetable()" (click)="createEvent()">Сохранить</button><p>
+        <p style="text-align: center">
+          <button id="save-button-new-obj" class="save" onclick="checkInputForTimetable()" 
+          (click)="saveEventButton()" (click)="clearForm()" >Сохранить</button>
+        <p>
       </div>
       <div class="col-md-6 col-lg-6">
         <p style="text-align: center"><button onclick="hideDiv()" id="close-button" class="close" (click)="clearForm()">Закрыть</button><p>
@@ -189,7 +203,7 @@
       <p id="checkObjName" style="color: red; margin: 0;"></p>  <!-- ЕСЛИ НАЗВАНИЕ ИВЕНТА НЕ ВВЕДЕНО -> ОШИБКА ПРИ СОХРАНЕНИИ -->
       <p id="checkPlace" style="color: red; margin: 0;"></p>    <!-- ЕСЛИ МЕСТО/ССЫЛКА ИВЕНТА НЕ ВВЕДЕНО  -> ОШИБКА ПРИ СОХРАНЕНИИ -->
       <p id="checkTimeTT" style="color: red; margin: 0;"></p>   <!-- ПРОВЕРКА ВРЕМЕНИ, ЕСЛИ НЕ ВВЕРНО  -> ОШИБКА ПРИ СОХРАНЕНИИ -->
-      <p id="checkDays" style="color: red; margin: 0;"></p>
+      <div *ngIf="!isEditing"><p id="checkDays" style="color: red; margin: 0;"></p></div>
     </div>
 
   </div>
@@ -206,7 +220,7 @@
       <p style="text-align: center"><button onclick="hideDivDelRepeatTask()" class="save">Нет</button></p>
     </div>
     <div class="col-md-6 col-lg-6 col-ms-6">
-      <p style="text-align: center"><button (click)="deleteAllEvents(timetable)" class="close">Да</button></p>
+      <p style="text-align: center"><button (click)="deleteAllEvents(timetable)"  onclick="hideDivDelRepeatTask()" class="close">Да</button></p>
     </div>
   </div>
   

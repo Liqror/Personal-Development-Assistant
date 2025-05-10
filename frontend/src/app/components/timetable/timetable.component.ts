@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DatePipe } from "@angular/common";
-import { HttpClient } from "@angular/common/http";
-import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { ITimetable, IEventCreate, IEvent } from 'src/app/interfaces/timetable';
 import { EventService } from 'src/app/services/event.service';
+declare function hideDiv(): void;
 
 
 @Component({
@@ -31,6 +29,10 @@ export class TimetableComponent implements OnInit {
   };
   selectedDaysOfWeek: number[] = []; // Номера дней недели [0, 1, 2, ...]
   selectedRepeatOption: 'each' | 'odd' | 'even' = 'each'; // Вариант повторения  
+
+  // редактирование события
+  updateFormEvent: IEvent;
+  isEditing = false;
 
   constructor(private eventService: EventService) {
     // джава скрипт для изменения расписания
@@ -141,50 +143,72 @@ export class TimetableComponent implements OnInit {
     return startTotalMinutes <= stopTotalMinutes;
   }
 
-  // создание событие/ий
-  createEvent() {
-    const userId = 1; // ID текущего пользователя, его можно взять из контекста авторизации
-    const { name, place, format, start_time, stop_time } = this.formEvent;
-  
-    // Проверяем сразу все необходимые поля и условия
-    if (name && place && format && start_time && stop_time && this.isTimeInvalid(start_time, stop_time) && this.selectedDaysOfWeek?.length && this.selectedRepeatOption) {
-      
-      const weeksToCreate = this.getWeeksForCreation(this.selectedRepeatOption);
-      const events: IEventCreate[] = [];
-  
-      for (const week of weeksToCreate) {
-        for (const day of this.selectedDaysOfWeek) {
-          events.push({
-            user_id: userId,
-            week_num: week,
-            day_of_week: day,
-            name: name,
-            place: place,
-            format: format,
-            start_time: start_time,
-            stop_time: stop_time
-          });
+  // создание/редактирование событие/ий
+  saveEventButton() {
+    // это новое событие
+    if (this.formEvent.id == -1) {
+      const userId = 1; // ID текущего пользователя, его можно взять из контекста авторизации
+      const { name, place, format, start_time, stop_time } = this.formEvent;
+    
+      // Проверяем сразу все необходимые поля и условия
+      if (name && place && format && start_time && stop_time && this.isTimeInvalid(start_time, stop_time) && this.selectedDaysOfWeek?.length && this.selectedRepeatOption) {
+        
+        const weeksToCreate = this.getWeeksForCreation(this.selectedRepeatOption);
+        const events: IEventCreate[] = [];
+    
+        for (const week of weeksToCreate) {
+          for (const day of this.selectedDaysOfWeek) {
+            events.push({
+              user_id: userId,
+              week_num: week,
+              day_of_week: day,
+              name: name,
+              place: place,
+              format: format,
+              start_time: start_time,
+              stop_time: stop_time
+            });
+          }
         }
-      }
-  
-      events.forEach(event => {
-        this.eventService.createEvent(event).subscribe({
-          next: () => {
-            // console.log('Событие успешно создано:', event);
-            this.getTimetable();
-            this.clearForm();
-          },
-          error: (error) => console.error('Ошибка при создании события:', event, error)
+    
+        events.forEach(event => {
+          this.eventService.createEvent(event).subscribe({
+            next: () => {
+              // console.log('Событие успешно создано:', event);
+              this.getTimetable();
+              this.clearForm();
+            },
+            error: (error) => console.error('Ошибка при создании события:', event, error)
+          });
         });
-      });
 
-      this.getTimetable();
+        this.getTimetable();
 
-    }
-    else{
-      // console.log("что-то не заполнено");
-      // console.log(name, place, format, start_time, stop_time, this.selectedDaysOfWeek?.length, this.selectedRepeatOption);
-    }
+      }
+      else{
+        // console.log("что-то не заполнено");
+        // console.log(name, place, format, start_time, stop_time, this.selectedDaysOfWeek?.length, this.selectedRepeatOption);
+      }
+    } else {
+      // Проверяем сразу все необходимые поля и условия
+      if (this.formEvent.name && this.formEvent.place && this.formEvent.format && 
+        this.formEvent.start_time && this.formEvent.stop_time) {
+          hideDiv();
+          this.updateFormEvent = {
+            ...this.updateFormEvent, // сохраняем уже существующие поля, например id, user_id и т.д.
+            ...this.formEvent        // перезаписываем поля, которые есть в форме
+          };          
+          this.eventService.updateEvent(this.updateFormEvent).subscribe({
+            next: () => {
+              // console.log('Событие успешно обновлено:', event);
+              this.getTimetable();
+              this.clearForm();
+            },
+            error: (error) => console.error('Ошибка при создании события:', event, error)
+          });
+        this.getTimetable();
+      }
+    }  
   }
   
   // Определяет недели, для которых нужно создавать события
@@ -204,6 +228,8 @@ export class TimetableComponent implements OnInit {
 
   // Очистка формы после сохранения
   clearForm() {
+    // после редактирования сбрасываем
+    this.isEditing = false;
 
     // Очистка данных формы
     this.formEvent = {
@@ -232,6 +258,20 @@ export class TimetableComponent implements OnInit {
     buttons.forEach(button => {
       button.classList.remove('clicked'); // Убираем класс подсветки
     });
+
+    // Очистить все сообщения об ошибках
+    const errorFields = [
+      "checkObjName",
+      "checkPlace",
+      "checkTimeTT",
+      "checkDays",
+    ];
+    for (const id of errorFields) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.innerHTML = "";
+      }
+    }
   }
 
   // Удаление события из БД
@@ -247,4 +287,12 @@ export class TimetableComponent implements OnInit {
     });
   }
 
+  // Заполнение упрощенной формы при нажатие на мероприятие
+  onEventClick(event: IEvent) {
+    // console.log("event", event);
+    this.formEvent = { ...event }; // копируем данные в форму
+    this.updateFormEvent = event;
+    this.isEditing = true;
+  }
+  
 }

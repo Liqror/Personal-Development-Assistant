@@ -1,3 +1,13 @@
+.event-hover {
+  cursor: pointer;
+}
+.event-hover:hover,
+.event-hover:hover * {
+  color: #F3A352 !important;
+  text-shadow: 2px 0 10px #f0f0f0;
+}
+
+
 .div-new-event {
   display: none;
   width: 100%;

@@ -26,7 +26,7 @@ export interface IRepeat {
   repeat_interval: null | number,
   term: string,
   days: number[], 
-  end: string,
+  end: string | null,
   number_of_repeats: number  // если задача никогда не заканчивается то енд нал и намбер оф репится 0 
 }
 
