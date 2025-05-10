@@ -6,6 +6,10 @@ import { TimetableComponent } from "./components/timetable/timetable.component";
 import { BalanceWheelComponent } from "./components/balance-wheel/balance-wheel.component";
 import { DiaryComponent } from './components/diary/diary.component';
 import { AccountComponent } from './components/account/account.component';
+import { StorageComponent } from './components/storage/storage.component';
+import { PhrasesComponent } from './components/phrases/phrases.component';
+import { MemoriaComponent } from './components/memoria/memoria.component'
+
 
 const routes: Routes = [
   // Редирект с пустого URL на текущую дату
@@ -25,6 +29,9 @@ const routes: Routes = [
   { path: 'balance-wheel', component: BalanceWheelComponent },
   { path: 'diary', component: DiaryComponent },
   { path: 'account', component: AccountComponent }, 
+  { path: 'storage', component: StorageComponent },
+  { path: 'phrases', component: PhrasesComponent },
+  { path: 'memoria', component: MemoriaComponent },
   
   // 404 страница
   { 
