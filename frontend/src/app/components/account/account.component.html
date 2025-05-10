@@ -7,106 +7,92 @@
 
 <body>
 
+    <p style="text-align: end;">
+      <button class="fixed_button" style="width: 180px; background: #ff5b5b;">
+      Удалить аккаунт
+      </button>
+    </p>
+
     <div class="container-fluid" style="background-color: #D4CBC8">
         <div class="row">
-      
             
             <div class="col-md-12 col-lg-12 content-container">
-                
-                <div class="col-md-12 mt-md-0">
-                    <p class="textpOsitionForBtn"><button onclick="saveSettings()" class="fixed_button">
-                        Сохранить
-                        </button> </p>
-                </div>
-                
-
                 <div class="row justify-content-center">
-                <h1>Настроки профиля</h1>
-                
-
-
                     <div class="col-lg-12 col-md-12" style="display: flex; align-items: center;">
                             <div class="div_profile_img" style="width: 20%;">
                             <p class="textpOsitionForBtn"><img src="././assets/image/profile.png" alt="фото профиля" class="profile_img"></p>
                             </div>
                         <div class="column" style="width: 80%;">
-                            <input class="inputUserData" type="text" name="userNickName" placeholder="Ник..." style="width: 100%;" />
-                            <input class="inputUserData" type="text" name="userName" placeholder="Имя..." style="width: 100%;" />
-                            <input class="inputUserData" type="text" name="userEmail" placeholder="Почта..." style="width: 100%;" />
+                            <input class="inputUserData" type="text" name="userNickName" placeholder="Ник" style="width: 100%;" />
+                            <input class="inputUserData" type="text" name="userName" placeholder="Имя" style="width: 100%;" />
+                            <input class="inputUserData" type="text" name="userEmail" placeholder="Почта" style="width: 100%;" />
                         </div>
-
-                        
                     </div>
-                
-                   
                 </div>
             </div>
+            <hr>
 
-            <div class="col-md-12 col-lg-12 content-container">
-                    <h2>Общие настройки профиля</h2>
-                    <hr>
-                    <p class="task_see">
-                        <label class="labelForTask">
-                            <input class="real_checkbox" type="checkbox">
-                            <span class="custom_checkbox"></span>
-                            <span>Заметки на главном экране</span>
-                        </label>
-                    </p>
-
-                    <p class="task_see">
-                        <label class="labelForTask">
-                            <input class="real_checkbox" type="checkbox">
-                            <span class="custom_checkbox"></span>
-                            <span>Расписание занятий на главном экране</span>
-                        </label>
-                    </p>
+            <div class="col-md-12 col-lg-12 content-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                     
-                    <div style="display: flex; align-items: center;">
-                        <div style="flex-grow: 1;">
-                            <p class="task_see">
-                            <label class="labelForTask">
-                                <input class="real_checkbox" type="checkbox">
-                                <span class="custom_checkbox"></span>
-                                <span>Разделение недель на четные/нечетные</span>
-                            </label>
-                        </p>
-                        </div>
-                        <div style="flex-grow: 1;">
-                            <p>Дата начала нечетной недели <input type="date" placeholder="дд.мм.гггг"></p>
-                        </div>
-                    </div>
+                <p class="task_see">
+                    <label class="labelForTask">
+                        <input class="real_checkbox" type="checkbox" [(ngModel)]="notesHome">
+                        <span class="custom_checkbox"></span>
+                        <span>Заметки на главном экране</span>
+                    </label>
+                </p>
 
-                    <div style="display: flex; align-items: center;">
-                        <div style="flex-grow: 1;">
-                            <p class="task_see">
-                            <label class="labelForTask">
-                                <input class="real_checkbox" type="checkbox">
-                                <span class="custom_checkbox"></span>
-                                <span>Определять часовой пояс автоматически</span>
-                            </label>
-                        </p>
-                        </div>
-                        <div style="flex-grow: 1; ">
-                            <p>Часовой пояс <input type="text" placeholder="GMT+7"></p>
-                        </div>
-                    </div>
+                <p class="task_see">
+                    <label class="labelForTask">
+                        <input class="real_checkbox" type="checkbox"  [(ngModel)]="timetableHome">
+                        <span class="custom_checkbox"></span>
+                        <span>Расписание занятий на главном экране</span>
+                    </label>
+                </p>
 
+                <p class="task_see">
+                    <label class="labelForTask">
+                        <input class="real_checkbox" type="checkbox" [(ngModel)]="deadlineAuto">
+                        <span class="custom_checkbox"></span>
+                        <span>Автоматическое опреденение задач в колонку Дедлайн</span>
+                    </label>
+                </p>
 
-                    <br>
+                <p>Показывать задачи за <input type="date" placeholder="дд.мм.гггг" [(ngModel)]="deadlineDates"> дня/дней до дедлайна</p>
 
-                    <p> Верхняя граница в оценке задачи  <input type="text" placeholder="Число, например, 100"></p>
+                <p class="task_see">
+                    <label class="labelForTask">
+                        <input class="real_checkbox" type="checkbox"  [(ngModel)]="dividingWeeks">
+                        <span class="custom_checkbox"></span>
+                        <span>Разделение недель на четные/нечетные</span>
+                    </label>
+                </p>
+
+                <p>Дата начала нечетной недели <input type="date" placeholder="дд.мм.гггг" [(ngModel)]="dividingWeeksDate"></p>
+                    
+                <p class="task_see">
+                    <label class="labelForTask">
+                        <input class="real_checkbox" type="checkbox" [(ngModel)]="autoTimeZone">
+                        <span class="custom_checkbox"></span>
+                        <span>Определять часовой пояс автоматически</span>
+                    </label>
+                </p>
+
+                <p>Часовой пояс <input type="text" placeholder="GMT+7" [(ngModel)]="userTimeZone"></p>
+
+                <p>Верхняя граница в оценке задачи<input type="number" placeholder="100" [(ngModel)]="estimate" style="width: 5ch; padding: 2px;"></p>
+
             </div> 
 
         </div>
 
         <br>
+
         <div class="col-md-12 mt-md-0" style="display: flex; justify-content: center">
-            <p class="textpOsitionForBtn"><button onclick="saveSettings()" style="background: #ff5b5b;">
-                Выйти из аккаунта
-                </button> </p>
+            <p style="margin-right: 200px;"><button class="save">Сохранить изменения</button></p>
+            <p><button class="close">Выйти из аккаунта</button> </p>
         </div>
-        
-    </div>
-      
     
+    </div>
+
 </body>

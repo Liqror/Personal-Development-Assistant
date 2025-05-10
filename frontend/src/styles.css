@@ -369,7 +369,7 @@ highlight {
   font-size: 14pt;
   cursor:pointer;
 }
-.close:hover {background: #e6e6ff;}
+/* .close:hover {background: #e6e6ff;} */
 .close {
   background: #ff5b5b;
 }
