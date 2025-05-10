@@ -1,0 +1,125 @@
+<div class="filter-section">
+  <div class="filter-type">
+    <p>Тип: </p>
+    <p class="task_see">
+      <label class="labelForTask">
+          <input class="real_checkbox" type="checkbox" [(ngModel)]="filter.tasks">
+          <span class="custom_checkbox"></span>
+          <span>Задачи</span>
+      </label>
+    </p>
+
+    <p class="task_see">
+      <label class="labelForTask">
+          <input class="real_checkbox" type="checkbox" [(ngModel)]="filter.plans">
+          <span class="custom_checkbox"></span>
+          <span>Планы</span>
+      </label>
+    </p>
+
+    <p class="task_see">
+      <label class="labelForTask">
+          <input class="real_checkbox" type="checkbox" [(ngModel)]="filter.notes">
+          <span class="custom_checkbox"></span>
+          <span>Заметки</span>
+      </label>
+    </p>
+
+    <p class="task_see">
+      <label class="labelForTask">
+          <input class="real_checkbox" type="checkbox" [(ngModel)]="filter.diaries">
+          <span class="custom_checkbox"></span>
+          <span>Записи в дневнике</span>
+      </label>
+    </p>
+  </div>
+
+  <div class="filter-flow">
+
+    <p *ngIf="filter.tasks || filter.plans">Статус:
+      <label class="toggle-switch">
+        <input type="checkbox" [(ngModel)]="isCompleted">
+        <span class="slider"></span>
+      </label>
+      <span class="status-label">{{ isCompleted ? 'Завершён' : 'Не завершён' }}</span>
+    </p>
+      
+    <p *ngIf="filter.plans">Статус:
+      <label class="toggle-switch">
+        <input type="checkbox" [(ngModel)]="statusPlan">
+        <span class="slider"></span>
+      </label>
+      <span class="status-label">{{ statusPlan ? 'Активный': 'В архиве' }}</span>
+    </p>
+
+
+    <p *ngIf="filter.tasks || filter.plans">Название:
+      <input type="text" [(ngModel)]="title">
+    </p>
+    <div></div>
+    <p *ngIf="filter.tasks || filter.plans">Категории:
+      <label class="labelForTask">
+        <input class="real_checkbox" type="checkbox">
+        <span class="custom_checkbox"></span>
+        <span>Категория 1</span>
+      </label>
+      <label class="labelForTask">
+        <input class="real_checkbox" type="checkbox">
+        <span class="custom_checkbox"></span>
+        <span>Категория 2</span>
+      </label>
+    </p>
+    <div></div>
+    <p *ngIf="filter.tasks || filter.plans">Оценка: 
+      <input type="number" step="1" min="1" max="100" [(ngModel)]="estimate" class="score-input"/>
+    </p> 
+    <p *ngIf="filter.tasks || filter.plans">Дата от:
+      <input type="date" [(ngModel)]="startDate">
+    </p>
+    
+
+    <p *ngIf="filter.tasks">Время от:
+      <input type="time" [(ngModel)]="startTime">
+    </p>
+
+
+    <p *ngIf="filter.tasks || filter.plans">Дата до:
+      <input type="date" [(ngModel)]="stopDate">
+    </p>
+
+
+    <p *ngIf="filter.tasks">Время до:
+      <input type="time" [(ngModel)]="stopTime">
+    </p>
+    <p *ngIf="filter.tasks">Плану:
+      <label class="toggle-switch">
+        <input type="checkbox" [(ngModel)]="havePlan">
+        <span class="slider"></span>
+      </label>
+      <span class="status-label">{{ havePlan ? 'Принадлежит' : 'Не принадлежит' }}</span>
+    </p>
+    <p *ngIf="filter.tasks">Повторяется:
+      <label class="toggle-switch">
+        <input type="checkbox" [(ngModel)]="isRepeat">
+        <span class="slider"></span>
+      </label>
+      <span class="status-label">{{ isRepeat ? 'Да' : 'Нет' }}</span>
+    </p>
+    
+
+    <p *ngIf="filter.tasks || filter.plans" style="display: flex; align-items: center; gap: 8px;">
+      <span>Описание:</span>
+      <input type="text" style="flex: 1;" [(ngModel)]="description">
+    </p>
+
+
+    <p *ngIf="filter.notes || filter.diaries">Дата дня привязки:
+      <input type="date" [(ngModel)]="createDate">
+    </p>
+    <p *ngIf="filter.notes || filter.diaries" style="display: flex; align-items: center; gap: 8px;">Поиск по содержанию:
+      <input class="deskr" type="text" style="flex: 1;" [(ngModel)]="text">
+    </p>
+ 
+
+  </div>
+</div>

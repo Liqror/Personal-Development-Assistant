@@ -1,0 +1,71 @@
+/* Стиль для каждого из блоков */
+.filter-section, .sort-section {
+    background-color: #f9f9f9; /* Белый фон */
+    padding: 15px;
+    margin: 10px;
+    border-radius: 8px; /* Скругленные углы */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень */
+    width: 99%; /* Задаем ширину для каждого блока */
+  }
+
+p {
+    display: inline-block;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+
+/* Стиль переключателя */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+    margin-left: 5px;
+    vertical-align: middle;
+  } 
+  .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    background-color: #ccc;
+    border-radius: 34px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: 0.4s;
+  }
+  .slider::before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    left: 3px;
+    bottom: 3px;
+    transition: 0.4s;
+  }
+  .toggle-switch input:checked + .slider {
+    background-color: #F3A972;
+  }
+  .toggle-switch input:checked + .slider::before {
+    transform: translateX(16px);
+  }
+  .status-label {
+    margin-left: 10px;
+  }
+
+
+  /* оценка */
+.score-input {
+    width: 60px;
+    padding: 4px;
+    font-size: 14px;
+}
+  

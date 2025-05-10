@@ -8,7 +8,7 @@ import { DiaryComponent } from './components/diary/diary.component';
 import { AccountComponent } from './components/account/account.component';
 import { StorageComponent } from './components/storage/storage.component';
 import { PhrasesComponent } from './components/phrases/phrases.component';
-import { MemoriaComponent } from './components/memoria/memoria.component'
+import { MemoriaComponent } from './components/memoria/memoria.component';
 
 
 const routes: Routes = [
