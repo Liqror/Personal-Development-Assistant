@@ -254,8 +254,8 @@ export class HomeComponent implements OnInit{
     if (note.assigned_day == this.urlDate.replace(/\//g, '-')) {
       // console.log("Даты совпадают");
       this.noteService.updateNote(note).subscribe({
-        next: () => {
-          // console.log("заметка обновлена");
+        next: (note) => {
+          console.log("заметка обновлена", note);
         },
         error: (error) => {
           console.error('Ошибка при обновлении заметки:', error);
@@ -270,7 +270,7 @@ export class HomeComponent implements OnInit{
       }
       this.noteService.createNote(newNote).subscribe({
         next: (newNote) => {
-          // console.log("заметка создана", newNote);
+          console.log("заметка создана", newNote);
           this.getHomeData();
         },
         error: (error) => {

@@ -14,21 +14,23 @@
       <div class="col-md-12 col-lg-12 content-container">
 
         <!-- Кнопка "Создание задачи" -->
-        <div class="col-md-12 mt-md-0">
-          <p class="textpOsitionForBtn"><button onclick="showDiv()" class="fixed_button">
-          <img src="././assets/image/new_task.png" alt="новая задача" class="sizeForImg">
-          Создание задачи
-          </button> </p>
-        </div>
-      
-        <!-- Стрелки временно закоментированы-->
-          <!-- <button style="float: left; border-style: none; background-color: transparent;">
-            <img src="././assets/image/back.png" alt="назад" class="sizeForImg">
-          </button>
-            
-          <button style="float: right; border-style: none; background-color: transparent;">
-            <img src="././assets/image/forward.png" alt="вперед" style="height: 20px; right: 10px;">
-          </button> -->    
+        <div class="row col-md-12 mt-md-0">
+
+          <div class="col-md-10" style="background-color:blueviolet;">
+            <p>ffcfcfcf</p>
+          </div>
+
+          <div class="col-md-2">
+            <p class="textpOsitionForBtn">
+              <button onclick="showDiv()" class="fixed_button">
+              <img src="././assets/image/new_task.png" alt="новая задача" class="sizeForImg">
+              Создание задачи
+              </button> 
+            </p>
+          </div>
+
+        </div>     
+
    
         <!-- Основной контент страницы  -->
         <div class="row justify-content-center" *ngIf="data && data.yesterday"> <!-- эта строчка убирает ошибки из консоли -->

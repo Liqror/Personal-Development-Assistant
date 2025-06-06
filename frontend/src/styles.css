@@ -49,7 +49,7 @@
   width: 100%;
   height: 100%;
   position: absolute;
-  top: 10%;
+  top: 0%;
   left: 0;
 }
 .closeBtn {
@@ -511,7 +511,7 @@ h4 {
 
 .fixed_button {
   right: 0px;
-  width: 200px;
+  width: 100%;
   background-color: #F3A972;
 
 }

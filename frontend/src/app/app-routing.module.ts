@@ -7,8 +7,6 @@ import { BalanceWheelComponent } from "./components/balance-wheel/balance-wheel.
 import { DiaryComponent } from './components/diary/diary.component';
 import { AccountComponent } from './components/account/account.component';
 import { StorageComponent } from './components/storage/storage.component';
-import { PhrasesComponent } from './components/phrases/phrases.component';
-import { MemoriaComponent } from './components/memoria/memoria.component';
 
 
 const routes: Routes = [
@@ -30,9 +28,7 @@ const routes: Routes = [
   { path: 'diary', component: DiaryComponent },
   { path: 'account', component: AccountComponent }, 
   { path: 'storage', component: StorageComponent },
-  { path: 'phrases', component: PhrasesComponent },
-  { path: 'memoria', component: MemoriaComponent },
-  
+
   // 404 страница
   { 
     path: '**', 

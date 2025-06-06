@@ -17,8 +17,6 @@ import { TimetableComponent } from "./components/timetable/timetable.component";
 import { DiaryComponent } from './components/diary/diary.component';
 import { AccountComponent } from './components/account/account.component';
 import { StorageComponent } from './components/storage/storage.component';
-import { PhrasesComponent } from './components/phrases/phrases.component';
-import { MemoriaComponent } from './components/memoria/memoria.component';
 
 
 @NgModule({
@@ -31,8 +29,6 @@ import { MemoriaComponent } from './components/memoria/memoria.component';
     DiaryComponent,
     AccountComponent,
     StorageComponent,
-    PhrasesComponent,
-    MemoriaComponent
   ],
   imports: [
     BrowserModule,
@@ -54,8 +50,6 @@ import { MemoriaComponent } from './components/memoria/memoria.component';
     DiaryComponent,
     AccountComponent,
     StorageComponent,
-    PhrasesComponent,
-    MemoriaComponent
   ],
   bootstrap: [AppComponent]
 })
